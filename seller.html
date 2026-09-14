@@ -29,13 +29,16 @@
             --muted: #718078;
             --border: #e2e8e4;
             --danger: #d94b4b;
+            --success: #087a55;
         }
+
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
 
         body {
             font-family: Tahoma, Arial, sans-serif;
@@ -44,22 +47,25 @@
             line-height: 1.7;
         }
 
+
         a {
             text-decoration: none;
             color: inherit;
         }
 
+
         button,
         input,
-        select,
         textarea {
             font-family: inherit;
         }
+
 
         button {
             cursor: pointer;
             border: none;
         }
+
 
         .container {
             width: min(1100px, calc(100% - 30px));
@@ -79,6 +85,7 @@
             z-index: 1000;
         }
 
+
         .header {
             min-height: 72px;
 
@@ -89,21 +96,21 @@
             gap: 20px;
         }
 
+
         .logo {
             color: var(--primary);
-
             font-size: 23px;
             font-weight: 900;
         }
 
+
         .back-link {
             color: var(--muted);
-
             font-size: 13px;
             font-weight: bold;
-
             transition: .2s;
         }
+
 
         .back-link:hover {
             color: var(--primary);
@@ -118,39 +125,36 @@
             padding: 45px 0 80px;
         }
 
+
         .page-title {
             margin-bottom: 30px;
         }
 
+
         .page-title span {
             color: var(--primary);
-
             display: block;
-
             font-size: 11px;
-
             font-weight: 900;
-
             letter-spacing: 2px;
         }
 
+
         .page-title h1 {
             font-size: 32px;
-
             margin-top: 5px;
         }
 
+
         .page-title p {
             color: var(--muted);
-
             font-size: 14px;
-
             margin-top: 7px;
         }
 
 
         /* =========================
-           FORM CARD
+           LAYOUT
         ========================= */
 
         .seller-layout {
@@ -163,6 +167,7 @@
 
             align-items: start;
         }
+
 
         .card {
             background: white;
@@ -177,9 +182,9 @@
                 0 10px 30px rgba(0,0,0,.04);
         }
 
+
         .card-title {
             font-size: 19px;
-
             margin-bottom: 22px;
         }
 
@@ -197,30 +202,35 @@
             gap: 18px;
         }
 
+
         .form-group {
             display: flex;
 
             flex-direction: column;
 
             gap: 7px;
+
+            position: relative;
         }
+
 
         .form-group.full {
             grid-column: 1 / -1;
         }
 
+
         label {
             font-size: 13px;
-
             font-weight: bold;
         }
+
 
         label span {
             color: var(--danger);
         }
 
+
         input,
-        select,
         textarea {
 
             width: 100%;
@@ -242,8 +252,8 @@
             transition: .2s;
         }
 
+
         input:focus,
-        select:focus,
         textarea:focus {
 
             border-color: var(--primary);
@@ -255,11 +265,189 @@
                 rgba(8,122,85,.08);
         }
 
+
         textarea {
-
             min-height: 140px;
-
             resize: vertical;
+        }
+
+
+        /* =========================
+           CUSTOM SELECT
+        ========================= */
+
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+
+
+        .select-button {
+
+            width: 100%;
+
+            min-height: 48px;
+
+            border: 1px solid var(--border);
+
+            background: #fafcfb;
+
+            border-radius: 12px;
+
+            padding: 0 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            color: var(--text);
+
+            font-size: 13px;
+
+            text-align: right;
+
+            transition: .2s;
+        }
+
+
+        .select-button:hover {
+
+            border-color: #b7c8bf;
+
+            background: white;
+        }
+
+
+        .select-button.active {
+
+            border-color: var(--primary);
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(8,122,85,.08);
+        }
+
+
+        .select-arrow {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            transition: .2s;
+        }
+
+
+        .select-button.active .select-arrow {
+
+            transform: rotate(180deg);
+
+            color: var(--primary);
+        }
+
+
+        .select-menu {
+
+            position: absolute;
+
+            top: calc(100% + 7px);
+
+            right: 0;
+
+            width: 100%;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            padding: 7px;
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,.12);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform:
+                translateY(-6px);
+
+            transition: .18s;
+
+            z-index: 2000;
+
+            max-height: 250px;
+
+            overflow-y: auto;
+        }
+
+
+        .select-menu.open {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            transform:
+                translateY(0);
+        }
+
+
+        .select-option {
+
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border-radius: 10px;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-size: 12px;
+
+            text-align: right;
+
+            transition: .15s;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+
+        .select-option:hover {
+
+            background: #eaf5ef;
+
+            color: var(--primary);
+        }
+
+
+        .select-option.selected {
+
+            background: #eaf5ef;
+
+            color: var(--primary);
+
+            font-weight: bold;
+        }
+
+
+        .selected-value.placeholder {
+
+            color: var(--muted);
         }
 
 
@@ -282,12 +470,14 @@
             transition: .2s;
         }
 
+
         .image-upload:hover {
 
             border-color: var(--primary);
 
             background: #f5faf7;
         }
+
 
         .image-icon {
 
@@ -296,12 +486,14 @@
             margin-bottom: 10px;
         }
 
+
         .image-upload h3 {
 
             font-size: 15px;
 
             margin-bottom: 5px;
         }
+
 
         .image-upload p {
 
@@ -312,10 +504,11 @@
             margin-bottom: 15px;
         }
 
-        .file-input {
 
+        .file-input {
             display: none;
         }
+
 
         .choose-image {
 
@@ -338,7 +531,18 @@
             font-weight: bold;
 
             cursor: pointer;
+
+            transition: .2s;
         }
+
+
+        .choose-image:hover {
+
+            background: var(--primary-dark);
+
+            transform: translateY(-1px);
+        }
+
 
         .image-name {
 
@@ -349,6 +553,32 @@
             font-size: 11px;
 
             min-height: 18px;
+        }
+
+
+        .image-preview {
+
+            display: none;
+
+            margin: 18px auto 0;
+
+            width: 150px;
+
+            height: 150px;
+
+            border-radius: 16px;
+
+            object-fit: cover;
+
+            border: 1px solid var(--border);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,.08);
+        }
+
+
+        .image-preview.show {
+            display: block;
         }
 
 
@@ -377,12 +607,14 @@
             transition: .2s;
         }
 
+
         .submit-button:hover {
 
             background: var(--primary-dark);
 
             transform: translateY(-2px);
         }
+
 
         .submit-button:disabled {
 
@@ -405,6 +637,7 @@
             gap: 15px;
         }
 
+
         .info-item {
 
             display: flex;
@@ -413,6 +646,7 @@
 
             gap: 12px;
         }
+
 
         .info-icon {
 
@@ -432,12 +666,14 @@
             font-size: 20px;
         }
 
+
         .info-item h3 {
 
             font-size: 13px;
 
             margin-bottom: 2px;
         }
+
 
         .info-item p {
 
@@ -466,6 +702,7 @@
             text-align: center;
         }
 
+
         .success {
 
             display: block !important;
@@ -474,6 +711,7 @@
 
             color: #087a55;
         }
+
 
         .error {
 
@@ -492,32 +730,41 @@
         @media (max-width: 800px) {
 
             .seller-layout {
-
                 grid-template-columns: 1fr;
             }
 
         }
 
+
         @media (max-width: 550px) {
 
             .form-grid {
-
                 grid-template-columns: 1fr;
             }
 
-            .form-group.full {
 
+            .form-group.full {
                 grid-column: auto;
             }
 
-            .card {
 
+            .card {
                 padding: 20px;
             }
 
-            .page-title h1 {
 
+            .page-title h1 {
                 font-size: 26px;
+            }
+
+
+            .header {
+                min-height: 64px;
+            }
+
+
+            .logo {
+                font-size: 19px;
             }
 
         }
@@ -544,6 +791,7 @@
             🛒 بازارک
 
         </a>
+
 
         <a href="index.html"
            class="back-link">
@@ -620,9 +868,11 @@
                                     📷
                                 </div>
 
+
                                 <h3>
                                     تصویر محصول را انتخاب کنید
                                 </h3>
+
 
                                 <p>
                                     JPG، PNG یا WEBP
@@ -642,15 +892,20 @@
                                     id="productImage"
                                     class="file-input"
                                     type="file"
-                                    accept="image/*"
+                                    accept="image/jpeg,image/png,image/webp"
                                 >
 
 
                                 <div
                                     id="imageName"
                                     class="image-name">
-
                                 </div>
+
+
+                                <img
+                                    id="imagePreview"
+                                    class="image-preview"
+                                    alt="پیش‌نمایش محصول">
 
                             </div>
 
@@ -667,12 +922,13 @@
                                 <span>*</span>
                             </label>
 
+
                             <input
                                 id="title"
                                 type="text"
                                 placeholder="مثلاً iPhone 13 Pro Max"
-                                required
-                            >
+                                maxlength="150"
+                                required>
 
                         </div>
 
@@ -687,14 +943,14 @@
                                 <span>*</span>
                             </label>
 
+
                             <input
                                 id="price"
                                 type="number"
-                                min="0"
+                                min="1"
                                 step="0.01"
                                 placeholder="مثلاً 45000"
-                                required
-                            >
+                                required>
 
                         </div>
 
@@ -704,52 +960,124 @@
 
                         <div class="form-group">
 
-                            <label for="category">
+                            <label>
                                 دسته‌بندی
                                 <span>*</span>
                             </label>
 
-                            <select
-                                id="category"
-                                required>
 
-                                <option value="">
-                                    انتخاب دسته‌بندی
-                                </option>
+                            <div
+                                class="custom-select"
+                                data-select="category">
 
-                                <option value="mobile">
-                                    📱 موبایل
-                                </option>
 
-                                <option value="computer">
-                                    💻 کامپیوتر
-                                </option>
+                                <button
+                                    type="button"
+                                    class="select-button">
 
-                                <option value="fashion">
-                                    👕 فیشن
-                                </option>
+                                    <span class="selected-value placeholder">
+                                        انتخاب دسته‌بندی
+                                    </span>
 
-                                <option value="shoes">
-                                    👟 کفش
-                                </option>
+                                    <span class="select-arrow">
+                                        ▼
+                                    </span>
 
-                                <option value="gaming">
-                                    🎮 گیمینگ
-                                </option>
+                                </button>
 
-                                <option value="home">
-                                    🏠 خانه
-                                </option>
 
-                                <option value="tools">
-                                    🔧 ابزار
-                                </option>
+                                <div class="select-menu">
 
-                                <option value="vehicle">
-                                    🚗 موتر
-                                </option>
 
-                            </select>
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="mobile">
+
+                                        📱 موبایل
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="computer">
+
+                                        💻 کامپیوتر
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="fashion">
+
+                                        👕 فیشن
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="shoes">
+
+                                        👟 کفش
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="gaming">
+
+                                        🎮 گیمینگ
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="home">
+
+                                        🏠 خانه
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="tools">
+
+                                        🔧 ابزار
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="vehicle">
+
+                                        🚗 موتر
+
+                                    </button>
+
+
+                                </div>
+
+
+                                <input
+                                    type="hidden"
+                                    id="category"
+                                    required>
+
+                            </div>
 
                         </div>
 
@@ -759,52 +1087,124 @@
 
                         <div class="form-group">
 
-                            <label for="city">
+                            <label>
                                 شهر
                                 <span>*</span>
                             </label>
 
-                            <select
-                                id="city"
-                                required>
 
-                                <option value="">
-                                    انتخاب شهر
-                                </option>
+                            <div
+                                class="custom-select"
+                                data-select="city">
 
-                                <option value="Mazar-e-Sharif">
-                                    مزار شریف
-                                </option>
 
-                                <option value="Kabul">
-                                    کابل
-                                </option>
+                                <button
+                                    type="button"
+                                    class="select-button">
 
-                                <option value="Herat">
-                                    هرات
-                                </option>
+                                    <span class="selected-value placeholder">
+                                        انتخاب شهر
+                                    </span>
 
-                                <option value="Kandahar">
-                                    کندهار
-                                </option>
+                                    <span class="select-arrow">
+                                        ▼
+                                    </span>
 
-                                <option value="Jowzjan">
-                                    جوزجان
-                                </option>
+                                </button>
 
-                                <option value="Balkh">
-                                    بلخ
-                                </option>
 
-                                <option value="Nangarhar">
-                                    ننگرهار
-                                </option>
+                                <div class="select-menu">
 
-                                <option value="Other">
-                                    سایر
-                                </option>
 
-                            </select>
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Mazar-e-Sharif">
+
+                                        📍 مزار شریف
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Kabul">
+
+                                        📍 کابل
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Herat">
+
+                                        📍 هرات
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Kandahar">
+
+                                        📍 کندهار
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Jowzjan">
+
+                                        📍 جوزجان
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Balkh">
+
+                                        📍 بلخ
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Nangarhar">
+
+                                        📍 ننگرهار
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="Other">
+
+                                        🌍 سایر
+
+                                    </button>
+
+
+                                </div>
+
+
+                                <input
+                                    type="hidden"
+                                    id="city"
+                                    required>
+
+                            </div>
 
                         </div>
 
@@ -814,28 +1214,64 @@
 
                         <div class="form-group">
 
-                            <label for="condition">
+                            <label>
                                 وضعیت محصول
                                 <span>*</span>
                             </label>
 
-                            <select
-                                id="condition"
-                                required>
 
-                                <option value="">
-                                    انتخاب وضعیت
-                                </option>
+                            <div
+                                class="custom-select"
+                                data-select="condition">
 
-                                <option value="new">
-                                    نو
-                                </option>
 
-                                <option value="used">
-                                    استفاده‌شده
-                                </option>
+                                <button
+                                    type="button"
+                                    class="select-button">
 
-                            </select>
+                                    <span class="selected-value placeholder">
+                                        انتخاب وضعیت
+                                    </span>
+
+                                    <span class="select-arrow">
+                                        ▼
+                                    </span>
+
+                                </button>
+
+
+                                <div class="select-menu">
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="new">
+
+                                        ✨ نو
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="select-option"
+                                        data-value="used">
+
+                                        ♻️ استفاده‌شده
+
+                                    </button>
+
+
+                                </div>
+
+
+                                <input
+                                    type="hidden"
+                                    id="condition"
+                                    required>
+
+                            </div>
 
                         </div>
 
@@ -850,13 +1286,13 @@
                                 <span>*</span>
                             </label>
 
+
                             <input
                                 id="stock"
                                 type="number"
                                 min="1"
                                 value="1"
-                                required
-                            >
+                                required>
 
                         </div>
 
@@ -870,10 +1306,11 @@
                                 توضیحات محصول
                             </label>
 
+
                             <textarea
                                 id="description"
-                                placeholder="مشخصات، وضعیت، ویژگی‌ها و اطلاعات مهم محصول را بنویسید..."
-                            ></textarea>
+                                maxlength="3000"
+                                placeholder="مشخصات، وضعیت، ویژگی‌ها و اطلاعات مهم محصول را بنویسید..."></textarea>
 
                         </div>
 
@@ -1019,344 +1456,1039 @@
 <script>
 
 
-    /* =========================
-       SUPABASE
-    ========================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 
-    const SUPABASE_URL =
-        "https://vhiewoopyqugdxwvsbno.supabase.co";
+const SUPABASE_URL =
+    "https://vhiewoopyqugdxwvsbno.supabase.co";
 
 
-    const SUPABASE_ANON_KEY =
-        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+const SUPABASE_ANON_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
 
 
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
-
-
-
-    /* =========================
-       ELEMENTS
-    ========================= */
-
-    const productForm =
-        document.getElementById(
-            "productForm"
-        );
-
-
-    const submitButton =
-        document.getElementById(
-            "submitButton"
-        );
-
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
-    const productImage =
-        document.getElementById(
-            "productImage"
-        );
-
-
-    const imageName =
-        document.getElementById(
-            "imageName"
-        );
-
-
-
-    /* =========================
-       IMAGE NAME
-    ========================= */
-
-    productImage.addEventListener(
-        "change",
-        function() {
-
-            if (this.files.length > 0) {
-
-                imageName.textContent =
-                    "📎 " +
-                    this.files[0].name;
-
-            } else {
-
-                imageName.textContent = "";
-
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
             }
-
         }
     );
 
 
 
-    /* =========================
-       AUTH CHECK
-    ========================= */
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-    async function checkUser() {
 
-        const {
+const productForm =
+    document.getElementById("productForm");
+
+
+const submitButton =
+    document.getElementById("submitButton");
+
+
+const message =
+    document.getElementById("message");
+
+
+const productImage =
+    document.getElementById("productImage");
+
+
+const imageName =
+    document.getElementById("imageName");
+
+
+const imagePreview =
+    document.getElementById("imagePreview");
+
+
+
+/* =====================================================
+   CUSTOM DROPDOWNS
+===================================================== */
+
+
+const customSelects =
+    document.querySelectorAll(".custom-select");
+
+
+customSelects.forEach(function(select) {
+
+    const button =
+        select.querySelector(".select-button");
+
+    const menu =
+        select.querySelector(".select-menu");
+
+    const hiddenInput =
+        select.querySelector("input[type='hidden']");
+
+    const valueText =
+        select.querySelector(".selected-value");
+
+    const options =
+        select.querySelectorAll(".select-option");
+
+
+    button.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+
+            customSelects.forEach(function(other) {
+
+                if (other !== select) {
+
+                    other
+                        .querySelector(".select-menu")
+                        .classList
+                        .remove("open");
+
+                    other
+                        .querySelector(".select-button")
+                        .classList
+                        .remove("active");
+
+                }
+
+            });
+
+
+            menu.classList.toggle("open");
+
+            button.classList.toggle("active");
+
+        }
+    );
+
+
+    options.forEach(function(option) {
+
+        option.addEventListener(
+            "click",
+            function() {
+
+                const value =
+                    option.dataset.value;
+
+
+                const text =
+                    option.textContent.trim();
+
+
+                hiddenInput.value =
+                    value;
+
+
+                valueText.textContent =
+                    text;
+
+
+                valueText.classList.remove(
+                    "placeholder"
+                );
+
+
+                options.forEach(
+                    function(item) {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                option.classList.add(
+                    "selected"
+                );
+
+
+                menu.classList.remove(
+                    "open"
+                );
+
+
+                button.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+});
+
+
+/* Close dropdowns */
+
+document.addEventListener(
+    "click",
+    function() {
+
+        customSelects.forEach(
+            function(select) {
+
+                select
+                    .querySelector(".select-menu")
+                    .classList
+                    .remove("open");
+
+
+                select
+                    .querySelector(".select-button")
+                    .classList
+                    .remove("active");
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   IMAGE PREVIEW
+===================================================== */
+
+
+productImage.addEventListener(
+    "change",
+    function() {
+
+        const file =
+            this.files[0];
+
+
+        if (!file) {
+
+            imageName.textContent =
+                "";
+
+            imagePreview.classList.remove(
+                "show"
+            );
+
+            imagePreview.src =
+                "";
+
+            return;
+
+        }
+
+
+        /* File size */
+
+        const maxSize =
+            10 * 1024 * 1024;
+
+
+        if (file.size > maxSize) {
+
+            showMessage(
+                "❌ حجم عکس نباید بیشتر از 10MB باشد.",
+                "error"
+            );
+
+            this.value = "";
+
+            imageName.textContent =
+                "";
+
+            imagePreview.classList.remove(
+                "show"
+            );
+
+            return;
+
+        }
+
+
+        imageName.textContent =
+            "📎 " + file.name;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event) {
+
+                imagePreview.src =
+                    event.target.result;
+
+                imagePreview.classList.add(
+                    "show"
+                );
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        type;
+
+}
+
+
+
+/* =====================================================
+   AUTHENTICATED USER
+===================================================== */
+
+
+async function checkUser() {
+
+    try {
+
+        let {
             data: {
                 session
-            }
-        } = await supabaseClient
+            },
+            error
+        } =
+        await supabaseClient
             .auth
             .getSession();
 
 
+        if (error) {
+
+            console.error(
+                "Session error:",
+                error
+            );
+
+        }
+
+
+        if (session) {
+
+            const refresh =
+                await supabaseClient
+                    .auth
+                    .refreshSession();
+
+
+            if (
+                !refresh.error &&
+                refresh.data.session
+            ) {
+
+                session =
+                    refresh.data.session;
+
+            }
+
+        }
+
+
         if (!session) {
 
-            window.location.href =
-                "login.html";
+            showMessage(
+                "⚠️ ابتدا وارد حساب بازارک شوید.",
+                "error"
+            );
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "login.html";
+
+                },
+                1000
+            );
+
 
             return null;
 
         }
 
 
-        return session.user;
+        const {
+            data: {
+                user
+            },
+            error: userError
+        } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+        if (
+            userError ||
+            !user
+        ) {
+
+            console.error(
+                "User error:",
+                userError
+            );
+
+
+            showMessage(
+                "❌ نشست حساب معتبر نیست. دوباره وارد شوید.",
+                "error"
+            );
+
+
+            return null;
+
+        }
+
+
+        console.log(
+            "Authenticated user:",
+            user.id
+        );
+
+
+        return user;
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Authentication error:",
+            error
+        );
+
+
+        showMessage(
+            "❌ خطا در بررسی حساب: " +
+            error.message,
+            "error"
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CREATE IMAGE FILE NAME
+===================================================== */
+
+
+function createSafeFileName(
+    file
+) {
+
+    const extension =
+        file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    const random =
+        crypto.randomUUID();
+
+
+    return (
+        random +
+        "." +
+        extension
+    );
+
+}
+
+
+
+/* =====================================================
+   UPLOAD IMAGE
+===================================================== */
+
+
+async function uploadProductImage(
+    file,
+    userId
+) {
+
+    const fileName =
+        createSafeFileName(file);
+
+
+    const filePath =
+        userId +
+        "/" +
+        fileName;
+
+
+    console.log(
+        "Uploading image:",
+        filePath
+    );
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .storage
+        .from("product-images")
+        .upload(
+            filePath,
+            file,
+            {
+                cacheControl:
+                    "3600",
+
+                upsert:
+                    false,
+
+                contentType:
+                    file.type
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Storage upload error:",
+            error
+        );
+
+        throw new Error(
+            "آپلود عکس ناموفق بود: " +
+            error.message
+        );
 
     }
 
 
+    console.log(
+        "Image uploaded:",
+        data
+    );
 
-    /* =========================
-       SHOW MESSAGE
-    ========================= */
 
-    function showMessage(
-        text,
-        type
+    /*
+       چون Bucket عمومی است،
+       لینک مستقیم ساخته می‌شود.
+    */
+
+    const {
+        data: publicData
+    } =
+    supabaseClient
+        .storage
+        .from("product-images")
+        .getPublicUrl(
+            filePath
+        );
+
+
+    if (
+        !publicData ||
+        !publicData.publicUrl
     ) {
 
-        message.textContent = text;
-
-        message.className = type;
+        throw new Error(
+            "لینک عکس ساخته نشد."
+        );
 
     }
 
 
+    return publicData.publicUrl;
 
-    /* =========================
-       SUBMIT PRODUCT
-    ========================= */
+}
 
-    productForm.addEventListener(
-        "submit",
-        async function(event) {
 
-            event.preventDefault();
 
+/* =====================================================
+   SUBMIT PRODUCT
+===================================================== */
 
-            submitButton.disabled =
-                true;
 
-            submitButton.textContent =
-                "⏳ در حال ثبت...";
+productForm.addEventListener(
+    "submit",
+    async function(event) {
 
+        event.preventDefault();
 
-            try {
 
+        submitButton.disabled =
+            true;
 
-                /* GET USER */
 
-                const user =
-                    await checkUser();
+        submitButton.textContent =
+            "⏳ در حال ثبت محصول...";
 
 
-                if (!user) {
+        message.className =
+            "";
 
-                    return;
 
-                }
+        try {
 
 
-                /* GET FORM DATA */
+            /* =========================
+               USER
+            ========================= */
 
-                const title =
-                    document
-                        .getElementById("title")
-                        .value
-                        .trim();
 
+            const user =
+                await checkUser();
 
-                const price =
-                    Number(
-                        document
-                            .getElementById("price")
-                            .value
-                    );
 
+            if (!user) {
 
-                const category =
-                    document
-                        .getElementById("category")
-                        .value;
-
-
-                const city =
-                    document
-                        .getElementById("city")
-                        .value;
-
-
-                const condition =
-                    document
-                        .getElementById("condition")
-                        .value;
-
-
-                const stock =
-                    Number(
-                        document
-                            .getElementById("stock")
-                            .value
-                    );
-
-
-                const description =
-                    document
-                        .getElementById("description")
-                        .value
-                        .trim();
-
-
-
-                /* VALIDATION */
-
-                if (
-                    !title ||
-                    !price ||
-                    !category ||
-                    !city ||
-                    !condition ||
-                    !stock
-                ) {
-
-                    showMessage(
-                        "لطفاً تمام بخش‌های ضروری را تکمیل کنید.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-
-                /*
-                    فعلاً عکس را ذخیره نمی‌کنیم.
-
-                    مرحله بعد:
-                    Supabase Storage
-
-                    سپس:
-                    image_url
-                */
-
-
-                const {
-                    data,
-                    error
-                } = await supabaseClient
-                    .from("products")
-                    .insert([
-
-                        {
-
-                            title: title,
-
-                            description:
-                                description,
-
-                            price: price,
-
-                            category:
-                                category,
-
-                            city: city,
-
-                            seller_id:
-                                user.id,
-
-                            status:
-                                "active"
-
-                        }
-
-                    ])
-                    .select()
-                    .single();
-
-
-
-                if (error) {
-
-                    console.error(error);
-
-                    throw error;
-
-                }
-
-
-
-                /* SUCCESS */
-
-                showMessage(
-                    "✅ محصول با موفقیت ثبت شد!",
-                    "success"
-                );
-
-
-                productForm.reset();
-
-                imageName.textContent = "";
-
-
-                console.log(
-                    "Product:",
-                    data
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "Product error:",
-                    error
-                );
-
-
-                showMessage(
-                    "❌ خطا در ثبت محصول: " +
-                    error.message,
-                    "error"
-                );
-
-
-            } finally {
-
-                submitButton.disabled =
-                    false;
-
-                submitButton.textContent =
-                    "🚀 ثبت محصول";
+                return;
 
             }
 
+
+
+            /* =========================
+               FORM DATA
+            ========================= */
+
+
+            const title =
+                document
+                    .getElementById("title")
+                    .value
+                    .trim();
+
+
+            const price =
+                Number(
+                    document
+                        .getElementById("price")
+                        .value
+                );
+
+
+            const category =
+                document
+                    .getElementById("category")
+                    .value;
+
+
+            const city =
+                document
+                    .getElementById("city")
+                    .value;
+
+
+            const condition =
+                document
+                    .getElementById("condition")
+                    .value;
+
+
+            const stock =
+                Number(
+                    document
+                        .getElementById("stock")
+                        .value
+                );
+
+
+            const description =
+                document
+                    .getElementById("description")
+                    .value
+                    .trim();
+
+
+            const imageFile =
+                productImage.files[0];
+
+
+
+            /* =========================
+               VALIDATION
+            ========================= */
+
+
+            if (!imageFile) {
+
+                showMessage(
+                    "❌ لطفاً تصویر محصول را انتخاب کنید.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!title) {
+
+                showMessage(
+                    "❌ نام محصول را وارد کنید.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !price ||
+                price <= 0
+            ) {
+
+                showMessage(
+                    "❌ قیمت محصول را درست وارد کنید.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!category) {
+
+                showMessage(
+                    "❌ دسته‌بندی را انتخاب کنید.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!city) {
+
+                showMessage(
+                    "❌ شهر را انتخاب کنید.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!condition) {
+
+                showMessage(
+                    "❌ وضعیت محصول را انتخاب کنید.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !stock ||
+                stock < 1
+            ) {
+
+                showMessage(
+                    "❌ تعداد موجودی باید حداقل 1 باشد.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+
+            /* =========================
+               UPLOAD IMAGE
+            ========================= */
+
+
+            submitButton.textContent =
+                "📷 در حال آپلود عکس...";
+
+
+            const imageUrl =
+                await uploadProductImage(
+                    imageFile,
+                    user.id
+                );
+
+
+
+            /* =========================
+               PRODUCT DATA
+            ========================= */
+
+
+            submitButton.textContent =
+                "💾 در حال ذخیره محصول...";
+
+
+            const productData = {
+
+                title:
+                    title,
+
+                description:
+                    description,
+
+                price:
+                    price,
+
+                category:
+                    category,
+
+                city:
+                    city,
+
+                condition:
+                    condition,
+
+                stock:
+                    stock,
+
+                image_url:
+                    imageUrl,
+
+                seller_id:
+                    user.id,
+
+                status:
+                    "active"
+
+            };
+
+
+            console.log(
+                "Product data:",
+                productData
+            );
+
+
+
+            /* =========================
+               DATABASE INSERT
+            ========================= */
+
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient
+                .from("products")
+                .insert(
+                    productData
+                )
+                .select()
+                .single();
+
+
+            if (error) {
+
+                console.error(
+                    "DATABASE ERROR:",
+                    error
+                );
+
+
+                console.error(
+                    "Code:",
+                    error.code
+                );
+
+
+                console.error(
+                    "Message:",
+                    error.message
+                );
+
+
+                console.error(
+                    "Details:",
+                    error.details
+                );
+
+
+                console.error(
+                    "Hint:",
+                    error.hint
+                );
+
+
+                throw new Error(
+                    error.message
+                );
+
+            }
+
+
+
+            /* =========================
+               SUCCESS
+            ========================= */
+
+
+            console.log(
+                "Product created:",
+                data
+            );
+
+
+            showMessage(
+                "✅ محصول با موفقیت در بازارک ثبت شد!",
+                "success"
+            );
+
+
+            productForm.reset();
+
+
+            imageName.textContent =
+                "";
+
+
+            imagePreview.src =
+                "";
+
+
+            imagePreview.classList.remove(
+                "show"
+            );
+
+
+            /* Reset custom selects */
+
+            customSelects.forEach(
+                function(select) {
+
+                    const hidden =
+                        select.querySelector(
+                            "input[type='hidden']"
+                        );
+
+                    const text =
+                        select.querySelector(
+                            ".selected-value"
+                        );
+
+                    const options =
+                        select.querySelectorAll(
+                            ".select-option"
+                        );
+
+
+                    hidden.value =
+                        "";
+
+
+                    text.textContent =
+                        text.dataset.placeholder ||
+                        "انتخاب کنید";
+
+
+                    text.classList.add(
+                        "placeholder"
+                    );
+
+
+                    options.forEach(
+                        function(option) {
+
+                            option.classList.remove(
+                                "selected"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
         }
-    );
+
+        catch(error) {
+
+            console.error(
+                "FINAL PRODUCT ERROR:",
+                error
+            );
+
+
+            showMessage(
+                "❌ خطا در ثبت محصول: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+        finally {
+
+            submitButton.disabled =
+                false;
+
+
+            submitButton.textContent =
+                "🚀 ثبت محصول";
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   INITIAL AUTH CHECK
+===================================================== */
+
+
+checkUser();
 
 
 </script>
