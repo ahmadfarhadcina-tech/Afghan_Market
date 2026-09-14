@@ -1,1977 +1,537 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروش محصول | بازارک</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>ثبت محصول | بازارک</title>
-
-    <meta name="description"
-          content="ثبت و مدیریت محصولات فروشنده در بازارک">
-
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
     <style>
-
         :root {
-            --primary: #087a55;
-            --primary-dark: #055c40;
-            --gold: #f2b84b;
-            --bg: #f5f7f6;
+            --green: #16a34a;
+            --dark-green: #15803d;
+            --light-green: #f0fdf4;
+            --border: #e5e7eb;
+            --text: #111827;
+            --muted: #6b7280;
+            --danger: #dc2626;
             --white: #ffffff;
-            --text: #17211d;
-            --muted: #718078;
-            --border: #e2e8e4;
-            --danger: #d94b4b;
-            --success: #087a55;
         }
-
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-
 
         body {
             font-family: Tahoma, Arial, sans-serif;
-            background: var(--bg);
+            background: #f7f8f7;
             color: var(--text);
-            line-height: 1.7;
         }
-
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-
-        button,
-        input,
-        textarea {
-            font-family: inherit;
-        }
-
-
-        button {
-            cursor: pointer;
-            border: none;
-        }
-
-
-        .container {
-            width: min(1100px, calc(100% - 30px));
-            margin: auto;
-        }
-
-
-        /* =========================
-           HEADER
-        ========================= */
 
         header {
-            background: white;
+            background: var(--white);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-
-        .header {
-            min-height: 72px;
-
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            gap: 20px;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-
 
         .logo {
-            color: var(--primary);
-            font-size: 23px;
-            font-weight: 900;
-        }
-
-
-        .back-link {
-            color: var(--muted);
-            font-size: 13px;
+            color: var(--green);
+            font-size: 22px;
             font-weight: bold;
-            transition: .2s;
         }
 
-
-        .back-link:hover {
-            color: var(--primary);
+        .back-btn {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: bold;
         }
 
-
-        /* =========================
-           PAGE
-        ========================= */
-
-        main {
-            padding: 45px 0 80px;
+        .container {
+            max-width: 800px;
+            margin: 35px auto;
+            padding: 0 18px 50px;
         }
-
 
         .page-title {
-            margin-bottom: 30px;
+            text-align: center;
+            margin-bottom: 25px;
         }
-
-
-        .page-title span {
-            color: var(--primary);
-            display: block;
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-
 
         .page-title h1 {
-            font-size: 32px;
-            margin-top: 5px;
+            font-size: 27px;
+            margin-bottom: 8px;
         }
-
 
         .page-title p {
             color: var(--muted);
             font-size: 14px;
-            margin-top: 7px;
         }
 
-
-        /* =========================
-           LAYOUT
-        ========================= */
-
-        .seller-layout {
-            display: grid;
-
-            grid-template-columns:
-                1fr 320px;
-
-            gap: 25px;
-
-            align-items: start;
-        }
-
-
-        .card {
-            background: white;
-
+        .form-card {
+            background: var(--white);
             border: 1px solid var(--border);
-
-            border-radius: 22px;
-
-            padding: 28px;
-
-            box-shadow:
-                0 10px 30px rgba(0,0,0,.04);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.04);
         }
-
-
-        .card-title {
-            font-size: 19px;
-            margin-bottom: 22px;
-        }
-
-
-        /* =========================
-           FORM
-        ========================= */
-
-        .form-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 18px;
-        }
-
 
         .form-group {
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 7px;
-
-            position: relative;
+            margin-bottom: 19px;
         }
-
-
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-
 
         label {
-            font-size: 13px;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
             font-weight: bold;
         }
 
-
-        label span {
-            color: var(--danger);
-        }
-
-
         input,
-        textarea {
-
+        textarea,
+        select {
             width: 100%;
-
             border: 1px solid var(--border);
-
-            background: #fafcfb;
-
-            border-radius: 12px;
-
+            border-radius: 11px;
+            padding: 13px;
+            font-family: inherit;
+            font-size: 14px;
             outline: none;
-
-            padding: 13px 14px;
-
-            font-size: 13px;
-
-            color: var(--text);
-
-            transition: .2s;
+            background: white;
         }
-
 
         input:focus,
-        textarea:focus {
-
-            border-color: var(--primary);
-
-            background: white;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(8,122,85,.08);
+        textarea:focus,
+        select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(22,163,74,.08);
         }
 
-
         textarea {
-            min-height: 140px;
+            min-height: 130px;
             resize: vertical;
         }
 
-
-        /* =========================
-           WHATSAPP
-        ========================= */
-
-        .whatsapp-help {
-
-            color: var(--muted);
-
-            font-size: 10px;
-
-            line-height: 1.8;
-
-        }
-
-
-        .whatsapp-input {
-
-            direction: ltr;
-
-            text-align: left;
-
-        }
-
-
-        /* =========================
-           CUSTOM SELECT
-        ========================= */
-
-        .custom-select {
-            position: relative;
-            width: 100%;
-        }
-
-
-        .select-button {
-
-            width: 100%;
-
-            min-height: 48px;
-
-            border: 1px solid var(--border);
-
-            background: #fafcfb;
-
-            border-radius: 12px;
-
-            padding: 0 14px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            color: var(--text);
-
-            font-size: 13px;
-
-            text-align: right;
-
-            transition: .2s;
-        }
-
-
-        .select-button:hover {
-
-            border-color: #b7c8bf;
-
-            background: white;
-        }
-
-
-        .select-button.active {
-
-            border-color: var(--primary);
-
-            background: white;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(8,122,85,.08);
-        }
-
-
-        .select-arrow {
-
-            color: var(--muted);
-
-            font-size: 11px;
-
-            transition: .2s;
-        }
-
-
-        .select-button.active .select-arrow {
-
-            transform: rotate(180deg);
-
-            color: var(--primary);
-        }
-
-
-        .select-menu {
-
-            position: absolute;
-
-            top: calc(100% + 7px);
-
-            right: 0;
-
-            width: 100%;
-
-            background: white;
-
-            border: 1px solid var(--border);
-
-            border-radius: 15px;
-
-            padding: 7px;
-
-            box-shadow:
-                0 18px 45px rgba(0,0,0,.12);
-
-            opacity: 0;
-
-            visibility: hidden;
-
-            transform:
-                translateY(-6px);
-
-            transition: .18s;
-
-            z-index: 2000;
-
-            max-height: 250px;
-
-            overflow-y: auto;
-        }
-
-
-        .select-menu.open {
-
-            opacity: 1;
-
-            visibility: visible;
-
-            transform:
-                translateY(0);
-        }
-
-
-        .select-option {
-
-            width: 100%;
-
-            padding: 11px 12px;
-
-            border-radius: 10px;
-
-            background: transparent;
-
-            color: var(--text);
-
-            font-size: 12px;
-
-            text-align: right;
-
-            transition: .15s;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 9px;
-        }
-
-
-        .select-option:hover {
-
-            background: #eaf5ef;
-
-            color: var(--primary);
-        }
-
-
-        .select-option.selected {
-
-            background: #eaf5ef;
-
-            color: var(--primary);
-
-            font-weight: bold;
-        }
-
-
-        .selected-value.placeholder {
-
-            color: var(--muted);
-        }
-
-
-        /* =========================
-           IMAGE
-        ========================= */
-
-        .image-upload {
-
-            border: 2px dashed #cbd8d1;
-
-            border-radius: 18px;
-
-            padding: 30px 20px;
-
-            text-align: center;
-
-            background: #fbfdfc;
-
-            transition: .2s;
-        }
-
-
-        .image-upload:hover {
-
-            border-color: var(--primary);
-
-            background: #f5faf7;
-        }
-
-
-        .image-icon {
-
-            font-size: 45px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .image-upload h3 {
-
-            font-size: 15px;
-
-            margin-bottom: 5px;
-        }
-
-
-        .image-upload p {
-
-            color: var(--muted);
-
-            font-size: 11px;
-
-            margin-bottom: 15px;
-        }
-
-
-        .file-input {
-            display: none;
-        }
-
-
-        .choose-image {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background: var(--primary);
-
-            color: white;
-
-            padding: 10px 18px;
-
-            border-radius: 10px;
-
-            font-size: 12px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition: .2s;
-        }
-
-
-        .choose-image:hover {
-
-            background: var(--primary-dark);
-
-            transform: translateY(-1px);
-        }
-
-
-        .image-name {
-
-            margin-top: 12px;
-
-            color: var(--primary);
-
-            font-size: 11px;
-
-            min-height: 18px;
-        }
-
-
-        .image-preview {
-
-            display: none;
-
-            margin: 18px auto 0;
-
-            width: 150px;
-
-            height: 150px;
-
-            border-radius: 16px;
-
-            object-fit: cover;
-
-            border: 1px solid var(--border);
-
-            box-shadow:
-                0 8px 20px rgba(0,0,0,.08);
-        }
-
-
-        .image-preview.show {
-            display: block;
-        }
-
-
-        /* =========================
-           BUTTON
-        ========================= */
-
-        .submit-button {
-
-            width: 100%;
-
-            min-height: 52px;
-
-            margin-top: 25px;
-
-            background: var(--primary);
-
-            color: white;
-
-            border-radius: 13px;
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-            transition: .2s;
-        }
-
-
-        .submit-button:hover {
-
-            background: var(--primary-dark);
-
-            transform: translateY(-2px);
-        }
-
-
-        .submit-button:disabled {
-
-            opacity: .6;
-
-            cursor: not-allowed;
-
-            transform: none;
-        }
-
-
-        /* =========================
-           SIDE INFO
-        ========================= */
-
-        .info-list {
-
+        .row {
             display: grid;
-
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
-
-        .info-item {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            gap: 12px;
+        .file-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            background: #fafafa;
+            transition: .2s;
         }
 
-
-        .info-icon {
-
-            width: 42px;
-            height: 42px;
-
-            flex-shrink: 0;
-
-            display: grid;
-
-            place-items: center;
-
-            border-radius: 12px;
-
-            background: #eaf5ef;
-
-            font-size: 20px;
+        .file-box:hover {
+            border-color: var(--green);
+            background: var(--light-green);
         }
 
-
-        .info-item h3 {
-
-            font-size: 13px;
-
-            margin-bottom: 2px;
+        .file-input {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
         }
 
-
-        .info-item p {
-
+        .file-name {
+            display: block;
+            margin-top: 10px;
             color: var(--muted);
-
-            font-size: 10px;
+            font-size: 13px;
         }
 
-
-        /* =========================
-           MESSAGE
-        ========================= */
-
-        #message {
-
+        .image-preview-container {
             display: none;
+            margin: 18px auto 0;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
 
-            margin-top: 18px;
+        .image-preview-container.show {
+            display: grid;
+        }
 
-            padding: 13px;
-
+        .image-preview-item {
+            width: 100%;
+            height: 120px;
             border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0,0,0,.06);
+        }
 
-            font-size: 12px;
+        .submit-btn {
+            width: 100%;
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+            margin-top: 5px;
+        }
 
+        .submit-btn:hover {
+            background: var(--dark-green);
+        }
+
+        .submit-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 13px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 14px;
             text-align: center;
         }
 
-
-        .success {
-
-            display: block !important;
-
-            background: #e9f7ef;
-
-            color: #087a55;
+        .message.show {
+            display: block;
         }
 
-
-        .error {
-
-            display: block !important;
-
-            background: #fff0f0;
-
-            color: var(--danger);
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
         }
 
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        .hint {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 6px;
+            line-height: 1.7;
+        }
 
-        @media (max-width: 800px) {
+        @media (max-width: 600px) {
+            .container {
+                margin-top: 25px;
+            }
 
-            .seller-layout {
+            .form-card {
+                padding: 18px;
+            }
+
+            .row {
                 grid-template-columns: 1fr;
+                gap: 0;
             }
 
-        }
-
-
-        @media (max-width: 550px) {
-
-            .form-grid {
-                grid-template-columns: 1fr;
+            .image-preview-container {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-
-            .form-group.full {
-                grid-column: auto;
+            .image-preview-item {
+                height: 115px;
             }
-
-
-            .card {
-                padding: 20px;
-            }
-
 
             .page-title h1 {
-                font-size: 26px;
+                font-size: 23px;
             }
-
-
-            .header {
-                min-height: 64px;
-            }
-
-
-            .logo {
-                font-size: 19px;
-            }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
-
-    <div class="header container">
-
-        <a href="index.html"
-           class="logo">
-
-            🛒 بازارک
-
-        </a>
-
-
-        <a href="index.html"
-           class="back-link">
-
-            ← برگشت به بازار
-
-        </a>
-
-    </div>
-
+    <div class="logo">🇦🇫 بازارک</div>
+    <a href="index.html" class="back-btn">← برگشت</a>
 </header>
 
+<div class="container">
 
+    <div class="page-title">
+        <h1>فروش محصول</h1>
+        <p>محصول خود را در بازارک ثبت کنید</p>
+    </div>
 
-<!-- =========================
-     MAIN
-========================= -->
+    <div id="message" class="message"></div>
 
-<main>
+    <div class="form-card">
 
-    <div class="container">
+        <form id="productForm">
 
+            <!-- تصاویر -->
+            <div class="form-group">
+                <label>📷 تصاویر محصول</label>
 
-        <div class="page-title">
+                <div class="file-box">
+                    <div>چند عکس از محصول انتخاب کنید</div>
 
-            <span>SELLER CENTER</span>
+                    <input
+                        id="productImage"
+                        class="file-input"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                    >
 
-            <h1>
-                ثبت محصول
-            </h1>
+                    <span id="imageName" class="file-name"></span>
 
-            <p>
-                محصول خود را در بازارک ثبت کنید
-                و آن را به خریداران افغانستان معرفی کنید.
-            </p>
-
-        </div>
-
-
-
-        <div class="seller-layout">
-
-
-            <!-- =====================
-                 FORM
-            ====================== -->
-
-            <div class="card">
-
-                <h2 class="card-title">
-                    اطلاعات محصول
-                </h2>
-
-
-                <form id="productForm">
-
-
-                    <div class="form-grid">
-
-
-                        <!-- IMAGE -->
-
-                        <div class="form-group full">
-
-                            <label>
-                                تصویر محصول
-                                <span>*</span>
-                            </label>
-
-
-                            <div class="image-upload">
-
-                                <div class="image-icon">
-                                    📷
-                                </div>
-
-
-                                <h3>
-                                    تصویر محصول را انتخاب کنید
-                                </h3>
-
-
-                                <p>
-                                    JPG، PNG یا WEBP
-                                </p>
-
-
-                                <label
-                                    for="productImage"
-                                    class="choose-image">
-
-                                    انتخاب تصویر
-
-                                </label>
-
-
-                                <input
-                                    id="productImage"
-                                    class="file-input"
-                                    type="file"
-                                    accept="image/jpeg,image/png,image/webp"
-                                >
-
-
-                                <div
-                                    id="imageName"
-                                    class="image-name">
-                                </div>
-
-
-                                <img
-                                    id="imagePreview"
-                                    class="image-preview"
-                                    alt="پیش‌نمایش محصول">
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- TITLE -->
-
-                        <div class="form-group full">
-
-                            <label for="title">
-                                نام محصول
-                                <span>*</span>
-                            </label>
-
-
-                            <input
-                                id="title"
-                                type="text"
-                                placeholder="مثلاً iPhone 13 Pro Max"
-                                maxlength="150"
-                                required>
-
-                        </div>
-
-
-
-                        <!-- WHATSAPP -->
-
-                        <div class="form-group">
-
-                            <label for="whatsapp">
-
-                                📱 شماره واتساپ
-                                <span>*</span>
-
-                            </label>
-
-
-                            <input
-                                type="tel"
-                                id="whatsapp"
-                                class="whatsapp-input"
-                                placeholder="937XXXXXXXX"
-                                maxlength="15"
-                                inputmode="numeric"
-                                required>
-
-
-                            <small class="whatsapp-help">
-
-                                شماره را با کد کشور وارد کنید.
-                                مثال: 937XXXXXXXX
-                                <br>
-                                بدون + و بدون 0 اول
-
-                            </small>
-
-                        </div>
-
-
-
-                        <!-- PRICE -->
-
-                        <div class="form-group">
-
-                            <label for="price">
-
-                                قیمت (افغانی)
-                                <span>*</span>
-
-                            </label>
-
-
-                            <input
-                                id="price"
-                                type="number"
-                                min="1"
-                                step="0.01"
-                                placeholder="مثلاً 45000"
-                                required>
-
-                        </div>
-
-
-
-                        <!-- CATEGORY -->
-
-                        <div class="form-group">
-
-                            <label>
-
-                                دسته‌بندی
-                                <span>*</span>
-
-                            </label>
-
-
-                            <div
-                                class="custom-select"
-                                data-select="category">
-
-
-                                <button
-                                    type="button"
-                                    class="select-button">
-
-                                    <span class="selected-value placeholder">
-
-                                        انتخاب دسته‌بندی
-
-                                    </span>
-
-                                    <span class="select-arrow">
-
-                                        ▼
-
-                                    </span>
-
-                                </button>
-
-
-                                <div class="select-menu">
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="mobile">
-
-                                        📱 موبایل
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="computer">
-
-                                        💻 کامپیوتر
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="fashion">
-
-                                        👕 فیشن
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="shoes">
-
-                                        👟 کفش
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="gaming">
-
-                                        🎮 گیمینگ
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="home">
-
-                                        🏠 خانه
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="tools">
-
-                                        🔧 ابزار
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="vehicle">
-
-                                        🚗 موتر
-
-                                    </button>
-
-
-                                </div>
-
-
-                                <input
-                                    type="hidden"
-                                    id="category"
-                                    required>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- CITY -->
-
-                        <div class="form-group">
-
-                            <label>
-
-                                شهر
-                                <span>*</span>
-
-                            </label>
-
-
-                            <div
-                                class="custom-select"
-                                data-select="city">
-
-
-                                <button
-                                    type="button"
-                                    class="select-button">
-
-                                    <span class="selected-value placeholder">
-
-                                        انتخاب شهر
-
-                                    </span>
-
-                                    <span class="select-arrow">
-
-                                        ▼
-
-                                    </span>
-
-                                </button>
-
-
-                                <div class="select-menu">
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Mazar-e-Sharif">
-
-                                        📍 مزار شریف
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Kabul">
-
-                                        📍 کابل
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Herat">
-
-                                        📍 هرات
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Kandahar">
-
-                                        📍 کندهار
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Jowzjan">
-
-                                        📍 جوزجان
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Balkh">
-
-                                        📍 بلخ
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Nangarhar">
-
-                                        📍 ننگرهار
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="Other">
-
-                                        🌍 سایر
-
-                                    </button>
-
-
-                                </div>
-
-
-                                <input
-                                    type="hidden"
-                                    id="city"
-                                    required>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- CONDITION -->
-
-                        <div class="form-group">
-
-                            <label>
-
-                                وضعیت محصول
-                                <span>*</span>
-
-                            </label>
-
-
-                            <div
-                                class="custom-select"
-                                data-select="condition">
-
-
-                                <button
-                                    type="button"
-                                    class="select-button">
-
-                                    <span class="selected-value placeholder">
-
-                                        انتخاب وضعیت
-
-                                    </span>
-
-                                    <span class="select-arrow">
-
-                                        ▼
-
-                                    </span>
-
-                                </button>
-
-
-                                <div class="select-menu">
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="new">
-
-                                        ✨ نو
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="select-option"
-                                        data-value="used">
-
-                                        ♻️ استفاده‌شده
-
-                                    </button>
-
-
-                                </div>
-
-
-                                <input
-                                    type="hidden"
-                                    id="condition"
-                                    required>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- STOCK -->
-
-                        <div class="form-group">
-
-                            <label for="stock">
-
-                                تعداد موجودی
-                                <span>*</span>
-
-                            </label>
-
-
-                            <input
-                                id="stock"
-                                type="number"
-                                min="1"
-                                value="1"
-                                required>
-
-                        </div>
-
-
-
-                        <!-- DESCRIPTION -->
-
-                        <div class="form-group full">
-
-                            <label for="description">
-
-                                توضیحات محصول
-
-                            </label>
-
-
-                            <textarea
-                                id="description"
-                                maxlength="3000"
-                                placeholder="مشخصات، وضعیت، ویژگی‌ها و اطلاعات مهم محصول را بنویسید..."></textarea>
-
-                        </div>
-
-
+                    <div class="hint">
+                        فرمت‌های JPG، PNG و WEBP — حداکثر 10MB برای هر عکس
                     </div>
 
-
-
-                    <button
-                        id="submitButton"
-                        class="submit-button"
-                        type="submit">
-
-                        🚀 ثبت محصول
-
-                    </button>
-
-
-                    <div id="message"></div>
-
-
-                </form>
-
+                    <div
+                        id="imagePreviewContainer"
+                        class="image-preview-container">
+                    </div>
+                </div>
             </div>
 
-
-
-            <!-- =====================
-                 INFO
-            ====================== -->
-
-            <div class="card">
-
-                <h2 class="card-title">
-
-                    راهنمای فروشنده
-
-                </h2>
-
-
-                <div class="info-list">
-
-
-                    <div class="info-item">
-
-                        <div class="info-icon">
-
-                            📷
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-
-                                عکس واضح بگذارید
-
-                            </h3>
-
-                            <p>
-
-                                عکس واقعی و باکیفیت محصول
-                                اعتماد خریدار را بیشتر می‌کند.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-icon">
-
-                            💰
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-
-                                قیمت واقعی
-
-                            </h3>
-
-                            <p>
-
-                                قیمت محصول را به افغانی
-                                و دقیق وارد کنید.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-icon">
-
-                            📝
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-
-                                توضیحات کامل
-
-                            </h3>
-
-                            <p>
-
-                                مشخصات محصول را واضح
-                                برای خریدار بنویسید.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-icon">
-
-                            📱
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-
-                                واتساپ فعال
-
-                            </h3>
-
-                            <p>
-
-                                شماره واتساپ درست وارد کنید
-                                تا خریداران بتوانند مستقیم
-                                درباره محصول با شما تماس بگیرند.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-icon">
-
-                            🤝
-
-                        </div>
-
-                        <div>
-
-                            <h3>
-
-                                فروش امن‌تر
-
-                            </h3>
-
-                            <p>
-
-                                اطلاعات درست باعث اعتماد
-                                بیشتر خریداران می‌شود.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
+            <!-- عنوان -->
+            <div class="form-group">
+                <label for="title">عنوان محصول</label>
+                <input
+                    id="title"
+                    type="text"
+                    placeholder="مثلاً گوشی Sharp R5G"
+                    required
+                >
+            </div>
+
+            <!-- واتساپ -->
+            <div class="form-group">
+                <label for="whatsapp">شماره واتساپ</label>
+                <input
+                    id="whatsapp"
+                    type="text"
+                    placeholder="مثلاً 937XXXXXXXX"
+                    required
+                >
+                <div class="hint">
+                    نمونه: 937XXXXXXXX یا 0937XXXXXXXX یا 07XXXXXXXX
+                </div>
+            </div>
+
+            <!-- قیمت -->
+            <div class="row">
+
+                <div class="form-group">
+                    <label for="price">قیمت (افغانی)</label>
+                    <input
+                        id="price"
+                        type="number"
+                        min="0"
+                        placeholder="5500"
+                        required
+                    >
+                </div>
+
+                <!-- شهر -->
+                <div class="form-group">
+                    <label for="city">شهر</label>
+                    <select id="city" required>
+                        <option value="">انتخاب شهر</option>
+                        <option value="Mazar-e-Sharif">مزار شریف</option>
+                        <option value="Kabul">کابل</option>
+                        <option value="Herat">هرات</option>
+                        <option value="Kandahar">قندهار</option>
+                        <option value="Jowzjan">جوزجان</option>
+                        <option value="Balkh">بلخ</option>
+                        <option value="Nangarhar">ننگرهار</option>
+                        <option value="Other">سایر</option>
+                    </select>
                 </div>
 
             </div>
 
+            <!-- دسته بندی -->
+            <div class="form-group">
+                <label for="category">دسته‌بندی</label>
 
-        </div>
+                <select id="category" required>
+                    <option value="">انتخاب دسته‌بندی</option>
+                    <option value="mobile">📱 موبایل</option>
+                    <option value="computer">💻 کامپیوتر</option>
+                    <option value="fashion">👕 لباس</option>
+                    <option value="shoes">👟 کفش</option>
+                    <option value="gaming">🎮 گیمینگ</option>
+                    <option value="home">🏠 خانه</option>
+                    <option value="tools">🔧 ابزار</option>
+                    <option value="vehicle">🚗 وسایل نقلیه</option>
+                </select>
+            </div>
+
+            <!-- وضعیت -->
+            <div class="row">
+
+                <div class="form-group">
+                    <label for="condition">وضعیت محصول</label>
+
+                    <select id="condition" required>
+                        <option value="">انتخاب وضعیت</option>
+                        <option value="new">نو</option>
+                        <option value="used">کارکرده</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="stock">تعداد موجود</label>
+
+                    <input
+                        id="stock"
+                        type="number"
+                        min="1"
+                        value="1"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <!-- توضیحات -->
+            <div class="form-group">
+                <label for="description">توضیحات محصول</label>
+
+                <textarea
+                    id="description"
+                    placeholder="مشخصات، وضعیت و توضیحات محصول را بنویسید..."
+                    required
+                ></textarea>
+            </div>
+
+            <button
+                id="submitBtn"
+                class="submit-btn"
+                type="submit">
+                ثبت محصول
+            </button>
+
+        </form>
 
     </div>
-
-</main>
-
-
+</div>
 
 <script>
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+    // عناصر فرم
+    const productForm =
+        document.getElementById("productForm");
+
+    const productImage =
+        document.getElementById("productImage");
+
+    const imageName =
+        document.getElementById("imageName");
+
+    const imagePreviewContainer =
+        document.getElementById("imagePreviewContainer");
+
+    const submitBtn =
+        document.getElementById("submitBtn");
+
+    const message =
+        document.getElementById("message");
 
 
-const SUPABASE_URL =
-    "https://vhiewoopyqugdxwvsbno.supabase.co";
+    // نمایش پیام
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message show " + type;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
 
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+    // نرمال‌سازی واتساپ
+    function normalizeWhatsApp(value) {
 
+        let number =
+            String(value || "")
+                .replace(/\D/g, "");
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY,
-        {
-            auth: {
-                persistSession: true,
-                autoRefreshToken: true,
-                detectSessionInUrl: true
-            }
+        if (number.startsWith("0093")) {
+            number =
+                number.substring(2);
         }
-    );
 
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-
-const productForm =
-    document.getElementById("productForm");
-
-
-const submitButton =
-    document.getElementById("submitButton");
-
-
-const message =
-    document.getElementById("message");
-
-
-const productImage =
-    document.getElementById("productImage");
-
-
-const imageName =
-    document.getElementById("imageName");
-
-
-const imagePreview =
-    document.getElementById("imagePreview");
-
-
-const whatsappInput =
-    document.getElementById("whatsapp");
-
-
-
-/* =====================================================
-   CUSTOM DROPDOWNS
-===================================================== */
-
-
-const customSelects =
-    document.querySelectorAll(".custom-select");
-
-
-customSelects.forEach(function(select) {
-
-    const button =
-        select.querySelector(".select-button");
-
-    const menu =
-        select.querySelector(".select-menu");
-
-    const hiddenInput =
-        select.querySelector(
-            "input[type='hidden']"
-        );
-
-    const valueText =
-        select.querySelector(".selected-value");
-
-    const options =
-        select.querySelectorAll(".select-option");
-
-
-    button.addEventListener(
-        "click",
-        function(event) {
-
-            event.stopPropagation();
-
-
-            customSelects.forEach(function(other) {
-
-                if (other !== select) {
-
-                    other
-                        .querySelector(".select-menu")
-                        .classList
-                        .remove("open");
-
-
-                    other
-                        .querySelector(".select-button")
-                        .classList
-                        .remove("active");
-
-                }
-
-            });
-
-
-            menu.classList.toggle("open");
-
-            button.classList.toggle("active");
-
+        if (number.startsWith("0")) {
+            number =
+                "93" + number.substring(1);
         }
-    );
 
+        if (number.startsWith("7")) {
+            number =
+                "93" + number;
+        }
 
-    options.forEach(function(option) {
-
-        option.addEventListener(
-            "click",
-            function() {
-
-                const value =
-                    option.dataset.value;
-
-
-                const text =
-                    option.textContent.trim();
-
-
-                hiddenInput.value =
-                    value;
-
-
-                valueText.textContent =
-                    text;
-
-
-                valueText.classList.remove(
-                    "placeholder"
-                );
-
-
-                options.forEach(
-                    function(item) {
-
-                        item.classList.remove(
-                            "selected"
-                        );
-
-                    }
-                );
-
-
-                option.classList.add(
-                    "selected"
-                );
-
-
-                menu.classList.remove(
-                    "open"
-                );
-
-
-                button.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-    });
-
-});
-
-
-/* Close dropdowns */
-
-document.addEventListener(
-    "click",
-    function() {
-
-        customSelects.forEach(
-            function(select) {
-
-                select
-                    .querySelector(".select-menu")
-                    .classList
-                    .remove("open");
-
-
-                select
-                    .querySelector(".select-button")
-                    .classList
-                    .remove("active");
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =====================================================
-   WHATSAPP NUMBER NORMALIZER
-===================================================== */
-
-
-/*
-   نمونه‌های قابل قبول:
-
-   937XXXXXXXX
-   +937XXXXXXXX
-   07XXXXXXXX
-   7XXXXXXXX
-
-   خروجی همیشه:
-
-   937XXXXXXXX
-*/
-
-
-function normalizeAfghanistanWhatsApp(
-    value
-) {
-
-    let number =
-        value
-            .trim()
-            .replace(/\D/g, "");
-
-
-    /* 0093xxxxxxxxx */
-
-    if (
-        number.startsWith("0093")
-    ) {
-
-        number =
-            number.substring(2);
-
+        return number;
     }
 
 
-    /* +93 is already removed by regex */
+    // بررسی واتساپ
+    function isValidWhatsApp(number) {
 
-
-    /* 07xxxxxxxx */
-
-    if (
-        number.startsWith("07")
-    ) {
-
-        number =
-            "93" +
-            number.substring(1);
-
+        return /^937\d{8}$/.test(number);
     }
 
 
-    /* 7xxxxxxxx */
+    // پیش نمایش چند عکس
+    productImage.addEventListener("change", function () {
 
-    else if (
-        number.startsWith("7")
-    ) {
+        const files =
+            Array.from(this.files);
 
-        number =
-            "93" +
-            number;
+        imagePreviewContainer.innerHTML = "";
 
-    }
+        imagePreviewContainer.classList.remove("show");
 
+        if (files.length === 0) {
 
-    return number;
-
-}
-
-
-
-/* =====================================================
-   WHATSAPP VALIDATION
-===================================================== */
-
-
-function isValidAfghanistanWhatsApp(
-    number
-) {
-
-    /*
-       Afghanistan mobile number:
-
-       93 + 9 digits
-       Example:
-       937XXXXXXXX
-    */
-
-    return /^937\d{8}$/.test(
-        number
-    );
-
-}
-
-
-
-/* =====================================================
-   IMAGE PREVIEW
-===================================================== */
-
-
-productImage.addEventListener(
-    "change",
-    function() {
-
-        const file =
-            this.files[0];
-
-
-        if (!file) {
-
-            imageName.textContent =
-                "";
-
-            imagePreview.classList.remove(
-                "show"
-            );
-
-            imagePreview.src =
-                "";
+            imageName.textContent = "";
 
             return;
-
         }
 
-
-        /* File size */
 
         const maxSize =
             10 * 1024 * 1024;
-
-
-        if (file.size > maxSize) {
-
-            showMessage(
-                "❌ حجم عکس نباید بیشتر از 10MB باشد.",
-                "error"
-            );
-
-
-            this.value =
-                "";
-
-
-            imageName.textContent =
-                "";
-
-
-            imagePreview.classList.remove(
-                "show"
-            );
-
-
-            return;
-
-        }
-
-
-        /* File type */
 
         const allowedTypes = [
             "image/jpeg",
@@ -1980,852 +540,485 @@ productImage.addEventListener(
         ];
 
 
-        if (
-            !allowedTypes.includes(
-                file.type
-            )
-        ) {
+        // بررسی همه عکس‌ها
+        for (const file of files) {
 
-            showMessage(
-                "❌ فقط JPG، PNG یا WEBP قابل قبول است.",
-                "error"
-            );
+            if (file.size > maxSize) {
+
+                showMessage(
+                    "❌ حجم هر عکس نباید بیشتر از 10MB باشد.",
+                    "error"
+                );
+
+                this.value = "";
+
+                return;
+            }
 
 
-            this.value =
-                "";
+            if (!allowedTypes.includes(file.type)) {
 
+                showMessage(
+                    "❌ فقط JPG، PNG یا WEBP قابل قبول است.",
+                    "error"
+                );
 
-            return;
+                this.value = "";
 
+                return;
+            }
         }
 
 
         imageName.textContent =
-            "📎 " +
-            file.name;
+            `📎 ${files.length} عکس انتخاب شد`;
 
 
-        const reader =
-            new FileReader();
+        // ساخت preview
+        files.forEach(function (file) {
+
+            const reader =
+                new FileReader();
 
 
-        reader.onload =
-            function(event) {
+            reader.onload =
+                function (event) {
 
-                imagePreview.src =
-                    event.target.result;
+                    const img =
+                        document.createElement("img");
 
+                    img.src =
+                        event.target.result;
 
-                imagePreview.classList.add(
-                    "show"
-                );
+                    img.className =
+                        "image-preview-item";
 
-            };
+                    img.alt =
+                        "پیش‌نمایش محصول";
 
+                    imagePreviewContainer
+                        .appendChild(img);
 
-        reader.readAsDataURL(file);
-
-    }
-);
-
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
+                    imagePreviewContainer
+                        .classList.add("show");
+                };
 
 
-function showMessage(
-    text,
-    type
-) {
+            reader.readAsDataURL(file);
 
-    message.textContent =
-        text;
+        });
+
+    });
 
 
-    message.className =
-        type;
-
-}
-
-
-
-/* =====================================================
-   AUTHENTICATED USER
-===================================================== */
-
-
-async function checkUser() {
-
-    try {
-
-        let {
-            data: {
-                session
-            },
-            error
-        } =
-        await supabaseClient
-            .auth
-            .getSession();
-
-
-        if (error) {
-
-            console.error(
-                "Session error:",
-                error
-            );
-
-        }
-
-
-        if (session) {
-
-            const refresh =
-                await supabaseClient
-                    .auth
-                    .refreshSession();
-
-
-            if (
-                !refresh.error &&
-                refresh.data.session
-            ) {
-
-                session =
-                    refresh.data.session;
-
-            }
-
-        }
-
-
-        if (!session) {
-
-            showMessage(
-                "⚠️ ابتدا وارد حساب بازارک شوید.",
-                "error"
-            );
-
-
-            setTimeout(
-                function() {
-
-                    window.location.href =
-                        "login.html";
-
-                },
-                1000
-            );
-
-
-            return null;
-
-        }
-
+    // بررسی کاربر
+    async function checkUser() {
 
         const {
-            data: {
-                user
-            },
-            error: userError
-        } =
-        await supabaseClient
+            data,
+            error
+        } = await supabaseClient
             .auth
             .getUser();
 
 
-        if (
-            userError ||
-            !user
-        ) {
-
-            console.error(
-                "User error:",
-                userError
-            );
-
+        if (error || !data.user) {
 
             showMessage(
-                "❌ نشست حساب معتبر نیست. دوباره وارد شوید.",
+                "❌ ابتدا وارد حساب خود شوید.",
                 "error"
             );
 
+            setTimeout(() => {
+
+                window.location.href =
+                    "login.html";
+
+            }, 1500);
 
             return null;
-
         }
 
-
-        console.log(
-            "Authenticated user:",
-            user.id
-        );
-
-
-        return user;
-
-    }
-
-    catch(error) {
-
-        console.error(
-            "Authentication error:",
-            error
-        );
-
-
-        showMessage(
-            "❌ خطا در بررسی حساب: " +
-            error.message,
-            "error"
-        );
-
-
-        return null;
-
-    }
-
-}
-
-
-
-/* =====================================================
-   CREATE IMAGE FILE NAME
-===================================================== */
-
-
-function createSafeFileName(
-    file
-) {
-
-    const extension =
-        file.name
-            .split(".")
-            .pop()
-            .toLowerCase();
-
-
-    const random =
-        crypto.randomUUID();
-
-
-    return (
-        random +
-        "." +
-        extension
-    );
-
-}
-
-
-
-/* =====================================================
-   UPLOAD IMAGE
-===================================================== */
-
-
-async function uploadProductImage(
-    file,
-    userId
-) {
-
-    const fileName =
-        createSafeFileName(file);
-
-
-    const filePath =
-        userId +
-        "/" +
-        fileName;
-
-
-    console.log(
-        "Uploading image:",
-        filePath
-    );
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-        .storage
-        .from("product-images")
-        .upload(
-            filePath,
-            file,
-            {
-                cacheControl:
-                    "3600",
-
-                upsert:
-                    false,
-
-                contentType:
-                    file.type
-            }
-        );
-
-
-    if (error) {
-
-        console.error(
-            "Storage upload error:",
-            error
-        );
-
-
-        throw new Error(
-            "آپلود عکس ناموفق بود: " +
-            error.message
-        );
-
+        return data.user;
     }
 
 
-    console.log(
-        "Image uploaded:",
-        data
-    );
+    // ساخت نام امن فایل
+    function createSafeFileName(file) {
+
+        const extension =
+            file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
 
 
-    /*
-       Bucket عمومی است،
-       بنابراین لینک مستقیم ساخته می‌شود.
-    */
-
-    const {
-        data: publicData
-    } =
-    supabaseClient
-        .storage
-        .from("product-images")
-        .getPublicUrl(
-            filePath
-        );
+        const random =
+            Math.random()
+                .toString(36)
+                .substring(2, 12);
 
 
-    if (
-        !publicData ||
-        !publicData.publicUrl
+        return `${Date.now()}-${random}.${extension}`;
+    }
+
+
+    // آپلود چند عکس
+    async function uploadProductImages(
+        files,
+        userId
     ) {
 
-        throw new Error(
-            "لینک عکس ساخته نشد."
-        );
+        const imageUrls = [];
 
-    }
 
+        for (const file of files) {
 
-    return publicData.publicUrl;
+            const fileName =
+                createSafeFileName(file);
 
-}
 
-
-
-/* =====================================================
-   SUBMIT PRODUCT
-===================================================== */
-
-
-productForm.addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-
-        submitButton.disabled =
-            true;
-
-
-        submitButton.textContent =
-            "⏳ در حال ثبت محصول...";
-
-
-        message.className =
-            "";
-
-
-        try {
-
-
-            /* =========================
-               USER
-            ========================= */
-
-
-            const user =
-                await checkUser();
-
-
-            if (!user) {
-
-                return;
-
-            }
-
-
-
-            /* =========================
-               FORM DATA
-            ========================= */
-
-
-            const title =
-                document
-                    .getElementById("title")
-                    .value
-                    .trim();
-
-
-            const price =
-                Number(
-                    document
-                        .getElementById("price")
-                        .value
-                );
-
-
-            const category =
-                document
-                    .getElementById("category")
-                    .value;
-
-
-            const city =
-                document
-                    .getElementById("city")
-                    .value;
-
-
-            const condition =
-                document
-                    .getElementById("condition")
-                    .value;
-
-
-            const stock =
-                Number(
-                    document
-                        .getElementById("stock")
-                        .value
-                );
-
-
-            const description =
-                document
-                    .getElementById("description")
-                    .value
-                    .trim();
-
-
-            const imageFile =
-                productImage.files[0];
-
-
-            /* =========================
-               WHATSAPP
-            ========================= */
-
-
-            const rawWhatsApp =
-                whatsappInput.value.trim();
-
-
-            const whatsapp =
-                normalizeAfghanistanWhatsApp(
-                    rawWhatsApp
-                );
-
-
-
-            /* =========================
-               VALIDATION
-            ========================= */
-
-
-            if (!imageFile) {
-
-                showMessage(
-                    "❌ لطفاً تصویر محصول را انتخاب کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (!title) {
-
-                showMessage(
-                    "❌ نام محصول را وارد کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !price ||
-                price <= 0
-            ) {
-
-                showMessage(
-                    "❌ قیمت محصول را درست وارد کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (!category) {
-
-                showMessage(
-                    "❌ دسته‌بندی را انتخاب کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (!city) {
-
-                showMessage(
-                    "❌ شهر را انتخاب کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (!condition) {
-
-                showMessage(
-                    "❌ وضعیت محصول را انتخاب کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !stock ||
-                stock < 1
-            ) {
-
-                showMessage(
-                    "❌ تعداد موجودی باید حداقل 1 باشد.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (!rawWhatsApp) {
-
-                showMessage(
-                    "❌ شماره واتساپ را وارد کنید.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !isValidAfghanistanWhatsApp(
-                    whatsapp
-                )
-            ) {
-
-                showMessage(
-                    "❌ شماره واتساپ معتبر نیست. مثال: 937XXXXXXXX",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-
-            /* =========================
-               UPLOAD IMAGE
-            ========================= */
-
-
-            submitButton.textContent =
-                "📷 در حال آپلود عکس...";
-
-
-            const imageUrl =
-                await uploadProductImage(
-                    imageFile,
-                    user.id
-                );
-
-
-
-            /* =========================
-               PRODUCT DATA
-            ========================= */
-
-
-            submitButton.textContent =
-                "💾 در حال ذخیره محصول...";
-
-
-            const productData = {
-
-                title:
-                    title,
-
-                description:
-                    description,
-
-                price:
-                    price,
-
-                category:
-                    category,
-
-                city:
-                    city,
-
-                condition:
-                    condition,
-
-                stock:
-                    stock,
-
-                whatsapp:
-                    whatsapp,
-
-                image_url:
-                    imageUrl,
-
-                seller_id:
-                    user.id,
-
-                status:
-                    "active"
-
-            };
-
-
-            console.log(
-                "Product data:",
-                productData
-            );
-
-
-
-            /* =========================
-               DATABASE INSERT
-            ========================= */
+            const filePath =
+                `${userId}/${fileName}`;
 
 
             const {
-                data,
-                error
+                error: uploadError
+            } = await supabaseClient
+                .storage
+                .from("product-images")
+                .upload(
+                    filePath,
+                    file,
+                    {
+                        cacheControl: "3600",
+                        upsert: false
+                    }
+                );
+
+
+            if (uploadError) {
+
+                throw uploadError;
+            }
+
+
+            const {
+                data: publicData
             } =
-            await supabaseClient
-                .from("products")
-                .insert(
-                    productData
-                )
-                .select()
-                .single();
+                supabaseClient
+                    .storage
+                    .from("product-images")
+                    .getPublicUrl(filePath);
 
 
-            if (error) {
+            if (!publicData ||
+                !publicData.publicUrl) {
+
+                throw new Error(
+                    "خطا در دریافت لینک تصویر"
+                );
+            }
+
+
+            imageUrls.push(
+                publicData.publicUrl
+            );
+        }
+
+
+        return imageUrls;
+    }
+
+
+    // ارسال فرم
+    productForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            submitBtn.disabled = true;
+
+            submitBtn.textContent =
+                "در حال ثبت محصول...";
+
+
+            try {
+
+                // کاربر
+                const user =
+                    await checkUser();
+
+
+                if (!user) {
+
+                    submitBtn.disabled = false;
+
+                    submitBtn.textContent =
+                        "ثبت محصول";
+
+                    return;
+                }
+
+
+                // اطلاعات فرم
+                const title =
+                    document
+                        .getElementById("title")
+                        .value
+                        .trim();
+
+
+                const whatsapp =
+                    normalizeWhatsApp(
+                        document
+                            .getElementById("whatsapp")
+                            .value
+                    );
+
+
+                const price =
+                    Number(
+                        document
+                            .getElementById("price")
+                            .value
+                    );
+
+
+                const category =
+                    document
+                        .getElementById("category")
+                        .value;
+
+
+                const city =
+                    document
+                        .getElementById("city")
+                        .value;
+
+
+                const condition =
+                    document
+                        .getElementById("condition")
+                        .value;
+
+
+                const stock =
+                    Number(
+                        document
+                            .getElementById("stock")
+                            .value
+                    );
+
+
+                const description =
+                    document
+                        .getElementById("description")
+                        .value
+                        .trim();
+
+
+                // عکس‌ها
+                const imageFiles =
+                    Array.from(
+                        productImage.files
+                    );
+
+
+                // اعتبارسنجی
+                if (!title) {
+
+                    throw new Error(
+                        "عنوان محصول را وارد کنید."
+                    );
+                }
+
+
+                if (!isValidWhatsApp(whatsapp)) {
+
+                    throw new Error(
+                        "شماره واتساپ معتبر نیست."
+                    );
+                }
+
+
+                if (!price || price < 0) {
+
+                    throw new Error(
+                        "قیمت محصول را درست وارد کنید."
+                    );
+                }
+
+
+                if (!category) {
+
+                    throw new Error(
+                        "دسته‌بندی محصول را انتخاب کنید."
+                    );
+                }
+
+
+                if (!city) {
+
+                    throw new Error(
+                        "شهر را انتخاب کنید."
+                    );
+                }
+
+
+                if (!condition) {
+
+                    throw new Error(
+                        "وضعیت محصول را انتخاب کنید."
+                    );
+                }
+
+
+                if (!stock || stock < 1) {
+
+                    throw new Error(
+                        "تعداد موجودی باید حداقل 1 باشد."
+                    );
+                }
+
+
+                if (!description) {
+
+                    throw new Error(
+                        "توضیحات محصول را وارد کنید."
+                    );
+                }
+
+
+                if (imageFiles.length === 0) {
+
+                    throw new Error(
+                        "حداقل یک عکس برای محصول انتخاب کنید."
+                    );
+                }
+
+
+                // آپلود همه تصاویر
+                submitBtn.textContent =
+                    `در حال آپلود ${imageFiles.length} عکس...`;
+
+
+                const imageUrls =
+                    await uploadProductImages(
+                        imageFiles,
+                        user.id
+                    );
+
+
+                // عکس اول برای سازگاری با محصولات قدیمی
+                const imageUrl =
+                    imageUrls[0];
+
+
+                // اطلاعات محصول
+                const productData = {
+
+                    title: title,
+
+                    description: description,
+
+                    price: price,
+
+                    category: category,
+
+                    city: city,
+
+                    image_url: imageUrl,
+
+                    image_urls: imageUrls,
+
+                    seller_id: user.id,
+
+                    status: "active",
+
+                    condition: condition,
+
+                    stock: stock,
+
+                    whatsapp: whatsapp
+                };
+
+
+                // ثبت در دیتابیس
+                submitBtn.textContent =
+                    "در حال ذخیره محصول...";
+
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("products")
+                    .insert(productData);
+
+
+                if (error) {
+
+                    throw error;
+                }
+
+
+                // موفقیت
+                showMessage(
+                    "✅ محصول با موفقیت ثبت شد.",
+                    "success"
+                );
+
+
+                // پاک کردن فرم
+                productForm.reset();
+
+                imageName.textContent = "";
+
+                imagePreviewContainer.innerHTML = "";
+
+                imagePreviewContainer
+                    .classList.remove("show");
+
+
+                // انتقال بعد از ثبت
+                setTimeout(() => {
+
+                    window.location.href =
+                        "products.html";
+
+                }, 1500);
+
+
+            } catch (error) {
 
                 console.error(
-                    "DATABASE ERROR:",
+                    "Product creation error:",
                     error
                 );
 
 
-                console.error(
-                    "Code:",
-                    error.code
+                showMessage(
+                    "❌ " +
+                    (
+                        error.message ||
+                        "خطایی هنگام ثبت محصول رخ داد."
+                    ),
+                    "error"
                 );
 
 
-                console.error(
-                    "Message:",
-                    error.message
-                );
+                submitBtn.disabled = false;
 
-
-                console.error(
-                    "Details:",
-                    error.details
-                );
-
-
-                console.error(
-                    "Hint:",
-                    error.hint
-                );
-
-
-                throw new Error(
-                    error.message
-                );
-
+                submitBtn.textContent =
+                    "ثبت محصول";
             }
 
-
-
-            /* =========================
-               SUCCESS
-            ========================= */
-
-
-            console.log(
-                "Product created:",
-                data
-            );
-
-
-            showMessage(
-                "✅ محصول با موفقیت در بازارک ثبت شد!",
-                "success"
-            );
-
-
-            productForm.reset();
-
-
-            imageName.textContent =
-                "";
-
-
-            imagePreview.src =
-                "";
-
-
-            imagePreview.classList.remove(
-                "show"
-            );
-
-
-            /* Reset custom selects */
-
-            customSelects.forEach(
-                function(select) {
-
-                    const hidden =
-                        select.querySelector(
-                            "input[type='hidden']"
-                        );
-
-
-                    const text =
-                        select.querySelector(
-                            ".selected-value"
-                        );
-
-
-                    const options =
-                        select.querySelectorAll(
-                            ".select-option"
-                        );
-
-
-                    hidden.value =
-                        "";
-
-
-                    text.textContent =
-                        "انتخاب کنید";
-
-
-                    text.classList.add(
-                        "placeholder"
-                    );
-
-
-                    options.forEach(
-                        function(option) {
-
-                            option.classList.remove(
-                                "selected"
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-
         }
-
-        catch(error) {
-
-            console.error(
-                "FINAL PRODUCT ERROR:",
-                error
-            );
-
-
-            showMessage(
-                "❌ خطا در ثبت محصول: " +
-                error.message,
-                "error"
-            );
-
-        }
-
-        finally {
-
-            submitButton.disabled =
-                false;
-
-
-            submitButton.textContent =
-                "🚀 ثبت محصول";
-
-        }
-
-    }
-);
-
-
-
-/* =====================================================
-   INITIAL AUTH CHECK
-===================================================== */
-
-
-checkUser();
-
+    );
 
 </script>
 
-
 </body>
-
 </html>
