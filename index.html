@@ -13,6 +13,10 @@
     <meta name="description"
           content="بازارک؛ بازار آنلاین افغانستان برای خرید و فروش محصولات">
 
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
     <style>
 
         :root {
@@ -62,6 +66,174 @@
         .container {
             width: min(1400px, calc(100% - 40px));
             margin: auto;
+        }
+
+
+        /* =========================
+           AUTH GATE
+        ========================= */
+
+        #authGate {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 99999;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #055c40,
+                    #087a55
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+
+        .auth-card {
+
+            width: 100%;
+
+            max-width: 500px;
+
+            background: white;
+
+            border-radius: 28px;
+
+            padding: 40px 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 30px 80px
+                rgba(0,0,0,.25);
+        }
+
+
+        .auth-logo {
+
+            width: 80px;
+            height: 80px;
+
+            display: grid;
+
+            place-items: center;
+
+            margin: 0 auto 20px;
+
+            border-radius: 24px;
+
+            background: #eaf5ef;
+
+            font-size: 42px;
+        }
+
+
+        .auth-card h1 {
+
+            color: var(--text);
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .auth-card h1 span {
+
+            color: var(--primary);
+        }
+
+
+        .auth-card p {
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+
+            line-height: 2;
+        }
+
+
+        .auth-buttons {
+
+            display: grid;
+
+            gap: 12px;
+        }
+
+
+        .auth-btn {
+
+            width: 100%;
+
+            min-height: 54px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+
+        .auth-register {
+
+            background: var(--primary);
+
+            color: white;
+        }
+
+
+        .auth-register:hover {
+
+            background: var(--primary-dark);
+
+            transform: translateY(-2px);
+        }
+
+
+        .auth-login {
+
+            background: #edf5f1;
+
+            color: var(--primary);
+
+            border: 1px solid #d7e8df;
+        }
+
+
+        .auth-login:hover {
+
+            background: #e0eee7;
+
+            transform: translateY(-2px);
+        }
+
+
+        .auth-loading {
+
+            color: white;
+
+            font-size: 16px;
         }
 
 
@@ -754,12 +926,58 @@
 
         }
 
+
     </style>
 
 </head>
 
 
 <body>
+
+
+<!-- =========================
+     AUTH GATE
+========================= -->
+
+<div id="authGate">
+
+    <div class="auth-card" id="authCard">
+
+        <div class="auth-logo">
+            🛒
+        </div>
+
+        <h1>
+            به <span>بازارک</span> خوش آمدید
+        </h1>
+
+        <p>
+            برای ورود به بازارک ابتدا حساب خود را ایجاد کنید
+            یا وارد حساب موجود خود شوید.
+        </p>
+
+        <div class="auth-buttons">
+
+            <a
+                href="register.html"
+                class="auth-btn auth-register"
+            >
+                📝 ایجاد حساب
+            </a>
+
+            <a
+                href="login.html"
+                class="auth-btn auth-login"
+            >
+                👤 ورود به حساب
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 
 <!-- =========================
@@ -1150,25 +1368,6 @@
 
 
 
-        <!--
-            مهم:
-
-            اینجا عمداً محصول دستی قرار نداده‌ایم.
-
-            در آینده:
-            Database
-                ↓
-            Products API / Firebase
-                ↓
-            همین بخش
-                ↓
-            کارت‌های محصولات
-
-            بنابراین 10، 1000 یا 100000 محصول
-            لازم نیست دستی در HTML نوشته شوند.
-        -->
-
-
         <div class="empty-products">
 
 
@@ -1409,6 +1608,116 @@
 
 
 <script>
+
+
+    /* =========================
+       SUPABASE AUTH
+    ========================= */
+
+
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+
+    const SUPABASE_ANON_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+
+    const { createClient } =
+        supabase;
+
+
+    const supabaseClient =
+        createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+
+    const authGate =
+        document.getElementById("authGate");
+
+
+    /*
+        بررسی حساب کاربر
+
+        اگر Session وجود داشته باشد:
+        سایت نمایش داده می‌شود.
+
+        اگر Session وجود نداشته باشد:
+        صفحه ورود/ثبت‌نام نمایش داده می‌شود.
+    */
+
+
+    async function checkAuthentication() {
+
+        try {
+
+            const {
+                data: {
+                    session
+                }
+            } = await supabaseClient
+                .auth
+                .getSession();
+
+
+            if (session) {
+
+                authGate.style.display =
+                    "none";
+
+            } else {
+
+                authGate.style.display =
+                    "flex";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Auth error:",
+                error
+            );
+
+            authGate.style.display =
+                "flex";
+        }
+
+    }
+
+
+    checkAuthentication();
+
+
+    /*
+        اگر وضعیت ورود کاربر تغییر کند،
+        صفحه را دوباره بررسی می‌کنیم.
+    */
+
+
+    supabaseClient
+        .auth
+        .onAuthStateChange(
+            function(event, session) {
+
+                if (session) {
+
+                    authGate.style.display =
+                        "none";
+
+                } else {
+
+                    authGate.style.display =
+                        "flex";
+
+                }
+
+            }
+        );
+
+
 
     /* =========================
        SEARCH
