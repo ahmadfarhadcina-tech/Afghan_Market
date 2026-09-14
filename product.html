@@ -10,7 +10,13 @@
 
     <title>جزئیات محصول | بازارک</title>
 
+    <meta
+        name="description"
+        content="جزئیات محصول در بازارک"
+    >
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
     <style>
 
@@ -20,288 +26,772 @@
             padding: 0;
         }
 
+
         body {
-            font-family: Tahoma, Arial, sans-serif;
+
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+
             background: #f5f7f6;
+
             color: #17211d;
+
+            line-height: 1.7;
+
         }
+
 
         a {
+
             text-decoration: none;
+
             color: inherit;
+
         }
+
+
+        button,
+        input {
+
+            font-family: inherit;
+
+        }
+
+
+        button {
+
+            cursor: pointer;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
 
         header {
+
             background: white;
-            border-bottom: 1px solid #e4e9e6;
+
+            border-bottom:
+                1px solid #e4e9e6;
+
             position: sticky;
+
             top: 0;
+
             z-index: 100;
+
         }
+
 
         .header-inner {
+
             max-width: 1200px;
+
             margin: auto;
+
             padding: 15px 20px;
+
             display: flex;
+
             align-items: center;
+
             gap: 20px;
+
         }
+
 
         .logo {
+
             font-size: 24px;
+
             font-weight: 900;
+
             color: #087a55;
+
             white-space: nowrap;
+
         }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
 
         .search {
+
             flex: 1;
+
             display: flex;
+
             background: #f1f4f2;
+
             border-radius: 12px;
+
             overflow: hidden;
+
         }
+
 
         .search input {
+
             width: 100%;
+
             border: none;
+
             outline: none;
+
             background: transparent;
+
             padding: 13px 16px;
+
             font-size: 14px;
+
         }
+
 
         .search button {
+
             border: none;
+
             background: #087a55;
+
             color: white;
+
             padding: 0 22px;
+
             cursor: pointer;
+
         }
+
+
+        .search button:hover {
+
+            background: #055c40;
+
+        }
+
+
+        /* =========================
+           HEADER LINKS
+        ========================= */
+
 
         .header-links {
+
             display: flex;
-            gap: 15px;
+
+            gap: 18px;
+
             font-size: 14px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
         }
+
+
+        .header-links a {
+
+            transition: .2s;
+
+        }
+
+
+        .header-links a:hover {
+
+            color: #087a55;
+
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
 
         .container {
+
             max-width: 1200px;
+
             margin: auto;
+
             padding: 35px 20px;
+
         }
+
+
+        /* =========================
+           BREADCRUMB
+        ========================= */
+
 
         .breadcrumb {
+
             margin-bottom: 20px;
+
             color: #718079;
+
             font-size: 14px;
+
         }
+
+
+        .breadcrumb a {
+
+            color: #087a55;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           PRODUCT
+        ========================= */
+
 
         .product {
+
             background: white;
-            border: 1px solid #e3e8e5;
+
+            border:
+                1px solid #e3e8e5;
+
             border-radius: 20px;
+
             padding: 25px;
+
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 35px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,.03);
+
         }
+
+
+        /* =========================
+           GALLERY
+        ========================= */
+
 
         .gallery {
+
             display: flex;
+
             flex-direction: column;
+
             gap: 12px;
+
         }
+
 
         .main-image {
+
             height: 430px;
+
             background: #eef2f0;
+
             border-radius: 16px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             overflow: hidden;
+
             font-size: 100px;
+
         }
+
 
         .main-image img {
+
             width: 100%;
+
             height: 100%;
+
             object-fit: contain;
+
         }
+
 
         .thumbnails {
+
             display: flex;
+
             gap: 10px;
+
         }
+
 
         .thumbnail {
+
             width: 75px;
+
             height: 75px;
-            border: 1px solid #dce3df;
+
+            border:
+                1px solid #dce3df;
+
             border-radius: 10px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             background: #f4f6f5;
+
             overflow: hidden;
+
         }
+
 
         .thumbnail img {
+
             width: 100%;
+
             height: 100%;
+
             object-fit: cover;
+
         }
+
+
+        /* =========================
+           PRODUCT INFO
+        ========================= */
+
 
         .info h1 {
+
             font-size: 30px;
+
             line-height: 1.5;
+
             margin-bottom: 12px;
+
         }
+
 
         .rating {
+
             color: #f0a800;
+
             margin-bottom: 20px;
+
+            font-size: 14px;
+
         }
+
+
+        .rating span {
+
+            color: #718079;
+
+            font-size: 12px;
+
+        }
+
 
         .price {
+
             font-size: 30px;
+
             font-weight: 900;
+
             color: #087a55;
+
             margin-bottom: 20px;
+
         }
+
 
         .description {
+
             color: #626e68;
+
             line-height: 2;
+
             margin-bottom: 25px;
+
             white-space: pre-line;
+
         }
+
+
+        /* =========================
+           DETAILS
+        ========================= */
+
 
         .details {
-            border-top: 1px solid #e5e9e7;
-            border-bottom: 1px solid #e5e9e7;
+
+            border-top:
+                1px solid #e5e9e7;
+
+            border-bottom:
+                1px solid #e5e9e7;
+
             padding: 18px 0;
+
             margin-bottom: 20px;
+
         }
+
 
         .detail {
+
             display: flex;
+
             justify-content: space-between;
+
+            gap: 20px;
+
             padding: 8px 0;
+
         }
+
 
         .detail span:first-child {
+
             color: #737f79;
+
         }
+
 
         .detail span:last-child {
+
             font-weight: bold;
+
         }
+
+
+        /* =========================
+           SELLER
+        ========================= */
+
 
         .seller {
+
             background: #f5f8f6;
+
             border-radius: 14px;
+
             padding: 16px;
+
             display: flex;
+
             align-items: center;
+
             gap: 15px;
+
             margin-bottom: 20px;
+
         }
+
 
         .seller-avatar {
+
             width: 50px;
+
             height: 50px;
+
             border-radius: 50%;
+
             background: #087a55;
+
             color: white;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             font-size: 22px;
+
+            flex-shrink: 0;
+
         }
+
 
         .seller-name {
+
             font-weight: bold;
+
             margin-bottom: 5px;
+
         }
+
 
         .seller-location {
+
             color: #748079;
+
             font-size: 13px;
+
         }
 
-        .actions {
-            display: flex;
-            gap: 12px;
-        }
 
-        .btn {
-            border: none;
-            cursor: pointer;
-            padding: 15px 22px;
-            border-radius: 11px;
-            font-size: 15px;
-            font-weight: bold;
-        }
+        /* =========================
+           WHATSAPP BUTTON
+        ========================= */
 
-        .cart-btn {
-            background: #087a55;
-            color: white;
-            flex: 1;
-        }
 
-        .favorite-btn {
-            background: #edf2ef;
-            color: #17211d;
-            width: 55px;
-        }
+        .contact-button {
 
-        .buy-btn {
             width: 100%;
-            margin-top: 12px;
-            background: #f2b84b;
-            color: #17120a;
+
+            border: none;
+
+            background: #087a55;
+
+            color: white;
+
+            padding: 16px 20px;
+
+            border-radius: 13px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            transition: .2s;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
         }
 
-        .loading,
-        .error {
-            background: white;
-            border-radius: 20px;
-            padding: 70px 20px;
+
+        .contact-button:hover {
+
+            background: #055c40;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(8,122,85,.18);
+
+        }
+
+
+        .contact-button:active {
+
+            transform:
+                translateY(0);
+
+        }
+
+
+        .contact-note {
+
             text-align: center;
-            font-size: 18px;
+
+            color: #718079;
+
+            font-size: 10px;
+
+            margin-top: 8px;
+
         }
 
-        .error {
-            color: #b42318;
+
+        /* =========================
+           LOADING
+        ========================= */
+
+
+        .loading {
+
+            grid-column:
+                1 / -1;
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 70px 20px;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            color: #718079;
+
         }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+
+        .error {
+
+            grid-column:
+                1 / -1;
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 70px 20px;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            color: #b42318;
+
+        }
+
+
+        .back-products {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            color: #087a55;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
 
         @media (max-width: 800px) {
 
+
             .header-inner {
+
                 flex-wrap: wrap;
+
             }
+
 
             .logo {
+
                 width: 100%;
+
             }
+
 
             .header-links {
+
                 display: none;
+
             }
+
 
             .product {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
+
             }
+
 
             .main-image {
+
                 height: 330px;
+
             }
 
+
             .info h1 {
+
                 font-size: 24px;
+
+            }
+
+
+            .price {
+
+                font-size: 26px;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+
+            .container {
+
+                padding:
+                    25px 14px;
+
+            }
+
+
+            .product {
+
+                padding: 15px;
+
+                border-radius: 16px;
+
+            }
+
+
+            .main-image {
+
+                height: 280px;
+
+            }
+
+
+            .search button {
+
+                padding:
+                    0 14px;
+
+            }
+
+
+            .search input {
+
+                font-size: 12px;
+
+            }
+
+
+            .breadcrumb {
+
+                font-size: 12px;
+
             }
 
         }
@@ -314,15 +804,30 @@
 <body>
 
 
+<!-- =========================
+     HEADER
+========================= -->
+
+
 <header>
 
     <div class="header-inner">
 
-        <a href="index.html" class="logo">
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+
             🛒 بازارک
+
         </a>
 
-        <form class="search" id="searchForm">
+
+        <form
+            class="search"
+            id="searchForm"
+        >
 
             <input
                 type="search"
@@ -330,544 +835,1014 @@
                 placeholder="دنبال چه چیزی می‌گردید؟"
             >
 
-            <button type="submit">
+
+            <button
+                type="submit"
+            >
+
                 جستجو
+
             </button>
 
         </form>
 
+
         <div class="header-links">
 
+
             <a href="index.html">
+
                 خانه
+
             </a>
+
 
             <a href="products.html">
+
                 محصولات
+
             </a>
 
-            <a href="#">
-                🛒 سبد
-            </a>
 
         </div>
+
 
     </div>
 
 </header>
 
 
+
+<!-- =========================
+     MAIN
+========================= -->
+
+
 <main class="container">
 
+
     <div class="breadcrumb">
-        خانه ← محصولات ← جزئیات محصول
+
+        <a href="index.html">
+            خانه
+        </a>
+
+        ←
+
+        <a href="products.html">
+            محصولات
+        </a>
+
+        ←
+
+        جزئیات محصول
+
     </div>
 
 
-    <section class="product" id="productBox">
+    <section
+        class="product"
+        id="productBox"
+    >
 
         <div class="loading">
+
             ⏳ در حال دریافت اطلاعات محصول...
+
         </div>
 
     </section>
 
+
 </main>
+
 
 
 <script>
 
-    /* =========================
-       SUPABASE
-    ========================= */
 
-    const SUPABASE_URL =
-        "https://vhiewoopyqugdxwvsbno.supabase.co";
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-    const SUPABASE_KEY =
-        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
 
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
+const SUPABASE_URL =
+    "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+
+const productBox =
+    document.getElementById(
+        "productBox"
+    );
+
+
+
+/* =====================================================
+   GET PRODUCT ID
+===================================================== */
+
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const productId =
+    urlParams.get("id");
+
+
+
+/* =====================================================
+   LOAD PRODUCT
+===================================================== */
+
+
+async function loadProduct() {
+
+
+    if (!productId) {
+
+        showError(
+            "شناسه محصول پیدا نشد."
         );
 
-
-    /* =========================
-       ELEMENTS
-    ========================= */
-
-    const productBox =
-        document.getElementById("productBox");
-
-
-    /* =========================
-       GET PRODUCT ID
-    ========================= */
-
-    const urlParams =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const productId =
-        urlParams.get("id");
-
-
-    /* =========================
-       LOAD PRODUCT
-    ========================= */
-
-    async function loadProduct() {
-
-        if (!productId) {
-
-            showError(
-                "شناسه محصول پیدا نشد."
-            );
-
-            return;
-        }
-
-
-        const { data, error } =
-            await supabaseClient
-                .from("products")
-                .select(`
-                    id,
-                    title,
-                    description,
-                    price,
-                    category,
-                    city,
-                    image_url,
-                    condition,
-                    stock,
-                    seller_id,
-                    status,
-                    created_at
-                `)
-                .eq("id", productId)
-                .eq("status", "active")
-                .single();
-
-
-        if (error) {
-
-            console.error(
-                "Product error:",
-                error
-            );
-
-            showError(
-                "محصول پیدا نشد یا قابل نمایش نیست."
-            );
-
-            return;
-        }
-
-
-        if (!data) {
-
-            showError(
-                "این محصول وجود ندارد."
-            );
-
-            return;
-        }
-
-
-        renderProduct(data);
+        return;
 
     }
 
 
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select(`
+            id,
+            title,
+            description,
+            price,
+            category,
+            city,
+            image_url,
+            condition,
+            stock,
+            whatsapp,
+            seller_id,
+            status,
+            created_at
+        `)
+        .eq(
+            "id",
+            productId
+        )
+        .eq(
+            "status",
+            "active"
+        )
+        .single();
+
+
+    if (error) {
+
+        console.error(
+            "Product error:",
+            error
+        );
+
+
+        showError(
+            "محصول پیدا نشد یا قابل نمایش نیست."
+        );
+
+
+        return;
+
+    }
+
+
+    if (!data) {
+
+        showError(
+            "این محصول وجود ندارد."
+        );
+
+
+        return;
+
+    }
+
+
+    renderProduct(data);
+
+}
+
+
+
+/* =====================================================
+   RENDER PRODUCT
+===================================================== */
+
+
+function renderProduct(
+    product
+) {
+
+
+    document.title =
+        product.title +
+        " | بازارک";
+
+
     /* =========================
-       RENDER PRODUCT
+       IMAGE
     ========================= */
 
-    function renderProduct(product) {
 
-        document.title =
-            product.title +
-            " | بازارک";
+    const imageHTML =
+        product.image_url
+
+        ? `
+
+            <img
+                src="${escapeHTML(product.image_url)}"
+                alt="${escapeHTML(product.title)}"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='📦';"
+            >
+
+          `
+
+        : `
+
+            📦
+
+          `;
 
 
-        const imageHTML =
-            product.image_url
+    /* =========================
+       THUMBNAIL
+    ========================= */
 
-            ? `
+
+    const thumbnailHTML =
+        product.image_url
+
+        ? `
+
+            <div class="thumbnail">
+
                 <img
                     src="${escapeHTML(product.image_url)}"
                     alt="${escapeHTML(product.title)}"
                 >
-              `
 
-            : `
+            </div>
+
+          `
+
+        : `
+
+            <div class="thumbnail">
+
                 📦
-              `;
+
+            </div>
+
+          `;
 
 
-        const thumbnailHTML =
-            product.image_url
-
-            ? `
-                <div class="thumbnail">
-                    <img
-                        src="${escapeHTML(product.image_url)}"
-                        alt=""
-                    >
-                </div>
-              `
-
-            : `
-                <div class="thumbnail">
-                    📦
-                </div>
-              `;
+    /* =========================
+       PRODUCT HTML
+    ========================= */
 
 
-        productBox.innerHTML = `
-
-            <!-- GALLERY -->
-
-            <div class="gallery">
-
-                <div class="main-image">
-
-                    ${imageHTML}
-
-                </div>
+    productBox.innerHTML = `
 
 
-                <div class="thumbnails">
+        <!-- =====================
+             GALLERY
+        ====================== -->
 
-                    ${thumbnailHTML}
 
-                </div>
+        <div class="gallery">
+
+
+            <div class="main-image">
+
+                ${imageHTML}
 
             </div>
 
 
-            <!-- INFO -->
+            <div class="thumbnails">
 
-            <div class="info">
+                ${thumbnailHTML}
 
-                <h1>
-                    ${escapeHTML(product.title)}
-                </h1>
+            </div>
 
 
-                <div class="rating">
+        </div>
 
-                    ⭐⭐⭐⭐⭐
+
+
+        <!-- =====================
+             INFO
+        ====================== -->
+
+
+        <div class="info">
+
+
+            <h1>
+
+                ${escapeHTML(
+                    product.title
+                )}
+
+            </h1>
+
+
+            <div class="rating">
+
+                ⭐⭐⭐⭐⭐
+
+                <span>
+                    محصول بازارک
+                </span>
+
+            </div>
+
+
+            <div class="price">
+
+                ${formatPrice(
+                    product.price
+                )}
+
+                افغانی
+
+            </div>
+
+
+            <p class="description">
+
+                ${escapeHTML(
+                    product.description ||
+                    "توضیحاتی برای این محصول ثبت نشده است."
+                )}
+
+            </p>
+
+
+
+            <!-- =====================
+                 DETAILS
+            ====================== -->
+
+
+            <div class="details">
+
+
+                <div class="detail">
+
                     <span>
-                        (0 نظر)
+                        دسته‌بندی
+                    </span>
+
+                    <span>
+                        ${getCategoryName(
+                            product.category
+                        )}
                     </span>
 
                 </div>
 
 
-                <div class="price">
+                <div class="detail">
 
-                    ${formatPrice(product.price)}
-                    افغانی
+                    <span>
+                        وضعیت
+                    </span>
 
-                </div>
-
-
-                <p class="description">
-
-                    ${escapeHTML(
-                        product.description ||
-                        "توضیحاتی برای این محصول ثبت نشده است."
-                    )}
-
-                </p>
-
-
-                <div class="details">
-
-                    <div class="detail">
-
-                        <span>
-                            دسته‌بندی
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                product.category || "مشخص نشده"
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <span>
-                            وضعیت
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                product.condition || "موجود"
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <span>
-                            شهر
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                product.city || "مشخص نشده"
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <span>
-                            موجودی
-                        </span>
-
-                        <span>
-                            ${product.stock ?? 1}
-                        </span>
-
-                    </div>
+                    <span>
+                        ${getConditionName(
+                            product.condition
+                        )}
+                    </span>
 
                 </div>
 
 
-                <div class="seller">
+                <div class="detail">
 
-                    <div class="seller-avatar">
-                        👤
-                    </div>
+                    <span>
+                        شهر
+                    </span>
 
-                    <div>
-
-                        <div class="seller-name">
-                            فروشنده بازارک
-                        </div>
-
-                        <div class="seller-location">
-                            ${escapeHTML(
-                                product.city || "افغانستان"
-                            )}
-                        </div>
-
-                    </div>
+                    <span>
+                        ${getCityName(
+                            product.city
+                        )}
+                    </span>
 
                 </div>
 
 
-                <div class="actions">
+                <div class="detail">
 
-                    <button
-                        class="btn cart-btn"
-                        id="cartButton">
+                    <span>
+                        موجودی
+                    </span>
 
-                        🛒 افزودن به سبد خرید
-
-                    </button>
-
-
-                    <button
-                        class="btn favorite-btn"
-                        id="favoriteButton">
-
-                        ♡
-
-                    </button>
+                    <span>
+                        ${escapeHTML(
+                            product.stock ?? 1
+                        )}
+                    </span>
 
                 </div>
 
-
-                <button
-                    class="btn buy-btn"
-                    id="buyButton">
-
-                    خرید این محصول
-
-                </button>
 
             </div>
 
-        `;
 
 
-        /* CART */
-
-        document
-            .getElementById("cartButton")
-            .addEventListener(
-                "click",
-                function() {
-
-                    alert(
-                        "محصول به سبد خرید اضافه شد."
-                    );
-
-                }
-            );
+            <!-- =====================
+                 SELLER
+            ====================== -->
 
 
-        /* FAVORITE */
-
-        document
-            .getElementById("favoriteButton")
-            .addEventListener(
-                "click",
-                function() {
-
-                    this.textContent = "♥";
-
-                }
-            );
+            <div class="seller">
 
 
-        /* BUY */
+                <div class="seller-avatar">
 
-        document
-            .getElementById("buyButton")
-            .addEventListener(
-                "click",
-                function() {
+                    👤
 
-                    alert(
-                        "سیستم خرید بعداً فعال می‌شود."
-                    );
-
-                }
-            );
-
-    }
+                </div>
 
 
-    /* =========================
-       SEARCH
-    ========================= */
-
-    document
-        .getElementById("searchForm")
-        .addEventListener(
-            "submit",
-            function(event) {
-
-                event.preventDefault();
+                <div>
 
 
-                const value =
-                    document
-                        .getElementById("searchInput")
-                        .value
-                        .trim();
+                    <div class="seller-name">
+
+                        فروشنده بازارک
+
+                    </div>
 
 
-                if (!value) {
+                    <div class="seller-location">
 
-                    alert(
-                        "نام محصول را وارد کنید."
-                    );
+                        📍
 
-                    return;
-                }
+                        ${getCityName(
+                            product.city ||
+                            "Afghanistan"
+                        )}
+
+                    </div>
 
 
-                window.location.href =
-                    "products.html?search=" +
-                    encodeURIComponent(value);
+                </div>
 
-            }
+
+            </div>
+
+
+
+            <!-- =====================
+                 WHATSAPP CONTACT
+            ====================== -->
+
+
+            <button
+                class="contact-button"
+                id="whatsappButton"
+                type="button"
+            >
+
+                💬 تماس با فروشنده در واتساپ
+
+            </button>
+
+
+            <div class="contact-note">
+
+                با فروشنده درباره موجودی،
+                قیمت و جزئیات محصول صحبت کنید.
+
+            </div>
+
+
+        </div>
+
+    `;
+
+
+
+    /* =================================================
+       WHATSAPP BUTTON
+    ================================================= */
+
+
+    const whatsappButton =
+        document.getElementById(
+            "whatsappButton"
         );
 
 
-    /* =========================
-       ERROR
-    ========================= */
+    whatsappButton.addEventListener(
+        "click",
+        function() {
 
-    function showError(message) {
-
-        productBox.innerHTML = `
-
-            <div class="error">
-
-                ❌ ${escapeHTML(message)}
-
-                <br><br>
-
-                <a
-                    href="products.html"
-                    style="
-                        color:#087a55;
-                        font-weight:bold;
-                    "
-                >
-                    ← برگشت به محصولات
-                </a>
-
-            </div>
-
-        `;
-
-    }
-
-
-    /* =========================
-       PRICE
-    ========================= */
-
-    function formatPrice(price) {
-
-        if (
-            price === null ||
-            price === undefined ||
-            price === ""
-        ) {
-
-            return "قیمت نامشخص";
+            contactSellerOnWhatsApp(
+                product
+            );
 
         }
+    );
+
+}
 
 
-        return Number(price)
-            .toLocaleString("fa-AF");
+
+/* =====================================================
+   CONTACT SELLER ON WHATSAPP
+===================================================== */
+
+
+function contactSellerOnWhatsApp(
+    product
+) {
+
+
+    if (
+        !product.whatsapp
+    ) {
+
+        alert(
+            "❌ شماره واتساپ برای این محصول ثبت نشده است."
+        );
+
+
+        return;
 
     }
 
 
-    /* =========================
-       SECURITY
-    ========================= */
+    /*
+       فقط اعداد را نگه می‌داریم.
+    */
 
-    function escapeHTML(value) {
 
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+    let phone =
+        String(
+            product.whatsapp
+        )
+        .replace(
+            /\D/g,
+            ""
+        );
+
+
+    /*
+       اگر فروشنده شماره را
+       به شکل 07xxxxxxxx وارد کرده باشد.
+    */
+
+
+    if (
+        phone.startsWith("07")
+    ) {
+
+        phone =
+            "93" +
+            phone.substring(1);
 
     }
 
 
-    /* =========================
-       START
-    ========================= */
+    /*
+       اگر شماره با 7 شروع شود.
+    */
 
-    loadProduct();
+
+    else if (
+        phone.startsWith("7")
+    ) {
+
+        phone =
+            "93" +
+            phone;
+
+    }
+
+
+    /*
+       اگر 0093 باشد.
+    */
+
+
+    else if (
+        phone.startsWith("0093")
+    ) {
+
+        phone =
+            phone.substring(2);
+
+    }
+
+
+    /*
+       بررسی شماره افغانستان.
+    */
+
+
+    if (
+        !/^937\d{8}$/.test(phone)
+    ) {
+
+        alert(
+            "❌ شماره واتساپ فروشنده معتبر نیست."
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+       پیام آماده.
+    */
+
+
+    const message =
+
+        `سلام، من محصول «${product.title}» را در بازارک دیدم.\n\n` +
+
+        `💰 قیمت: ${formatPrice(product.price)} افغانی\n` +
+
+        `📍 شهر: ${getCityName(product.city)}\n\n` +
+
+        `آیا این محصول هنوز موجود است؟`;
+
+
+    /*
+       WhatsApp URL
+    */
+
+
+    const whatsappURL =
+
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        encodeURIComponent(
+            message
+        );
+
+
+    /*
+       باز کردن واتساپ
+    */
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+
+document
+    .getElementById(
+        "searchForm"
+    )
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const value =
+                document
+                    .getElementById(
+                        "searchInput"
+                    )
+                    .value
+                    .trim();
+
+
+            if (!value) {
+
+                return;
+
+            }
+
+
+            window.location.href =
+
+                "products.html?search=" +
+
+                encodeURIComponent(
+                    value
+                );
+
+        }
+    );
+
+
+
+/* =====================================================
+   CATEGORY NAME
+===================================================== */
+
+
+function getCategoryName(
+    category
+) {
+
+
+    const categories = {
+
+        mobile:
+            "📱 موبایل",
+
+        computer:
+            "💻 کامپیوتر",
+
+        fashion:
+            "👕 فیشن",
+
+        shoes:
+            "👟 کفش",
+
+        gaming:
+            "🎮 گیمینگ",
+
+        home:
+            "🏠 خانه",
+
+        tools:
+            "🔧 ابزار",
+
+        vehicle:
+            "🚗 موتر"
+
+    };
+
+
+    return escapeHTML(
+
+        categories[category] ||
+
+        category ||
+
+        "مشخص نشده"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   CONDITION NAME
+===================================================== */
+
+
+function getConditionName(
+    condition
+) {
+
+
+    const conditions = {
+
+        new:
+            "✨ نو",
+
+        used:
+            "♻️ استفاده‌شده"
+
+    };
+
+
+    return escapeHTML(
+
+        conditions[condition] ||
+
+        condition ||
+
+        "مشخص نشده"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   CITY NAME
+===================================================== */
+
+
+function getCityName(
+    city
+) {
+
+
+    const cities = {
+
+        "Mazar-e-Sharif":
+            "مزار شریف",
+
+        Kabul:
+            "کابل",
+
+        Herat:
+            "هرات",
+
+        Kandahar:
+            "کندهار",
+
+        Jowzjan:
+            "جوزجان",
+
+        Balkh:
+            "بلخ",
+
+        Nangarhar:
+            "ننگرهار",
+
+        Other:
+            "سایر"
+
+    };
+
+
+    return escapeHTML(
+
+        cities[city] ||
+
+        city ||
+
+        "افغانستان"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+
+function showError(
+    message
+) {
+
+
+    productBox.innerHTML = `
+
+        <div class="error">
+
+            ❌
+
+            ${escapeHTML(
+                message
+            )}
+
+            <br><br>
+
+            <a
+                href="products.html"
+                class="back-products"
+            >
+
+                ← برگشت به محصولات
+
+            </a>
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   PRICE FORMAT
+===================================================== */
+
+
+function formatPrice(
+    price
+) {
+
+
+    if (
+        price === null ||
+        price === undefined ||
+        price === ""
+    ) {
+
+        return "قیمت نامشخص";
+
+    }
+
+
+    return Number(
+        price
+    )
+    .toLocaleString(
+        "fa-AF"
+    );
+
+}
+
+
+
+/* =====================================================
+   HTML SECURITY
+===================================================== */
+
+
+function escapeHTML(
+    value
+) {
+
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+
+loadProduct();
+
 
 </script>
 
