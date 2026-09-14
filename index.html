@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Bazaarak | بازار آنلاین افغانستان</title>
 
     <meta name="description"
-          content="Bazaarak - بازار آنلاین افغانستان">
+          content="بازارک؛ بازار آنلاین افغانستان برای خرید و فروش محصولات">
 
     <style>
 
@@ -15,11 +19,12 @@
             --primary: #087a55;
             --primary-dark: #055c40;
             --gold: #f2b84b;
-            --background: #f5f7f6;
+            --bg: #f5f7f6;
             --white: #ffffff;
             --text: #17211d;
             --muted: #718078;
-            --border: #e4e9e6;
+            --border: #e2e8e4;
+            --danger: #d94b4b;
         }
 
         * {
@@ -34,7 +39,7 @@
 
         body {
             font-family: Tahoma, Arial, sans-serif;
-            background: var(--background);
+            background: var(--bg);
             color: var(--text);
             line-height: 1.7;
         }
@@ -50,44 +55,47 @@
         }
 
         button {
-            cursor: pointer;
             border: none;
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1400px, calc(100% - 40px));
+            margin: auto;
         }
 
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
 
         header {
             position: sticky;
             top: 0;
             z-index: 1000;
 
-            background: rgba(255,255,255,.94);
-            backdrop-filter: blur(15px);
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(16px);
 
             border-bottom: 1px solid var(--border);
         }
 
         .header {
-            max-width: 1400px;
-            margin: auto;
-
             min-height: 75px;
-            padding: 12px 25px;
 
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 22px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
 
             color: var(--primary);
 
-            font-size: 23px;
+            font-size: 24px;
             font-weight: 900;
 
             white-space: nowrap;
@@ -107,7 +115,7 @@
 
             display: flex;
 
-            background: var(--background);
+            background: var(--bg);
 
             border: 1px solid var(--border);
 
@@ -119,12 +127,14 @@
         .search input {
             width: 100%;
 
-            padding: 0 17px;
-
             border: none;
             outline: none;
 
             background: transparent;
+
+            padding: 0 17px;
+
+            font-size: 14px;
         }
 
         .search button {
@@ -138,30 +148,34 @@
         }
 
 
-        /* HEADER BUTTONS */
+        /* HEADER ACTIONS */
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
         }
 
-        .header-action {
+        .header-link {
             color: var(--muted);
 
             font-size: 13px;
             font-weight: bold;
+
+            white-space: nowrap;
+
+            transition: .2s;
         }
 
-        .header-action:hover {
+        .header-link:hover {
             color: var(--primary);
         }
 
-        .cart {
+        .cart-button {
             position: relative;
 
-            width: 43px;
-            height: 43px;
+            width: 44px;
+            height: 44px;
 
             border-radius: 12px;
 
@@ -178,40 +192,58 @@
             top: -7px;
             right: -7px;
 
-            width: 20px;
-            height: 20px;
+            width: 21px;
+            height: 21px;
 
             display: grid;
             place-items: center;
 
-            border-radius: 50%;
-
             background: var(--gold);
 
             color: #111;
+
+            border-radius: 50%;
 
             font-size: 10px;
             font-weight: bold;
         }
 
 
-        /* HERO */
+        /* MOBILE MENU */
+
+        .mobile-menu {
+            display: none;
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 12px;
+
+            background: #edf3ef;
+
+            color: var(--primary);
+
+            font-size: 20px;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
 
         .hero {
-            max-width: 1400px;
+            margin-top: 28px;
 
-            min-height: 470px;
+            min-height: 480px;
 
-            margin: 30px auto 0;
-
-            padding: 65px 55px;
+            padding: 65px;
 
             border-radius: 30px;
 
             background:
                 radial-gradient(
                     circle at 80% 20%,
-                    rgba(255,255,255,.13),
+                    rgba(255,255,255,.15),
                     transparent 35%
                 ),
                 linear-gradient(
@@ -230,15 +262,15 @@
         }
 
         .hero-content {
-            max-width: 650px;
+            max-width: 680px;
         }
 
         .badge {
             display: inline-block;
 
-            margin-bottom: 18px;
-
             padding: 7px 14px;
+
+            margin-bottom: 18px;
 
             border-radius: 50px;
 
@@ -248,7 +280,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(38px, 5vw, 65px);
+            font-size: clamp(38px, 5vw, 66px);
 
             line-height: 1.25;
 
@@ -260,13 +292,13 @@
         }
 
         .hero p {
-            max-width: 550px;
-
-            color: rgba(255,255,255,.8);
-
-            font-size: 17px;
+            max-width: 580px;
 
             margin-bottom: 30px;
+
+            color: rgba(255,255,255,.82);
+
+            font-size: 17px;
         }
 
         .hero-buttons {
@@ -275,7 +307,12 @@
         }
 
         .btn {
-            padding: 13px 25px;
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 13px 24px;
 
             border-radius: 12px;
 
@@ -306,12 +343,11 @@
             color: var(--primary);
         }
 
-
-        /* HERO IMAGE */
-
-        .hero-product {
+        .hero-icon {
             width: 350px;
             height: 350px;
+
+            flex-shrink: 0;
 
             display: grid;
             place-items: center;
@@ -327,14 +363,12 @@
         }
 
 
-        /* SECTIONS */
+        /* =========================
+           SECTION
+        ========================= */
 
         .section {
-            max-width: 1400px;
-
-            margin: 75px auto 0;
-
-            padding: 0 25px;
+            margin-top: 75px;
         }
 
         .section-header {
@@ -345,17 +379,19 @@
             margin-bottom: 25px;
         }
 
-        .section-header h2 {
-            font-size: 29px;
-        }
-
         .section-label {
+            display: block;
+
             color: var(--primary);
 
             font-size: 11px;
             font-weight: 900;
 
             letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-size: 29px;
         }
 
         .view-all {
@@ -366,7 +402,9 @@
         }
 
 
-        /* CATEGORY */
+        /* =========================
+           CATEGORIES
+        ========================= */
 
         .categories {
             display: grid;
@@ -380,7 +418,7 @@
         .category {
             padding: 22px 10px;
 
-            background: var(--white);
+            background: white;
 
             border: 1px solid var(--border);
 
@@ -394,10 +432,10 @@
         .category:hover {
             transform: translateY(-6px);
 
+            border-color: rgba(8,122,85,.3);
+
             box-shadow:
                 0 15px 35px rgba(0,0,0,.08);
-
-            border-color: rgba(8,122,85,.3);
         }
 
         .category-icon {
@@ -419,136 +457,57 @@
         }
 
 
-        /* PRODUCTS */
+        /* =========================
+           EMPTY PRODUCTS
+        ========================= */
 
-        .products {
-            display: grid;
+        .empty-products {
+            padding: 75px 20px;
 
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 20px;
-        }
-
-        .product {
             background: white;
 
-            border: 1px solid var(--border);
+            border: 1px dashed #cbd7d1;
 
-            border-radius: 18px;
+            border-radius: 22px;
 
-            overflow: hidden;
-
-            transition: .25s;
+            text-align: center;
         }
 
-        .product:hover {
-            transform: translateY(-7px);
+        .empty-icon {
+            font-size: 65px;
 
-            box-shadow:
-                0 15px 40px rgba(0,0,0,.08);
+            margin-bottom: 15px;
         }
 
-        .product-image {
-            height: 240px;
-
-            display: grid;
-            place-items: center;
-
-            position: relative;
-
-            background: #edf2ef;
-        }
-
-        .product-image span {
-            font-size: 85px;
-        }
-
-        .product-badge {
-            position: absolute;
-
-            top: 13px;
-            right: 13px;
-
-            padding: 5px 9px;
-
-            border-radius: 7px;
-
-            background: var(--primary);
-
-            color: white;
-
-            font-size: 10px;
-        }
-
-        .product-info {
-            padding: 18px;
-        }
-
-        .product-category {
-            color: var(--primary);
-
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .product h3 {
-            margin: 5px 0;
-
-            font-size: 16px;
-        }
-
-        .rating {
-            color: #dfa32c;
-
-            font-size: 12px;
-        }
-
-        .rating small {
-            color: var(--muted);
-        }
-
-        .product-bottom {
-            margin-top: 15px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .price {
-            font-size: 18px;
-            font-weight: 900;
-        }
-
-        .price small {
-            font-size: 10px;
-        }
-
-        .add {
-            width: 38px;
-            height: 38px;
-
-            border-radius: 11px;
-
-            background: var(--primary);
-
-            color: white;
-
+        .empty-products h3 {
             font-size: 22px;
+
+            margin-bottom: 8px;
         }
 
-        .add:hover {
+        .empty-products p {
+            color: var(--muted);
+
+            margin-bottom: 22px;
+        }
+
+        .seller-btn {
+            background: var(--primary);
+
+            color: white;
+        }
+
+        .seller-btn:hover {
             background: var(--primary-dark);
         }
 
 
-        /* TRUST */
+        /* =========================
+           TRUST
+        ========================= */
 
         .trust {
-            max-width: 1340px;
-
-            margin: 80px auto;
+            margin-top: 80px;
 
             padding: 30px;
 
@@ -580,6 +539,8 @@
             display: grid;
             place-items: center;
 
+            flex-shrink: 0;
+
             border-radius: 15px;
 
             background: #eaf5ef;
@@ -598,7 +559,9 @@
         }
 
 
-        /* FOOTER */
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
             margin-top: 80px;
@@ -609,11 +572,7 @@
         }
 
         .footer {
-            max-width: 1400px;
-
-            margin: auto;
-
-            padding: 55px 25px;
+            padding: 55px 0;
 
             display: grid;
 
@@ -623,12 +582,13 @@
             gap: 40px;
         }
 
-        .footer h2 {
-            color: white;
+        .footer-brand h2 {
+            margin-bottom: 10px;
         }
 
-        .footer p,
-        .footer a {
+        .footer-brand p {
+            max-width: 400px;
+
             color: #98a49f;
 
             font-size: 12px;
@@ -642,8 +602,20 @@
         }
 
         .footer-column h3 {
-            font-size: 14px;
+            margin-bottom: 5px;
 
+            font-size: 14px;
+        }
+
+        .footer-column a {
+            color: #98a49f;
+
+            font-size: 12px;
+
+            transition: .2s;
+        }
+
+        .footer-column a:hover {
             color: white;
         }
 
@@ -652,15 +624,17 @@
 
             border-top: 1px solid rgba(255,255,255,.08);
 
-            text-align: center;
-
             color: #82908a;
+
+            text-align: center;
 
             font-size: 11px;
         }
 
 
-        /* RESPONSIVE */
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
         @media (max-width: 1100px) {
 
@@ -669,37 +643,41 @@
                     repeat(4, 1fr);
             }
 
-            .products {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .hero-product {
+            .hero-icon {
                 width: 280px;
                 height: 280px;
             }
+
         }
 
 
         @media (max-width: 800px) {
 
+            .container {
+                width: min(100% - 30px, 1400px);
+            }
+
             .header {
                 flex-wrap: wrap;
+
+                padding: 12px 0;
             }
 
             .search {
-                order: 3;
+                order: 5;
 
                 flex-basis: 100%;
             }
 
-            .header-action {
+            .header-link {
                 display: none;
             }
 
-            .hero {
-                margin: 20px;
+            .mobile-menu {
+                display: block;
+            }
 
+            .hero {
                 padding: 45px 25px;
 
                 flex-direction: column;
@@ -715,18 +693,16 @@
                 flex-direction: column;
             }
 
-            .hero-product {
-                margin-top: 35px;
-
+            .hero-icon {
                 width: 230px;
                 height: 230px;
+
+                margin-top: 35px;
 
                 font-size: 80px;
             }
 
             .trust {
-                margin: 60px 20px;
-
                 grid-template-columns:
                     repeat(2, 1fr);
             }
@@ -735,13 +711,14 @@
                 grid-template-columns:
                     repeat(2, 1fr);
             }
+
         }
 
 
         @media (max-width: 520px) {
 
             .logo {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .hero h1 {
@@ -758,17 +735,13 @@
                 flex-direction: column;
             }
 
-            .btn {
+            .hero-buttons .btn {
                 width: 100%;
             }
 
             .categories {
                 grid-template-columns:
                     repeat(2, 1fr);
-            }
-
-            .products {
-                grid-template-columns: 1fr;
             }
 
             .trust {
@@ -778,31 +751,44 @@
             .footer {
                 grid-template-columns: 1fr;
             }
+
         }
 
     </style>
+
 </head>
 
 
 <body>
 
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-    <div class="header">
+    <div class="header container">
 
-        <a href="#" class="logo">
+
+        <a href="index.html"
+           class="logo">
+
             <span class="logo-icon">🛒</span>
+
             بازارک
+
         </a>
 
 
-        <form class="search" id="searchForm">
+        <form class="search"
+              id="searchForm">
 
             <input
                 id="searchInput"
                 type="search"
                 placeholder="جستجوی محصول، برند یا فروشگاه..."
+                autocomplete="off"
             >
 
             <button type="submit">
@@ -814,21 +800,46 @@
 
         <div class="header-actions">
 
-            <a href="#" class="header-action">
+
+            <a href="seller.html"
+               class="header-link">
+
                 🏪 فروشنده شو
+
             </a>
 
-            <a href="#" class="header-action">
-                👤 حساب من
+
+            <a href="login.html"
+               class="header-link">
+
+                👤 ورود
+
             </a>
 
-            <button class="cart">
+
+            <a href="cart.html"
+               class="cart-button"
+               aria-label="سبد خرید">
+
                 🛒
 
-                <span class="cart-count">
+                <span class="cart-count"
+                      id="cartCount">
+
                     0
+
                 </span>
+
+            </a>
+
+
+            <button class="mobile-menu"
+                    id="mobileMenu">
+
+                ☰
+
             </button>
+
 
         </div>
 
@@ -838,546 +849,484 @@
 
 
 
+<!-- =========================
+     MAIN
+========================= -->
+
 <main>
 
 
-<section class="hero">
+    <!-- HERO -->
 
-    <div class="hero-content">
-
-        <span class="badge">
-            🇦🇫 بازار آنلاین افغانستان
-        </span>
-
-        <h1>
-            هر چیزی که می‌خواهی،
-            <span>در یک بازار.</span>
-        </h1>
-
-        <p>
-            محصولات مورد نیازت را پیدا کن،
-            مقایسه کن و از فروشندگان افغانستان خرید کن.
-        </p>
-
-        <div class="hero-buttons">
-
-            <a href="#products"
-               class="btn primary-btn">
-                شروع خرید
-            </a>
-
-            <a href="#"
-               class="btn secondary-btn">
-                فروشنده شو
-            </a>
-
-        </div>
-
-    </div>
+    <section class="hero container">
 
 
-    <div class="hero-product">
-        🛍️
-    </div>
-
-</section>
+        <div class="hero-content">
 
 
+            <span class="badge">
 
-<section class="section">
+                🇦🇫 بازار آنلاین افغانستان
 
-    <div class="section-header">
-
-        <div>
-
-            <span class="section-label">
-                EXPLORE
             </span>
 
-            <h2>
-                دسته‌بندی‌ها
-            </h2>
 
-        </div>
+            <h1>
 
-        <a href="#" class="view-all">
-            مشاهده همه →
-        </a>
-
-    </div>
-
-
-    <div class="categories">
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                📱
-            </span>
-
-            <h3>موبایل</h3>
-
-            <p>
-                موبایل و لوازم
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                💻
-            </span>
-
-            <h3>کامپیوتر</h3>
-
-            <p>
-                لپ‌تاپ و قطعات
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                👕
-            </span>
-
-            <h3>فیشن</h3>
-
-            <p>
-                لباس و پوشاک
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                👟
-            </span>
-
-            <h3>کفش</h3>
-
-            <p>
-                کفش و اسپرت
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                🎮
-            </span>
-
-            <h3>گیمینگ</h3>
-
-            <p>
-                بازی و تجهیزات
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                🏠
-            </span>
-
-            <h3>خانه</h3>
-
-            <p>
-                لوازم خانه
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                🔧
-            </span>
-
-            <h3>ابزار</h3>
-
-            <p>
-                ابزار و تجهیزات
-            </p>
-
-        </a>
-
-
-        <a href="#" class="category">
-
-            <span class="category-icon">
-                🚗
-            </span>
-
-            <h3>موتر</h3>
-
-            <p>
-                موتر و لوازم
-            </p>
-
-        </a>
-
-
-    </div>
-
-</section>
-
-
-
-<section class="section" id="products">
-
-    <div class="section-header">
-
-        <div>
-
-            <span class="section-label">
-                TRENDING
-            </span>
-
-            <h2>
-                محصولات محبوب 🔥
-            </h2>
-
-        </div>
-
-        <a href="#" class="view-all">
-            همه محصولات →
-        </a>
-
-    </div>
-
-
-    <div class="products">
-
-
-        <article class="product">
-
-            <div class="product-image">
+                هر چیزی که می‌خواهی،
 
                 <span>
+                    در یک بازار.
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                محصولات مورد نیازت را پیدا کن،
+                با فروشندگان افغانستان آشنا شو
+                و خرید و فروش خود را آسان‌تر انجام بده.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <a href="products.html"
+                   class="btn primary-btn">
+
+                    شروع خرید
+
+                </a>
+
+
+                <a href="seller.html"
+                   class="btn secondary-btn">
+
+                    فروشنده شو
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-icon">
+
+            🛍️
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+    <section class="section container">
+
+
+        <div class="section-header">
+
+
+            <div>
+
+                <span class="section-label">
+                    EXPLORE
+                </span>
+
+                <h2 class="section-title">
+                    دسته‌بندی‌ها
+                </h2>
+
+            </div>
+
+
+            <a href="products.html"
+               class="view-all">
+
+                مشاهده همه →
+
+            </a>
+
+
+        </div>
+
+
+
+        <div class="categories">
+
+
+            <a href="products.html?category=mobile"
+               class="category">
+
+                <span class="category-icon">
                     📱
                 </span>
 
-                <div class="product-badge">
-                    جدید
-                </div>
-
-            </div>
-
-
-            <div class="product-info">
-
-                <span class="product-category">
-                    موبایل
-                </span>
-
                 <h3>
-                    Smartphone Pro Max
+                    موبایل
                 </h3>
 
-                <div class="rating">
-                    ⭐ 4.8
-                    <small>
-                        (24)
-                    </small>
-                </div>
+                <p>
+                    موبایل و لوازم
+                </p>
+
+            </a>
 
 
-                <div class="product-bottom">
+            <a href="products.html?category=computer"
+               class="category">
 
-                    <div class="price">
-                        28,500
-                        <small>AFN</small>
-                    </div>
-
-                    <button class="add">
-                        +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-
-        <article class="product">
-
-            <div class="product-image">
-
-                <span>
+                <span class="category-icon">
                     💻
                 </span>
 
-                <div class="product-badge">
-                    ویژه
-                </div>
+                <h3>
+                    کامپیوتر
+                </h3>
 
-            </div>
+                <p>
+                    لپ‌تاپ و قطعات
+                </p>
+
+            </a>
 
 
-            <div class="product-info">
+            <a href="products.html?category=fashion"
+               class="category">
 
-                <span class="product-category">
-                    لپ‌تاپ
+                <span class="category-icon">
+                    👕
                 </span>
 
                 <h3>
-                    Business Laptop
+                    فیشن
                 </h3>
 
-                <div class="rating">
-                    ⭐ 4.7
-                    <small>
-                        (18)
-                    </small>
-                </div>
+                <p>
+                    لباس و پوشاک
+                </p>
+
+            </a>
 
 
-                <div class="product-bottom">
+            <a href="products.html?category=shoes"
+               class="category">
 
-                    <div class="price">
-                        19,900
-                        <small>AFN</small>
-                    </div>
-
-                    <button class="add">
-                        +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-
-        <article class="product">
-
-            <div class="product-image">
-
-                <span>
-                    🎧
-                </span>
-
-            </div>
-
-
-            <div class="product-info">
-
-                <span class="product-category">
-                    لوازم جانبی
+                <span class="category-icon">
+                    👟
                 </span>
 
                 <h3>
-                    Wireless Headphones
+                    کفش
                 </h3>
 
-                <div class="rating">
-                    ⭐ 4.9
-                    <small>
-                        (41)
-                    </small>
-                </div>
+                <p>
+                    کفش و اسپرت
+                </p>
+
+            </a>
 
 
-                <div class="product-bottom">
+            <a href="products.html?category=gaming"
+               class="category">
 
-                    <div class="price">
-                        2,400
-                        <small>AFN</small>
-                    </div>
-
-                    <button class="add">
-                        +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-
-        <article class="product">
-
-            <div class="product-image">
-
-                <span>
+                <span class="category-icon">
                     🎮
                 </span>
 
-            </div>
-
-
-            <div class="product-info">
-
-                <span class="product-category">
+                <h3>
                     گیمینگ
+                </h3>
+
+                <p>
+                    بازی و تجهیزات
+                </p>
+
+            </a>
+
+
+            <a href="products.html?category=home"
+               class="category">
+
+                <span class="category-icon">
+                    🏠
                 </span>
 
                 <h3>
-                    Gaming Controller
+                    خانه
                 </h3>
 
-                <div class="rating">
-                    ⭐ 4.6
-                    <small>
-                        (32)
-                    </small>
-                </div>
+                <p>
+                    لوازم خانه
+                </p>
+
+            </a>
 
 
-                <div class="product-bottom">
+            <a href="products.html?category=tools"
+               class="category">
 
-                    <div class="price">
-                        1,850
-                        <small>AFN</small>
-                    </div>
+                <span class="category-icon">
+                    🔧
+                </span>
 
-                    <button class="add">
-                        +
-                    </button>
+                <h3>
+                    ابزار
+                </h3>
 
-                </div>
+                <p>
+                    ابزار و تجهیزات
+                </p>
+
+            </a>
+
+
+            <a href="products.html?category=vehicle"
+               class="category">
+
+                <span class="category-icon">
+                    🚗
+                </span>
+
+                <h3>
+                    موتر
+                </h3>
+
+                <p>
+                    موتر و لوازم
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
+
+    <section class="section container"
+             id="products">
+
+
+        <div class="section-header">
+
+
+            <div>
+
+                <span class="section-label">
+                    MARKETPLACE
+                </span>
+
+                <h2 class="section-title">
+                    محصولات
+                </h2>
 
             </div>
 
-        </article>
+
+            <a href="products.html"
+               class="view-all">
+
+                همه محصولات →
+
+            </a>
 
 
-    </div>
-
-</section>
-
-
-
-<section class="trust">
-
-
-    <div class="trust-item">
-
-        <div class="trust-icon">
-            🚚
         </div>
 
-        <div>
+
+
+        <!--
+            مهم:
+
+            اینجا عمداً محصول دستی قرار نداده‌ایم.
+
+            در آینده:
+            Database
+                ↓
+            Products API / Firebase
+                ↓
+            همین بخش
+                ↓
+            کارت‌های محصولات
+
+            بنابراین 10، 1000 یا 100000 محصول
+            لازم نیست دستی در HTML نوشته شوند.
+        -->
+
+
+        <div class="empty-products">
+
+
+            <div class="empty-icon">
+                🛍️
+            </div>
+
 
             <h3>
-                تحویل آسان
+                هنوز محصولی ثبت نشده است
             </h3>
 
-            <p>
-                سفارش خود را دریافت کن
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="trust-item">
-
-        <div class="trust-icon">
-            🔐
-        </div>
-
-        <div>
-
-            <h3>
-                خرید امن
-            </h3>
 
             <p>
-                امنیت اطلاعات شما مهم است
+                اولین فروشنده باشید و محصول خود را
+                در بازارک ثبت کنید.
             </p>
 
-        </div>
 
-    </div>
+            <a href="seller.html"
+               class="btn seller-btn">
 
+                + ثبت محصول
 
-    <div class="trust-item">
+            </a>
 
-        <div class="trust-icon">
-            🤝
-        </div>
-
-        <div>
-
-            <h3>
-                فروشندگان واقعی
-            </h3>
-
-            <p>
-                فروشندگان تأییدشده
-            </p>
 
         </div>
 
-    </div>
+
+    </section>
 
 
-    <div class="trust-item">
 
-        <div class="trust-icon">
-            💵
+    <!-- =========================
+         TRUST
+    ========================= -->
+
+    <section class="trust container">
+
+
+        <div class="trust-item">
+
+            <div class="trust-icon">
+                🚚
+            </div>
+
+            <div>
+
+                <h3>
+                    تحویل آسان
+                </h3>
+
+                <p>
+                    سفارش خود را دریافت کنید
+                </p>
+
+            </div>
+
         </div>
 
-        <div>
 
-            <h3>
-                پرداخت آسان
-            </h3>
+        <div class="trust-item">
 
-            <p>
-                پرداخت هنگام تحویل
-            </p>
+            <div class="trust-icon">
+                🔐
+            </div>
+
+            <div>
+
+                <h3>
+                    خرید امن
+                </h3>
+
+                <p>
+                    امنیت اطلاعات مهم است
+                </p>
+
+            </div>
 
         </div>
 
-    </div>
+
+        <div class="trust-item">
+
+            <div class="trust-icon">
+                🤝
+            </div>
+
+            <div>
+
+                <h3>
+                    فروشندگان واقعی
+                </h3>
+
+                <p>
+                    سیستم فروشندگان بازارک
+                </p>
+
+            </div>
+
+        </div>
 
 
-</section>
+        <div class="trust-item">
+
+            <div class="trust-icon">
+                💵
+            </div>
+
+            <div>
+
+                <h3>
+                    پرداخت آسان
+                </h3>
+
+                <p>
+                    روش‌های پرداخت مناسب
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </section>
 
 
 </main>
 
 
 
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
-    <div class="footer">
+
+    <div class="footer container">
 
 
-        <div>
+        <div class="footer-brand">
 
             <h2>
                 🛒 بازارک
             </h2>
 
             <p>
+
                 بازار آنلاین افغانستان؛
-                جایی برای خرید و فروش آسان.
+                جایی برای خرید و فروش آسان،
+                سریع و قابل توسعه.
+
             </p>
 
         </div>
+
 
 
         <div class="footer-column">
@@ -1386,19 +1335,20 @@
                 بازارک
             </h3>
 
-            <a href="#">
+            <a href="about.html">
                 درباره ما
             </a>
 
-            <a href="#">
+            <a href="contact.html">
                 تماس با ما
             </a>
 
-            <a href="#">
+            <a href="rules.html">
                 قوانین
             </a>
 
         </div>
+
 
 
         <div class="footer-column">
@@ -1407,19 +1357,20 @@
                 خرید
             </h3>
 
-            <a href="#">
-                دسته‌بندی‌ها
+            <a href="products.html">
+                همه محصولات
             </a>
 
-            <a href="#">
-                محصولات جدید
+            <a href="favorites.html">
+                علاقه‌مندی‌ها
             </a>
 
-            <a href="#">
-                تخفیف‌ها
+            <a href="orders.html">
+                سفارش‌های من
             </a>
 
         </div>
+
 
 
         <div class="footer-column">
@@ -1428,16 +1379,16 @@
                 فروشندگان
             </h3>
 
-            <a href="#">
+            <a href="seller.html">
                 فروشنده شو
             </a>
 
-            <a href="#">
-                راهنمای فروش
+            <a href="dashboard.html">
+                پنل فروشنده
             </a>
 
-            <a href="#">
-                پنل فروشنده
+            <a href="store.html">
+                فروشگاه من
             </a>
 
         </div>
@@ -1452,13 +1403,16 @@
 
     </div>
 
+
 </footer>
 
 
 
 <script>
 
-    /* SEARCH */
+    /* =========================
+       SEARCH
+    ========================= */
 
     const searchForm =
         document.getElementById("searchForm");
@@ -1473,60 +1427,64 @@
 
             event.preventDefault();
 
+
             const query =
                 searchInput.value.trim();
+
 
             if (!query) {
 
                 searchInput.focus();
 
                 return;
+
             }
 
-            alert(
-                "جستجو برای: " + query
-            );
+
+            window.location.href =
+                "products.html?search="
+                + encodeURIComponent(query);
 
         }
     );
 
 
-    /* CART */
 
-    let cartCount = 0;
+    /* =========================
+       CART COUNT
+    ========================= */
 
-    const cartCounter =
-        document.querySelector(".cart-count");
+    let cartCount =
+        Number(
+            localStorage.getItem("bazaarakCartCount")
+        ) || 0;
 
+
+    document.getElementById("cartCount")
+        .textContent = cartCount;
+
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
 
     document
-        .querySelectorAll(".add")
-        .forEach(button => {
+        .getElementById("mobileMenu")
+        .addEventListener(
+            "click",
+            function() {
 
-            button.addEventListener(
-                "click",
-                function() {
+                window.location.href =
+                    "products.html";
 
-                    cartCount++;
+            }
+        );
 
-                    cartCounter.textContent =
-                        cartCount;
-
-                    button.textContent = "✓";
-
-                    setTimeout(() => {
-
-                        button.textContent = "+";
-
-                    }, 800);
-
-                }
-            );
-
-        });
 
 </script>
 
 
 </body>
+
 </html>
