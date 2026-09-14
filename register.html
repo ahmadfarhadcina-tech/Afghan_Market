@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ثبت‌نام | بازارک</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7f6;
+            color: #17201d;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 70px;
+            background: #0b3d2e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #39d98a;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        main {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 15px;
+        }
+
+        .register-box {
+            width: 100%;
+            max-width: 470px;
+            background: white;
+            border-radius: 22px;
+            padding: 35px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 27px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #dce3df;
+            border-radius: 12px;
+            padding: 0 15px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+            direction: rtl;
+        }
+
+        input:focus {
+            border-color: #19a968;
+            box-shadow: 0 0 0 3px rgba(25, 169, 104, 0.10);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-left: 55px;
+        }
+
+        .show-password {
+            position: absolute;
+            left: 10px;
+            top: 9px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #178b59;
+            font-size: 13px;
+        }
+
+        .register-btn {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 13px;
+            background: #0b8f5a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: 0.2s;
+        }
+
+        .register-btn:hover {
+            background: #08794b;
+        }
+
+        .register-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 17px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .success {
+            display: block;
+            background: #e8f8ef;
+            color: #147a45;
+        }
+
+        .error {
+            display: block;
+            background: #fff0f0;
+            color: #b42323;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #0b8f5a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .terms {
+            margin-top: 18px;
+            text-align: center;
+            color: #888;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 500px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            .register-box {
+                padding: 25px 20px;
+                border-radius: 18px;
+            }
+
+            .title {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <a class="logo" href="index.html">
+        بازار<span>ک</span>
+    </a>
+
+    <a class="back" href="index.html">
+        ← بازگشت به بازار
+    </a>
+
+</header>
+
+
+<main>
+
+    <div class="register-box">
+
+        <h1 class="title">ساخت حساب بازارک</h1>
+
+        <p class="subtitle">
+            برای خرید و فروش در بازارک حساب خود را بسازید
+        </p>
+
+        <div id="message" class="message"></div>
+
+
+        <form id="registerForm">
+
+            <div class="form-group">
+
+                <label for="name">
+                    نام و نام خانوادگی
+                </label>
+
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="مثلاً احمد فرهاد"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    ایمیل
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="example@gmail.com"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    رمز عبور
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="حداقل 6 کاراکتر"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        id="showPassword"
+                    >
+                        نمایش
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    تکرار رمز عبور
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        id="confirmPassword"
+                        type="password"
+                        placeholder="رمز عبور را دوباره وارد کنید"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        id="showConfirmPassword"
+                    >
+                        نمایش
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-btn"
+                id="registerBtn"
+            >
+                ساخت حساب
+            </button>
+
+        </form>
+
+
+        <div class="login-link">
+
+            قبلاً حساب ساخته‌اید؟
+
+            <a href="login.html">
+                ورود به حساب
+            </a>
+
+        </div>
+
+
+        <div class="terms">
+
+            با ساخت حساب، قوانین و شرایط استفاده از بازارک را می‌پذیرید.
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    // ==============================
+    // SUPABASE CONFIG
+    // ==============================
+
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+    // اینجا کلید PUBLIC / ANON پروژه خودت را قرار بده
+    const SUPABASE_ANON_KEY =
+        "YOUR_PUBLIC_ANON_KEY";
+
+
+    const { createClient } =
+        supabase;
+
+    const supabaseClient =
+        createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+
+    // ==============================
+    // ELEMENTS
+    // ==============================
+
+    const form =
+        document.getElementById("registerForm");
+
+    const nameInput =
+        document.getElementById("name");
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const confirmPasswordInput =
+        document.getElementById("confirmPassword");
+
+    const registerBtn =
+        document.getElementById("registerBtn");
+
+    const message =
+        document.getElementById("message");
+
+
+    // ==============================
+    // MESSAGE
+    // ==============================
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+    // ==============================
+    // SHOW PASSWORD
+    // ==============================
+
+    document
+        .getElementById("showPassword")
+        .addEventListener("click", function () {
+
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+                this.textContent = "پنهان";
+
+            } else {
+
+                passwordInput.type = "password";
+                this.textContent = "نمایش";
+
+            }
+
+        });
+
+
+    document
+        .getElementById("showConfirmPassword")
+        .addEventListener("click", function () {
+
+            if (confirmPasswordInput.type === "password") {
+
+                confirmPasswordInput.type = "text";
+                this.textContent = "پنهان";
+
+            } else {
+
+                confirmPasswordInput.type = "password";
+                this.textContent = "نمایش";
+
+            }
+
+        });
+
+
+    // ==============================
+    // REGISTER
+    // ==============================
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        message.className = "message";
+        message.textContent = "";
+
+
+        const name =
+            nameInput.value.trim();
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        const confirmPassword =
+            confirmPasswordInput.value;
+
+
+        // Check name
+
+        if (name.length < 2) {
+
+            showMessage(
+                "لطفاً نام خود را درست وارد کنید.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // Check password
+
+        if (password.length < 6) {
+
+            showMessage(
+                "رمز عبور باید حداقل ۶ کاراکتر باشد.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // Check passwords
+
+        if (password !== confirmPassword) {
+
+            showMessage(
+                "رمزهای عبور یکسان نیستند.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // Loading
+
+        registerBtn.disabled = true;
+
+        registerBtn.textContent =
+            "در حال ساخت حساب...";
+
+
+        try {
+
+            const { data, error } =
+                await supabaseClient.auth.signUp({
+
+                    email: email,
+
+                    password: password,
+
+                    options: {
+
+                        data: {
+
+                            full_name: name
+
+                        },
+
+                        emailRedirectTo:
+                            "https://ahmadfarhadcina-tech.github.io/Afghan_Market/"
+
+                    }
+
+                });
+
+
+            if (error) {
+
+                console.error(error);
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            console.log(
+                "Registered user:",
+                data
+            );
+
+
+            showMessage(
+                "حساب شما با موفقیت ساخته شد. اکنون می‌توانید وارد بازارک شوید.",
+                "success"
+            );
+
+
+            form.reset();
+
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "login.html";
+
+            }, 2500);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "خطایی رخ داد. دوباره تلاش کنید.",
+                "error"
+            );
+
+        } finally {
+
+            registerBtn.disabled = false;
+
+            registerBtn.textContent =
+                "ساخت حساب";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
