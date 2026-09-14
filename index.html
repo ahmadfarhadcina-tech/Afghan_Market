@@ -74,11 +74,8 @@
         ========================= */
 
         #authGate {
-
             position: fixed;
-
             inset: 0;
-
             z-index: 99999;
 
             background:
@@ -89,19 +86,14 @@
                 );
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
             padding: 20px;
         }
 
-
         .auth-card {
-
             width: 100%;
-
             max-width: 500px;
 
             background: white;
@@ -117,14 +109,11 @@
                 rgba(0,0,0,.25);
         }
 
-
         .auth-logo {
-
             width: 80px;
             height: 80px;
 
             display: grid;
-
             place-items: center;
 
             margin: 0 auto 20px;
@@ -136,9 +125,7 @@
             font-size: 42px;
         }
 
-
         .auth-card h1 {
-
             color: var(--text);
 
             font-size: 30px;
@@ -146,15 +133,11 @@
             margin-bottom: 10px;
         }
 
-
         .auth-card h1 span {
-
             color: var(--primary);
         }
 
-
         .auth-card p {
-
             color: var(--muted);
 
             font-size: 14px;
@@ -164,76 +147,48 @@
             line-height: 2;
         }
 
-
         .auth-buttons {
-
             display: grid;
-
             gap: 12px;
         }
 
-
         .auth-btn {
-
             width: 100%;
 
             min-height: 54px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
             border-radius: 14px;
 
             font-size: 16px;
-
             font-weight: bold;
 
             transition: .2s;
         }
 
-
         .auth-register {
-
             background: var(--primary);
-
             color: white;
         }
 
-
         .auth-register:hover {
-
             background: var(--primary-dark);
-
             transform: translateY(-2px);
         }
 
-
         .auth-login {
-
             background: #edf5f1;
-
             color: var(--primary);
 
             border: 1px solid #d7e8df;
         }
 
-
         .auth-login:hover {
-
             background: #e0eee7;
-
             transform: translateY(-2px);
-        }
-
-
-        .auth-loading {
-
-            color: white;
-
-            font-size: 16px;
         }
 
 
@@ -244,9 +199,11 @@
         header {
             position: sticky;
             top: 0;
+
             z-index: 1000;
 
             background: rgba(255,255,255,.95);
+
             backdrop-filter: blur(16px);
 
             border-bottom: 1px solid var(--border);
@@ -257,12 +214,14 @@
 
             display: flex;
             align-items: center;
+
             gap: 22px;
         }
 
         .logo {
             display: flex;
             align-items: center;
+
             gap: 8px;
 
             color: var(--primary);
@@ -325,6 +284,7 @@
         .header-actions {
             display: flex;
             align-items: center;
+
             gap: 14px;
         }
 
@@ -356,6 +316,9 @@
             color: white;
 
             font-size: 18px;
+
+            display: grid;
+            place-items: center;
         }
 
         .cart-count {
@@ -427,7 +390,9 @@
             color: white;
 
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
             overflow: hidden;
@@ -475,6 +440,7 @@
 
         .hero-buttons {
             display: flex;
+
             gap: 12px;
         }
 
@@ -495,6 +461,7 @@
 
         .primary-btn {
             background: var(--gold);
+
             color: #111;
         }
 
@@ -512,6 +479,7 @@
 
         .secondary-btn:hover {
             background: white;
+
             color: var(--primary);
         }
 
@@ -545,7 +513,9 @@
 
         .section-header {
             display: flex;
+
             align-items: end;
+
             justify-content: space-between;
 
             margin-bottom: 25px;
@@ -570,6 +540,7 @@
             color: var(--primary);
 
             font-size: 13px;
+
             font-weight: bold;
         }
 
@@ -604,7 +575,8 @@
         .category:hover {
             transform: translateY(-6px);
 
-            border-color: rgba(8,122,85,.3);
+            border-color:
+                rgba(8,122,85,.3);
 
             box-shadow:
                 0 15px 35px rgba(0,0,0,.08);
@@ -699,6 +671,7 @@
 
         .trust-item {
             display: flex;
+
             align-items: center;
 
             gap: 13px;
@@ -768,6 +741,7 @@
 
         .footer-column {
             display: flex;
+
             flex-direction: column;
 
             gap: 10px;
@@ -794,7 +768,8 @@
         .copyright {
             padding: 18px;
 
-            border-top: 1px solid rgba(255,255,255,.08);
+            border-top:
+                1px solid rgba(255,255,255,.08);
 
             color: #82908a;
 
@@ -826,7 +801,8 @@
         @media (max-width: 800px) {
 
             .container {
-                width: min(100% - 30px, 1400px);
+                width:
+                    min(100% - 30px, 1400px);
             }
 
             .header {
@@ -926,7 +902,6 @@
 
         }
 
-
     </style>
 
 </head>
@@ -947,10 +922,6 @@
             🛒
         </div>
 
-<a href="profile.html" class="profile-link">
-    👤 پروفایل
-</a>
-        
         <h1>
             به <span>بازارک</span> خوش آمدید
         </h1>
@@ -983,7 +954,6 @@
 </div>
 
 
-
 <!-- =========================
      HEADER
 ========================= -->
@@ -991,7 +961,6 @@
 <header>
 
     <div class="header container">
-
 
         <a href="index.html"
            class="logo">
@@ -1022,7 +991,6 @@
 
         <div class="header-actions">
 
-
             <a href="seller.html"
                class="header-link">
 
@@ -1035,6 +1003,16 @@
                class="header-link">
 
                 👤 ورود
+
+            </a>
+
+
+            <!-- PROFILE -->
+
+            <a href="profile.html"
+               class="header-link">
+
+                👤 پروفایل
 
             </a>
 
@@ -1055,20 +1033,19 @@
             </a>
 
 
-            <button class="mobile-menu"
-                    id="mobileMenu">
+            <button
+                class="mobile-menu"
+                id="mobileMenu">
 
                 ☰
 
             </button>
-
 
         </div>
 
     </div>
 
 </header>
-
 
 
 <!-- =========================
@@ -1082,16 +1059,11 @@
 
     <section class="hero container">
 
-
         <div class="hero-content">
 
-
             <span class="badge">
-
                 🇦🇫 بازار آنلاین افغانستان
-
             </span>
-
 
             <h1>
 
@@ -1103,7 +1075,6 @@
 
             </h1>
 
-
             <p>
 
                 محصولات مورد نیازت را پیدا کن،
@@ -1114,7 +1085,6 @@
 
 
             <div class="hero-buttons">
-
 
                 <a href="products.html"
                    class="btn primary-btn">
@@ -1131,7 +1101,6 @@
 
                 </a>
 
-
             </div>
 
         </div>
@@ -1143,20 +1112,14 @@
 
         </div>
 
-
     </section>
 
 
-
-    <!-- =========================
-         CATEGORIES
-    ========================= -->
+    <!-- CATEGORIES -->
 
     <section class="section container">
 
-
         <div class="section-header">
-
 
             <div>
 
@@ -1178,9 +1141,7 @@
 
             </a>
 
-
         </div>
-
 
 
         <div class="categories">
@@ -1335,17 +1296,12 @@
     </section>
 
 
-
-    <!-- =========================
-         PRODUCTS
-    ========================= -->
+    <!-- PRODUCTS -->
 
     <section class="section container"
              id="products">
 
-
         <div class="section-header">
-
 
             <div>
 
@@ -1367,23 +1323,18 @@
 
             </a>
 
-
         </div>
 
 
-
         <div class="empty-products">
-
 
             <div class="empty-icon">
                 🛍️
             </div>
 
-
             <h3>
                 هنوز محصولی ثبت نشده است
             </h3>
-
 
             <p>
                 اولین فروشنده باشید و محصول خود را
@@ -1398,17 +1349,12 @@
 
             </a>
 
-
         </div>
-
 
     </section>
 
 
-
-    <!-- =========================
-         TRUST
-    ========================= -->
+    <!-- TRUST -->
 
     <section class="trust container">
 
@@ -1503,13 +1449,9 @@
 </main>
 
 
-
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- FOOTER -->
 
 <footer>
-
 
     <div class="footer container">
 
@@ -1529,7 +1471,6 @@
             </p>
 
         </div>
-
 
 
         <div class="footer-column">
@@ -1553,7 +1494,6 @@
         </div>
 
 
-
         <div class="footer-column">
 
             <h3>
@@ -1573,7 +1513,6 @@
             </a>
 
         </div>
-
 
 
         <div class="footer-column">
@@ -1606,9 +1545,7 @@
 
     </div>
 
-
 </footer>
-
 
 
 <script>
@@ -1618,7 +1555,6 @@
        SUPABASE AUTH
     ========================= */
 
-
     const SUPABASE_URL =
         "https://vhiewoopyqugdxwvsbno.supabase.co";
 
@@ -1627,12 +1563,8 @@
         "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
 
 
-    const { createClient } =
-        supabase;
-
-
     const supabaseClient =
-        createClient(
+        window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_ANON_KEY
         );
@@ -1640,17 +1572,6 @@
 
     const authGate =
         document.getElementById("authGate");
-
-
-    /*
-        بررسی حساب کاربر
-
-        اگر Session وجود داشته باشد:
-        سایت نمایش داده می‌شود.
-
-        اگر Session وجود نداشته باشد:
-        صفحه ورود/ثبت‌نام نمایش داده می‌شود.
-    */
 
 
     async function checkAuthentication() {
@@ -1687,18 +1608,13 @@
 
             authGate.style.display =
                 "flex";
+
         }
 
     }
 
 
     checkAuthentication();
-
-
-    /*
-        اگر وضعیت ورود کاربر تغییر کند،
-        صفحه را دوباره بررسی می‌کنیم.
-    */
 
 
     supabaseClient
@@ -1722,13 +1638,13 @@
         );
 
 
-
     /* =========================
        SEARCH
     ========================= */
 
     const searchForm =
         document.getElementById("searchForm");
+
 
     const searchInput =
         document.getElementById("searchInput");
@@ -1762,20 +1678,21 @@
     );
 
 
-
     /* =========================
        CART COUNT
     ========================= */
 
     let cartCount =
         Number(
-            localStorage.getItem("bazaarakCartCount")
+            localStorage.getItem(
+                "bazaarakCartCount"
+            )
         ) || 0;
 
 
     document.getElementById("cartCount")
-        .textContent = cartCount;
-
+        .textContent =
+        cartCount;
 
 
     /* =========================
