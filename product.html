@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>جزئیات محصول | بازارک</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f5f7f6;
+            color: #17211d;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e4e9e6;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 20px;
+
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #087a55;
+            white-space: nowrap;
+        }
+
+        .search {
+            flex: 1;
+            display: flex;
+            background: #f1f4f2;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .search input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+
+            padding: 13px 16px;
+            font-size: 14px;
+        }
+
+        .search button {
+            border: none;
+            background: #087a55;
+            color: white;
+            padding: 0 22px;
+            cursor: pointer;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #718079;
+            font-size: 14px;
+        }
+
+        .product {
+            background: white;
+            border: 1px solid #e3e8e5;
+            border-radius: 20px;
+            padding: 25px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+
+        /* IMAGE */
+
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .main-image {
+            height: 430px;
+
+            background: #eef2f0;
+            border-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 100px;
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 75px;
+            height: 75px;
+
+            border: 1px solid #dce3df;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f4f6f5;
+
+            cursor: pointer;
+        }
+
+        /* INFO */
+
+        .info h1 {
+            font-size: 30px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .rating {
+            color: #f0a800;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 30px;
+            font-weight: 900;
+            color: #087a55;
+
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #626e68;
+            line-height: 2;
+
+            margin-bottom: 25px;
+        }
+
+        .details {
+            border-top: 1px solid #e5e9e7;
+            border-bottom: 1px solid #e5e9e7;
+
+            padding: 18px 0;
+            margin-bottom: 20px;
+        }
+
+        .detail {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 8px 0;
+        }
+
+        .detail span:first-child {
+            color: #737f79;
+        }
+
+        .detail span:last-child {
+            font-weight: bold;
+        }
+
+        /* SELLER */
+
+        .seller {
+            background: #f5f8f6;
+            border-radius: 14px;
+            padding: 16px;
+
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .seller-avatar {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 50%;
+            background: #087a55;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+        .seller-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .seller-location {
+            color: #748079;
+            font-size: 13px;
+        }
+
+        /* BUTTONS */
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+
+            padding: 15px 22px;
+            border-radius: 11px;
+
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .cart-btn {
+            background: #087a55;
+            color: white;
+            flex: 1;
+        }
+
+        .favorite-btn {
+            background: #edf2ef;
+            color: #17211d;
+            width: 55px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            margin-top: 12px;
+
+            background: #f2b84b;
+            color: #17120a;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .header-inner {
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                width: 100%;
+            }
+
+            .header-links {
+                display: none;
+            }
+
+            .product {
+                grid-template-columns: 1fr;
+            }
+
+            .main-image {
+                height: 330px;
+            }
+
+            .info h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-inner">
+
+        <a href="index.html"
+           class="logo">
+
+            🛒 بازارک
+
+        </a>
+
+
+        <form class="search"
+              id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="دنبال چه چیزی می‌گردید؟"
+            >
+
+            <button type="submit">
+                جستجو
+            </button>
+
+        </form>
+
+
+        <div class="header-links">
+
+            <a href="index.html">
+                خانه
+            </a>
+
+            <a href="products.html">
+                محصولات
+            </a>
+
+            <a href="#">
+                🛒 سبد
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <div class="breadcrumb">
+
+        خانه ← محصولات ← جزئیات محصول
+
+    </div>
+
+
+
+    <section class="product">
+
+
+        <!-- GALLERY -->
+
+        <div class="gallery">
+
+            <div class="main-image"
+                 id="mainImage">
+
+                📱
+
+            </div>
+
+
+            <div class="thumbnails">
+
+                <div class="thumbnail">
+                    📱
+                </div>
+
+                <div class="thumbnail">
+                    📦
+                </div>
+
+                <div class="thumbnail">
+                    🔍
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PRODUCT INFO -->
+
+        <div class="info">
+
+
+            <h1 id="productName">
+                نام محصول
+            </h1>
+
+
+            <div class="rating">
+
+                ⭐⭐⭐⭐⭐
+                <span>
+                    (0 نظر)
+                </span>
+
+            </div>
+
+
+            <div class="price"
+                 id="productPrice">
+
+                0 افغانی
+
+            </div>
+
+
+            <p class="description"
+               id="productDescription">
+
+                توضیحات محصول در این قسمت نمایش داده می‌شود.
+                این اطلاعات بعداً به صورت خودکار از دیتابیس
+                دریافت خواهد شد.
+
+            </p>
+
+
+
+            <div class="details">
+
+                <div class="detail">
+
+                    <span>
+                        دسته‌بندی
+                    </span>
+
+                    <span>
+                        مشخص نشده
+                    </span>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span>
+                        وضعیت
+                    </span>
+
+                    <span>
+                        موجود
+                    </span>
+
+                </div>
+
+
+                <div class="detail">
+
+                    <span>
+                        شهر
+                    </span>
+
+                    <span>
+                        مشخص نشده
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SELLER -->
+
+            <div class="seller">
+
+                <div class="seller-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <div class="seller-name">
+                        فروشنده
+                    </div>
+
+                    <div class="seller-location">
+                        افغانستان
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <button
+                    class="btn cart-btn"
+                    id="cartButton">
+
+                    🛒 افزودن به سبد خرید
+
+                </button>
+
+
+                <button
+                    class="btn favorite-btn"
+                    id="favoriteButton">
+
+                    ♡
+
+                </button>
+
+            </div>
+
+
+            <button
+                class="btn buy-btn"
+                id="buyButton">
+
+                خرید این محصول
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<script>
+
+
+    /*
+        این قسمت فعلاً برای تست است.
+
+        بعداً اطلاعات محصول از Database
+        بر اساس ID محصول دریافت می‌شود.
+    */
+
+
+    const product = {
+
+        name: "نام محصول",
+
+        price: 0,
+
+        description:
+            "توضیحات محصول در این قسمت نمایش داده می‌شود."
+
+    };
+
+
+    /*
+        ADD TO CART
+    */
+
+    document
+        .getElementById("cartButton")
+        .addEventListener("click", function () {
+
+            alert(
+                "محصول به سبد خرید اضافه شد."
+            );
+
+        });
+
+
+
+    /*
+        FAVORITE
+    */
+
+    document
+        .getElementById("favoriteButton")
+        .addEventListener("click", function () {
+
+            this.textContent = "♥";
+
+        });
+
+
+
+    /*
+        BUY
+    */
+
+    document
+        .getElementById("buyButton")
+        .addEventListener("click", function () {
+
+            alert(
+                "سیستم خرید بعداً فعال می‌شود."
+            );
+
+        });
+
+
+
+    /*
+        SEARCH
+    */
+
+    document
+        .getElementById("searchForm")
+        .addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const value =
+                document
+                .getElementById("searchInput")
+                .value
+                .trim();
+
+            if (!value) {
+
+                alert(
+                    "نام محصول را وارد کنید."
+                );
+
+                return;
+
+            }
+
+            window.location.href =
+                "products.html?search="
+                + encodeURIComponent(value);
+
+        });
+
+
+</script>
+
+
+</body>
+
+</html>
