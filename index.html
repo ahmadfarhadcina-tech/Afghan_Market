@@ -31,15 +31,18 @@
             --danger: #d94b4b;
         }
 
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+
         html {
             scroll-behavior: smooth;
         }
+
 
         body {
             font-family: Tahoma, Arial, sans-serif;
@@ -48,20 +51,29 @@
             line-height: 1.7;
         }
 
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+
         a {
             text-decoration: none;
             color: inherit;
         }
+
 
         button,
         input {
             font-family: inherit;
         }
 
+
         button {
             border: none;
             cursor: pointer;
         }
+
 
         .container {
             width: min(1400px, calc(100% - 40px));
@@ -76,6 +88,7 @@
         #authGate {
             position: fixed;
             inset: 0;
+
             z-index: 99999;
 
             background:
@@ -86,11 +99,13 @@
                 );
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             padding: 20px;
         }
+
 
         .auth-card {
             width: 100%;
@@ -109,6 +124,7 @@
                 rgba(0,0,0,.25);
         }
 
+
         .auth-logo {
             width: 80px;
             height: 80px;
@@ -125,6 +141,7 @@
             font-size: 42px;
         }
 
+
         .auth-card h1 {
             color: var(--text);
 
@@ -133,9 +150,11 @@
             margin-bottom: 10px;
         }
 
+
         .auth-card h1 span {
             color: var(--primary);
         }
+
 
         .auth-card p {
             color: var(--muted);
@@ -147,10 +166,12 @@
             line-height: 2;
         }
 
+
         .auth-buttons {
             display: grid;
             gap: 12px;
         }
+
 
         .auth-btn {
             width: 100%;
@@ -158,6 +179,7 @@
             min-height: 54px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -169,25 +191,32 @@
             transition: .2s;
         }
 
+
         .auth-register {
             background: var(--primary);
             color: white;
         }
 
+
         .auth-register:hover {
             background: var(--primary-dark);
+
             transform: translateY(-2px);
         }
 
+
         .auth-login {
             background: #edf5f1;
+
             color: var(--primary);
 
             border: 1px solid #d7e8df;
         }
 
+
         .auth-login:hover {
             background: #e0eee7;
+
             transform: translateY(-2px);
         }
 
@@ -198,28 +227,35 @@
 
         header {
             position: sticky;
+
             top: 0;
 
             z-index: 1000;
 
-            background: rgba(255,255,255,.95);
+            background:
+                rgba(255,255,255,.96);
 
             backdrop-filter: blur(16px);
 
-            border-bottom: 1px solid var(--border);
+            border-bottom:
+                1px solid var(--border);
         }
+
 
         .header {
             min-height: 75px;
 
             display: flex;
+
             align-items: center;
 
-            gap: 22px;
+            gap: 20px;
         }
+
 
         .logo {
             display: flex;
+
             align-items: center;
 
             gap: 8px;
@@ -227,20 +263,26 @@
             color: var(--primary);
 
             font-size: 24px;
+
             font-weight: 900;
 
             white-space: nowrap;
         }
+
 
         .logo-icon {
             font-size: 28px;
         }
 
 
-        /* SEARCH */
+        /* =========================
+           SEARCH
+        ========================= */
 
         .search {
             flex: 1;
+
+            min-width: 120px;
 
             height: 48px;
 
@@ -248,17 +290,22 @@
 
             background: var(--bg);
 
-            border: 1px solid var(--border);
+            border:
+                1px solid var(--border);
 
             border-radius: 13px;
 
             overflow: hidden;
         }
 
+
         .search input {
             width: 100%;
 
+            min-width: 0;
+
             border: none;
+
             outline: none;
 
             background: transparent;
@@ -268,8 +315,11 @@
             font-size: 14px;
         }
 
+
         .search button {
             width: 55px;
+
+            flex-shrink: 0;
 
             background: var(--primary);
 
@@ -279,29 +329,56 @@
         }
 
 
-        /* HEADER ACTIONS */
+        /* =========================
+           HEADER ACTIONS
+        ========================= */
 
         .header-actions {
             display: flex;
+
             align-items: center;
 
-            gap: 14px;
+            gap: 13px;
+
+            flex-shrink: 0;
         }
+
 
         .header-link {
             color: var(--muted);
 
             font-size: 13px;
+
             font-weight: bold;
 
             white-space: nowrap;
 
             transition: .2s;
+
+            cursor: pointer;
         }
+
 
         .header-link:hover {
             color: var(--primary);
         }
+
+
+        /* LOGIN / LOGOUT */
+
+        .logout-button {
+            color: var(--danger);
+        }
+
+
+        .logout-button:hover {
+            color: #a83232;
+        }
+
+
+        /* =========================
+           CART
+        ========================= */
 
         .cart-button {
             position: relative;
@@ -318,8 +395,12 @@
             font-size: 18px;
 
             display: grid;
+
             place-items: center;
+
+            flex-shrink: 0;
         }
+
 
         .cart-count {
             position: absolute;
@@ -331,6 +412,7 @@
             height: 21px;
 
             display: grid;
+
             place-items: center;
 
             background: var(--gold);
@@ -340,11 +422,14 @@
             border-radius: 50%;
 
             font-size: 10px;
+
             font-weight: bold;
         }
 
 
-        /* MOBILE MENU */
+        /* =========================
+           MOBILE MENU BUTTON
+        ========================= */
 
         .mobile-menu {
             display: none;
@@ -359,6 +444,85 @@
             color: var(--primary);
 
             font-size: 20px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =========================
+           MOBILE MENU PANEL
+        ========================= */
+
+        .mobile-panel {
+            display: none;
+
+            position: fixed;
+
+            top: 76px;
+
+            right: 15px;
+            left: 15px;
+
+            z-index: 999;
+
+            background: white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 20px;
+
+            padding: 10px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,.15);
+        }
+
+
+        .mobile-panel.active {
+            display: block;
+        }
+
+
+        .mobile-item {
+            width: 100%;
+
+            min-height: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-start;
+
+            gap: 10px;
+
+            padding: 0 15px;
+
+            border-radius: 12px;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            text-align: right;
+        }
+
+
+        .mobile-item:hover {
+            background: #edf5f1;
+
+            color: var(--primary);
+        }
+
+
+        .mobile-item.logout {
+            color: var(--danger);
         }
 
 
@@ -395,12 +559,16 @@
 
             justify-content: space-between;
 
+            gap: 40px;
+
             overflow: hidden;
         }
+
 
         .hero-content {
             max-width: 680px;
         }
+
 
         .badge {
             display: inline-block;
@@ -411,43 +579,54 @@
 
             border-radius: 50px;
 
-            background: rgba(255,255,255,.12);
+            background:
+                rgba(255,255,255,.12);
 
             font-size: 13px;
         }
 
+
         .hero h1 {
-            font-size: clamp(38px, 5vw, 66px);
+            font-size:
+                clamp(38px, 5vw, 66px);
 
             line-height: 1.25;
 
             margin-bottom: 18px;
         }
 
+
         .hero h1 span {
             color: var(--gold);
         }
+
 
         .hero p {
             max-width: 580px;
 
             margin-bottom: 30px;
 
-            color: rgba(255,255,255,.82);
+            color:
+                rgba(255,255,255,.82);
 
             font-size: 17px;
         }
+
 
         .hero-buttons {
             display: flex;
 
             gap: 12px;
+
+            flex-wrap: wrap;
         }
+
 
         .btn {
             display: inline-flex;
 
             align-items: center;
+
             justify-content: center;
 
             padding: 13px 24px;
@@ -459,29 +638,37 @@
             transition: .25s;
         }
 
+
         .primary-btn {
             background: var(--gold);
 
             color: #111;
         }
 
+
         .primary-btn:hover {
             transform: translateY(-3px);
         }
 
-        .secondary-btn {
-            background: rgba(255,255,255,.1);
 
-            border: 1px solid rgba(255,255,255,.2);
+        .secondary-btn {
+            background:
+                rgba(255,255,255,.1);
+
+            border:
+                1px solid
+                rgba(255,255,255,.2);
 
             color: white;
         }
+
 
         .secondary-btn:hover {
             background: white;
 
             color: var(--primary);
         }
+
 
         .hero-icon {
             width: 350px;
@@ -490,16 +677,19 @@
             flex-shrink: 0;
 
             display: grid;
+
             place-items: center;
 
             border-radius: 50%;
 
-            background: rgba(255,255,255,.09);
+            background:
+                rgba(255,255,255,.09);
 
             font-size: 120px;
 
             box-shadow:
-                0 30px 80px rgba(0,0,0,.2);
+                0 30px 80px
+                rgba(0,0,0,.2);
         }
 
 
@@ -511,6 +701,7 @@
             margin-top: 75px;
         }
 
+
         .section-header {
             display: flex;
 
@@ -518,8 +709,11 @@
 
             justify-content: space-between;
 
+            gap: 15px;
+
             margin-bottom: 25px;
         }
+
 
         .section-label {
             display: block;
@@ -527,14 +721,17 @@
             color: var(--primary);
 
             font-size: 11px;
+
             font-weight: 900;
 
             letter-spacing: 2px;
         }
 
+
         .section-title {
             font-size: 29px;
         }
+
 
         .view-all {
             color: var(--primary);
@@ -542,6 +739,8 @@
             font-size: 13px;
 
             font-weight: bold;
+
+            white-space: nowrap;
         }
 
 
@@ -558,12 +757,14 @@
             gap: 14px;
         }
 
+
         .category {
             padding: 22px 10px;
 
             background: white;
 
-            border: 1px solid var(--border);
+            border:
+                1px solid var(--border);
 
             border-radius: 18px;
 
@@ -572,6 +773,7 @@
             transition: .25s;
         }
 
+
         .category:hover {
             transform: translateY(-6px);
 
@@ -579,8 +781,10 @@
                 rgba(8,122,85,.3);
 
             box-shadow:
-                0 15px 35px rgba(0,0,0,.08);
+                0 15px 35px
+                rgba(0,0,0,.08);
         }
+
 
         .category-icon {
             display: block;
@@ -590,9 +794,11 @@
             font-size: 34px;
         }
 
+
         .category h3 {
             font-size: 14px;
         }
+
 
         .category p {
             color: var(--muted);
@@ -610,12 +816,14 @@
 
             background: white;
 
-            border: 1px dashed #cbd7d1;
+            border:
+                1px dashed #cbd7d1;
 
             border-radius: 22px;
 
             text-align: center;
         }
+
 
         .empty-icon {
             font-size: 65px;
@@ -623,11 +831,13 @@
             margin-bottom: 15px;
         }
 
+
         .empty-products h3 {
             font-size: 22px;
 
             margin-bottom: 8px;
         }
+
 
         .empty-products p {
             color: var(--muted);
@@ -635,11 +845,13 @@
             margin-bottom: 22px;
         }
 
+
         .seller-btn {
             background: var(--primary);
 
             color: white;
         }
+
 
         .seller-btn:hover {
             background: var(--primary-dark);
@@ -657,7 +869,8 @@
 
             background: white;
 
-            border: 1px solid var(--border);
+            border:
+                1px solid var(--border);
 
             border-radius: 25px;
 
@@ -669,6 +882,7 @@
             gap: 25px;
         }
 
+
         .trust-item {
             display: flex;
 
@@ -677,11 +891,13 @@
             gap: 13px;
         }
 
+
         .trust-icon {
             width: 52px;
             height: 52px;
 
             display: grid;
+
             place-items: center;
 
             flex-shrink: 0;
@@ -693,9 +909,11 @@
             font-size: 24px;
         }
 
+
         .trust h3 {
             font-size: 14px;
         }
+
 
         .trust p {
             color: var(--muted);
@@ -716,6 +934,7 @@
             color: white;
         }
 
+
         .footer {
             padding: 55px 0;
 
@@ -727,9 +946,11 @@
             gap: 40px;
         }
 
+
         .footer-brand h2 {
             margin-bottom: 10px;
         }
+
 
         .footer-brand p {
             max-width: 400px;
@@ -739,6 +960,7 @@
             font-size: 12px;
         }
 
+
         .footer-column {
             display: flex;
 
@@ -747,11 +969,13 @@
             gap: 10px;
         }
 
+
         .footer-column h3 {
             margin-bottom: 5px;
 
             font-size: 14px;
         }
+
 
         .footer-column a {
             color: #98a49f;
@@ -761,15 +985,18 @@
             transition: .2s;
         }
 
+
         .footer-column a:hover {
             color: white;
         }
+
 
         .copyright {
             padding: 18px;
 
             border-top:
-                1px solid rgba(255,255,255,.08);
+                1px solid
+                rgba(255,255,255,.08);
 
             color: #82908a;
 
@@ -780,58 +1007,119 @@
 
 
         /* =========================
-           RESPONSIVE
+           TABLET
         ========================= */
 
         @media (max-width: 1100px) {
+
+            .header {
+                gap: 12px;
+            }
+
+
+            .header-actions {
+                gap: 9px;
+            }
+
+
+            .header-link {
+                font-size: 12px;
+            }
+
 
             .categories {
                 grid-template-columns:
                     repeat(4, 1fr);
             }
 
+
+            .hero {
+                padding: 50px;
+            }
+
+
             .hero-icon {
                 width: 280px;
                 height: 280px;
+
+                font-size: 95px;
             }
 
         }
 
 
+        /* =========================
+           MOBILE
+        ========================= */
+
         @media (max-width: 800px) {
 
             .container {
                 width:
-                    min(100% - 30px, 1400px);
+                    calc(100% - 30px);
             }
+
 
             .header {
+                min-height: 72px;
+
+                padding: 10px 0;
+
                 flex-wrap: wrap;
 
-                padding: 12px 0;
+                gap: 10px;
             }
 
-            .search {
-                order: 5;
 
-                flex-basis: 100%;
+            .logo {
+                font-size: 20px;
+
+                order: 1;
             }
+
+
+            .header-actions {
+                margin-right: auto;
+
+                order: 2;
+            }
+
 
             .header-link {
                 display: none;
             }
 
+
             .mobile-menu {
                 display: block;
             }
 
+
+            .search {
+                order: 3;
+
+                flex-basis: 100%;
+
+                width: 100%;
+
+                height: 46px;
+            }
+
+
             .hero {
+                margin-top: 20px;
+
+                min-height: auto;
+
                 padding: 45px 25px;
 
                 flex-direction: column;
 
                 text-align: center;
+
+                gap: 25px;
             }
+
 
             .hero-content {
                 display: flex;
@@ -841,19 +1129,43 @@
                 flex-direction: column;
             }
 
-            .hero-icon {
-                width: 230px;
-                height: 230px;
 
-                margin-top: 35px;
+            .hero h1 {
+                font-size:
+                    clamp(34px, 10vw, 48px);
+            }
+
+
+            .hero p {
+                font-size: 14px;
+            }
+
+
+            .hero-buttons {
+                width: 100%;
+
+                flex-direction: column;
+            }
+
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+
+            .hero-icon {
+                width: 220px;
+                height: 220px;
 
                 font-size: 80px;
             }
+
 
             .trust {
                 grid-template-columns:
                     repeat(2, 1fr);
             }
+
 
             .footer {
                 grid-template-columns:
@@ -863,41 +1175,103 @@
         }
 
 
+        /* =========================
+           SMALL PHONE
+        ========================= */
+
         @media (max-width: 520px) {
 
-            .logo {
-                font-size: 20px;
+            .container {
+                width:
+                    calc(100% - 24px);
             }
+
+
+            .header {
+                padding-top: 8px;
+            }
+
+
+            .logo {
+                font-size: 18px;
+            }
+
+
+            .logo-icon {
+                font-size: 23px;
+            }
+
+
+            .cart-button,
+            .mobile-menu {
+                width: 42px;
+                height: 42px;
+            }
+
+
+            .hero {
+                border-radius: 22px;
+
+                padding: 35px 18px;
+            }
+
 
             .hero h1 {
-                font-size: 35px;
+                font-size: 33px;
             }
 
-            .hero p {
-                font-size: 14px;
+
+            .section {
+                margin-top: 55px;
             }
 
-            .hero-buttons {
-                width: 100%;
 
-                flex-direction: column;
+            .section-title {
+                font-size: 24px;
             }
 
-            .hero-buttons .btn {
-                width: 100%;
-            }
 
             .categories {
                 grid-template-columns:
                     repeat(2, 1fr);
+
+                gap: 10px;
             }
+
+
+            .category {
+                padding: 18px 8px;
+            }
+
+
+            .category-icon {
+                font-size: 30px;
+            }
+
 
             .trust {
                 grid-template-columns: 1fr;
+
+                padding: 20px;
             }
+
 
             .footer {
                 grid-template-columns: 1fr;
+
+                gap: 30px;
+            }
+
+
+            .auth-card {
+                padding: 32px 20px;
+
+                border-radius: 22px;
+            }
+
+
+            .auth-card h1 {
+                font-size: 25px;
             }
 
         }
@@ -916,20 +1290,23 @@
 
 <div id="authGate">
 
-    <div class="auth-card" id="authCard">
+    <div class="auth-card">
 
         <div class="auth-logo">
             🛒
         </div>
 
+
         <h1>
             به <span>بازارک</span> خوش آمدید
         </h1>
+
 
         <p>
             برای ورود به بازارک ابتدا حساب خود را ایجاد کنید
             یا وارد حساب موجود خود شوید.
         </p>
+
 
         <div class="auth-buttons">
 
@@ -939,6 +1316,7 @@
             >
                 📝 ایجاد حساب
             </a>
+
 
             <a
                 href="login.html"
@@ -962,18 +1340,27 @@
 
     <div class="header container">
 
-        <a href="index.html"
-           class="logo">
 
-            <span class="logo-icon">🛒</span>
+        <a
+            href="index.html"
+            class="logo"
+        >
+
+            <span class="logo-icon">
+                🛒
+            </span>
 
             بازارک
 
         </a>
 
 
-        <form class="search"
-              id="searchForm">
+        <!-- SEARCH -->
+
+        <form
+            class="search"
+            id="searchForm"
+        >
 
             <input
                 id="searchInput"
@@ -982,6 +1369,7 @@
                 autocomplete="off"
             >
 
+
             <button type="submit">
                 🔍
             </button>
@@ -989,63 +1377,150 @@
         </form>
 
 
+        <!-- HEADER ACTIONS -->
+
         <div class="header-actions">
 
-            <a href="seller.html"
-               class="header-link">
 
+            <a
+                href="seller.html"
+                class="header-link"
+            >
                 🏪 فروشنده شو
-
             </a>
 
 
-            <a href="login.html"
-               class="header-link">
+            <!-- LOGIN -->
 
+            <a
+                href="login.html"
+                class="header-link"
+                id="loginLink"
+            >
                 👤 ورود
-
             </a>
+
+
+            <!-- LOGOUT -->
+
+            <button
+                class="header-link logout-button"
+                id="logoutButton"
+                style="display:none;"
+            >
+                🚪 خروج
+            </button>
 
 
             <!-- PROFILE -->
 
-            <a href="profile.html"
-               class="header-link">
-
+            <a
+                href="profile.html"
+                class="header-link"
+            >
                 👤 پروفایل
-
             </a>
 
 
-            <a href="cart.html"
-               class="cart-button"
-               aria-label="سبد خرید">
+            <!-- CART -->
+
+            <a
+                href="cart.html"
+                class="cart-button"
+                aria-label="سبد خرید"
+            >
 
                 🛒
 
-                <span class="cart-count"
-                      id="cartCount">
-
+                <span
+                    class="cart-count"
+                    id="cartCount"
+                >
                     0
-
                 </span>
 
             </a>
 
 
+            <!-- MOBILE MENU -->
+
             <button
                 class="mobile-menu"
-                id="mobileMenu">
-
+                id="mobileMenu"
+                aria-label="منوی موبایل"
+            >
                 ☰
-
             </button>
+
 
         </div>
 
     </div>
 
 </header>
+
+
+<!-- =========================
+     MOBILE PANEL
+========================= -->
+
+<div
+    class="mobile-panel"
+    id="mobilePanel"
+>
+
+
+    <a
+        href="profile.html"
+        class="mobile-item"
+    >
+        👤 پروفایل
+    </a>
+
+
+    <a
+        href="seller.html"
+        class="mobile-item"
+    >
+        🏪 فروشنده شو
+    </a>
+
+
+    <a
+        href="products.html"
+        class="mobile-item"
+    >
+        🛍️ همه محصولات
+    </a>
+
+
+    <a
+        href="cart.html"
+        class="mobile-item"
+    >
+        🛒 سبد خرید
+    </a>
+
+
+    <a
+        href="login.html"
+        class="mobile-item"
+        id="mobileLoginLink"
+    >
+        🔐 ورود
+    </a>
+
+
+    <button
+        class="mobile-item logout"
+        id="mobileLogoutButton"
+        style="display:none;"
+    >
+        🚪 خروج از حساب
+    </button>
+
+
+</div>
 
 
 <!-- =========================
@@ -1059,11 +1534,14 @@
 
     <section class="hero container">
 
+
         <div class="hero-content">
+
 
             <span class="badge">
                 🇦🇫 بازار آنلاین افغانستان
             </span>
+
 
             <h1>
 
@@ -1074,6 +1552,7 @@
                 </span>
 
             </h1>
+
 
             <p>
 
@@ -1086,20 +1565,22 @@
 
             <div class="hero-buttons">
 
-                <a href="products.html"
-                   class="btn primary-btn">
 
+                <a
+                    href="products.html"
+                    class="btn primary-btn"
+                >
                     شروع خرید
-
                 </a>
 
 
-                <a href="seller.html"
-                   class="btn secondary-btn">
-
+                <a
+                    href="seller.html"
+                    class="btn secondary-btn"
+                >
                     فروشنده شو
-
                 </a>
+
 
             </div>
 
@@ -1107,25 +1588,29 @@
 
 
         <div class="hero-icon">
-
             🛍️
-
         </div>
+
 
     </section>
 
 
-    <!-- CATEGORIES -->
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
 
     <section class="section container">
 
+
         <div class="section-header">
+
 
             <div>
 
                 <span class="section-label">
                     EXPLORE
                 </span>
+
 
                 <h2 class="section-title">
                     دسته‌بندی‌ها
@@ -1134,12 +1619,13 @@
             </div>
 
 
-            <a href="products.html"
-               class="view-all">
-
+            <a
+                href="products.html"
+                class="view-all"
+            >
                 مشاهده همه →
-
             </a>
+
 
         </div>
 
@@ -1147,8 +1633,10 @@
         <div class="categories">
 
 
-            <a href="products.html?category=mobile"
-               class="category">
+            <a
+                href="products.html?category=mobile"
+                class="category"
+            >
 
                 <span class="category-icon">
                     📱
@@ -1165,8 +1653,10 @@
             </a>
 
 
-            <a href="products.html?category=computer"
-               class="category">
+            <a
+                href="products.html?category=computer"
+                class="category"
+            >
 
                 <span class="category-icon">
                     💻
@@ -1183,8 +1673,10 @@
             </a>
 
 
-            <a href="products.html?category=fashion"
-               class="category">
+            <a
+                href="products.html?category=fashion"
+                class="category"
+            >
 
                 <span class="category-icon">
                     👕
@@ -1201,8 +1693,10 @@
             </a>
 
 
-            <a href="products.html?category=shoes"
-               class="category">
+            <a
+                href="products.html?category=shoes"
+                class="category"
+            >
 
                 <span class="category-icon">
                     👟
@@ -1219,8 +1713,10 @@
             </a>
 
 
-            <a href="products.html?category=gaming"
-               class="category">
+            <a
+                href="products.html?category=gaming"
+                class="category"
+            >
 
                 <span class="category-icon">
                     🎮
@@ -1237,8 +1733,10 @@
             </a>
 
 
-            <a href="products.html?category=home"
-               class="category">
+            <a
+                href="products.html?category=home"
+                class="category"
+            >
 
                 <span class="category-icon">
                     🏠
@@ -1255,8 +1753,10 @@
             </a>
 
 
-            <a href="products.html?category=tools"
-               class="category">
+            <a
+                href="products.html?category=tools"
+                class="category"
+            >
 
                 <span class="category-icon">
                     🔧
@@ -1273,8 +1773,10 @@
             </a>
 
 
-            <a href="products.html?category=vehicle"
-               class="category">
+            <a
+                href="products.html?category=vehicle"
+                class="category"
+            >
 
                 <span class="category-icon">
                     🚗
@@ -1296,18 +1798,25 @@
     </section>
 
 
-    <!-- PRODUCTS -->
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
 
-    <section class="section container"
-             id="products">
+    <section
+        class="section container"
+        id="products"
+    >
+
 
         <div class="section-header">
+
 
             <div>
 
                 <span class="section-label">
                     MARKETPLACE
                 </span>
+
 
                 <h2 class="section-title">
                     محصولات
@@ -1316,25 +1825,29 @@
             </div>
 
 
-            <a href="products.html"
-               class="view-all">
-
+            <a
+                href="products.html"
+                class="view-all"
+            >
                 همه محصولات →
-
             </a>
+
 
         </div>
 
 
         <div class="empty-products">
 
+
             <div class="empty-icon">
                 🛍️
             </div>
 
+
             <h3>
                 هنوز محصولی ثبت نشده است
             </h3>
+
 
             <p>
                 اولین فروشنده باشید و محصول خود را
@@ -1342,19 +1855,23 @@
             </p>
 
 
-            <a href="seller.html"
-               class="btn seller-btn">
-
+            <a
+                href="seller.html"
+                class="btn seller-btn"
+            >
                 + ثبت محصول
-
             </a>
 
+
         </div>
+
 
     </section>
 
 
-    <!-- TRUST -->
+    <!-- =========================
+         TRUST
+    ========================= -->
 
     <section class="trust container">
 
@@ -1449,9 +1966,12 @@
 </main>
 
 
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
+
 
     <div class="footer container">
 
@@ -1461,6 +1981,7 @@
             <h2>
                 🛒 بازارک
             </h2>
+
 
             <p>
 
@@ -1479,13 +2000,16 @@
                 بازارک
             </h3>
 
+
             <a href="about.html">
                 درباره ما
             </a>
 
+
             <a href="contact.html">
                 تماس با ما
             </a>
+
 
             <a href="rules.html">
                 قوانین
@@ -1500,13 +2024,16 @@
                 خرید
             </h3>
 
+
             <a href="products.html">
                 همه محصولات
             </a>
 
+
             <a href="favorites.html">
                 علاقه‌مندی‌ها
             </a>
+
 
             <a href="orders.html">
                 سفارش‌های من
@@ -1521,13 +2048,16 @@
                 فروشندگان
             </h3>
 
+
             <a href="seller.html">
                 فروشنده شو
             </a>
 
+
             <a href="dashboard.html">
                 پنل فروشنده
             </a>
+
 
             <a href="store.html">
                 فروشگاه من
@@ -1545,6 +2075,7 @@
 
     </div>
 
+
 </footer>
 
 
@@ -1552,7 +2083,7 @@
 
 
     /* =========================
-       SUPABASE AUTH
+       SUPABASE
     ========================= */
 
     const SUPABASE_URL =
@@ -1570,9 +2101,106 @@
         );
 
 
+    /* =========================
+       ELEMENTS
+    ========================= */
+
     const authGate =
         document.getElementById("authGate");
 
+
+    const loginLink =
+        document.getElementById("loginLink");
+
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+
+    const mobileLoginLink =
+        document.getElementById("mobileLoginLink");
+
+
+    const mobileLogoutButton =
+        document.getElementById(
+            "mobileLogoutButton"
+        );
+
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+
+    const mobilePanel =
+        document.getElementById("mobilePanel");
+
+
+    /* =========================
+       UPDATE AUTH UI
+    ========================= */
+
+    function updateAuthUI(session) {
+
+
+        if (session) {
+
+            /*
+             * USER IS LOGGED IN
+             */
+
+            authGate.style.display =
+                "none";
+
+
+            loginLink.style.display =
+                "none";
+
+
+            logoutButton.style.display =
+                "inline-block";
+
+
+            mobileLoginLink.style.display =
+                "none";
+
+
+            mobileLogoutButton.style.display =
+                "flex";
+
+
+        } else {
+
+            /*
+             * USER IS NOT LOGGED IN
+             */
+
+            authGate.style.display =
+                "flex";
+
+
+            loginLink.style.display =
+                "inline-block";
+
+
+            logoutButton.style.display =
+                "none";
+
+
+            mobileLoginLink.style.display =
+                "flex";
+
+
+            mobileLogoutButton.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =========================
+       CHECK CURRENT SESSION
+    ========================= */
 
     async function checkAuthentication() {
 
@@ -1582,22 +2210,14 @@
                 data: {
                     session
                 }
-            } = await supabaseClient
-                .auth
-                .getSession();
+            } =
+                await supabaseClient
+                    .auth
+                    .getSession();
 
 
-            if (session) {
+            updateAuthUI(session);
 
-                authGate.style.display =
-                    "none";
-
-            } else {
-
-                authGate.style.display =
-                    "flex";
-
-            }
 
         } catch (error) {
 
@@ -1606,8 +2226,7 @@
                 error
             );
 
-            authGate.style.display =
-                "flex";
+            updateAuthUI(null);
 
         }
 
@@ -1617,25 +2236,191 @@
     checkAuthentication();
 
 
+    /* =========================
+       AUTH STATE CHANGE
+    ========================= */
+
     supabaseClient
         .auth
         .onAuthStateChange(
             function(event, session) {
 
-                if (session) {
-
-                    authGate.style.display =
-                        "none";
-
-                } else {
-
-                    authGate.style.display =
-                        "flex";
-
-                }
+                updateAuthUI(session);
 
             }
         );
+
+
+    /* =========================
+       DESKTOP LOGOUT
+    ========================= */
+
+    logoutButton.addEventListener(
+        "click",
+        async function() {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+            if (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                alert(
+                    "خروج از حساب انجام نشد."
+                );
+
+                return;
+
+            }
+
+
+            mobilePanel.classList.remove(
+                "active"
+            );
+
+
+            document.body.classList.remove(
+                "menu-open"
+            );
+
+
+            updateAuthUI(null);
+
+        }
+    );
+
+
+    /* =========================
+       MOBILE LOGOUT
+    ========================= */
+
+    mobileLogoutButton.addEventListener(
+        "click",
+        async function() {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+            if (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                alert(
+                    "خروج از حساب انجام نشد."
+                );
+
+                return;
+
+            }
+
+
+            mobilePanel.classList.remove(
+                "active"
+            );
+
+
+            document.body.classList.remove(
+                "menu-open"
+            );
+
+
+            updateAuthUI(null);
+
+        }
+    );
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    mobileMenu.addEventListener(
+        "click",
+        function() {
+
+            mobilePanel.classList.toggle(
+                "active"
+            );
+
+
+            document.body.classList.toggle(
+                "menu-open"
+            );
+
+
+            if (
+                mobilePanel.classList.contains(
+                    "active"
+                )
+            ) {
+
+                mobileMenu.textContent =
+                    "✕";
+
+            } else {
+
+                mobileMenu.textContent =
+                    "☰";
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       CLOSE MOBILE MENU
+       WHEN CLICKING LINKS
+    ========================= */
+
+    const mobileLinks =
+        mobilePanel.querySelectorAll(
+            "a"
+        );
+
+
+    mobileLinks.forEach(
+        function(link) {
+
+            link.addEventListener(
+                "click",
+                function() {
+
+                    mobilePanel.classList.remove(
+                        "active"
+                    );
+
+
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+
+
+                    mobileMenu.textContent =
+                        "☰";
+
+                }
+            );
+
+        }
+    );
 
 
     /* =========================
@@ -1643,11 +2428,15 @@
     ========================= */
 
     const searchForm =
-        document.getElementById("searchForm");
+        document.getElementById(
+            "searchForm"
+        );
 
 
     const searchInput =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
 
     searchForm.addEventListener(
@@ -1672,7 +2461,8 @@
 
             window.location.href =
                 "products.html?search="
-                + encodeURIComponent(query);
+                +
+                encodeURIComponent(query);
 
         }
     );
@@ -1690,26 +2480,10 @@
         ) || 0;
 
 
-    document.getElementById("cartCount")
-        .textContent =
+    document.getElementById(
+        "cartCount"
+    ).textContent =
         cartCount;
-
-
-    /* =========================
-       MOBILE MENU
-    ========================= */
-
-    document
-        .getElementById("mobileMenu")
-        .addEventListener(
-            "click",
-            function() {
-
-                window.location.href =
-                    "products.html";
-
-            }
-        );
 
 
 </script>
