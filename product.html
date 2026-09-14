@@ -2,12 +2,15 @@
 <html lang="fa" dir="rtl">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
     <title>جزئیات محصول | بازارک</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
 
@@ -28,8 +31,6 @@
             color: inherit;
         }
 
-        /* HEADER */
-
         header {
             background: white;
             border-bottom: 1px solid #e4e9e6;
@@ -42,7 +43,6 @@
             max-width: 1200px;
             margin: auto;
             padding: 15px 20px;
-
             display: flex;
             align-items: center;
             gap: 20px;
@@ -68,7 +68,6 @@
             border: none;
             outline: none;
             background: transparent;
-
             padding: 13px 16px;
             font-size: 14px;
         }
@@ -87,8 +86,6 @@
             font-size: 14px;
         }
 
-        /* MAIN */
-
         .container {
             max-width: 1200px;
             margin: auto;
@@ -106,13 +103,10 @@
             border: 1px solid #e3e8e5;
             border-radius: 20px;
             padding: 25px;
-
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 35px;
         }
-
-        /* IMAGE */
 
         .gallery {
             display: flex;
@@ -122,15 +116,19 @@
 
         .main-image {
             height: 430px;
-
             background: #eef2f0;
             border-radius: 16px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
+            overflow: hidden;
             font-size: 100px;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .thumbnails {
@@ -141,20 +139,20 @@
         .thumbnail {
             width: 75px;
             height: 75px;
-
             border: 1px solid #dce3df;
             border-radius: 10px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             background: #f4f6f5;
-
-            cursor: pointer;
+            overflow: hidden;
         }
 
-        /* INFO */
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         .info h1 {
             font-size: 30px;
@@ -171,21 +169,19 @@
             font-size: 30px;
             font-weight: 900;
             color: #087a55;
-
             margin-bottom: 20px;
         }
 
         .description {
             color: #626e68;
             line-height: 2;
-
             margin-bottom: 25px;
+            white-space: pre-line;
         }
 
         .details {
             border-top: 1px solid #e5e9e7;
             border-bottom: 1px solid #e5e9e7;
-
             padding: 18px 0;
             margin-bottom: 20px;
         }
@@ -193,7 +189,6 @@
         .detail {
             display: flex;
             justify-content: space-between;
-
             padding: 8px 0;
         }
 
@@ -205,32 +200,25 @@
             font-weight: bold;
         }
 
-        /* SELLER */
-
         .seller {
             background: #f5f8f6;
             border-radius: 14px;
             padding: 16px;
-
             display: flex;
             align-items: center;
             gap: 15px;
-
             margin-bottom: 20px;
         }
 
         .seller-avatar {
             width: 50px;
             height: 50px;
-
             border-radius: 50%;
             background: #087a55;
             color: white;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             font-size: 22px;
         }
 
@@ -244,8 +232,6 @@
             font-size: 13px;
         }
 
-        /* BUTTONS */
-
         .actions {
             display: flex;
             gap: 12px;
@@ -254,10 +240,8 @@
         .btn {
             border: none;
             cursor: pointer;
-
             padding: 15px 22px;
             border-radius: 11px;
-
             font-size: 15px;
             font-weight: bold;
         }
@@ -277,12 +261,22 @@
         .buy-btn {
             width: 100%;
             margin-top: 12px;
-
             background: #f2b84b;
             color: #17120a;
         }
 
-        /* RESPONSIVE */
+        .loading,
+        .error {
+            background: white;
+            border-radius: 20px;
+            padding: 70px 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .error {
+            color: #b42318;
+        }
 
         @media (max-width: 800px) {
 
@@ -313,6 +307,7 @@
         }
 
     </style>
+
 </head>
 
 
@@ -323,16 +318,11 @@
 
     <div class="header-inner">
 
-        <a href="index.html"
-           class="logo">
-
+        <a href="index.html" class="logo">
             🛒 بازارک
-
         </a>
 
-
-        <form class="search"
-              id="searchForm">
+        <form class="search" id="searchForm">
 
             <input
                 type="search"
@@ -345,7 +335,6 @@
             </button>
 
         </form>
-
 
         <div class="header-links">
 
@@ -368,193 +357,17 @@
 </header>
 
 
-
 <main class="container">
 
-
     <div class="breadcrumb">
-
         خانه ← محصولات ← جزئیات محصول
-
     </div>
 
 
+    <section class="product" id="productBox">
 
-    <section class="product">
-
-
-        <!-- GALLERY -->
-
-        <div class="gallery">
-
-            <div class="main-image"
-                 id="mainImage">
-
-                📱
-
-            </div>
-
-
-            <div class="thumbnails">
-
-                <div class="thumbnail">
-                    📱
-                </div>
-
-                <div class="thumbnail">
-                    📦
-                </div>
-
-                <div class="thumbnail">
-                    🔍
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- PRODUCT INFO -->
-
-        <div class="info">
-
-
-            <h1 id="productName">
-                نام محصول
-            </h1>
-
-
-            <div class="rating">
-
-                ⭐⭐⭐⭐⭐
-                <span>
-                    (0 نظر)
-                </span>
-
-            </div>
-
-
-            <div class="price"
-                 id="productPrice">
-
-                0 افغانی
-
-            </div>
-
-
-            <p class="description"
-               id="productDescription">
-
-                توضیحات محصول در این قسمت نمایش داده می‌شود.
-                این اطلاعات بعداً به صورت خودکار از دیتابیس
-                دریافت خواهد شد.
-
-            </p>
-
-
-
-            <div class="details">
-
-                <div class="detail">
-
-                    <span>
-                        دسته‌بندی
-                    </span>
-
-                    <span>
-                        مشخص نشده
-                    </span>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        وضعیت
-                    </span>
-
-                    <span>
-                        موجود
-                    </span>
-
-                </div>
-
-
-                <div class="detail">
-
-                    <span>
-                        شهر
-                    </span>
-
-                    <span>
-                        مشخص نشده
-                    </span>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- SELLER -->
-
-            <div class="seller">
-
-                <div class="seller-avatar">
-                    👤
-                </div>
-
-                <div>
-
-                    <div class="seller-name">
-                        فروشنده
-                    </div>
-
-                    <div class="seller-location">
-                        افغانستان
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ACTIONS -->
-
-            <div class="actions">
-
-                <button
-                    class="btn cart-btn"
-                    id="cartButton">
-
-                    🛒 افزودن به سبد خرید
-
-                </button>
-
-
-                <button
-                    class="btn favorite-btn"
-                    id="favoriteButton">
-
-                    ♡
-
-                </button>
-
-            </div>
-
-
-            <button
-                class="btn buy-btn"
-                id="buyButton">
-
-                خرید این محصول
-
-            </button>
-
-
+        <div class="loading">
+            ⏳ در حال دریافت اطلاعات محصول...
         </div>
 
     </section>
@@ -562,108 +375,499 @@
 </main>
 
 
-
 <script>
 
+    /* =========================
+       SUPABASE
+    ========================= */
 
-    /*
-        این قسمت فعلاً برای تست است.
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
 
-        بعداً اطلاعات محصول از Database
-        بر اساس ID محصول دریافت می‌شود.
-    */
+    const SUPABASE_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
 
-
-    const product = {
-
-        name: "نام محصول",
-
-        price: 0,
-
-        description:
-            "توضیحات محصول در این قسمت نمایش داده می‌شود."
-
-    };
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
 
-    /*
-        ADD TO CART
-    */
+    /* =========================
+       ELEMENTS
+    ========================= */
 
-    document
-        .getElementById("cartButton")
-        .addEventListener("click", function () {
+    const productBox =
+        document.getElementById("productBox");
 
-            alert(
-                "محصول به سبد خرید اضافه شد."
+
+    /* =========================
+       GET PRODUCT ID
+    ========================= */
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const productId =
+        urlParams.get("id");
+
+
+    /* =========================
+       LOAD PRODUCT
+    ========================= */
+
+    async function loadProduct() {
+
+        if (!productId) {
+
+            showError(
+                "شناسه محصول پیدا نشد."
             );
 
-        });
+            return;
+        }
 
 
+        const { data, error } =
+            await supabaseClient
+                .from("products")
+                .select(`
+                    id,
+                    title,
+                    description,
+                    price,
+                    category,
+                    city,
+                    image_url,
+                    condition,
+                    stock,
+                    seller_id,
+                    status,
+                    created_at
+                `)
+                .eq("id", productId)
+                .eq("status", "active")
+                .single();
 
-    /*
-        FAVORITE
-    */
 
-    document
-        .getElementById("favoriteButton")
-        .addEventListener("click", function () {
+        if (error) {
 
-            this.textContent = "♥";
-
-        });
-
-
-
-    /*
-        BUY
-    */
-
-    document
-        .getElementById("buyButton")
-        .addEventListener("click", function () {
-
-            alert(
-                "سیستم خرید بعداً فعال می‌شود."
+            console.error(
+                "Product error:",
+                error
             );
 
-        });
+            showError(
+                "محصول پیدا نشد یا قابل نمایش نیست."
+            );
+
+            return;
+        }
 
 
+        if (!data) {
 
-    /*
-        SEARCH
-    */
+            showError(
+                "این محصول وجود ندارد."
+            );
+
+            return;
+        }
+
+
+        renderProduct(data);
+
+    }
+
+
+    /* =========================
+       RENDER PRODUCT
+    ========================= */
+
+    function renderProduct(product) {
+
+        document.title =
+            product.title +
+            " | بازارک";
+
+
+        const imageHTML =
+            product.image_url
+
+            ? `
+                <img
+                    src="${escapeHTML(product.image_url)}"
+                    alt="${escapeHTML(product.title)}"
+                >
+              `
+
+            : `
+                📦
+              `;
+
+
+        const thumbnailHTML =
+            product.image_url
+
+            ? `
+                <div class="thumbnail">
+                    <img
+                        src="${escapeHTML(product.image_url)}"
+                        alt=""
+                    >
+                </div>
+              `
+
+            : `
+                <div class="thumbnail">
+                    📦
+                </div>
+              `;
+
+
+        productBox.innerHTML = `
+
+            <!-- GALLERY -->
+
+            <div class="gallery">
+
+                <div class="main-image">
+
+                    ${imageHTML}
+
+                </div>
+
+
+                <div class="thumbnails">
+
+                    ${thumbnailHTML}
+
+                </div>
+
+            </div>
+
+
+            <!-- INFO -->
+
+            <div class="info">
+
+                <h1>
+                    ${escapeHTML(product.title)}
+                </h1>
+
+
+                <div class="rating">
+
+                    ⭐⭐⭐⭐⭐
+                    <span>
+                        (0 نظر)
+                    </span>
+
+                </div>
+
+
+                <div class="price">
+
+                    ${formatPrice(product.price)}
+                    افغانی
+
+                </div>
+
+
+                <p class="description">
+
+                    ${escapeHTML(
+                        product.description ||
+                        "توضیحاتی برای این محصول ثبت نشده است."
+                    )}
+
+                </p>
+
+
+                <div class="details">
+
+                    <div class="detail">
+
+                        <span>
+                            دسته‌بندی
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                product.category || "مشخص نشده"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span>
+                            وضعیت
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                product.condition || "موجود"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span>
+                            شهر
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                product.city || "مشخص نشده"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <span>
+                            موجودی
+                        </span>
+
+                        <span>
+                            ${product.stock ?? 1}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="seller">
+
+                    <div class="seller-avatar">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <div class="seller-name">
+                            فروشنده بازارک
+                        </div>
+
+                        <div class="seller-location">
+                            ${escapeHTML(
+                                product.city || "افغانستان"
+                            )}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        class="btn cart-btn"
+                        id="cartButton">
+
+                        🛒 افزودن به سبد خرید
+
+                    </button>
+
+
+                    <button
+                        class="btn favorite-btn"
+                        id="favoriteButton">
+
+                        ♡
+
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="btn buy-btn"
+                    id="buyButton">
+
+                    خرید این محصول
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        /* CART */
+
+        document
+            .getElementById("cartButton")
+            .addEventListener(
+                "click",
+                function() {
+
+                    alert(
+                        "محصول به سبد خرید اضافه شد."
+                    );
+
+                }
+            );
+
+
+        /* FAVORITE */
+
+        document
+            .getElementById("favoriteButton")
+            .addEventListener(
+                "click",
+                function() {
+
+                    this.textContent = "♥";
+
+                }
+            );
+
+
+        /* BUY */
+
+        document
+            .getElementById("buyButton")
+            .addEventListener(
+                "click",
+                function() {
+
+                    alert(
+                        "سیستم خرید بعداً فعال می‌شود."
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
 
     document
         .getElementById("searchForm")
-        .addEventListener("submit", function (event) {
+        .addEventListener(
+            "submit",
+            function(event) {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            const value =
-                document
-                .getElementById("searchInput")
-                .value
-                .trim();
 
-            if (!value) {
+                const value =
+                    document
+                        .getElementById("searchInput")
+                        .value
+                        .trim();
 
-                alert(
-                    "نام محصول را وارد کنید."
-                );
 
-                return;
+                if (!value) {
+
+                    alert(
+                        "نام محصول را وارد کنید."
+                    );
+
+                    return;
+                }
+
+
+                window.location.href =
+                    "products.html?search=" +
+                    encodeURIComponent(value);
 
             }
+        );
 
-            window.location.href =
-                "products.html?search="
-                + encodeURIComponent(value);
 
-        });
+    /* =========================
+       ERROR
+    ========================= */
 
+    function showError(message) {
+
+        productBox.innerHTML = `
+
+            <div class="error">
+
+                ❌ ${escapeHTML(message)}
+
+                <br><br>
+
+                <a
+                    href="products.html"
+                    style="
+                        color:#087a55;
+                        font-weight:bold;
+                    "
+                >
+                    ← برگشت به محصولات
+                </a>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================
+       PRICE
+    ========================= */
+
+    function formatPrice(price) {
+
+        if (
+            price === null ||
+            price === undefined ||
+            price === ""
+        ) {
+
+            return "قیمت نامشخص";
+
+        }
+
+
+        return Number(price)
+            .toLocaleString("fa-AF");
+
+    }
+
+
+    /* =========================
+       SECURITY
+    ========================= */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadProduct();
 
 </script>
 
