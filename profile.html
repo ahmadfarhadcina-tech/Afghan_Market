@@ -689,7 +689,25 @@ async function loadProducts() {
 }
 
 
+/* ویرایش محصول
+   ID محصول ذخیره می‌شود،
+   ولی آدرس همچنان فقط edit-profile.html می‌ماند.
+*/
 function editProduct(id) {
+
+    if (!id) {
+
+        alert("شناسه محصول پیدا نشد.");
+
+        return;
+    }
+
+
+    sessionStorage.setItem(
+        "editingProductId",
+        id
+    );
+
 
     window.location.href =
         "edit-profile.html";
@@ -783,14 +801,11 @@ loadProfile();
 </body>
 </html>
 
-تغییر اصلی فقط همین قسمت است:
+حالا این صفحه آماده است. مهم‌ترین تغییر این است:
 
-function editProduct(id) {
-    window.location.href = "edit-profile.html";
-}
+sessionStorage.setItem("editingProductId", id);
+window.location.href = "edit-profile.html";
 
-حالا روی هر دکمه ✏️ ویرایش بزنی، مستقیم می‌رود به:
+پس ID گم نمی‌شود، ولی آدرس همچنان فقط "edit-profile.html" است.
 
-"edit-profile.html" ✅
-
-و "id" محصول هم دیگر به URL اضافه نمی‌شود.
+حالا کد "edit-profile.html" را بفرست تا مرحله دوم را دقیق روی همان کد انجام بدهیم.
