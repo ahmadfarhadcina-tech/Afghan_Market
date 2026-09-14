@@ -17,7 +17,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
     <style>
 
         * {
@@ -26,808 +25,437 @@
             padding: 0;
         }
 
-
         body {
-
-            font-family:
-                Tahoma,
-                Arial,
-                sans-serif;
-
+            font-family: Tahoma, Arial, sans-serif;
             background: #f5f7f6;
-
             color: #17211d;
-
             line-height: 1.7;
-
         }
-
 
         a {
-
             text-decoration: none;
-
             color: inherit;
-
         }
-
 
         button,
         input {
-
             font-family: inherit;
-
         }
-
 
         button {
-
             cursor: pointer;
-
         }
 
-
-        /* =========================
-           HEADER
-        ========================= */
-
+        /* HEADER */
 
         header {
-
             background: white;
-
-            border-bottom:
-                1px solid #e4e9e6;
-
+            border-bottom: 1px solid #e4e9e6;
             position: sticky;
-
             top: 0;
-
             z-index: 100;
-
         }
-
 
         .header-inner {
-
             max-width: 1200px;
-
             margin: auto;
-
             padding: 15px 20px;
-
             display: flex;
-
             align-items: center;
-
             gap: 20px;
-
         }
-
 
         .logo {
-
             font-size: 24px;
-
             font-weight: 900;
-
             color: #087a55;
-
             white-space: nowrap;
-
         }
 
-
-        /* =========================
-           SEARCH
-        ========================= */
-
+        /* SEARCH */
 
         .search {
-
             flex: 1;
-
             display: flex;
-
             background: #f1f4f2;
-
             border-radius: 12px;
-
             overflow: hidden;
-
         }
-
 
         .search input {
-
             width: 100%;
-
             border: none;
-
             outline: none;
-
             background: transparent;
-
             padding: 13px 16px;
-
             font-size: 14px;
-
         }
-
 
         .search button {
-
             border: none;
-
             background: #087a55;
-
             color: white;
-
             padding: 0 22px;
-
-            cursor: pointer;
-
         }
-
 
         .search button:hover {
-
             background: #055c40;
-
         }
 
-
-        /* =========================
-           HEADER LINKS
-        ========================= */
-
+        /* HEADER LINKS */
 
         .header-links {
-
             display: flex;
-
             gap: 18px;
-
             font-size: 14px;
-
             font-weight: bold;
-
             white-space: nowrap;
-
         }
-
 
         .header-links a {
-
             transition: .2s;
-
         }
-
 
         .header-links a:hover {
-
             color: #087a55;
-
         }
 
-
-        /* =========================
-           CONTAINER
-        ========================= */
-
+        /* CONTAINER */
 
         .container {
-
             max-width: 1200px;
-
             margin: auto;
-
             padding: 35px 20px;
-
         }
 
-
-        /* =========================
-           BREADCRUMB
-        ========================= */
-
+        /* BREADCRUMB */
 
         .breadcrumb {
-
             margin-bottom: 20px;
-
             color: #718079;
-
             font-size: 14px;
-
         }
-
 
         .breadcrumb a {
-
             color: #087a55;
-
             font-weight: bold;
-
         }
 
-
-        /* =========================
-           PRODUCT
-        ========================= */
-
+        /* PRODUCT */
 
         .product {
-
             background: white;
-
-            border:
-                1px solid #e3e8e5;
-
+            border: 1px solid #e3e8e5;
             border-radius: 20px;
-
             padding: 25px;
-
             display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
+            grid-template-columns: 1fr 1fr;
             gap: 35px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0,0,0,.03);
-
+            box-shadow: 0 10px 30px rgba(0,0,0,.03);
         }
 
-
-        /* =========================
-           GALLERY
-        ========================= */
-
+        /* GALLERY */
 
         .gallery {
-
             display: flex;
-
             flex-direction: column;
-
             gap: 12px;
-
         }
-
 
         .main-image {
-
             height: 430px;
-
             background: #eef2f0;
-
             border-radius: 16px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             overflow: hidden;
-
             font-size: 100px;
-
         }
-
 
         .main-image img {
-
             width: 100%;
-
             height: 100%;
-
             object-fit: contain;
-
         }
-
 
         .thumbnails {
-
             display: flex;
-
             gap: 10px;
-
+            flex-wrap: wrap;
         }
-
 
         .thumbnail {
-
             width: 75px;
-
             height: 75px;
-
-            border:
-                1px solid #dce3df;
-
+            border: 2px solid #dce3df;
             border-radius: 10px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             background: #f4f6f5;
-
             overflow: hidden;
-
+            cursor: pointer;
+            transition: .2s;
+            padding: 0;
         }
 
+        .thumbnail:hover {
+            border-color: #087a55;
+            transform: translateY(-2px);
+        }
+
+        .thumbnail.active {
+            border-color: #087a55;
+            box-shadow: 0 0 0 2px rgba(8,122,85,.12);
+        }
 
         .thumbnail img {
-
             width: 100%;
-
             height: 100%;
-
             object-fit: cover;
-
         }
 
-
-        /* =========================
-           PRODUCT INFO
-        ========================= */
-
+        /* PRODUCT INFO */
 
         .info h1 {
-
             font-size: 30px;
-
             line-height: 1.5;
-
             margin-bottom: 12px;
-
         }
-
 
         .rating {
-
             color: #f0a800;
-
             margin-bottom: 20px;
-
             font-size: 14px;
-
         }
-
 
         .rating span {
-
             color: #718079;
-
             font-size: 12px;
-
         }
-
 
         .price {
-
             font-size: 30px;
-
             font-weight: 900;
-
             color: #087a55;
-
             margin-bottom: 20px;
-
         }
-
 
         .description {
-
             color: #626e68;
-
             line-height: 2;
-
             margin-bottom: 25px;
-
             white-space: pre-line;
-
         }
 
-
-        /* =========================
-           DETAILS
-        ========================= */
-
+        /* DETAILS */
 
         .details {
-
-            border-top:
-                1px solid #e5e9e7;
-
-            border-bottom:
-                1px solid #e5e9e7;
-
+            border-top: 1px solid #e5e9e7;
+            border-bottom: 1px solid #e5e9e7;
             padding: 18px 0;
-
             margin-bottom: 20px;
-
         }
-
 
         .detail {
-
             display: flex;
-
             justify-content: space-between;
-
             gap: 20px;
-
             padding: 8px 0;
-
         }
-
 
         .detail span:first-child {
-
             color: #737f79;
-
         }
-
 
         .detail span:last-child {
-
             font-weight: bold;
-
         }
 
-
-        /* =========================
-           SELLER
-        ========================= */
-
+        /* SELLER */
 
         .seller {
-
             background: #f5f8f6;
-
             border-radius: 14px;
-
             padding: 16px;
-
             display: flex;
-
             align-items: center;
-
             gap: 15px;
-
             margin-bottom: 20px;
-
         }
-
 
         .seller-avatar {
-
             width: 50px;
-
             height: 50px;
-
             border-radius: 50%;
-
             background: #087a55;
-
             color: white;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             font-size: 22px;
-
             flex-shrink: 0;
-
         }
-
 
         .seller-name {
-
             font-weight: bold;
-
             margin-bottom: 5px;
-
         }
-
 
         .seller-location {
-
             color: #748079;
-
             font-size: 13px;
-
         }
 
-
-        /* =========================
-           WHATSAPP BUTTON
-        ========================= */
-
+        /* WHATSAPP */
 
         .contact-button {
-
             width: 100%;
-
             border: none;
-
             background: #087a55;
-
             color: white;
-
             padding: 16px 20px;
-
             border-radius: 13px;
-
             font-size: 16px;
-
             font-weight: bold;
-
             transition: .2s;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             gap: 10px;
-
         }
-
 
         .contact-button:hover {
-
             background: #055c40;
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 8px 20px
-                rgba(8,122,85,.18);
-
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(8,122,85,.18);
         }
-
 
         .contact-button:active {
-
-            transform:
-                translateY(0);
-
+            transform: translateY(0);
         }
-
 
         .contact-note {
-
             text-align: center;
-
             color: #718079;
-
             font-size: 10px;
-
             margin-top: 8px;
-
         }
 
-
-        /* =========================
-           LOADING
-        ========================= */
-
+        /* LOADING */
 
         .loading {
-
-            grid-column:
-                1 / -1;
-
+            grid-column: 1 / -1;
             background: white;
-
             border-radius: 20px;
-
             padding: 70px 20px;
-
             text-align: center;
-
             font-size: 18px;
-
             color: #718079;
-
         }
 
-
-        /* =========================
-           ERROR
-        ========================= */
-
+        /* ERROR */
 
         .error {
-
-            grid-column:
-                1 / -1;
-
+            grid-column: 1 / -1;
             background: white;
-
             border-radius: 20px;
-
             padding: 70px 20px;
-
             text-align: center;
-
             font-size: 18px;
-
             color: #b42318;
-
         }
-
 
         .back-products {
-
             display: inline-block;
-
             margin-top: 15px;
-
             color: #087a55;
-
             font-weight: bold;
-
             font-size: 14px;
-
         }
 
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
+        /* RESPONSIVE */
 
         @media (max-width: 800px) {
 
-
             .header-inner {
-
                 flex-wrap: wrap;
-
             }
-
 
             .logo {
-
                 width: 100%;
-
             }
-
 
             .header-links {
-
                 display: none;
-
             }
-
 
             .product {
-
-                grid-template-columns:
-                    1fr;
-
+                grid-template-columns: 1fr;
             }
-
 
             .main-image {
-
                 height: 330px;
-
             }
-
 
             .info h1 {
-
                 font-size: 24px;
-
             }
-
 
             .price {
-
                 font-size: 26px;
-
             }
-
         }
-
 
         @media (max-width: 500px) {
 
-
             .container {
-
-                padding:
-                    25px 14px;
-
+                padding: 25px 14px;
             }
-
 
             .product {
-
                 padding: 15px;
-
                 border-radius: 16px;
-
             }
-
 
             .main-image {
-
                 height: 280px;
-
             }
-
 
             .search button {
-
-                padding:
-                    0 14px;
-
+                padding: 0 14px;
             }
-
 
             .search input {
-
                 font-size: 12px;
-
             }
-
 
             .breadcrumb {
-
                 font-size: 12px;
-
             }
 
+            .thumbnail {
+                width: 65px;
+                height: 65px;
+            }
         }
 
     </style>
 
 </head>
 
-
 <body>
-
-
-<!-- =========================
-     HEADER
-========================= -->
-
 
 <header>
 
     <div class="header-inner">
 
-
-        <a
-            href="index.html"
-            class="logo"
-        >
-
+        <a href="index.html" class="logo">
             🛒 بازارک
-
         </a>
 
-
-        <form
-            class="search"
-            id="searchForm"
-        >
+        <form class="search" id="searchForm">
 
             <input
                 type="search"
@@ -835,51 +463,29 @@
                 placeholder="دنبال چه چیزی می‌گردید؟"
             >
 
-
-            <button
-                type="submit"
-            >
-
+            <button type="submit">
                 جستجو
-
             </button>
 
         </form>
 
-
         <div class="header-links">
 
-
             <a href="index.html">
-
                 خانه
-
             </a>
-
 
             <a href="products.html">
-
                 محصولات
-
             </a>
 
-
         </div>
-
 
     </div>
 
 </header>
 
-
-
-<!-- =========================
-     MAIN
-========================= -->
-
-
 <main class="container">
-
 
     <div class="breadcrumb">
 
@@ -899,40 +505,23 @@
 
     </div>
 
-
-    <section
-        class="product"
-        id="productBox"
-    >
+    <section class="product" id="productBox">
 
         <div class="loading">
-
             ⏳ در حال دریافت اطلاعات محصول...
-
         </div>
 
     </section>
 
-
 </main>
 
-
-
 <script>
-
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -941,22 +530,8 @@ const supabaseClient =
     );
 
 
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-
 const productBox =
-    document.getElementById(
-        "productBox"
-    );
-
-
-
-/* =====================================================
-   GET PRODUCT ID
-===================================================== */
+    document.getElementById("productBox");
 
 
 const urlParams =
@@ -969,14 +544,11 @@ const productId =
     urlParams.get("id");
 
 
-
 /* =====================================================
    LOAD PRODUCT
 ===================================================== */
 
-
 async function loadProduct() {
-
 
     if (!productId) {
 
@@ -985,7 +557,6 @@ async function loadProduct() {
         );
 
         return;
-
     }
 
 
@@ -1003,6 +574,7 @@ async function loadProduct() {
             category,
             city,
             image_url,
+            image_urls,
             condition,
             stock,
             whatsapp,
@@ -1010,14 +582,8 @@ async function loadProduct() {
             status,
             created_at
         `)
-        .eq(
-            "id",
-            productId
-        )
-        .eq(
-            "status",
-            "active"
-        )
+        .eq("id", productId)
+        .eq("status", "active")
         .single();
 
 
@@ -1028,14 +594,11 @@ async function loadProduct() {
             error
         );
 
-
         showError(
             "محصول پیدا نشد یا قابل نمایش نیست."
         );
 
-
         return;
-
     }
 
 
@@ -1045,138 +608,171 @@ async function loadProduct() {
             "این محصول وجود ندارد."
         );
 
-
         return;
-
     }
 
 
     renderProduct(data);
-
 }
 
+
+/* =====================================================
+   GET PRODUCT IMAGES
+===================================================== */
+
+function getProductImages(product) {
+
+    let images = [];
+
+
+    /*
+       محصولات جدید:
+       image_urls
+    */
+
+    if (
+        Array.isArray(product.image_urls)
+    ) {
+
+        images =
+            product.image_urls.filter(
+                url =>
+                    typeof url === "string" &&
+                    url.trim() !== ""
+            );
+    }
+
+
+    /*
+       اگر image_urls خالی بود،
+       از image_url قدیمی استفاده می‌کنیم.
+    */
+
+    if (
+        images.length === 0 &&
+        product.image_url
+    ) {
+
+        images = [
+            product.image_url
+        ];
+    }
+
+
+    return images;
+}
 
 
 /* =====================================================
    RENDER PRODUCT
 ===================================================== */
 
-
-function renderProduct(
-    product
-) {
-
+function renderProduct(product) {
 
     document.title =
         product.title +
         " | بازارک";
 
 
-    /* =========================
-       IMAGE
-    ========================= */
+    const images =
+        getProductImages(product);
 
 
-    const imageHTML =
-        product.image_url
+    /*
+       عکس اصلی
+    */
 
-        ? `
+    let mainImageHTML;
+
+
+    if (images.length > 0) {
+
+        mainImageHTML = `
 
             <img
-                src="${escapeHTML(product.image_url)}"
+                id="mainProductImage"
+                src="${escapeHTML(images[0])}"
                 alt="${escapeHTML(product.title)}"
-                onerror="this.style.display='none'; this.parentElement.innerHTML='📦';"
+                onerror="this.style.display='none';"
             >
 
-          `
+        `;
 
-        : `
+    } else {
 
-            📦
-
-          `;
-
-
-    /* =========================
-       THUMBNAIL
-    ========================= */
+        mainImageHTML = `📦`;
+    }
 
 
-    const thumbnailHTML =
-        product.image_url
+    /*
+       Thumbnailها
+    */
 
-        ? `
+    let thumbnailsHTML = "";
+
+
+    if (images.length > 0) {
+
+        thumbnailsHTML =
+            images.map(
+                (image, index) => `
+
+                    <button
+                        type="button"
+                        class="thumbnail ${index === 0 ? "active" : ""}"
+                        data-image="${escapeHTML(image)}"
+                        aria-label="تصویر ${index + 1}"
+                    >
+
+                        <img
+                            src="${escapeHTML(image)}"
+                            alt="تصویر ${index + 1}"
+                        >
+
+                    </button>
+
+                `
+            ).join("");
+
+    } else {
+
+        thumbnailsHTML = `
 
             <div class="thumbnail">
-
-                <img
-                    src="${escapeHTML(product.image_url)}"
-                    alt="${escapeHTML(product.title)}"
-                >
-
-            </div>
-
-          `
-
-        : `
-
-            <div class="thumbnail">
-
                 📦
-
             </div>
 
-          `;
+        `;
+    }
 
 
-    /* =========================
+    /* =================================================
        PRODUCT HTML
-    ========================= */
-
+    ================================================= */
 
     productBox.innerHTML = `
 
-
-        <!-- =====================
-             GALLERY
-        ====================== -->
-
-
         <div class="gallery">
-
 
             <div class="main-image">
 
-                ${imageHTML}
+                ${mainImageHTML}
 
             </div>
-
 
             <div class="thumbnails">
 
-                ${thumbnailHTML}
+                ${thumbnailsHTML}
 
             </div>
-
 
         </div>
 
 
-
-        <!-- =====================
-             INFO
-        ====================== -->
-
-
         <div class="info">
 
-
             <h1>
-
-                ${escapeHTML(
-                    product.title
-                )}
-
+                ${escapeHTML(product.title)}
             </h1>
 
 
@@ -1193,9 +789,7 @@ function renderProduct(
 
             <div class="price">
 
-                ${formatPrice(
-                    product.price
-                )}
+                ${formatPrice(product.price)}
 
                 افغانی
 
@@ -1212,14 +806,7 @@ function renderProduct(
             </p>
 
 
-
-            <!-- =====================
-                 DETAILS
-            ====================== -->
-
-
             <div class="details">
-
 
                 <div class="detail">
 
@@ -1280,35 +867,20 @@ function renderProduct(
 
                 </div>
 
-
             </div>
-
-
-
-            <!-- =====================
-                 SELLER
-            ====================== -->
 
 
             <div class="seller">
 
-
                 <div class="seller-avatar">
-
                     👤
-
                 </div>
-
 
                 <div>
 
-
                     <div class="seller-name">
-
                         فروشنده بازارک
-
                     </div>
-
 
                     <div class="seller-location">
 
@@ -1321,17 +893,9 @@ function renderProduct(
 
                     </div>
 
-
                 </div>
 
-
             </div>
-
-
-
-            <!-- =====================
-                 WHATSAPP CONTACT
-            ====================== -->
 
 
             <button
@@ -1352,17 +916,73 @@ function renderProduct(
 
             </div>
 
-
         </div>
 
     `;
 
 
-
     /* =================================================
-       WHATSAPP BUTTON
+       GALLERY CLICK
     ================================================= */
 
+    const mainImage =
+        document.getElementById(
+            "mainProductImage"
+        );
+
+
+    const thumbnails =
+        document.querySelectorAll(
+            ".thumbnail[data-image]"
+        );
+
+
+    thumbnails.forEach(
+        thumbnail => {
+
+            thumbnail.addEventListener(
+                "click",
+                function() {
+
+                    const image =
+                        this.dataset.image;
+
+
+                    if (mainImage) {
+
+                        mainImage.src =
+                            image;
+
+                        mainImage.style.display =
+                            "block";
+                    }
+
+
+                    thumbnails.forEach(
+                        item => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    this.classList.add(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =================================================
+       WHATSAPP
+    ================================================= */
 
     const whatsappButton =
         document.getElementById(
@@ -1384,55 +1004,35 @@ function renderProduct(
 }
 
 
-
 /* =====================================================
-   CONTACT SELLER ON WHATSAPP
+   WHATSAPP
 ===================================================== */
 
+function contactSellerOnWhatsApp(product) {
 
-function contactSellerOnWhatsApp(
-    product
-) {
-
-
-    if (
-        !product.whatsapp
-    ) {
+    if (!product.whatsapp) {
 
         alert(
             "❌ شماره واتساپ برای این محصول ثبت نشده است."
         );
 
-
         return;
-
     }
 
 
-    /*
-       فقط اعداد را نگه می‌داریم.
-    */
-
-
     let phone =
-        String(
-            product.whatsapp
-        )
-        .replace(
-            /\D/g,
-            ""
-        );
+        String(product.whatsapp)
+            .replace(/\D/g, "");
 
 
-    /*
-       اگر فروشنده شماره را
-       به شکل 07xxxxxxxx وارد کرده باشد.
-    */
+    if (phone.startsWith("0093")) {
 
+        phone =
+            phone.substring(2);
 
-    if (
-        phone.startsWith("07")
-    ) {
+    }
+
+    else if (phone.startsWith("07")) {
 
         phone =
             "93" +
@@ -1440,15 +1040,7 @@ function contactSellerOnWhatsApp(
 
     }
 
-
-    /*
-       اگر شماره با 7 شروع شود.
-    */
-
-
-    else if (
-        phone.startsWith("7")
-    ) {
+    else if (phone.startsWith("7")) {
 
         phone =
             "93" +
@@ -1457,43 +1049,14 @@ function contactSellerOnWhatsApp(
     }
 
 
-    /*
-       اگر 0093 باشد.
-    */
-
-
-    else if (
-        phone.startsWith("0093")
-    ) {
-
-        phone =
-            phone.substring(2);
-
-    }
-
-
-    /*
-       بررسی شماره افغانستان.
-    */
-
-
-    if (
-        !/^937\d{8}$/.test(phone)
-    ) {
+    if (!/^937\d{8}$/.test(phone)) {
 
         alert(
             "❌ شماره واتساپ فروشنده معتبر نیست."
         );
 
-
         return;
-
     }
-
-
-    /*
-       پیام آماده.
-    */
 
 
     const message =
@@ -1507,44 +1070,27 @@ function contactSellerOnWhatsApp(
         `آیا این محصول هنوز موجود است؟`;
 
 
-    /*
-       WhatsApp URL
-    */
-
-
     const whatsappURL =
 
         "https://wa.me/" +
         phone +
         "?text=" +
-        encodeURIComponent(
-            message
-        );
-
-
-    /*
-       باز کردن واتساپ
-    */
+        encodeURIComponent(message);
 
 
     window.open(
         whatsappURL,
         "_blank"
     );
-
 }
-
 
 
 /* =====================================================
    SEARCH
 ===================================================== */
 
-
 document
-    .getElementById(
-        "searchForm"
-    )
+    .getElementById("searchForm")
     .addEventListener(
         "submit",
         function(event) {
@@ -1554,183 +1100,122 @@ document
 
             const value =
                 document
-                    .getElementById(
-                        "searchInput"
-                    )
+                    .getElementById("searchInput")
                     .value
                     .trim();
 
 
             if (!value) {
-
                 return;
-
             }
 
 
             window.location.href =
-
                 "products.html?search=" +
-
-                encodeURIComponent(
-                    value
-                );
+                encodeURIComponent(value);
 
         }
     );
 
 
-
 /* =====================================================
-   CATEGORY NAME
+   CATEGORY
 ===================================================== */
 
-
-function getCategoryName(
-    category
-) {
-
+function getCategoryName(category) {
 
     const categories = {
 
-        mobile:
-            "📱 موبایل",
+        mobile: "📱 موبایل",
 
-        computer:
-            "💻 کامپیوتر",
+        computer: "💻 کامپیوتر",
 
-        fashion:
-            "👕 فیشن",
+        fashion: "👕 فیشن",
 
-        shoes:
-            "👟 کفش",
+        shoes: "👟 کفش",
 
-        gaming:
-            "🎮 گیمینگ",
+        gaming: "🎮 گیمینگ",
 
-        home:
-            "🏠 خانه",
+        home: "🏠 خانه",
 
-        tools:
-            "🔧 ابزار",
+        tools: "🔧 ابزار",
 
-        vehicle:
-            "🚗 موتر"
+        vehicle: "🚗 موتر"
 
     };
 
 
     return escapeHTML(
-
         categories[category] ||
-
         category ||
-
         "مشخص نشده"
-
     );
-
 }
 
 
-
 /* =====================================================
-   CONDITION NAME
+   CONDITION
 ===================================================== */
 
-
-function getConditionName(
-    condition
-) {
-
+function getConditionName(condition) {
 
     const conditions = {
 
-        new:
-            "✨ نو",
+        new: "✨ نو",
 
-        used:
-            "♻️ استفاده‌شده"
+        used: "♻️ استفاده‌شده"
 
     };
 
 
     return escapeHTML(
-
         conditions[condition] ||
-
         condition ||
-
         "مشخص نشده"
-
     );
-
 }
-
 
 
 /* =====================================================
-   CITY NAME
+   CITY
 ===================================================== */
 
-
-function getCityName(
-    city
-) {
-
+function getCityName(city) {
 
     const cities = {
 
-        "Mazar-e-Sharif":
-            "مزار شریف",
+        "Mazar-e-Sharif": "مزار شریف",
 
-        Kabul:
-            "کابل",
+        Kabul: "کابل",
 
-        Herat:
-            "هرات",
+        Herat: "هرات",
 
-        Kandahar:
-            "کندهار",
+        Kandahar: "کندهار",
 
-        Jowzjan:
-            "جوزجان",
+        Jowzjan: "جوزجان",
 
-        Balkh:
-            "بلخ",
+        Balkh: "بلخ",
 
-        Nangarhar:
-            "ننگرهار",
+        Nangarhar: "ننگرهار",
 
-        Other:
-            "سایر"
+        Other: "سایر"
 
     };
 
 
     return escapeHTML(
-
         cities[city] ||
-
         city ||
-
         "افغانستان"
-
     );
-
 }
-
 
 
 /* =====================================================
    ERROR
 ===================================================== */
 
-
-function showError(
-    message
-) {
-
+function showError(message) {
 
     productBox.innerHTML = `
 
@@ -1738,9 +1223,7 @@ function showError(
 
             ❌
 
-            ${escapeHTML(
-                message
-            )}
+            ${escapeHTML(message)}
 
             <br><br>
 
@@ -1756,20 +1239,14 @@ function showError(
         </div>
 
     `;
-
 }
 
 
-
 /* =====================================================
-   PRICE FORMAT
+   PRICE
 ===================================================== */
 
-
-function formatPrice(
-    price
-) {
-
+function formatPrice(price) {
 
     if (
         price === null ||
@@ -1778,74 +1255,41 @@ function formatPrice(
     ) {
 
         return "قیمت نامشخص";
-
     }
 
 
-    return Number(
-        price
-    )
-    .toLocaleString(
-        "fa-AF"
-    );
-
+    return Number(price)
+        .toLocaleString("fa-AF");
 }
-
 
 
 /* =====================================================
-   HTML SECURITY
+   SECURITY
 ===================================================== */
 
+function escapeHTML(value) {
 
-function escapeHTML(
-    value
-) {
+    return String(value ?? "")
 
+        .replace(/&/g, "&amp;")
 
-    return String(
-        value ?? ""
-    )
+        .replace(/</g, "&lt;")
 
-    .replace(
-        /&/g,
-        "&amp;"
-    )
+        .replace(/>/g, "&gt;")
 
-    .replace(
-        /</g,
-        "&lt;"
-    )
+        .replace(/"/g, "&quot;")
 
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
+        .replace(/'/g, "&#039;");
 }
-
 
 
 /* =====================================================
    START
 ===================================================== */
 
-
 loadProduct();
 
-
 </script>
-
 
 </body>
 
