@@ -691,17 +691,8 @@ async function loadProducts() {
 
 function editProduct(id) {
 
-    if (!id) {
-
-        alert("شناسه محصول پیدا نشد.");
-
-        return;
-    }
-
-
     window.location.href =
-        "./edit-product.html?id=" +
-        encodeURIComponent(id);
+        "edit-profile.html";
 
 }
 
@@ -791,3 +782,15 @@ loadProfile();
 
 </body>
 </html>
+
+تغییر اصلی فقط همین قسمت است:
+
+function editProduct(id) {
+    window.location.href = "edit-profile.html";
+}
+
+حالا روی هر دکمه ✏️ ویرایش بزنی، مستقیم می‌رود به:
+
+"edit-profile.html" ✅
+
+و "id" محصول هم دیگر به URL اضافه نمی‌شود.
