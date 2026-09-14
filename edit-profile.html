@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ویرایش پروفایل | بازارک</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7f5;
+            color: #17251d;
+        }
+
+        header {
+            background: #087443;
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.1);
+        }
+
+        .header {
+            max-width: 700px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,.12);
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.07);
+        }
+
+        h1 {
+            margin: 0 0 25px;
+            color: #087443;
+            font-size: 25px;
+        }
+
+        .avatar-box {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e7f4ed;
+            background: #e7f4ed;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        .file-label {
+            display: inline-block;
+            background: #e8f5ee;
+            color: #087443;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #avatarInput {
+            display: none;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #d9e2dc;
+            border-radius: 11px;
+            padding: 13px;
+            font-family: Tahoma, Arial, sans-serif;
+            font-size: 15px;
+            outline: none;
+            background: #fbfdfc;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #087443;
+            box-shadow: 0 0 0 3px rgba(8,116,67,.08);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+
+        .save-btn {
+            width: 100%;
+            border: none;
+            background: #087443;
+            color: white;
+            padding: 14px;
+            border-radius: 11px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .save-btn:hover {
+            background: #075f37;
+        }
+
+        .save-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error {
+            background: #fdeaea;
+            color: #c62828;
+        }
+
+        .success {
+            background: #e8f5ee;
+            color: #087443;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+        }
+
+        @media (max-width: 550px) {
+
+            header {
+                padding: 13px 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .back {
+                text-align: center;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header">
+
+        <a href="index.html" class="logo">
+            🛒 بازارک
+        </a>
+
+        <a href="profile.html" class="back">
+            ← برگشت به پروفایل
+        </a>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <div id="loading" class="loading">
+        ⏳ در حال دریافت اطلاعات پروفایل...
+    </div>
+
+
+    <section id="editArea" class="card" style="display:none;">
+
+        <h1>✏️ ویرایش پروفایل</h1>
+
+        <div id="message" class="message"></div>
+
+
+        <div class="avatar-box">
+
+            <img
+                id="avatar"
+                class="avatar"
+                src=""
+                alt="عکس پروفایل"
+            >
+
+            <label
+                for="avatarInput"
+                class="file-label"
+            >
+                📷 تغییر عکس پروفایل
+            </label>
+
+            <input
+                type="file"
+                id="avatarInput"
+                accept="image/*"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="fullName">
+                نام کامل
+            </label>
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="نام کامل خود را وارد کنید"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="username">
+                نام کاربری
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="مثلاً AhmadFarhad"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="bio">
+                درباره من
+            </label>
+
+            <textarea
+                id="bio"
+                placeholder="کمی درباره خودتان بنویسید..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="city">
+                شهر
+            </label>
+
+            <input
+                type="text"
+                id="city"
+                placeholder="مثلاً Jowzjan"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="whatsapp">
+                شماره واتساپ
+            </label>
+
+            <input
+                type="text"
+                id="whatsapp"
+                placeholder="مثلاً 0765648536"
+                inputmode="tel"
+            >
+
+        </div>
+
+
+        <button
+            type="button"
+            id="saveBtn"
+            class="save-btn"
+        >
+            💾 ذخیره تغییرات
+        </button>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+    "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+const loading =
+    document.getElementById("loading");
+
+const editArea =
+    document.getElementById("editArea");
+
+const avatar =
+    document.getElementById("avatar");
+
+const avatarInput =
+    document.getElementById("avatarInput");
+
+const fullName =
+    document.getElementById("fullName");
+
+const username =
+    document.getElementById("username");
+
+const bio =
+    document.getElementById("bio");
+
+const city =
+    document.getElementById("city");
+
+const whatsapp =
+    document.getElementById("whatsapp");
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+const message =
+    document.getElementById("message");
+
+
+let currentUser = null;
+let currentAvatarUrl = "";
+
+
+const defaultAvatar =
+    "https://ui-avatars.com/api/?name=User&background=087443&color=fff&size=200";
+
+
+function showMessage(text, type) {
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+
+}
+
+
+async function loadProfile() {
+
+    try {
+
+        const {
+            data: {
+                session
+            },
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+
+        if (sessionError || !session) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        currentUser =
+            session.user;
+
+
+        const {
+            data: profile,
+            error
+        } = await supabaseClient
+            .from("profiles")
+            .select("*")
+            .eq("id", currentUser.id)
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(error);
+
+            showMessage(
+                "❌ دریافت پروفایل انجام نشد.",
+                "error"
+            );
+
+            loading.style.display =
+                "none";
+
+            editArea.style.display =
+                "block";
+
+            avatar.src =
+                defaultAvatar;
+
+            return;
+        }
+
+
+        if (profile) {
+
+            fullName.value =
+                profile.full_name || "";
+
+            username.value =
+                profile.username || "";
+
+            bio.value =
+                profile.bio || "";
+
+            city.value =
+                profile.city || "";
+
+            whatsapp.value =
+                profile.whatsapp || "";
+
+            currentAvatarUrl =
+                profile.avatar_url || "";
+
+            avatar.src =
+                currentAvatarUrl ||
+                defaultAvatar;
+
+        } else {
+
+            avatar.src =
+                defaultAvatar;
+
+        }
+
+
+        loading.style.display =
+            "none";
+
+        editArea.style.display =
+            "block";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        loading.textContent =
+            "❌ خطایی رخ داد.";
+
+    }
+
+}
+
+
+avatarInput.addEventListener(
+    "change",
+    function() {
+
+        const file =
+            this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+
+        if (!file.type.startsWith("image/")) {
+
+            showMessage(
+                "❌ لطفاً یک فایل تصویری انتخاب کنید.",
+                "error"
+            );
+
+            this.value = "";
+
+            return;
+        }
+
+
+        const preview =
+            URL.createObjectURL(file);
+
+        avatar.src =
+            preview;
+
+    }
+);
+
+
+async function uploadAvatar(file) {
+
+    const extension =
+        file.name.split(".").pop().toLowerCase();
+
+    const filePath =
+        currentUser.id +
+        "/" +
+        Date.now() +
+        "." +
+        extension;
+
+
+    const {
+        error
+    } = await supabaseClient
+        .storage
+        .from("avatars")
+        .upload(
+            filePath,
+            file,
+            {
+                upsert: true,
+                contentType: file.type
+            }
+        );
+
+
+    if (error) {
+        throw error;
+    }
+
+
+    const {
+        data
+    } = supabaseClient
+        .storage
+        .from("avatars")
+        .getPublicUrl(filePath);
+
+
+    return data.publicUrl;
+
+}
+
+
+saveBtn.addEventListener(
+    "click",
+    async function() {
+
+        saveBtn.disabled =
+            true;
+
+        saveBtn.textContent =
+            "⏳ در حال ذخیره...";
+
+
+        try {
+
+            let avatarUrl =
+                currentAvatarUrl;
+
+
+            const avatarFile =
+                avatarInput.files[0];
+
+
+            if (avatarFile) {
+
+                avatarUrl =
+                    await uploadAvatar(
+                        avatarFile
+                    );
+
+            }
+
+
+            const cleanUsername =
+                username.value
+                    .trim()
+                    .replace(/^@+/, "");
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from("profiles")
+                .upsert(
+                    {
+                        id: currentUser.id,
+                        full_name: fullName.value.trim(),
+                        username: cleanUsername || null,
+                        bio: bio.value.trim(),
+                        city: city.value.trim(),
+                        whatsapp: whatsapp.value.trim(),
+                        avatar_url: avatarUrl || null,
+                        updated_at: new Date().toISOString()
+                    },
+                    {
+                        onConflict: "id"
+                    }
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            showMessage(
+                "✅ پروفایل با موفقیت ذخیره شد.",
+                "success"
+            );
+
+
+            currentAvatarUrl =
+                avatarUrl;
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "profile.html";
+
+                },
+                900
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "❌ ذخیره پروفایل انجام نشد:\n" +
+                error.message,
+                "error"
+            );
+
+
+            saveBtn.disabled =
+                false;
+
+            saveBtn.textContent =
+                "💾 ذخیره تغییرات";
+
+        }
+
+    }
+);
+
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
