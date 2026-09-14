@@ -9,6 +9,9 @@
     <meta name="description"
           content="مشاهده محصولات و کالاهای موجود در بازارک، بازار آنلاین افغانستان">
 
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
 
         * {
@@ -27,8 +30,6 @@
             text-decoration: none;
             color: inherit;
         }
-
-        /* HEADER */
 
         header {
             background: #ffffff;
@@ -85,8 +86,6 @@
             font-size: 14px;
         }
 
-        /* PAGE */
-
         .container {
             max-width: 1200px;
             margin: auto;
@@ -106,8 +105,6 @@
             color: #69746f;
         }
 
-        /* FILTER */
-
         .toolbar {
             background: white;
             border: 1px solid #e5e9e7;
@@ -125,9 +122,8 @@
             border-radius: 10px;
             background: white;
             outline: none;
+            cursor: pointer;
         }
-
-        /* PRODUCTS */
 
         .products-grid {
             display: grid;
@@ -141,6 +137,7 @@
             border-radius: 16px;
             overflow: hidden;
             transition: 0.25s;
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -154,6 +151,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-image {
             font-size: 55px;
         }
 
@@ -164,6 +171,7 @@
         .product-info h3 {
             font-size: 16px;
             margin-bottom: 10px;
+            line-height: 1.6;
         }
 
         .price {
@@ -176,9 +184,17 @@
         .location {
             color: #7a8580;
             font-size: 13px;
+            margin-bottom: 7px;
         }
 
-        /* EMPTY STATE */
+        .condition {
+            display: inline-block;
+            background: #eef8f4;
+            color: #087a55;
+            padding: 5px 9px;
+            border-radius: 7px;
+            font-size: 11px;
+        }
 
         .empty {
             background: white;
@@ -212,14 +228,30 @@
             font-weight: bold;
         }
 
-        /* MOBILE */
+        .loading {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            color: #087a55;
+            font-size: 18px;
+        }
+
+        .error {
+            grid-column: 1 / -1;
+            background: #fff4f4;
+            border: 1px solid #ffd0d0;
+            color: #b42318;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
 
         @media (max-width: 900px) {
-
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-
         }
 
         @media (max-width: 650px) {
@@ -247,15 +279,12 @@
             .page-title h1 {
                 font-size: 24px;
             }
-
         }
 
         @media (max-width: 400px) {
-
             .products-grid {
                 grid-template-columns: 1fr;
             }
-
         }
 
     </style>
@@ -291,7 +320,7 @@
                 خانه
             </a>
 
-            <a href="#">
+            <a href="login.html">
                 ورود
             </a>
 
@@ -377,29 +406,8 @@
 
     <section class="products-grid" id="productsGrid">
 
-        <!--
-        محصولات واقعی بعداً از دیتابیس
-        به صورت خودکار اینجا نمایش داده می‌شوند.
-        -->
-
-        <div class="empty">
-
-            <div class="empty-icon">
-                🛍️
-            </div>
-
-            <h2>
-                هنوز محصولی ثبت نشده است
-            </h2>
-
-            <p>
-                فعلاً هیچ فروشنده‌ای محصولی برای فروش ثبت نکرده است.
-            </p>
-
-            <a href="#" class="sell-button">
-                فروشنده شوید
-            </a>
-
+        <div class="loading">
+            ⏳ در حال دریافت محصولات...
         </div>
 
     </section>
@@ -409,54 +417,437 @@
 
 <script>
 
-    const searchForm = document.getElementById("searchForm");
+    /* ==============================
+       SUPABASE
+    ============================== */
 
-    const searchInput = document.getElementById("searchInput");
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
 
-    searchForm.addEventListener("submit", function(event) {
+    /* ==============================
+       ELEMENTS
+    ============================== */
 
-        event.preventDefault();
+    const productsGrid =
+        document.getElementById("productsGrid");
 
-        const value = searchInput.value.trim();
+    const searchInput =
+        document.getElementById("searchInput");
 
-        if (!value) {
-
-            alert("لطفاً نام محصول را وارد کنید.");
-
-            return;
-
-        }
-
-        alert("جستجو برای: " + value);
-
-    });
-
+    const searchForm =
+        document.getElementById("searchForm");
 
     const categoryFilter =
         document.getElementById("categoryFilter");
 
-    categoryFilter.addEventListener("change", function() {
-
-        console.log(
-            "دسته انتخاب شد:",
-            this.value
-        );
-
-    });
-
-
     const sortFilter =
         document.getElementById("sortFilter");
 
-    sortFilter.addEventListener("change", function() {
 
-        console.log(
-            "مرتب‌سازی:",
-            this.value
-        );
+    let allProducts = [];
 
-    });
+
+    /* ==============================
+       LOAD PRODUCTS
+    ============================== */
+
+    async function loadProducts() {
+
+        productsGrid.innerHTML = `
+            <div class="loading">
+                ⏳ در حال دریافت محصولات...
+            </div>
+        `;
+
+        const { data, error } = await supabaseClient
+            .from("products")
+            .select(`
+                id,
+                title,
+                description,
+                price,
+                category,
+                city,
+                image_url,
+                condition,
+                stock,
+                seller_id,
+                status,
+                created_at
+            `)
+            .eq("status", "active")
+            .order("created_at", {
+                ascending: false
+            });
+
+
+        if (error) {
+
+            console.error(
+                "Supabase Error:",
+                error
+            );
+
+            productsGrid.innerHTML = `
+                <div class="error">
+                    <h2>❌ خطا در دریافت محصولات</h2>
+                    <p>${error.message}</p>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        allProducts = data || [];
+
+        renderProducts(allProducts);
+
+    }
+
+
+    /* ==============================
+       RENDER PRODUCTS
+    ============================== */
+
+    function renderProducts(products) {
+
+        if (!products.length) {
+
+            productsGrid.innerHTML = `
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🛍️
+                    </div>
+
+                    <h2>
+                        هنوز محصولی ثبت نشده است
+                    </h2>
+
+                    <p>
+                        فعلاً هیچ محصول فعالی برای فروش وجود ندارد.
+                    </p>
+
+                    <a
+                        href="seller.html"
+                        class="sell-button"
+                    >
+                        فروشنده شوید
+                    </a>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        productsGrid.innerHTML = products
+            .map(product => createProductCard(product))
+            .join("");
+
+    }
+
+
+    /* ==============================
+       PRODUCT CARD
+    ============================== */
+
+    function createProductCard(product) {
+
+        const imageHTML = product.image_url
+
+            ? `
+                <img
+                    src="${product.image_url}"
+                    alt="${escapeHTML(product.title)}"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<div class=&quot;no-image&quot;>🛍️</div>'"
+                >
+              `
+
+            : `
+                <div class="no-image">
+                    🛍️
+                </div>
+              `;
+
+
+        const city =
+            product.city || "افغانستان";
+
+        const condition =
+            product.condition || "موجود";
+
+
+        return `
+
+            <article
+                class="product-card"
+                onclick="openProduct('${product.id}')"
+            >
+
+                <div class="product-image">
+                    ${imageHTML}
+                </div>
+
+
+                <div class="product-info">
+
+                    <h3>
+                        ${escapeHTML(product.title)}
+                    </h3>
+
+                    <div class="price">
+                        ${formatPrice(product.price)}
+                        افغانی
+                    </div>
+
+                    <div class="location">
+                        📍 ${escapeHTML(city)}
+                    </div>
+
+                    <span class="condition">
+                        ${escapeHTML(condition)}
+                    </span>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+
+    /* ==============================
+       OPEN PRODUCT
+    ============================== */
+
+    function openProduct(id) {
+
+        window.location.href =
+            "product.html?id=" +
+            encodeURIComponent(id);
+
+    }
+
+
+    /* ==============================
+       SEARCH
+    ============================== */
+
+    searchForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            applyFilters();
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        function() {
+
+            applyFilters();
+
+        }
+    );
+
+
+    /* ==============================
+       CATEGORY
+    ============================== */
+
+    categoryFilter.addEventListener(
+        "change",
+        function() {
+
+            applyFilters();
+
+        }
+    );
+
+
+    /* ==============================
+       SORT
+    ============================== */
+
+    sortFilter.addEventListener(
+        "change",
+        function() {
+
+            applyFilters();
+
+        }
+    );
+
+
+    /* ==============================
+       FILTER SYSTEM
+    ============================== */
+
+    function applyFilters() {
+
+        let filtered =
+            [...allProducts];
+
+
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const category =
+            categoryFilter.value;
+
+
+        const sort =
+            sortFilter.value;
+
+
+        /* SEARCH */
+
+        if (search) {
+
+            filtered =
+                filtered.filter(product => {
+
+                    const title =
+                        String(product.title || "")
+                            .toLowerCase();
+
+                    const description =
+                        String(product.description || "")
+                            .toLowerCase();
+
+                    const city =
+                        String(product.city || "")
+                            .toLowerCase();
+
+                    return (
+                        title.includes(search) ||
+                        description.includes(search) ||
+                        city.includes(search)
+                    );
+
+                });
+
+        }
+
+
+        /* CATEGORY */
+
+        if (category !== "all") {
+
+            filtered =
+                filtered.filter(product =>
+                    product.category === category
+                );
+
+        }
+
+
+        /* SORT */
+
+        if (sort === "cheap") {
+
+            filtered.sort(
+                (a, b) =>
+                    Number(a.price) -
+                    Number(b.price)
+            );
+
+        }
+
+
+        if (sort === "expensive") {
+
+            filtered.sort(
+                (a, b) =>
+                    Number(b.price) -
+                    Number(a.price)
+            );
+
+        }
+
+
+        if (sort === "new") {
+
+            filtered.sort(
+                (a, b) =>
+                    new Date(b.created_at) -
+                    new Date(a.created_at)
+            );
+
+        }
+
+
+        renderProducts(filtered);
+
+    }
+
+
+    /* ==============================
+       PRICE
+    ============================== */
+
+    function formatPrice(price) {
+
+        if (
+            price === null ||
+            price === undefined ||
+            price === ""
+        ) {
+
+            return "قیمت نامشخص";
+
+        }
+
+
+        return Number(price)
+            .toLocaleString("fa-AF");
+
+    }
+
+
+    /* ==============================
+       HTML SAFETY
+    ============================== */
+
+    function escapeHTML(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ==============================
+       START
+    ============================== */
+
+    loadProducts();
 
 </script>
 
