@@ -208,6 +208,7 @@
         }
 
         @media (max-width: 600px) {
+
             .card {
                 padding: 18px;
             }
@@ -237,40 +238,71 @@
 
 <header>
     <div class="header">
-        <a href="index.html" class="logo">🛒 بازارک</a>
-        <a href="profile.html" class="back">← برگشت به پروفایل</a>
+
+        <a href="index.html" class="logo">
+            🛒 بازارک
+        </a>
+
+        <a href="profile.html" class="back">
+            ← برگشت به پروفایل
+        </a>
+
     </div>
 </header>
+
 
 <main class="container">
 
     <div class="card">
 
-        <h1>✏️ ویرایش محصول</h1>
+        <h1>
+            ✏️ ویرایش محصول
+        </h1>
+
         <p class="subtitle">
             اطلاعات محصول خود را تغییر دهید.
         </p>
 
-        <div id="message" class="message"></div>
+        <div
+            id="message"
+            class="message"
+        ></div>
 
-        <div id="loading" class="loading">
+        <div
+            id="loading"
+            class="loading"
+        >
             ⏳ در حال دریافت اطلاعات محصول...
         </div>
 
-        <form id="editForm" style="display:none;">
+
+        <form
+            id="editForm"
+            style="display:none;"
+        >
 
             <div class="form-group">
-                <label for="title">🏷️ نام محصول</label>
+
+                <label for="title">
+                    🏷️ نام محصول
+                </label>
+
                 <input
                     type="text"
                     id="title"
                     placeholder="نام محصول"
                     required
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label for="price">💰 قیمت</label>
+
+                <label for="price">
+                    💰 قیمت
+                </label>
+
                 <input
                     type="number"
                     id="price"
@@ -279,100 +311,179 @@
                     step="0.01"
                     required
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label>📂 دسته‌بندی</label>
+
+                <label>
+                    📂 دسته‌بندی
+                </label>
 
                 <div class="custom-select">
-                    <button type="button" class="select-button" id="categoryButton">
+
+                    <button
+                        type="button"
+                        class="select-button"
+                        id="categoryButton"
+                    >
                         انتخاب دسته‌بندی
                     </button>
 
-                    <div class="select-options" id="categoryOptions">
+                    <div
+                        class="select-options"
+                        id="categoryOptions"
+                    >
 
-                        <div class="option" data-value="موبایل">
+                        <div
+                            class="option"
+                            data-value="موبایل"
+                        >
                             📱 موبایل
                         </div>
 
-                        <div class="option" data-value="لپتاپ">
+                        <div
+                            class="option"
+                            data-value="لپتاپ"
+                        >
                             💻 لپتاپ و کامپیوتر
                         </div>
 
-                        <div class="option" data-value="پوشاک">
+                        <div
+                            class="option"
+                            data-value="پوشاک"
+                        >
                             👕 پوشاک
                         </div>
 
-                        <div class="option" data-value="کفش">
+                        <div
+                            class="option"
+                            data-value="کفش"
+                        >
                             👟 کفش
                         </div>
 
-                        <div class="option" data-value="گیمینگ">
+                        <div
+                            class="option"
+                            data-value="گیمینگ"
+                        >
                             🎮 گیمینگ
                         </div>
 
-                        <div class="option" data-value="خانه">
+                        <div
+                            class="option"
+                            data-value="خانه"
+                        >
                             🏠 خانه و آشپزخانه
                         </div>
 
-                        <div class="option" data-value="ابزار">
+                        <div
+                            class="option"
+                            data-value="ابزار"
+                        >
                             🔧 ابزار
                         </div>
 
-                        <div class="option" data-value="موتر">
+                        <div
+                            class="option"
+                            data-value="موتر"
+                        >
                             🚗 موتر و وسایل نقلیه
                         </div>
 
-                        <div class="option" data-value="کتاب">
+                        <div
+                            class="option"
+                            data-value="کتاب"
+                        >
                             📚 کتاب و آموزش
                         </div>
 
-                        <div class="option" data-value="سایر">
+                        <div
+                            class="option"
+                            data-value="سایر"
+                        >
                             📦 سایر
                         </div>
 
                     </div>
+
                 </div>
+
             </div>
 
+
             <div class="form-group">
-                <label>📦 وضعیت محصول</label>
+
+                <label>
+                    📦 وضعیت محصول
+                </label>
 
                 <div class="custom-select">
-                    <button type="button" class="select-button" id="conditionButton">
+
+                    <button
+                        type="button"
+                        class="select-button"
+                        id="conditionButton"
+                    >
                         انتخاب وضعیت
                     </button>
 
-                    <div class="select-options" id="conditionOptions">
+                    <div
+                        class="select-options"
+                        id="conditionOptions"
+                    >
 
-                        <div class="option" data-value="نو">
+                        <div
+                            class="option"
+                            data-value="نو"
+                        >
                             ✨ نو
                         </div>
 
-                        <div class="option" data-value="در حد نو">
+                        <div
+                            class="option"
+                            data-value="در حد نو"
+                        >
                             👍 در حد نو
                         </div>
 
-                        <div class="option" data-value="کارکرده">
+                        <div
+                            class="option"
+                            data-value="کارکرده"
+                        >
                             📦 کارکرده
                         </div>
 
                     </div>
+
                 </div>
+
             </div>
 
+
             <div class="form-group">
-                <label for="city">📍 شهر</label>
+
+                <label for="city">
+                    📍 شهر
+                </label>
+
                 <input
                     type="text"
                     id="city"
                     placeholder="مثلاً مزار شریف"
                     required
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label for="stock">📦 تعداد موجود</label>
+
+                <label for="stock">
+                    📦 تعداد موجود
+                </label>
+
                 <input
                     type="number"
                     id="stock"
@@ -380,32 +491,53 @@
                     value="1"
                     required
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label for="whatsapp">📱 شماره واتساپ</label>
+
+                <label for="whatsapp">
+                    📱 شماره واتساپ
+                </label>
+
                 <input
                     type="tel"
                     id="whatsapp"
                     placeholder="مثلاً 937XXXXXXXX"
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label for="description">📝 توضیحات محصول</label>
+
+                <label for="description">
+                    📝 توضیحات محصول
+                </label>
+
                 <textarea
                     id="description"
                     placeholder="توضیحات محصول..."
                 ></textarea>
+
             </div>
+
 
             <div class="actions">
 
-                <button type="submit" class="save-btn">
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
                     💾 ذخیره تغییرات
                 </button>
 
-                <button type="button" class="delete-btn" id="deleteButton">
+                <button
+                    type="button"
+                    class="delete-btn"
+                    id="deleteButton"
+                >
                     🗑️ حذف محصول
                 </button>
 
@@ -417,13 +549,16 @@
 
 </main>
 
+
 <script>
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
 
+
 const SUPABASE_ANON_KEY =
-    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+    "sb_publishable_j2_7E0cyJ6tMpMpKnlDVODYA_z_I1Mwdv";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -432,21 +567,39 @@ const supabaseClient =
     );
 
 
+/*
+    مهم:
+    ID دیگر از URL گرفته نمی‌شود.
+
+    profile.html هنگام کلیک روی
+    ویرایش، ID را در sessionStorage
+    ذخیره می‌کند.
+
+    سپس این صفحه همان ID را می‌خواند.
+*/
+
 const productId =
-    new URLSearchParams(window.location.search).get("id");
+    sessionStorage.getItem(
+        "editingProductId"
+    );
 
 
 let currentUser = null;
+
 let currentProduct = null;
+
 let selectedCategory = "";
+
 let selectedCondition = "";
 
 
 const loading =
     document.getElementById("loading");
 
+
 const editForm =
     document.getElementById("editForm");
+
 
 const message =
     document.getElementById("message");
@@ -462,38 +615,60 @@ function showMessage(text, type) {
 }
 
 
-function setupDropdown(buttonId, optionsId, callback) {
+function setupDropdown(
+    buttonId,
+    optionsId,
+    callback
+) {
 
     const button =
         document.getElementById(buttonId);
 
+
     const options =
         document.getElementById(optionsId);
 
-    button.addEventListener("click", function () {
 
-        options.classList.toggle("active");
+    button.addEventListener(
+        "click",
+        function () {
 
-    });
+            options.classList.toggle(
+                "active"
+            );
 
-    options.querySelectorAll(".option")
+        }
+    );
+
+
+    options
+        .querySelectorAll(".option")
         .forEach(function(option) {
 
-            option.addEventListener("click", function() {
+            option.addEventListener(
+                "click",
+                function() {
 
-                const value =
-                    option.dataset.value;
+                    const value =
+                        option.dataset.value;
 
-                button.textContent =
-                    option.textContent.trim();
 
-                options.classList.remove("active");
+                    button.textContent =
+                        option.textContent.trim();
 
-                callback(value);
 
-            });
+                    options.classList.remove(
+                        "active"
+                    );
+
+
+                    callback(value);
+
+                }
+            );
 
         });
+
 }
 
 
@@ -501,7 +676,10 @@ setupDropdown(
     "categoryButton",
     "categoryOptions",
     function(value) {
-        selectedCategory = value;
+
+        selectedCategory =
+            value;
+
     }
 );
 
@@ -510,29 +688,50 @@ setupDropdown(
     "conditionButton",
     "conditionOptions",
     function(value) {
-        selectedCondition = value;
+
+        selectedCondition =
+            value;
+
     }
 );
 
 
-document.addEventListener("click", function(event) {
+document.addEventListener(
+    "click",
+    function(event) {
 
-    if (!event.target.closest(".custom-select")) {
+        if (
+            !event.target.closest(
+                ".custom-select"
+            )
+        ) {
 
-        document
-            .querySelectorAll(".select-options")
-            .forEach(function(options) {
+            document
+                .querySelectorAll(
+                    ".select-options"
+                )
+                .forEach(
+                    function(options) {
 
-                options.classList.remove("active");
+                        options.classList.remove(
+                            "active"
+                        );
 
-            });
+                    }
+                );
+
+        }
 
     }
-
-});
+);
 
 
 async function loadProduct() {
+
+    /*
+        اگر ID در sessionStorage نبود،
+        یعنی صفحه مستقیماً باز شده است.
+    */
 
     if (!productId) {
 
@@ -549,10 +748,14 @@ async function loadProduct() {
             session
         },
         error: sessionError
-    } = await supabaseClient.auth.getSession();
+    } =
+        await supabaseClient.auth.getSession();
 
 
-    if (sessionError || !session) {
+    if (
+        sessionError ||
+        !session
+    ) {
 
         loading.textContent =
             "❌ ابتدا وارد حساب خود شوید.";
@@ -562,21 +765,32 @@ async function loadProduct() {
     }
 
 
-    currentUser = session.user;
+    currentUser =
+        session.user;
 
 
     const {
         data: product,
         error
-    } = await supabaseClient
-        .from("products")
-        .select("*")
-        .eq("id", productId)
-        .eq("seller_id", currentUser.id)
-        .single();
+    } =
+        await supabaseClient
+            .from("products")
+            .select("*")
+            .eq(
+                "id",
+                productId
+            )
+            .eq(
+                "seller_id",
+                currentUser.id
+            )
+            .single();
 
 
-    if (error || !product) {
+    if (
+        error ||
+        !product
+    ) {
 
         console.error(error);
 
@@ -588,30 +802,49 @@ async function loadProduct() {
     }
 
 
-    currentProduct = product;
+    currentProduct =
+        product;
 
 
-    document.getElementById("title").value =
+    document.getElementById(
+        "title"
+    ).value =
         product.title || "";
 
-    document.getElementById("price").value =
+
+    document.getElementById(
+        "price"
+    ).value =
         product.price || "";
 
-    document.getElementById("city").value =
+
+    document.getElementById(
+        "city"
+    ).value =
         product.city || "";
 
-    document.getElementById("stock").value =
+
+    document.getElementById(
+        "stock"
+    ).value =
         product.stock || 1;
 
-    document.getElementById("whatsapp").value =
+
+    document.getElementById(
+        "whatsapp"
+    ).value =
         product.whatsapp || "";
 
-    document.getElementById("description").value =
+
+    document.getElementById(
+        "description"
+    ).value =
         product.description || "";
 
 
     selectedCategory =
         product.category || "";
+
 
     selectedCondition =
         product.condition || "";
@@ -619,194 +852,190 @@ async function loadProduct() {
 
     if (selectedCategory) {
 
-        document.getElementById("categoryButton")
-            .textContent = selectedCategory;
+        document.getElementById(
+            "categoryButton"
+        ).textContent =
+            selectedCategory;
 
     }
 
 
     if (selectedCondition) {
 
-        document.getElementById("conditionButton")
-            .textContent = selectedCondition;
+        document.getElementById(
+            "conditionButton"
+        ).textContent =
+            selectedCondition;
 
     }
 
 
-    loading.style.display = "none";
+    loading.style.display =
+        "none";
 
-    editForm.style.display = "block";
+
+    editForm.style.display =
+        "block";
 
 }
 
 
-editForm.addEventListener("submit", async function(event) {
+editForm.addEventListener(
+    "submit",
+    async function(event) {
 
-    event.preventDefault();
-
-
-    if (!currentUser || !currentProduct) {
-
-        showMessage(
-            "❌ اطلاعات محصول آماده نیست.",
-            "error"
-        );
-
-        return;
-
-    }
+        event.preventDefault();
 
 
-    const title =
-        document.getElementById("title").value.trim();
+        if (
+            !currentUser ||
+            !currentProduct
+        ) {
 
-    const price =
-        document.getElementById("price").value;
+            showMessage(
+                "❌ اطلاعات محصول آماده نیست.",
+                "error"
+            );
 
-    const city =
-        document.getElementById("city").value.trim();
-
-    const stock =
-        document.getElementById("stock").value;
-
-    const whatsapp =
-        document.getElementById("whatsapp").value.trim();
-
-    const description =
-        document.getElementById("description").value.trim();
-
-
-    if (!selectedCategory) {
-
-        showMessage(
-            "❌ لطفاً دسته‌بندی را انتخاب کنید.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if (!selectedCondition) {
-
-        showMessage(
-            "❌ لطفاً وضعیت محصول را انتخاب کنید.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const saveButton =
-        document.querySelector(".save-btn");
-
-    saveButton.disabled = true;
-
-    saveButton.textContent =
-        "⏳ در حال ذخیره...";
-
-
-    const {
-        error
-    } = await supabaseClient
-        .from("products")
-        .update({
-
-            title: title,
-            price: Number(price),
-            category: selectedCategory,
-            condition: selectedCondition,
-            city: city,
-            stock: Number(stock),
-            whatsapp: whatsapp,
-            description: description
-
-        })
-        .eq("id", productId)
-        .eq("seller_id", currentUser.id);
-
-
-    saveButton.disabled = false;
-
-    saveButton.textContent =
-        "💾 ذخیره تغییرات";
-
-
-    if (error) {
-
-        console.error(error);
-
-        showMessage(
-            "❌ ذخیره تغییرات انجام نشد: " +
-            error.message,
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    showMessage(
-        "✅ تغییرات محصول با موفقیت ذخیره شد.",
-        "success"
-    );
-
-});
-
-
-document
-    .getElementById("deleteButton")
-    .addEventListener("click", async function() {
-
-        if (!currentUser || !currentProduct) {
             return;
+
         }
 
 
-        const confirmed =
-            confirm(
-                "⚠️ آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟\n\nاین کار قابل برگشت نیست."
+        const title =
+            document
+                .getElementById("title")
+                .value
+                .trim();
+
+
+        const price =
+            document
+                .getElementById("price")
+                .value;
+
+
+        const city =
+            document
+                .getElementById("city")
+                .value
+                .trim();
+
+
+        const stock =
+            document
+                .getElementById("stock")
+                .value;
+
+
+        const whatsapp =
+            document
+                .getElementById("whatsapp")
+                .value
+                .trim();
+
+
+        const description =
+            document
+                .getElementById("description")
+                .value
+                .trim();
+
+
+        if (!selectedCategory) {
+
+            showMessage(
+                "❌ لطفاً دسته‌بندی را انتخاب کنید.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!selectedCondition) {
+
+            showMessage(
+                "❌ لطفاً وضعیت محصول را انتخاب کنید.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const saveButton =
+            document.querySelector(
+                ".save-btn"
             );
 
 
-        if (!confirmed) {
-            return;
-        }
+        saveButton.disabled =
+            true;
 
 
-        const deleteButton =
-            document.getElementById("deleteButton");
-
-        deleteButton.disabled = true;
-
-        deleteButton.textContent =
-            "⏳ در حال حذف...";
+        saveButton.textContent =
+            "⏳ در حال ذخیره...";
 
 
         const {
             error
-        } = await supabaseClient
-            .from("products")
-            .delete()
-            .eq("id", productId)
-            .eq("seller_id", currentUser.id);
+        } =
+            await supabaseClient
+                .from("products")
+                .update({
+
+                    title:
+                        title,
+
+                    price:
+                        Number(price),
+
+                    category:
+                        selectedCategory,
+
+                    condition:
+                        selectedCondition,
+
+                    city:
+                        city,
+
+                    stock:
+                        Number(stock),
+
+                    whatsapp:
+                        whatsapp,
+
+                    description:
+                        description
+
+                })
+                .eq(
+                    "id",
+                    productId
+                )
+                .eq(
+                    "seller_id",
+                    currentUser.id
+                );
+
+
+        saveButton.disabled =
+            false;
+
+
+        saveButton.textContent =
+            "💾 ذخیره تغییرات";
 
 
         if (error) {
 
             console.error(error);
 
-            deleteButton.disabled = false;
-
-            deleteButton.textContent =
-                "🗑️ حذف محصول";
-
             showMessage(
-                "❌ حذف محصول انجام نشد: " +
+                "❌ ذخیره تغییرات انجام نشد: " +
                 error.message,
                 "error"
             );
@@ -816,15 +1045,135 @@ document
         }
 
 
-        alert(
-            "✅ محصول با موفقیت حذف شد."
+        /*
+            بعد از ذخیره موفق،
+            ID موقت را پاک می‌کنیم.
+        */
+
+        sessionStorage.removeItem(
+            "editingProductId"
         );
 
 
-        window.location.href =
-            "profile.html";
+        showMessage(
+            "✅ تغییرات محصول با موفقیت ذخیره شد.",
+            "success"
+        );
 
-    });
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "profile.html";
+
+            },
+            1000
+        );
+
+    }
+);
+
+
+document
+    .getElementById(
+        "deleteButton"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            if (
+                !currentUser ||
+                !currentProduct
+            ) {
+
+                return;
+
+            }
+
+
+            const confirmed =
+                confirm(
+                    "⚠️ آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟\n\nاین کار قابل برگشت نیست."
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            const deleteButton =
+                document.getElementById(
+                    "deleteButton"
+                );
+
+
+            deleteButton.disabled =
+                true;
+
+
+            deleteButton.textContent =
+                "⏳ در حال حذف...";
+
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from("products")
+                    .delete()
+                    .eq(
+                        "id",
+                        productId
+                    )
+                    .eq(
+                        "seller_id",
+                        currentUser.id
+                    );
+
+
+            if (error) {
+
+                console.error(error);
+
+                deleteButton.disabled =
+                    false;
+
+
+                deleteButton.textContent =
+                    "🗑️ حذف محصول";
+
+
+                showMessage(
+                    "❌ حذف محصول انجام نشد: " +
+                    error.message,
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            sessionStorage.removeItem(
+                "editingProductId"
+            );
+
+
+            alert(
+                "✅ محصول با موفقیت حذف شد."
+            );
+
+
+            window.location.href =
+                "profile.html";
+
+        }
+    );
 
 
 loadProduct();
@@ -833,3 +1182,14 @@ loadProduct();
 
 </body>
 </html>
+
+یک نکته مهم: در کد بالا یک اشتباه تایپی در کلید Supabase نباید باشد. کلید درست همان قبلی تو است؛ این خط را دقیقاً این‌طور بگذار:
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+حالا جریان دقیقاً این می‌شود:
+
+پروفایل → ✏️ ویرایش → "edit-profile.html" → محصول همان کارت باز می‌شود → تغییر → ذخیره → برگشت به "profile.html" ✅
+
+و حذف هم از همین صفحه انجام می‌شود.
