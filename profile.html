@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>پروفایل من | بازارک</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7f5;
+            color: #17221b;
+        }
+
+        /* Header */
+        header {
+            background: #0d7a3a;
+            color: white;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 3px 15px rgba(0,0,0,.12);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,.12);
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .header-links a:hover {
+            background: rgba(255,255,255,.22);
+        }
+
+        /* Main */
+        .container {
+            max-width: 1050px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,.08);
+            margin-bottom: 25px;
+        }
+
+        .cover {
+            height: 170px;
+            background: linear-gradient(135deg, #0d7a3a, #16a05a);
+        }
+
+        .profile-content {
+            padding: 0 25px 25px;
+            position: relative;
+        }
+
+        .avatar {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: #e7eee9;
+            border: 6px solid white;
+            position: relative;
+            margin-top: -65px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .profile-info {
+            margin-top: 12px;
+        }
+
+        .profile-name {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .username {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .bio {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .meta-item {
+            background: #f1f5f2;
+            padding: 9px 13px;
+            border-radius: 10px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .edit-profile {
+            margin-top: 18px;
+            display: inline-block;
+            background: #0d7a3a;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 11px;
+            font-weight: bold;
+        }
+
+        .edit-profile:hover {
+            background: #09632f;
+        }
+
+        /* Products */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 25px 0 15px;
+        }
+
+        .section-title h2 {
+            font-size: 22px;
+        }
+
+        .product-count {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 17px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0,0,0,.07);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 190px;
+            background: #eef2ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        .product-price {
+            color: #0d7a3a;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .product-city {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #eaf4ee;
+            color: #0d7a3a;
+        }
+
+        .delete-btn {
+            background: #fff0f0;
+            color: #d93025;
+        }
+
+        /* Empty */
+        .empty {
+            background: white;
+            border-radius: 18px;
+            padding: 45px 20px;
+            text-align: center;
+            color: #777;
+            box-shadow: 0 4px 18px rgba(0,0,0,.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 12px;
+        }
+
+        .sell-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #0d7a3a;
+            color: white;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 10px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 18px;
+            color: #777;
+        }
+
+        /* Mobile */
+        @media (max-width: 800px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            header {
+                padding: 12px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .header-links a {
+                padding: 8px 9px;
+                font-size: 12px;
+            }
+
+            .cover {
+                height: 130px;
+            }
+
+            .profile-content {
+                padding: 0 17px 20px;
+            }
+
+            .avatar {
+                width: 100px;
+                height: 100px;
+                margin-top: -50px;
+                font-size: 42px;
+            }
+
+            .profile-name {
+                font-size: 22px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🛒 بازارک</div>
+
+    <div class="header-links">
+        <a href="index.html">🏠 خانه</a>
+        <a href="products.html">🛍 محصولات</a>
+    </div>
+</header>
+
+<main class="container">
+
+    <div id="loading" class="loading">
+        ⏳ در حال بارگذاری پروفایل...
+    </div>
+
+    <div id="profileArea" style="display:none;">
+
+        <!-- PROFILE -->
+        <section class="profile-card">
+
+            <div class="cover"></div>
+
+            <div class="profile-content">
+
+                <div class="avatar">
+                    <span id="avatarEmoji">👤</span>
+                    <img id="avatarImage" alt="عکس پروفایل">
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-name" id="profileName">
+                        کاربر بازارک
+                    </div>
+
+                    <div class="username" id="profileUsername">
+                        @username
+                    </div>
+
+                    <div class="bio" id="profileBio">
+                        هنوز توضیحی برای این پروفایل نوشته نشده است.
+                    </div>
+
+                    <div class="profile-meta">
+
+                        <div class="meta-item" id="profileCity">
+                            📍 شهر ثبت نشده
+                        </div>
+
+                        <div class="meta-item" id="profileWhatsapp">
+                            📱 واتساپ ثبت نشده
+                        </div>
+
+                        <div class="meta-item" id="profileDate">
+                            📅 عضو بازارک
+                        </div>
+
+                    </div>
+
+                    <a href="edit-profile.html" class="edit-profile">
+                        ✏️ ویرایش پروفایل
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MY PRODUCTS -->
+
+        <div class="section-title">
+
+            <h2>📦 محصولات من</h2>
+
+            <span class="product-count" id="productCount">
+                0 محصول
+            </span>
+
+        </div>
+
+        <div id="productsArea">
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    /* =========================
+       SUPABASE
+    ========================= */
+
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* =========================
+       SECURITY
+    ========================= */
+
+    function escapeHTML(text) {
+
+        if (text === null || text === undefined) {
+            return "";
+        }
+
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================
+       LOAD PROFILE
+    ========================= */
+
+    async function loadProfile() {
+
+        const loading =
+            document.getElementById("loading");
+
+        const profileArea =
+            document.getElementById("profileArea");
+
+        try {
+
+            const {
+                data: {
+                    user
+                },
+                error: userError
+            } = await supabaseClient.auth.getUser();
+
+
+            if (userError || !user) {
+
+                loading.innerHTML = `
+                    <div style="font-size:45px;">🔐</div>
+                    <br>
+                    برای دیدن پروفایل باید وارد حساب شوید.
+                    <br><br>
+                    <a href="login.html"
+                       style="
+                       display:inline-block;
+                       background:#0d7a3a;
+                       color:white;
+                       padding:11px 20px;
+                       border-radius:10px;
+                       text-decoration:none;
+                       ">
+                       ورود به حساب
+                    </a>
+                `;
+
+                return;
+            }
+
+
+            /* Get profile */
+
+            const {
+                data: profile,
+                error: profileError
+            } = await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+            if (profileError) {
+
+                console.error(profileError);
+
+                loading.innerHTML =
+                    "❌ خطا در دریافت اطلاعات پروفایل.";
+
+                return;
+            }
+
+
+            /* Show profile */
+
+            if (profile) {
+
+                document.getElementById("profileName")
+                    .textContent =
+                    profile.full_name ||
+                    "کاربر بازارک";
+
+
+                document.getElementById("profileUsername")
+                    .textContent =
+                    profile.username
+                    ? "@" + profile.username
+                    : "نام کاربری ثبت نشده";
+
+
+                document.getElementById("profileBio")
+                    .textContent =
+                    profile.bio ||
+                    "هنوز توضیحی برای این پروفایل نوشته نشده است.";
+
+
+                document.getElementById("profileCity")
+                    .textContent =
+                    profile.city
+                    ? "📍 " + profile.city
+                    : "📍 شهر ثبت نشده";
+
+
+                document.getElementById("profileWhatsapp")
+                    .textContent =
+                    profile.whatsapp
+                    ? "📱 " + profile.whatsapp
+                    : "📱 واتساپ ثبت نشده";
+
+
+                if (profile.created_at) {
+
+                    const date =
+                        new Date(profile.created_at);
+
+                    document.getElementById("profileDate")
+                        .textContent =
+                        "📅 عضو از " +
+                        date.toLocaleDateString("fa-AF");
+
+                }
+
+
+                /* Avatar */
+
+                if (profile.avatar_url) {
+
+                    const image =
+                        document.getElementById("avatarImage");
+
+                    image.src =
+                        profile.avatar_url;
+
+                    image.style.display =
+                        "block";
+
+                    document.getElementById("avatarEmoji")
+                        .style.display =
+                        "none";
+                }
+
+            }
+
+
+            /* Load products */
+
+            await loadMyProducts(user.id);
+
+
+            loading.style.display =
+                "none";
+
+            profileArea.style.display =
+                "block";
+
+        } catch (error) {
+
+            console.error(error);
+
+            loading.innerHTML =
+                "❌ یک خطای غیرمنتظره رخ داد.";
+
+        }
+
+    }
+
+
+    /* =========================
+       LOAD MY PRODUCTS
+    ========================= */
+
+    async function loadMyProducts(userId) {
+
+        const productsArea =
+            document.getElementById("productsArea");
+
+        const count =
+            document.getElementById("productCount");
+
+
+        const {
+            data: products,
+            error
+        } = await supabaseClient
+            .from("products")
+            .select(`
+                id,
+                title,
+                price,
+                city,
+                image_url,
+                status,
+                created_at
+            `)
+            .eq("seller_id", userId)
+            .order("created_at", {
+                ascending: false
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+            productsArea.innerHTML = `
+                <div class="empty">
+                    ❌ خطا در دریافت محصولات
+                </div>
+            `;
+
+            return;
+        }
+
+
+        count.textContent =
+            `${products.length} محصول`;
+
+
+        /* No products */
+
+        if (!products.length) {
+
+            productsArea.innerHTML = `
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📦
+                    </div>
+
+                    <h3>
+                        هنوز محصولی ثبت نکرده‌اید
+                    </h3>
+
+                    <p style="margin-top:8px;">
+                        اولین محصول خود را در بازارک ثبت کنید.
+                    </p>
+
+                    <a href="seller.html"
+                       class="sell-btn">
+                       ➕ ثبت محصول
+                    </a>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /* Products */
+
+        productsArea.innerHTML = `
+            <div class="products-grid">
+
+                ${products.map(product => `
+
+                    <div class="product-card">
+
+                        <div class="product-image">
+
+                            ${
+                                product.image_url
+
+                                ? `
+                                <img
+                                    src="${escapeHTML(product.image_url)}"
+                                    alt="${escapeHTML(product.title)}"
+                                >
+                                `
+
+                                : "📦"
+                            }
+
+                        </div>
+
+
+                        <div class="product-info">
+
+                            <div class="product-title">
+                                ${escapeHTML(product.title)}
+                            </div>
+
+                            <div class="product-price">
+                                ${Number(product.price).toLocaleString()}
+                                افغانی
+                            </div>
+
+                            <div class="product-city">
+                                📍 ${escapeHTML(product.city || "نامشخص")}
+                            </div>
+
+
+                            <div class="product-actions">
+
+                                <button
+                                    class="action-btn edit-btn"
+                                    onclick="editProduct('${product.id}')">
+                                    ✏️ ویرایش
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteProduct('${product.id}')">
+                                    🗑️ حذف
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+        `;
+    }
+
+
+    /* =========================
+       EDIT PRODUCT
+    ========================= */
+
+    function editProduct(id) {
+
+        window.location.href =
+            "edit-product.html?id=" +
+            encodeURIComponent(id);
+
+    }
+
+
+    /* =========================
+       DELETE PRODUCT
+    ========================= */
+
+    async function deleteProduct(id) {
+
+        const confirmDelete =
+            confirm(
+                "آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟"
+            );
+
+
+        if (!confirmDelete) {
+            return;
+        }
+
+
+        const {
+            data: {
+                user
+            }
+        } = await supabaseClient.auth.getUser();
+
+
+        if (!user) {
+
+            alert("ابتدا وارد حساب شوید.");
+
+            return;
+        }
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from("products")
+            .delete()
+            .eq("id", id)
+            .eq("seller_id", user.id);
+
+
+        if (error) {
+
+            console.error(error);
+
+            alert(
+                "❌ حذف محصول انجام نشد.\n\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        alert("✅ محصول با موفقیت حذف شد.");
+
+        await loadMyProducts(user.id);
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadProfile();
+
+</script>
+
+</body>
+</html>
