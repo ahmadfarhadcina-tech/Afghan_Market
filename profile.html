@@ -191,15 +191,6 @@
             font-weight: bold;
         }
 
-        .edit-btn {
-            background: #e8f5ee;
-            color: #087443;
-        }
-
-        .edit-btn:hover {
-            background: #d7eddf;
-        }
-
         .delete-btn {
             background: #fdeaea;
             color: #c62828;
@@ -662,14 +653,6 @@ async function loadProducts() {
 
                             <button
                                 type="button"
-                                class="action-btn edit-btn"
-                                onclick="editProduct('${product.id}')"
-                            >
-                                ✏️ ویرایش
-                            </button>
-
-                            <button
-                                type="button"
                                 class="action-btn delete-btn"
                                 onclick="deleteProduct('${product.id}')"
                             >
@@ -685,32 +668,6 @@ async function loadProducts() {
             `;
 
         }).join("");
-
-}
-
-
-/* ویرایش محصول
-   ID محصول ذخیره می‌شود،
-   ولی آدرس همچنان فقط edit-profile.html می‌ماند.
-*/
-function editProduct(id) {
-
-    if (!id) {
-
-        alert("شناسه محصول پیدا نشد.");
-
-        return;
-    }
-
-
-    sessionStorage.setItem(
-        "editingProductId",
-        id
-    );
-
-
-    window.location.href =
-        "edit-profile.html";
 
 }
 
@@ -800,12 +757,3 @@ loadProfile();
 
 </body>
 </html>
-
-حالا این صفحه آماده است. مهم‌ترین تغییر این است:
-
-sessionStorage.setItem("editingProductId", id);
-window.location.href = "edit-profile.html";
-
-پس ID گم نمی‌شود، ولی آدرس همچنان فقط "edit-profile.html" است.
-
-حالا کد "edit-profile.html" را بفرست تا مرحله دوم را دقیق روی همان کد انجام بدهیم.
