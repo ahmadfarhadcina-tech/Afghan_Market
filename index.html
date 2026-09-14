@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bazaarak | بازار آنلاین افغانستان</title>
+
+    <meta name="description"
+          content="Bazaarak - بازار آنلاین افغانستان">
+
+    <style>
+
+        :root {
+            --primary: #087a55;
+            --primary-dark: #055c40;
+            --gold: #f2b84b;
+            --background: #f5f7f6;
+            --white: #ffffff;
+            --text: #17211d;
+            --muted: #718078;
+            --border: #e4e9e6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+        }
+
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255,255,255,.94);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header {
+            max-width: 1400px;
+            margin: auto;
+
+            min-height: 75px;
+            padding: 12px 25px;
+
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: var(--primary);
+
+            font-size: 23px;
+            font-weight: 900;
+
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+
+        /* SEARCH */
+
+        .search {
+            flex: 1;
+
+            height: 48px;
+
+            display: flex;
+
+            background: var(--background);
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            overflow: hidden;
+        }
+
+        .search input {
+            width: 100%;
+
+            padding: 0 17px;
+
+            border: none;
+            outline: none;
+
+            background: transparent;
+        }
+
+        .search button {
+            width: 55px;
+
+            background: var(--primary);
+
+            color: white;
+
+            font-size: 18px;
+        }
+
+
+        /* HEADER BUTTONS */
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-action {
+            color: var(--muted);
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .header-action:hover {
+            color: var(--primary);
+        }
+
+        .cart {
+            position: relative;
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 12px;
+
+            background: var(--primary);
+
+            color: white;
+
+            font-size: 18px;
+        }
+
+        .cart-count {
+            position: absolute;
+
+            top: -7px;
+            right: -7px;
+
+            width: 20px;
+            height: 20px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: var(--gold);
+
+            color: #111;
+
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            max-width: 1400px;
+
+            min-height: 470px;
+
+            margin: 30px auto 0;
+
+            padding: 65px 55px;
+
+            border-radius: 30px;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(255,255,255,.13),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--primary-dark),
+                    var(--primary)
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .badge {
+            display: inline-block;
+
+            margin-bottom: 18px;
+
+            padding: 7px 14px;
+
+            border-radius: 50px;
+
+            background: rgba(255,255,255,.12);
+
+            font-size: 13px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 65px);
+
+            line-height: 1.25;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            max-width: 550px;
+
+            color: rgba(255,255,255,.8);
+
+            font-size: 17px;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 13px 25px;
+
+            border-radius: 12px;
+
+            font-weight: bold;
+
+            transition: .25s;
+        }
+
+        .primary-btn {
+            background: var(--gold);
+            color: #111;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .secondary-btn {
+            background: rgba(255,255,255,.1);
+
+            border: 1px solid rgba(255,255,255,.2);
+
+            color: white;
+        }
+
+        .secondary-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+
+        /* HERO IMAGE */
+
+        .hero-product {
+            width: 350px;
+            height: 350px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.09);
+
+            font-size: 120px;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.2);
+        }
+
+
+        /* SECTIONS */
+
+        .section {
+            max-width: 1400px;
+
+            margin: 75px auto 0;
+
+            padding: 0 25px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 29px;
+        }
+
+        .section-label {
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 900;
+
+            letter-spacing: 2px;
+        }
+
+        .view-all {
+            color: var(--primary);
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* CATEGORY */
+
+        .categories {
+            display: grid;
+
+            grid-template-columns:
+                repeat(8, 1fr);
+
+            gap: 14px;
+        }
+
+        .category {
+            padding: 22px 10px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            transition: .25s;
+        }
+
+        .category:hover {
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,.08);
+
+            border-color: rgba(8,122,85,.3);
+        }
+
+        .category-icon {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 34px;
+        }
+
+        .category h3 {
+            font-size: 14px;
+        }
+
+        .category p {
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* PRODUCTS */
+
+        .products {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            transition: .25s;
+        }
+
+        .product:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,.08);
+        }
+
+        .product-image {
+            height: 240px;
+
+            display: grid;
+            place-items: center;
+
+            position: relative;
+
+            background: #edf2ef;
+        }
+
+        .product-image span {
+            font-size: 85px;
+        }
+
+        .product-badge {
+            position: absolute;
+
+            top: 13px;
+            right: 13px;
+
+            padding: 5px 9px;
+
+            border-radius: 7px;
+
+            background: var(--primary);
+
+            color: white;
+
+            font-size: 10px;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-category {
+            color: var(--primary);
+
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .product h3 {
+            margin: 5px 0;
+
+            font-size: 16px;
+        }
+
+        .rating {
+            color: #dfa32c;
+
+            font-size: 12px;
+        }
+
+        .rating small {
+            color: var(--muted);
+        }
+
+        .product-bottom {
+            margin-top: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .price small {
+            font-size: 10px;
+        }
+
+        .add {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            background: var(--primary);
+
+            color: white;
+
+            font-size: 22px;
+        }
+
+        .add:hover {
+            background: var(--primary-dark);
+        }
+
+
+        /* TRUST */
+
+        .trust {
+            max-width: 1340px;
+
+            margin: 80px auto;
+
+            padding: 30px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 25px;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .trust-icon {
+            width: 52px;
+            height: 52px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 15px;
+
+            background: #eaf5ef;
+
+            font-size: 24px;
+        }
+
+        .trust h3 {
+            font-size: 14px;
+        }
+
+        .trust p {
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 80px;
+
+            background: #101915;
+
+            color: white;
+        }
+
+        .footer {
+            max-width: 1400px;
+
+            margin: auto;
+
+            padding: 55px 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr 1fr;
+
+            gap: 40px;
+        }
+
+        .footer h2 {
+            color: white;
+        }
+
+        .footer p,
+        .footer a {
+            color: #98a49f;
+
+            font-size: 12px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        .footer-column h3 {
+            font-size: 14px;
+
+            color: white;
+        }
+
+        .copyright {
+            padding: 18px;
+
+            border-top: 1px solid rgba(255,255,255,.08);
+
+            text-align: center;
+
+            color: #82908a;
+
+            font-size: 11px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+
+            .categories {
+                grid-template-columns:
+                    repeat(4, 1fr);
+            }
+
+            .products {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .hero-product {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+
+        @media (max-width: 800px) {
+
+            .header {
+                flex-wrap: wrap;
+            }
+
+            .search {
+                order: 3;
+
+                flex-basis: 100%;
+            }
+
+            .header-action {
+                display: none;
+            }
+
+            .hero {
+                margin: 20px;
+
+                padding: 45px 25px;
+
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+            .hero-content {
+                display: flex;
+
+                align-items: center;
+
+                flex-direction: column;
+            }
+
+            .hero-product {
+                margin-top: 35px;
+
+                width: 230px;
+                height: 230px;
+
+                font-size: 80px;
+            }
+
+            .trust {
+                margin: 60px 20px;
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .footer {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 520px) {
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .hero-buttons {
+                width: 100%;
+
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .categories {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .trust {
+                grid-template-columns: 1fr;
+            }
+
+            .footer {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header">
+
+        <a href="#" class="logo">
+            <span class="logo-icon">🛒</span>
+            بازارک
+        </a>
+
+
+        <form class="search" id="searchForm">
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="جستجوی محصول، برند یا فروشگاه..."
+            >
+
+            <button type="submit">
+                🔍
+            </button>
+
+        </form>
+
+
+        <div class="header-actions">
+
+            <a href="#" class="header-action">
+                🏪 فروشنده شو
+            </a>
+
+            <a href="#" class="header-action">
+                👤 حساب من
+            </a>
+
+            <button class="cart">
+                🛒
+
+                <span class="cart-count">
+                    0
+                </span>
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            🇦🇫 بازار آنلاین افغانستان
+        </span>
+
+        <h1>
+            هر چیزی که می‌خواهی،
+            <span>در یک بازار.</span>
+        </h1>
+
+        <p>
+            محصولات مورد نیازت را پیدا کن،
+            مقایسه کن و از فروشندگان افغانستان خرید کن.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#products"
+               class="btn primary-btn">
+                شروع خرید
+            </a>
+
+            <a href="#"
+               class="btn secondary-btn">
+                فروشنده شو
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-product">
+        🛍️
+    </div>
+
+</section>
+
+
+
+<section class="section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                EXPLORE
+            </span>
+
+            <h2>
+                دسته‌بندی‌ها
+            </h2>
+
+        </div>
+
+        <a href="#" class="view-all">
+            مشاهده همه →
+        </a>
+
+    </div>
+
+
+    <div class="categories">
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                📱
+            </span>
+
+            <h3>موبایل</h3>
+
+            <p>
+                موبایل و لوازم
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                💻
+            </span>
+
+            <h3>کامپیوتر</h3>
+
+            <p>
+                لپ‌تاپ و قطعات
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                👕
+            </span>
+
+            <h3>فیشن</h3>
+
+            <p>
+                لباس و پوشاک
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                👟
+            </span>
+
+            <h3>کفش</h3>
+
+            <p>
+                کفش و اسپرت
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                🎮
+            </span>
+
+            <h3>گیمینگ</h3>
+
+            <p>
+                بازی و تجهیزات
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                🏠
+            </span>
+
+            <h3>خانه</h3>
+
+            <p>
+                لوازم خانه
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                🔧
+            </span>
+
+            <h3>ابزار</h3>
+
+            <p>
+                ابزار و تجهیزات
+            </p>
+
+        </a>
+
+
+        <a href="#" class="category">
+
+            <span class="category-icon">
+                🚗
+            </span>
+
+            <h3>موتر</h3>
+
+            <p>
+                موتر و لوازم
+            </p>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<section class="section" id="products">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                TRENDING
+            </span>
+
+            <h2>
+                محصولات محبوب 🔥
+            </h2>
+
+        </div>
+
+        <a href="#" class="view-all">
+            همه محصولات →
+        </a>
+
+    </div>
+
+
+    <div class="products">
+
+
+        <article class="product">
+
+            <div class="product-image">
+
+                <span>
+                    📱
+                </span>
+
+                <div class="product-badge">
+                    جدید
+                </div>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    موبایل
+                </span>
+
+                <h3>
+                    Smartphone Pro Max
+                </h3>
+
+                <div class="rating">
+                    ⭐ 4.8
+                    <small>
+                        (24)
+                    </small>
+                </div>
+
+
+                <div class="product-bottom">
+
+                    <div class="price">
+                        28,500
+                        <small>AFN</small>
+                    </div>
+
+                    <button class="add">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <article class="product">
+
+            <div class="product-image">
+
+                <span>
+                    💻
+                </span>
+
+                <div class="product-badge">
+                    ویژه
+                </div>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    لپ‌تاپ
+                </span>
+
+                <h3>
+                    Business Laptop
+                </h3>
+
+                <div class="rating">
+                    ⭐ 4.7
+                    <small>
+                        (18)
+                    </small>
+                </div>
+
+
+                <div class="product-bottom">
+
+                    <div class="price">
+                        19,900
+                        <small>AFN</small>
+                    </div>
+
+                    <button class="add">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <article class="product">
+
+            <div class="product-image">
+
+                <span>
+                    🎧
+                </span>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    لوازم جانبی
+                </span>
+
+                <h3>
+                    Wireless Headphones
+                </h3>
+
+                <div class="rating">
+                    ⭐ 4.9
+                    <small>
+                        (41)
+                    </small>
+                </div>
+
+
+                <div class="product-bottom">
+
+                    <div class="price">
+                        2,400
+                        <small>AFN</small>
+                    </div>
+
+                    <button class="add">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <article class="product">
+
+            <div class="product-image">
+
+                <span>
+                    🎮
+                </span>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    گیمینگ
+                </span>
+
+                <h3>
+                    Gaming Controller
+                </h3>
+
+                <div class="rating">
+                    ⭐ 4.6
+                    <small>
+                        (32)
+                    </small>
+                </div>
+
+
+                <div class="product-bottom">
+
+                    <div class="price">
+                        1,850
+                        <small>AFN</small>
+                    </div>
+
+                    <button class="add">
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+
+<section class="trust">
+
+
+    <div class="trust-item">
+
+        <div class="trust-icon">
+            🚚
+        </div>
+
+        <div>
+
+            <h3>
+                تحویل آسان
+            </h3>
+
+            <p>
+                سفارش خود را دریافت کن
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <div class="trust-icon">
+            🔐
+        </div>
+
+        <div>
+
+            <h3>
+                خرید امن
+            </h3>
+
+            <p>
+                امنیت اطلاعات شما مهم است
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <div class="trust-icon">
+            🤝
+        </div>
+
+        <div>
+
+            <h3>
+                فروشندگان واقعی
+            </h3>
+
+            <p>
+                فروشندگان تأییدشده
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="trust-item">
+
+        <div class="trust-icon">
+            💵
+        </div>
+
+        <div>
+
+            <h3>
+                پرداخت آسان
+            </h3>
+
+            <p>
+                پرداخت هنگام تحویل
+            </p>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+    <div class="footer">
+
+
+        <div>
+
+            <h2>
+                🛒 بازارک
+            </h2>
+
+            <p>
+                بازار آنلاین افغانستان؛
+                جایی برای خرید و فروش آسان.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                بازارک
+            </h3>
+
+            <a href="#">
+                درباره ما
+            </a>
+
+            <a href="#">
+                تماس با ما
+            </a>
+
+            <a href="#">
+                قوانین
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                خرید
+            </h3>
+
+            <a href="#">
+                دسته‌بندی‌ها
+            </a>
+
+            <a href="#">
+                محصولات جدید
+            </a>
+
+            <a href="#">
+                تخفیف‌ها
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                فروشندگان
+            </h3>
+
+            <a href="#">
+                فروشنده شو
+            </a>
+
+            <a href="#">
+                راهنمای فروش
+            </a>
+
+            <a href="#">
+                پنل فروشنده
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 Bazaarak — ساخته شده برای افغانستان 🇦🇫
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+    /* SEARCH */
+
+    const searchForm =
+        document.getElementById("searchForm");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    searchForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const query =
+                searchInput.value.trim();
+
+            if (!query) {
+
+                searchInput.focus();
+
+                return;
+            }
+
+            alert(
+                "جستجو برای: " + query
+            );
+
+        }
+    );
+
+
+    /* CART */
+
+    let cartCount = 0;
+
+    const cartCounter =
+        document.querySelector(".cart-count");
+
+
+    document
+        .querySelectorAll(".add")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    cartCount++;
+
+                    cartCounter.textContent =
+                        cartCount;
+
+                    button.textContent = "✓";
+
+                    setTimeout(() => {
+
+                        button.textContent = "+";
+
+                    }, 800);
+
+                }
+            );
+
+        });
+
+</script>
+
+
+</body>
+</html>
