@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>محصولات | بازارک</title>
 
-    <meta name="description"
-          content="مشاهده محصولات و کالاهای موجود در بازارک، بازار آنلاین افغانستان">
+    <meta
+        name="description"
+        content="مشاهده محصولات و کالاهای موجود در بازارک، بازار آنلاین افغانستان"
+    >
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -80,6 +84,10 @@
             cursor: pointer;
         }
 
+        .search button:hover {
+            background: #055c40;
+        }
+
         .header-links {
             display: flex;
             gap: 15px;
@@ -105,6 +113,10 @@
             color: #69746f;
         }
 
+        /* ==============================
+           TOOLBAR
+        ============================== */
+
         .toolbar {
             background: white;
             border: 1px solid #e5e9e7;
@@ -123,7 +135,32 @@
             background: white;
             outline: none;
             cursor: pointer;
+            font-family: inherit;
         }
+
+        /* ==============================
+           ACTIVE CATEGORY
+        ============================== */
+
+        .active-category {
+            display: none;
+            background: #eef8f4;
+            color: #087a55;
+            border: 1px solid #d5eee3;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .active-category.show {
+            display: block;
+        }
+
+        /* ==============================
+           PRODUCTS
+        ============================== */
 
         .products-grid {
             display: grid;
@@ -142,7 +179,9 @@
 
         .product-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            box-shadow:
+                0 12px 30px
+                rgba(0,0,0,0.08);
         }
 
         .product-image {
@@ -152,6 +191,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
 
         .product-image img {
@@ -162,6 +202,18 @@
 
         .no-image {
             font-size: 55px;
+        }
+
+        .photo-count {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            background: rgba(0,0,0,.65);
+            color: white;
+            padding: 5px 9px;
+            border-radius: 8px;
+            font-size: 11px;
+            direction: rtl;
         }
 
         .product-info {
@@ -196,6 +248,10 @@
             font-size: 11px;
         }
 
+        /* ==============================
+           EMPTY
+        ============================== */
+
         .empty {
             background: white;
             border: 1px dashed #cfd8d3;
@@ -228,6 +284,10 @@
             font-weight: bold;
         }
 
+        /* ==============================
+           LOADING
+        ============================== */
+
         .loading {
             grid-column: 1 / -1;
             background: white;
@@ -237,6 +297,10 @@
             color: #087a55;
             font-size: 18px;
         }
+
+        /* ==============================
+           ERROR
+        ============================== */
 
         .error {
             grid-column: 1 / -1;
@@ -248,10 +312,16 @@
             text-align: center;
         }
 
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
         @media (max-width: 900px) {
+
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+
         }
 
         @media (max-width: 650px) {
@@ -279,15 +349,28 @@
             .page-title h1 {
                 font-size: 24px;
             }
+
+            .toolbar select {
+                flex: 1;
+                min-width: 140px;
+            }
+
         }
 
         @media (max-width: 400px) {
+
             .products-grid {
                 grid-template-columns: 1fr;
             }
+
+            .product-image {
+                height: 200px;
+            }
+
         }
 
     </style>
+
 </head>
 
 <body>
@@ -324,10 +407,6 @@
                 ورود
             </a>
 
-            <a href="#">
-                🛒 سبد
-            </a>
-
         </div>
 
     </div>
@@ -339,16 +418,26 @@
 
     <div class="page-title">
 
-        <h1>
+        <h1 id="pageTitle">
             همه محصولات
         </h1>
 
-        <p>
+        <p id="pageDescription">
             کالاهای ثبت‌شده توسط فروشندگان بازارک
         </p>
 
     </div>
 
+
+    <!-- دسته‌بندی فعال -->
+
+    <div
+        id="activeCategory"
+        class="active-category"
+    ></div>
+
+
+    <!-- فیلترها -->
 
     <div class="toolbar">
 
@@ -359,27 +448,35 @@
             </option>
 
             <option value="mobile">
-                موبایل
+                📱 موبایل
             </option>
 
             <option value="computer">
-                کامپیوتر و لپ‌تاپ
+                💻 کامپیوتر و لپ‌تاپ
             </option>
 
             <option value="fashion">
-                فیشن
+                👕 فیشن
+            </option>
+
+            <option value="shoes">
+                👟 کفش
             </option>
 
             <option value="gaming">
-                گیمینگ
+                🎮 گیمینگ
             </option>
 
             <option value="home">
-                خانه
+                🏠 خانه
+            </option>
+
+            <option value="tools">
+                🔧 ابزار
             </option>
 
             <option value="vehicle">
-                موتر
+                🚗 موتر
             </option>
 
         </select>
@@ -404,7 +501,10 @@
     </div>
 
 
-    <section class="products-grid" id="productsGrid">
+    <section
+        class="products-grid"
+        id="productsGrid"
+    >
 
         <div class="loading">
             ⏳ در حال دریافت محصولات...
@@ -439,22 +539,124 @@
     ============================== */
 
     const productsGrid =
-        document.getElementById("productsGrid");
+        document.getElementById(
+            "productsGrid"
+        );
 
     const searchInput =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
     const searchForm =
-        document.getElementById("searchForm");
+        document.getElementById(
+            "searchForm"
+        );
 
     const categoryFilter =
-        document.getElementById("categoryFilter");
+        document.getElementById(
+            "categoryFilter"
+        );
 
     const sortFilter =
-        document.getElementById("sortFilter");
+        document.getElementById(
+            "sortFilter"
+        );
+
+    const activeCategory =
+        document.getElementById(
+            "activeCategory"
+        );
+
+    const pageTitle =
+        document.getElementById(
+            "pageTitle"
+        );
+
+    const pageDescription =
+        document.getElementById(
+            "pageDescription"
+        );
 
 
     let allProducts = [];
+
+
+    /* ==============================
+       CATEGORY NAMES
+    ============================== */
+
+    const categoryNames = {
+
+        all:
+            "همه دسته‌بندی‌ها",
+
+        mobile:
+            "📱 موبایل",
+
+        computer:
+            "💻 کامپیوتر و لپ‌تاپ",
+
+        fashion:
+            "👕 فیشن",
+
+        shoes:
+            "👟 کفش",
+
+        gaming:
+            "🎮 گیمینگ",
+
+        home:
+            "🏠 خانه",
+
+        tools:
+            "🔧 ابزار",
+
+        vehicle:
+            "🚗 موتر"
+
+    };
+
+
+    /* ==============================
+       GET URL CATEGORY
+    ============================== */
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const urlCategory =
+        urlParams.get("category");
+
+
+    const urlSearch =
+        urlParams.get("search");
+
+
+    /* ==============================
+       INITIAL URL VALUES
+    ============================== */
+
+    if (
+        urlCategory &&
+        categoryNames[urlCategory]
+    ) {
+
+        categoryFilter.value =
+            urlCategory;
+
+    }
+
+
+    if (urlSearch) {
+
+        searchInput.value =
+            urlSearch;
+
+    }
 
 
     /* ==============================
@@ -464,12 +666,21 @@
     async function loadProducts() {
 
         productsGrid.innerHTML = `
+
             <div class="loading">
+
                 ⏳ در حال دریافت محصولات...
+
             </div>
+
         `;
 
-        const { data, error } = await supabaseClient
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
             .from("products")
             .select(`
                 id,
@@ -479,6 +690,7 @@
                 category,
                 city,
                 image_url,
+                image_urls,
                 condition,
                 stock,
                 seller_id,
@@ -486,9 +698,12 @@
                 created_at
             `)
             .eq("status", "active")
-            .order("created_at", {
-                ascending: false
-            });
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
 
 
         if (error) {
@@ -498,20 +713,34 @@
                 error
             );
 
+
             productsGrid.innerHTML = `
+
                 <div class="error">
-                    <h2>❌ خطا در دریافت محصولات</h2>
-                    <p>${error.message}</p>
+
+                    <h2>
+                        ❌ خطا در دریافت محصولات
+                    </h2>
+
+                    <p>
+                        ${escapeHTML(
+                            error.message
+                        )}
+                    </p>
+
                 </div>
+
             `;
 
             return;
         }
 
 
-        allProducts = data || [];
+        allProducts =
+            data || [];
 
-        renderProducts(allProducts);
+
+        applyFilters();
 
     }
 
@@ -520,23 +749,37 @@
        RENDER PRODUCTS
     ============================== */
 
-    function renderProducts(products) {
+    function renderProducts(
+        products
+    ) {
 
         if (!products.length) {
 
+            const currentCategory =
+                categoryFilter.value;
+
+
+            const categoryText =
+                categoryNames[
+                    currentCategory
+                ] || "این دسته";
+
+
             productsGrid.innerHTML = `
+
                 <div class="empty">
 
                     <div class="empty-icon">
-                        🛍️
+                        🔍
                     </div>
 
                     <h2>
-                        هنوز محصولی ثبت نشده است
+                        محصولی پیدا نشد
                     </h2>
 
                     <p>
-                        فعلاً هیچ محصول فعالی برای فروش وجود ندارد.
+                        در ${escapeHTML(categoryText)}
+                        محصول فعالی پیدا نشد.
                     </p>
 
                     <a
@@ -547,15 +790,22 @@
                     </a>
 
                 </div>
+
             `;
 
             return;
         }
 
 
-        productsGrid.innerHTML = products
-            .map(product => createProductCard(product))
-            .join("");
+        productsGrid.innerHTML =
+            products
+                .map(
+                    product =>
+                        createProductCard(
+                            product
+                        )
+                )
+                .join("");
 
     }
 
@@ -564,62 +814,131 @@
        PRODUCT CARD
     ============================== */
 
-    function createProductCard(product) {
+    function createProductCard(
+        product
+    ) {
 
-        const imageHTML = product.image_url
+        const images =
+            getProductImages(
+                product
+            );
 
-            ? `
+
+        const firstImage =
+            images.length
+                ? images[0]
+                : null;
+
+
+        let imageHTML;
+
+
+        if (firstImage) {
+
+            imageHTML = `
+
                 <img
-                    src="${product.image_url}"
+                    src="${escapeHTML(firstImage)}"
                     alt="${escapeHTML(product.title)}"
                     loading="lazy"
-                    onerror="this.parentElement.innerHTML='<div class=&quot;no-image&quot;>🛍️</div>'"
+                    onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<div class=&quot;no-image&quot;>🛍️</div>')"
                 >
-              `
 
-            : `
+            `;
+
+        } else {
+
+            imageHTML = `
+
                 <div class="no-image">
                     🛍️
                 </div>
-              `;
+
+            `;
+
+        }
+
+
+        const photoCountHTML =
+            images.length > 1
+
+            ? `
+
+                <div class="photo-count">
+
+                    📷 ${images.length}
+
+                </div>
+
+              `
+
+            : "";
 
 
         const city =
-            product.city || "افغانستان";
+            product.city ||
+            "افغانستان";
+
 
         const condition =
-            product.condition || "موجود";
+            getConditionName(
+                product.condition
+            );
 
 
         return `
 
             <article
                 class="product-card"
-                onclick="openProduct('${product.id}')"
+                onclick="openProduct('${escapeHTML(product.id)}')"
             >
 
                 <div class="product-image">
+
                     ${imageHTML}
+
+                    ${photoCountHTML}
+
                 </div>
 
 
                 <div class="product-info">
 
                     <h3>
-                        ${escapeHTML(product.title)}
+
+                        ${escapeHTML(
+                            product.title
+                        )}
+
                     </h3>
 
+
                     <div class="price">
-                        ${formatPrice(product.price)}
+
+                        ${formatPrice(
+                            product.price
+                        )}
+
                         افغانی
+
                     </div>
+
 
                     <div class="location">
-                        📍 ${escapeHTML(city)}
+
+                        📍
+
+                        ${escapeHTML(
+                            getCityName(city)
+                        )}
+
                     </div>
 
+
                     <span class="condition">
-                        ${escapeHTML(condition)}
+
+                        ${condition}
+
                     </span>
 
                 </div>
@@ -632,10 +951,60 @@
 
 
     /* ==============================
+       GET IMAGES
+    ============================== */
+
+    function getProductImages(
+        product
+    ) {
+
+        let images = [];
+
+
+        if (
+            Array.isArray(
+                product.image_urls
+            )
+        ) {
+
+            images =
+                product.image_urls.filter(
+                    url =>
+                        typeof url === "string" &&
+                        url.trim() !== ""
+                );
+
+        }
+
+
+        /*
+           پشتیبانی از محصولات قدیمی
+        */
+
+        if (
+            images.length === 0 &&
+            product.image_url
+        ) {
+
+            images = [
+                product.image_url
+            ];
+
+        }
+
+
+        return images;
+
+    }
+
+
+    /* ==============================
        OPEN PRODUCT
     ============================== */
 
-    function openProduct(id) {
+    function openProduct(
+        id
+    ) {
 
         window.location.href =
             "product.html?id=" +
@@ -654,6 +1023,8 @@
 
             event.preventDefault();
 
+            updateURL();
+
             applyFilters();
 
         }
@@ -663,6 +1034,8 @@
     searchInput.addEventListener(
         "input",
         function() {
+
+            updateURL();
 
             applyFilters();
 
@@ -677,6 +1050,8 @@
     categoryFilter.addEventListener(
         "change",
         function() {
+
+            updateURL();
 
             applyFilters();
 
@@ -722,51 +1097,87 @@
             sortFilter.value;
 
 
-        /* SEARCH */
+        /* =========================
+           SEARCH
+        ========================= */
 
         if (search) {
 
             filtered =
-                filtered.filter(product => {
+                filtered.filter(
+                    product => {
 
-                    const title =
-                        String(product.title || "")
+                        const title =
+                            String(
+                                product.title ||
+                                ""
+                            )
                             .toLowerCase();
 
-                    const description =
-                        String(product.description || "")
+
+                        const description =
+                            String(
+                                product.description ||
+                                ""
+                            )
                             .toLowerCase();
 
-                    const city =
-                        String(product.city || "")
+
+                        const city =
+                            String(
+                                product.city ||
+                                ""
+                            )
                             .toLowerCase();
 
-                    return (
-                        title.includes(search) ||
-                        description.includes(search) ||
-                        city.includes(search)
-                    );
 
-                });
+                        return (
 
-        }
+                            title.includes(
+                                search
+                            ) ||
 
+                            description.includes(
+                                search
+                            ) ||
 
-        /* CATEGORY */
+                            city.includes(
+                                search
+                            )
 
-        if (category !== "all") {
+                        );
 
-            filtered =
-                filtered.filter(product =>
-                    product.category === category
+                    }
                 );
 
         }
 
 
-        /* SORT */
+        /* =========================
+           CATEGORY
+        ========================= */
 
-        if (sort === "cheap") {
+        if (
+            category !== "all"
+        ) {
+
+            filtered =
+                filtered.filter(
+                    product =>
+                        product.category ===
+                        category
+                );
+
+        }
+
+
+        /* =========================
+           SORT
+        ========================= */
+
+        if (
+            sort === "cheap"
+        ) {
 
             filtered.sort(
                 (a, b) =>
@@ -777,7 +1188,9 @@
         }
 
 
-        if (sort === "expensive") {
+        if (
+            sort === "expensive"
+        ) {
 
             filtered.sort(
                 (a, b) =>
@@ -788,18 +1201,233 @@
         }
 
 
-        if (sort === "new") {
+        if (
+            sort === "new"
+        ) {
 
             filtered.sort(
                 (a, b) =>
-                    new Date(b.created_at) -
-                    new Date(a.created_at)
+                    new Date(
+                        b.created_at
+                    ) -
+                    new Date(
+                        a.created_at
+                    )
             );
 
         }
 
 
-        renderProducts(filtered);
+        /* =========================
+           CATEGORY TITLE
+        ========================= */
+
+        updateCategoryUI(
+            category,
+            filtered.length
+        );
+
+
+        /* =========================
+           RENDER
+        ========================= */
+
+        renderProducts(
+            filtered
+        );
+
+    }
+
+
+    /* ==============================
+       CATEGORY UI
+    ============================== */
+
+    function updateCategoryUI(
+        category,
+        count
+    ) {
+
+        if (
+            category &&
+            category !== "all"
+        ) {
+
+            const name =
+                categoryNames[
+                    category
+                ] || category;
+
+
+            pageTitle.textContent =
+                name;
+
+
+            pageDescription.textContent =
+                `${count} محصول در این دسته‌بندی`;
+
+
+            activeCategory.textContent =
+                `🏷️ دسته‌بندی فعال: ${name}`;
+
+
+            activeCategory.classList.add(
+                "show"
+            );
+
+        } else {
+
+            pageTitle.textContent =
+                "همه محصولات";
+
+
+            pageDescription.textContent =
+                "کالاهای ثبت‌شده توسط فروشندگان بازارک";
+
+
+            activeCategory.textContent =
+                "";
+
+
+            activeCategory.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+
+
+    /* ==============================
+       UPDATE URL
+    ============================== */
+
+    function updateURL() {
+
+        const params =
+            new URLSearchParams();
+
+
+        const category =
+            categoryFilter.value;
+
+
+        const search =
+            searchInput.value.trim();
+
+
+        if (
+            category &&
+            category !== "all"
+        ) {
+
+            params.set(
+                "category",
+                category
+            );
+
+        }
+
+
+        if (search) {
+
+            params.set(
+                "search",
+                search
+            );
+
+        }
+
+
+        const query =
+            params.toString();
+
+
+        const newURL =
+            query
+                ? "products.html?" + query
+                : "products.html";
+
+
+        window.history.replaceState(
+            {},
+            "",
+            newURL
+        );
+
+    }
+
+
+    /* ==============================
+       CONDITION NAME
+    ============================== */
+
+    function getConditionName(
+        condition
+    ) {
+
+        const conditions = {
+
+            new:
+                "✨ نو",
+
+            used:
+                "♻️ کارکرده"
+
+        };
+
+
+        return (
+            conditions[condition] ||
+            condition ||
+            "موجود"
+        );
+
+    }
+
+
+    /* ==============================
+       CITY NAME
+    ============================== */
+
+    function getCityName(
+        city
+    ) {
+
+        const cities = {
+
+            "Mazar-e-Sharif":
+                "مزار شریف",
+
+            Kabul:
+                "کابل",
+
+            Herat:
+                "هرات",
+
+            Kandahar:
+                "کندهار",
+
+            Jowzjan:
+                "جوزجان",
+
+            Balkh:
+                "بلخ",
+
+            Nangarhar:
+                "ننگرهار",
+
+            Other:
+                "سایر"
+
+        };
+
+
+        return (
+            cities[city] ||
+            city ||
+            "افغانستان"
+        );
 
     }
 
@@ -808,7 +1436,9 @@
        PRICE
     ============================== */
 
-    function formatPrice(price) {
+    function formatPrice(
+        price
+    ) {
 
         if (
             price === null ||
@@ -831,14 +1461,38 @@
        HTML SAFETY
     ============================== */
 
-    function escapeHTML(value) {
+    function escapeHTML(
+        value
+    ) {
 
-        return String(value || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        return String(
+            value ?? ""
+        )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
     }
 
