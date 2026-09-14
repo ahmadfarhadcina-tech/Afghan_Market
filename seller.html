@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ثبت محصول | بازارک</title>
+
+    <meta name="description"
+          content="ثبت و مدیریت محصولات فروشنده در بازارک">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <style>
+
+        :root {
+            --primary: #087a55;
+            --primary-dark: #055c40;
+            --gold: #f2b84b;
+            --bg: #f5f7f6;
+            --white: #ffffff;
+            --text: #17211d;
+            --muted: #718078;
+            --border: #e2e8e4;
+            --danger: #d94b4b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+        }
+
+        .container {
+            width: min(1100px, calc(100% - 30px));
+            margin: auto;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header {
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .logo {
+            color: var(--primary);
+
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .back-link {
+            color: var(--muted);
+
+            font-size: 13px;
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        main {
+            padding: 45px 0 80px;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title span {
+            color: var(--primary);
+
+            display: block;
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            letter-spacing: 2px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+
+            margin-top: 5px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+
+            font-size: 14px;
+
+            margin-top: 7px;
+        }
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .seller-layout {
+            display: grid;
+
+            grid-template-columns:
+                1fr 320px;
+
+            gap: 25px;
+
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.04);
+        }
+
+        .card-title {
+            font-size: 19px;
+
+            margin-bottom: 22px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        label span {
+            color: var(--danger);
+        }
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            border: 1px solid var(--border);
+
+            background: #fafcfb;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            padding: 13px 14px;
+
+            font-size: 13px;
+
+            color: var(--text);
+
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: var(--primary);
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(8,122,85,.08);
+        }
+
+        textarea {
+
+            min-height: 140px;
+
+            resize: vertical;
+        }
+
+
+        /* =========================
+           IMAGE
+        ========================= */
+
+        .image-upload {
+
+            border: 2px dashed #cbd8d1;
+
+            border-radius: 18px;
+
+            padding: 30px 20px;
+
+            text-align: center;
+
+            background: #fbfdfc;
+
+            transition: .2s;
+        }
+
+        .image-upload:hover {
+
+            border-color: var(--primary);
+
+            background: #f5faf7;
+        }
+
+        .image-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 10px;
+        }
+
+        .image-upload h3 {
+
+            font-size: 15px;
+
+            margin-bottom: 5px;
+        }
+
+        .image-upload p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+
+            display: none;
+        }
+
+        .choose-image {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: var(--primary);
+
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .image-name {
+
+            margin-top: 12px;
+
+            color: var(--primary);
+
+            font-size: 11px;
+
+            min-height: 18px;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .submit-button {
+
+            width: 100%;
+
+            min-height: 52px;
+
+            margin-top: 25px;
+
+            background: var(--primary);
+
+            color: white;
+
+            border-radius: 13px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            transition: .2s;
+        }
+
+        .submit-button:hover {
+
+            background: var(--primary-dark);
+
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =========================
+           SIDE INFO
+        ========================= */
+
+        .info-list {
+
+            display: grid;
+
+            gap: 15px;
+        }
+
+        .info-item {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+        }
+
+        .info-icon {
+
+            width: 42px;
+            height: 42px;
+
+            flex-shrink: 0;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: #eaf5ef;
+
+            font-size: 20px;
+        }
+
+        .info-item h3 {
+
+            font-size: 13px;
+
+            margin-bottom: 2px;
+        }
+
+        .info-item p {
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #message {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+        .success {
+
+            display: block !important;
+
+            background: #e9f7ef;
+
+            color: #087a55;
+        }
+
+        .error {
+
+            display: block !important;
+
+            background: #fff0f0;
+
+            color: var(--danger);
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .seller-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+
+                grid-column: auto;
+            }
+
+            .card {
+
+                padding: 20px;
+            }
+
+            .page-title h1 {
+
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header container">
+
+        <a href="index.html"
+           class="logo">
+
+            🛒 بازارک
+
+        </a>
+
+        <a href="index.html"
+           class="back-link">
+
+            ← برگشت به بازار
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+    <div class="container">
+
+
+        <div class="page-title">
+
+            <span>SELLER CENTER</span>
+
+            <h1>
+                ثبت محصول
+            </h1>
+
+            <p>
+                محصول خود را در بازارک ثبت کنید
+                و آن را به خریداران افغانستان معرفی کنید.
+            </p>
+
+        </div>
+
+
+
+        <div class="seller-layout">
+
+
+            <!-- =====================
+                 FORM
+            ====================== -->
+
+            <div class="card">
+
+                <h2 class="card-title">
+                    اطلاعات محصول
+                </h2>
+
+
+                <form id="productForm">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- IMAGE -->
+
+                        <div class="form-group full">
+
+                            <label>
+                                تصویر محصول
+                                <span>*</span>
+                            </label>
+
+
+                            <div class="image-upload">
+
+                                <div class="image-icon">
+                                    📷
+                                </div>
+
+                                <h3>
+                                    تصویر محصول را انتخاب کنید
+                                </h3>
+
+                                <p>
+                                    JPG، PNG یا WEBP
+                                </p>
+
+
+                                <label
+                                    for="productImage"
+                                    class="choose-image">
+
+                                    انتخاب تصویر
+
+                                </label>
+
+
+                                <input
+                                    id="productImage"
+                                    class="file-input"
+                                    type="file"
+                                    accept="image/*"
+                                >
+
+
+                                <div
+                                    id="imageName"
+                                    class="image-name">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- TITLE -->
+
+                        <div class="form-group full">
+
+                            <label for="title">
+                                نام محصول
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                id="title"
+                                type="text"
+                                placeholder="مثلاً iPhone 13 Pro Max"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- PRICE -->
+
+                        <div class="form-group">
+
+                            <label for="price">
+                                قیمت (افغانی)
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                id="price"
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                placeholder="مثلاً 45000"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="form-group">
+
+                            <label for="category">
+                                دسته‌بندی
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="category"
+                                required>
+
+                                <option value="">
+                                    انتخاب دسته‌بندی
+                                </option>
+
+                                <option value="mobile">
+                                    📱 موبایل
+                                </option>
+
+                                <option value="computer">
+                                    💻 کامپیوتر
+                                </option>
+
+                                <option value="fashion">
+                                    👕 فیشن
+                                </option>
+
+                                <option value="shoes">
+                                    👟 کفش
+                                </option>
+
+                                <option value="gaming">
+                                    🎮 گیمینگ
+                                </option>
+
+                                <option value="home">
+                                    🏠 خانه
+                                </option>
+
+                                <option value="tools">
+                                    🔧 ابزار
+                                </option>
+
+                                <option value="vehicle">
+                                    🚗 موتر
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- CITY -->
+
+                        <div class="form-group">
+
+                            <label for="city">
+                                شهر
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="city"
+                                required>
+
+                                <option value="">
+                                    انتخاب شهر
+                                </option>
+
+                                <option value="Mazar-e-Sharif">
+                                    مزار شریف
+                                </option>
+
+                                <option value="Kabul">
+                                    کابل
+                                </option>
+
+                                <option value="Herat">
+                                    هرات
+                                </option>
+
+                                <option value="Kandahar">
+                                    کندهار
+                                </option>
+
+                                <option value="Jowzjan">
+                                    جوزجان
+                                </option>
+
+                                <option value="Balkh">
+                                    بلخ
+                                </option>
+
+                                <option value="Nangarhar">
+                                    ننگرهار
+                                </option>
+
+                                <option value="Other">
+                                    سایر
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- CONDITION -->
+
+                        <div class="form-group">
+
+                            <label for="condition">
+                                وضعیت محصول
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="condition"
+                                required>
+
+                                <option value="">
+                                    انتخاب وضعیت
+                                </option>
+
+                                <option value="new">
+                                    نو
+                                </option>
+
+                                <option value="used">
+                                    استفاده‌شده
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- STOCK -->
+
+                        <div class="form-group">
+
+                            <label for="stock">
+                                تعداد موجودی
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                id="stock"
+                                type="number"
+                                min="1"
+                                value="1"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="form-group full">
+
+                            <label for="description">
+                                توضیحات محصول
+                            </label>
+
+                            <textarea
+                                id="description"
+                                placeholder="مشخصات، وضعیت، ویژگی‌ها و اطلاعات مهم محصول را بنویسید..."
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <button
+                        id="submitButton"
+                        class="submit-button"
+                        type="submit">
+
+                        🚀 ثبت محصول
+
+                    </button>
+
+
+                    <div id="message"></div>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =====================
+                 INFO
+            ====================== -->
+
+            <div class="card">
+
+                <h2 class="card-title">
+                    راهنمای فروشنده
+                </h2>
+
+
+                <div class="info-list">
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            📷
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                عکس واضح بگذارید
+                            </h3>
+
+                            <p>
+                                عکس واقعی و باکیفیت محصول
+                                اعتماد خریدار را بیشتر می‌کند.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            💰
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                قیمت واقعی
+                            </h3>
+
+                            <p>
+                                قیمت محصول را به افغانی
+                                و دقیق وارد کنید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            📝
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                توضیحات کامل
+                            </h3>
+
+                            <p>
+                                مشخصات محصول را واضح
+                                برای خریدار بنویسید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            🤝
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                فروش امن‌تر
+                            </h3>
+
+                            <p>
+                                اطلاعات درست باعث اعتماد
+                                بیشتر خریداران می‌شود.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+
+    /* =========================
+       SUPABASE
+    ========================= */
+
+
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+
+    const SUPABASE_ANON_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const productForm =
+        document.getElementById(
+            "productForm"
+        );
+
+
+    const submitButton =
+        document.getElementById(
+            "submitButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    const productImage =
+        document.getElementById(
+            "productImage"
+        );
+
+
+    const imageName =
+        document.getElementById(
+            "imageName"
+        );
+
+
+
+    /* =========================
+       IMAGE NAME
+    ========================= */
+
+    productImage.addEventListener(
+        "change",
+        function() {
+
+            if (this.files.length > 0) {
+
+                imageName.textContent =
+                    "📎 " +
+                    this.files[0].name;
+
+            } else {
+
+                imageName.textContent = "";
+
+            }
+
+        }
+    );
+
+
+
+    /* =========================
+       AUTH CHECK
+    ========================= */
+
+    async function checkUser() {
+
+        const {
+            data: {
+                session
+            }
+        } = await supabaseClient
+            .auth
+            .getSession();
+
+
+        if (!session) {
+
+            window.location.href =
+                "login.html";
+
+            return null;
+
+        }
+
+
+        return session.user;
+
+    }
+
+
+
+    /* =========================
+       SHOW MESSAGE
+    ========================= */
+
+    function showMessage(
+        text,
+        type
+    ) {
+
+        message.textContent = text;
+
+        message.className = type;
+
+    }
+
+
+
+    /* =========================
+       SUBMIT PRODUCT
+    ========================= */
+
+    productForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            submitButton.disabled =
+                true;
+
+            submitButton.textContent =
+                "⏳ در حال ثبت...";
+
+
+            try {
+
+
+                /* GET USER */
+
+                const user =
+                    await checkUser();
+
+
+                if (!user) {
+
+                    return;
+
+                }
+
+
+                /* GET FORM DATA */
+
+                const title =
+                    document
+                        .getElementById("title")
+                        .value
+                        .trim();
+
+
+                const price =
+                    Number(
+                        document
+                            .getElementById("price")
+                            .value
+                    );
+
+
+                const category =
+                    document
+                        .getElementById("category")
+                        .value;
+
+
+                const city =
+                    document
+                        .getElementById("city")
+                        .value;
+
+
+                const condition =
+                    document
+                        .getElementById("condition")
+                        .value;
+
+
+                const stock =
+                    Number(
+                        document
+                            .getElementById("stock")
+                            .value
+                    );
+
+
+                const description =
+                    document
+                        .getElementById("description")
+                        .value
+                        .trim();
+
+
+
+                /* VALIDATION */
+
+                if (
+                    !title ||
+                    !price ||
+                    !category ||
+                    !city ||
+                    !condition ||
+                    !stock
+                ) {
+
+                    showMessage(
+                        "لطفاً تمام بخش‌های ضروری را تکمیل کنید.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                /*
+                    فعلاً عکس را ذخیره نمی‌کنیم.
+
+                    مرحله بعد:
+                    Supabase Storage
+
+                    سپس:
+                    image_url
+                */
+
+
+                const {
+                    data,
+                    error
+                } = await supabaseClient
+                    .from("products")
+                    .insert([
+
+                        {
+
+                            title: title,
+
+                            description:
+                                description,
+
+                            price: price,
+
+                            category:
+                                category,
+
+                            city: city,
+
+                            seller_id:
+                                user.id,
+
+                            status:
+                                "active"
+
+                        }
+
+                    ])
+                    .select()
+                    .single();
+
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    throw error;
+
+                }
+
+
+
+                /* SUCCESS */
+
+                showMessage(
+                    "✅ محصول با موفقیت ثبت شد!",
+                    "success"
+                );
+
+
+                productForm.reset();
+
+                imageName.textContent = "";
+
+
+                console.log(
+                    "Product:",
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Product error:",
+                    error
+                );
+
+
+                showMessage(
+                    "❌ خطا در ثبت محصول: " +
+                    error.message,
+                    "error"
+                );
+
+
+            } finally {
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    "🚀 ثبت محصول";
+
+            }
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>
