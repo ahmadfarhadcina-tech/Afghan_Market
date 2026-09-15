@@ -35,6 +35,12 @@
             color: inherit;
         }
 
+        /* جلوگیری از هایلایت آبی موبایل */
+        a,
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
         header {
             background: #ffffff;
             border-bottom: 1px solid #e5e9e7;
@@ -161,8 +167,11 @@
             border: 1px solid #e5e9e7;
             border-radius: 16px;
             overflow: hidden;
-            transition: 0.25s;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .product-card:hover {
@@ -170,6 +179,11 @@
             box-shadow:
                 0 12px 30px
                 rgba(0,0,0,0.08);
+        }
+
+        /* انیمیشن کوچک هنگام لمس کارت */
+        .product-card:active {
+            transform: scale(0.985);
         }
 
         .product-image {
@@ -204,7 +218,9 @@
             border-radius: 8px;
             font-size: 11px;
             direction: rtl;
+            pointer-events: none;
         }
+
 
         /* ==============================
            SELLER
@@ -213,7 +229,7 @@
         .seller-box {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
             margin-bottom: 13px;
             min-width: 0;
         }
@@ -221,14 +237,27 @@
         .seller-link {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
             min-width: 0;
-            width: fit-content;
             max-width: 100%;
+            width: fit-content;
+
+            /* انیمیشن مستقل فروشنده */
+            transition:
+                transform 0.18s ease,
+                opacity 0.18s ease;
+
+            -webkit-tap-highlight-color: transparent;
         }
 
         .seller-link:hover .seller-name {
             color: #087a55;
+        }
+
+        /* فقط خود فروشنده تکان بخورد */
+        .seller-link:active {
+            transform: scale(0.94);
+            opacity: 0.75;
         }
 
         .seller-avatar {
@@ -263,6 +292,53 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+
+        /* ==============================
+           FOLLOW BUTTON
+        ============================== */
+
+        .follow-btn {
+            border: none;
+            background: #087a55;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+
+            transition:
+                transform 0.18s ease,
+                background 0.18s ease,
+                opacity 0.18s ease;
+
+            flex-shrink: 0;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .follow-btn:hover {
+            background: #055c40;
+        }
+
+        .follow-btn:active {
+            transform: scale(0.92);
+        }
+
+        .follow-btn.following {
+            background: #e8efeb;
+            color: #087a55;
+            border: 1px solid #d5e2db;
+        }
+
+        .follow-btn:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
 
         .product-info {
             padding: 16px;
@@ -387,6 +463,24 @@
                 min-width: 140px;
             }
 
+            .seller-box {
+                gap: 5px;
+            }
+
+            .seller-link {
+                gap: 6px;
+                flex: 1;
+            }
+
+            .seller-name {
+                max-width: 85px;
+            }
+
+            .follow-btn {
+                padding: 6px 8px;
+                font-size: 9px;
+            }
+
         }
 
         @media (max-width: 400px) {
@@ -397,6 +491,10 @@
 
             .product-image {
                 height: 200px;
+            }
+
+            .seller-name {
+                max-width: 140px;
             }
 
         }
@@ -609,6 +707,10 @@
 
     let allProducts = [];
 
+    let currentUser = null;
+
+    let followingUsers = new Set();
+
 
     /* ==============================
        CATEGORY NAMES
@@ -682,6 +784,103 @@
 
 
     /* ==============================
+       GET CURRENT USER
+    ============================== */
+
+    async function getCurrentUser() {
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.getUser();
+
+
+        if (
+            !error &&
+            data &&
+            data.user
+        ) {
+
+            currentUser =
+                data.user;
+
+        } else {
+
+            currentUser = null;
+
+        }
+
+    }
+
+
+    /* ==============================
+       LOAD FOLLOWING USERS
+    ============================== */
+
+    async function loadFollowingUsers(
+        sellerIds
+    ) {
+
+        followingUsers =
+            new Set();
+
+
+        if (
+            !currentUser ||
+            !sellerIds.length
+        ) {
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("followers")
+            .select(
+                "following_id"
+            )
+            .eq(
+                "follower_id",
+                currentUser.id
+            )
+            .in(
+                "following_id",
+                sellerIds
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Following Error:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        (data || []).forEach(
+            row => {
+
+                followingUsers.add(
+                    row.following_id
+                );
+
+            }
+        );
+
+    }
+
+
+    /* ==============================
        LOAD PRODUCTS
     ============================== */
 
@@ -696,6 +895,9 @@
             </div>
 
         `;
+
+
+        await getCurrentUser();
 
 
         const {
@@ -824,6 +1026,15 @@
             }
 
         }
+
+
+        /* ==============================
+           LOAD FOLLOW STATUS
+        ============================== */
+
+        await loadFollowingUsers(
+            sellerIds
+        );
 
 
         /*
@@ -1050,6 +1261,45 @@
         }
 
 
+        const isFollowing =
+            sellerId &&
+            followingUsers.has(
+                sellerId
+            );
+
+
+        const isOwnProfile =
+            currentUser &&
+            sellerId === currentUser.id;
+
+
+        let followButtonHTML = "";
+
+
+        if (
+            sellerId &&
+            !isOwnProfile
+        ) {
+
+            followButtonHTML = `
+
+                <button
+                    type="button"
+                    class="follow-btn ${isFollowing ? "following" : ""}"
+                    data-seller-id="${escapeHTML(sellerId)}"
+                    onclick="event.stopPropagation(); toggleFollowFromProducts(this, '${escapeHTML(sellerId)}')"
+                >
+                    ${isFollowing
+                        ? "✓ دنبال می‌کنید"
+                        : "+ دنبال کردن"
+                    }
+                </button>
+
+            `;
+
+        }
+
+
         const sellerHTML =
             sellerId
 
@@ -1060,7 +1310,7 @@
                     <a
                         href="seller-profile.html?id=${encodeURIComponent(sellerId)}"
                         class="seller-link"
-                        onclick="event.stopPropagation();"
+                        onclick="event.stopPropagation(); sellerClickAnimation(this, event);"
                     >
 
                         ${sellerAvatarHTML}
@@ -1074,6 +1324,8 @@
                         </span>
 
                     </a>
+
+                    ${followButtonHTML}
 
                 </div>
 
@@ -1145,6 +1397,221 @@
             </article>
 
         `;
+
+    }
+
+
+    /* ==============================
+       SELLER CLICK ANIMATION
+    ============================== */
+
+    function sellerClickAnimation(
+        element,
+        event
+    ) {
+
+        event.stopPropagation();
+
+        element.classList.add(
+            "seller-clicked"
+        );
+
+        setTimeout(
+            () => {
+
+                window.location.href =
+                    element.href;
+
+            },
+            120
+        );
+
+    }
+
+
+    /* ==============================
+       FOLLOW / UNFOLLOW
+    ============================== */
+
+    async function toggleFollowFromProducts(
+        button,
+        sellerId
+    ) {
+
+        if (!currentUser) {
+
+            alert(
+                "برای دنبال کردن فروشنده ابتدا وارد حساب شوید."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            currentUser.id === sellerId
+        ) {
+
+            return;
+
+        }
+
+
+        if (button.disabled) {
+
+            return;
+
+        }
+
+
+        button.disabled = true;
+
+
+        const currentlyFollowing =
+            followingUsers.has(
+                sellerId
+            );
+
+
+        if (currentlyFollowing) {
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("followers")
+                .delete()
+                .eq(
+                    "follower_id",
+                    currentUser.id
+                )
+                .eq(
+                    "following_id",
+                    sellerId
+                );
+
+
+            if (error) {
+
+                console.error(
+                    "Unfollow Error:",
+                    error
+                );
+
+                alert(
+                    "لغو دنبال کردن انجام نشد."
+                );
+
+            } else {
+
+                followingUsers.delete(
+                    sellerId
+                );
+
+                updateFollowButton(
+                    button,
+                    false
+                );
+
+            }
+
+        } else {
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("followers")
+                .insert({
+
+                    follower_id:
+                        currentUser.id,
+
+                    following_id:
+                        sellerId
+
+                });
+
+
+            if (error) {
+
+                console.error(
+                    "Follow Error:",
+                    error
+                );
+
+
+                if (
+                    error.code === "23505"
+                ) {
+
+                    followingUsers.add(
+                        sellerId
+                    );
+
+                    updateFollowButton(
+                        button,
+                        true
+                    );
+
+                } else {
+
+                    alert(
+                        "دنبال کردن انجام نشد."
+                    );
+
+                }
+
+            } else {
+
+                followingUsers.add(
+                    sellerId
+                );
+
+                updateFollowButton(
+                    button,
+                    true
+                );
+
+            }
+
+        }
+
+
+        button.disabled = false;
+
+    }
+
+
+    /* ==============================
+       UPDATE FOLLOW BUTTON
+    ============================== */
+
+    function updateFollowButton(
+        button,
+        following
+    ) {
+
+        if (following) {
+
+            button.textContent =
+                "✓ دنبال می‌کنید";
+
+            button.classList.add(
+                "following"
+            );
+
+        } else {
+
+            button.textContent =
+                "+ دنبال کردن";
+
+            button.classList.remove(
+                "following"
+            );
+
+        }
 
     }
 
