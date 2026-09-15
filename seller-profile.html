@@ -25,6 +25,11 @@
             color: inherit;
         }
 
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
         .header {
             background: #123d28;
             color: white;
@@ -51,6 +56,11 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
+            transition: .15s;
+        }
+
+        .back-btn:active {
+            transform: scale(.9);
         }
 
         .header-title {
@@ -109,6 +119,8 @@
             font-size: 14px;
         }
 
+        /* FOLLOW BUTTON */
+
         .follow-btn {
             border: none;
             background: #167342;
@@ -116,8 +128,17 @@
             padding: 11px 30px;
             border-radius: 12px;
             font-size: 15px;
+            font-family: inherit;
             cursor: pointer;
             margin-top: 18px;
+            transition:
+                transform .15s ease,
+                background .2s ease,
+                opacity .2s ease;
+        }
+
+        .follow-btn:active {
+            transform: scale(.94);
         }
 
         .follow-btn.following {
@@ -178,6 +199,11 @@
             border-radius: 17px;
             overflow: hidden;
             box-shadow: 0 3px 14px rgba(0,0,0,.06);
+            transition: transform .15s ease;
+        }
+
+        .product-card:active {
+            transform: scale(.985);
         }
 
         .product-image {
@@ -297,6 +323,7 @@
 
             <button id="followBtn"
                     class="follow-btn"
+                    type="button"
                     style="display:none;">
                 دنبال کردن
             </button>
@@ -308,6 +335,7 @@
             </div>
 
             <div class="stats">
+
                 <div class="stat">
                     <div id="followersCount" class="stat-number">0</div>
                     <div class="stat-title">دنبال‌کننده</div>
@@ -322,6 +350,7 @@
                     <div id="productsCount" class="stat-number">0</div>
                     <div class="stat-title">محصولات</div>
                 </div>
+
             </div>
 
         </section>
@@ -342,6 +371,7 @@
 </main>
 
 <script>
+
     // ==============================
     // SUPABASE
     // ==============================
@@ -370,7 +400,6 @@
         params.get("id");
 
     let currentUser = null;
-
     let isFollowing = false;
 
 
@@ -399,7 +428,8 @@
             return "قیمت نامشخص";
         }
 
-        return Number(price).toLocaleString("fa-AF") + " افغانی";
+        return Number(price).toLocaleString("fa-AF") +
+               " افغانی";
     }
 
 
@@ -421,7 +451,7 @@
 
 
     // ==============================
-    // GET CURRENT USER
+    // CURRENT USER
     // ==============================
 
     async function getCurrentUser() {
@@ -445,7 +475,7 @@
 
         if (!sellerId) {
             showError("شناسه فروشنده پیدا نشد.");
-            return;
+            return false;
         }
 
         const {
@@ -466,17 +496,33 @@
             .maybeSingle();
 
         if (error) {
-            console.error(error);
-            showError("خطا در دریافت پروفایل فروشنده.");
-            return;
+
+            console.error(
+                "PROFILE ERROR:",
+                error
+            );
+
+            showError(
+                "خطا در دریافت پروفایل فروشنده."
+            );
+
+            return false;
         }
 
         if (!profile) {
-            showError("این پروفایل پیدا نشد.");
-            return;
+
+            showError(
+                "این پروفایل پیدا نشد."
+            );
+
+            return false;
         }
 
-        document.getElementById("avatar").src =
+
+        const avatar =
+            document.getElementById("avatar");
+
+        avatar.src =
             profile.avatar_url ||
             "https://ui-avatars.com/api/?name=" +
             encodeURIComponent(
@@ -485,88 +531,120 @@
                 "Seller"
             );
 
-        document.getElementById("fullName").textContent =
+
+        document.getElementById(
+            "fullName"
+        ).textContent =
             profile.full_name ||
             profile.username ||
             "فروشنده";
 
-        document.getElementById("username").textContent =
+
+        document.getElementById(
+            "username"
+        ).textContent =
             profile.username
                 ? "@" + profile.username
                 : "";
 
-        document.getElementById("bio").textContent =
+
+        document.getElementById(
+            "bio"
+        ).textContent =
             profile.bio || "";
 
-        document.getElementById("city").textContent =
+
+        document.getElementById(
+            "city"
+        ).textContent =
             profile.city
                 ? "📍 " + profile.city
                 : "";
 
-        document.getElementById("whatsapp").textContent =
+
+        document.getElementById(
+            "whatsapp"
+        ).textContent =
             profile.whatsapp
                 ? "📱 " + profile.whatsapp
                 : "";
 
+
         document.title =
-            (profile.full_name ||
-             profile.username ||
-             "پروفایل فروشنده") +
+            (
+                profile.full_name ||
+                profile.username ||
+                "پروفایل فروشنده"
+            ) +
             " | بازارک";
 
-        document.getElementById("content").style.display =
-            "block";
 
-        document.getElementById("loading").style.display =
-            "none";
+        document.getElementById(
+            "content"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+        return true;
     }
 
 
     // ==============================
-    // FOLLOW STATS
+    // FOLLOW COUNTS
     // ==============================
 
     async function loadFollowStats() {
 
-        const {
-            count: followers,
-            error: followersError
-        } = await supabaseClient
-            .from("followers")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .eq("following_id", sellerId);
-
-        if (!followersError) {
-            document.getElementById(
-                "followersCount"
-            ).textContent = followers || 0;
+        if (!sellerId) {
+            return;
         }
 
 
-        const {
-            count: following,
-            error: followingError
-        } = await supabaseClient
-            .from("followers")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .eq("follower_id", sellerId);
+        const followersResult =
+            await supabaseClient
+                .from("followers")
+                .select("*", {
+                    count: "exact",
+                    head: true
+                })
+                .eq("following_id", sellerId);
 
-        if (!followingError) {
+
+        if (!followersResult.error) {
+
+            document.getElementById(
+                "followersCount"
+            ).textContent =
+                followersResult.count || 0;
+        }
+
+
+        const followingResult =
+            await supabaseClient
+                .from("followers")
+                .select("*", {
+                    count: "exact",
+                    head: true
+                })
+                .eq("follower_id", sellerId);
+
+
+        if (!followingResult.error) {
+
             document.getElementById(
                 "followingCount"
-            ).textContent = following || 0;
+            ).textContent =
+                followingResult.count || 0;
         }
     }
 
 
     // ==============================
-    // CHECK FOLLOW
+    // CHECK FOLLOW STATUS
     // ==============================
 
     async function checkFollowStatus() {
@@ -577,28 +655,30 @@
         const message =
             document.getElementById("loginMessage");
 
+
+        // مهمان
         if (!currentUser) {
 
             button.style.display = "none";
-
             message.style.display = "block";
 
             return;
         }
 
-        // خود کاربر
+
+        // پروفایل خود کاربر
         if (currentUser.id === sellerId) {
 
             button.style.display = "none";
-
             message.style.display = "none";
 
             return;
         }
 
-        button.style.display = "inline-block";
 
+        button.style.display = "inline-block";
         message.style.display = "none";
+
 
         const {
             data,
@@ -606,38 +686,63 @@
         } = await supabaseClient
             .from("followers")
             .select("id")
-            .eq("follower_id", currentUser.id)
-            .eq("following_id", sellerId)
+            .eq(
+                "follower_id",
+                currentUser.id
+            )
+            .eq(
+                "following_id",
+                sellerId
+            )
             .maybeSingle();
 
-        if (!error && data) {
-            isFollowing = true;
-        } else {
+
+        if (error) {
+
+            console.error(
+                "FOLLOW CHECK ERROR:",
+                error
+            );
+
             isFollowing = false;
+
+        } else {
+
+            isFollowing = !!data;
         }
+
 
         updateFollowButton();
     }
 
+
+    // ==============================
+    // UPDATE BUTTON
+    // ==============================
 
     function updateFollowButton() {
 
         const button =
             document.getElementById("followBtn");
 
+
         if (isFollowing) {
 
             button.textContent =
                 "دنبال می‌کنید ✓";
 
-            button.classList.add("following");
+            button.classList.add(
+                "following"
+            );
 
         } else {
 
             button.textContent =
                 "دنبال کردن";
 
-            button.classList.remove("following");
+            button.classList.remove(
+                "following"
+            );
         }
     }
 
@@ -649,13 +754,21 @@
     async function toggleFollow() {
 
         if (!currentUser) {
-            alert("ابتدا وارد حساب خود شوید.");
+
+            alert(
+                "ابتدا وارد حساب خود شوید."
+            );
+
             return;
         }
 
-        if (currentUser.id === sellerId) {
+
+        if (
+            currentUser.id === sellerId
+        ) {
             return;
         }
+
 
         const button =
             document.getElementById("followBtn");
@@ -665,19 +778,35 @@
 
         if (isFollowing) {
 
+            // ==========================
+            // UNFOLLOW
+            // ==========================
+
             const {
                 error
             } = await supabaseClient
                 .from("followers")
                 .delete()
-                .eq("follower_id", currentUser.id)
-                .eq("following_id", sellerId);
+                .eq(
+                    "follower_id",
+                    currentUser.id
+                )
+                .eq(
+                    "following_id",
+                    sellerId
+                );
+
 
             if (error) {
 
-                console.error(error);
+                console.error(
+                    "UNFOLLOW ERROR:",
+                    error
+                );
 
-                alert("لغو دنبال کردن انجام نشد.");
+                alert(
+                    "لغو دنبال کردن انجام نشد."
+                );
 
             } else {
 
@@ -685,25 +814,53 @@
 
                 updateFollowButton();
 
-                loadFollowStats();
+                await loadFollowStats();
             }
 
+
         } else {
+
+            // ==========================
+            // FOLLOW
+            // ==========================
 
             const {
                 error
             } = await supabaseClient
                 .from("followers")
                 .insert({
-                    follower_id: currentUser.id,
-                    following_id: sellerId
+                    follower_id:
+                        currentUser.id,
+
+                    following_id:
+                        sellerId
                 });
+
 
             if (error) {
 
-                console.error(error);
+                console.error(
+                    "FOLLOW ERROR:",
+                    error
+                );
 
-                alert("دنبال کردن انجام نشد.");
+                // اگر قبلاً دنبال شده باشد
+                if (
+                    error.code === "23505"
+                ) {
+
+                    isFollowing = true;
+
+                    updateFollowButton();
+
+                    await loadFollowStats();
+
+                } else {
+
+                    alert(
+                        "دنبال کردن انجام نشد."
+                    );
+                }
 
             } else {
 
@@ -711,9 +868,10 @@
 
                 updateFollowButton();
 
-                loadFollowStats();
+                await loadFollowStats();
             }
         }
+
 
         button.disabled = false;
     }
@@ -740,40 +898,66 @@
                 status,
                 created_at
             `)
-            .eq("seller_id", sellerId)
-            .eq("status", "active")
-            .order("created_at", {
-                ascending: false
-            });
+            .eq(
+                "seller_id",
+                sellerId
+            )
+            .eq(
+                "status",
+                "active"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "PRODUCTS ERROR:",
+                error
+            );
 
             document.getElementById(
                 "products"
             ).innerHTML =
-                `<div class="empty">
+                `
+                <div class="empty">
                     خطا در دریافت محصولات.
-                </div>`;
+                </div>
+                `;
 
             return;
         }
 
+
         document.getElementById(
             "productsCount"
-        ).textContent = products.length;
+        ).textContent =
+            products.length;
+
 
         const container =
-            document.getElementById("products");
+            document.getElementById(
+                "products"
+            );
+
 
         if (!products.length) {
 
             container.innerHTML =
-                `<div class="empty"
-                      style="grid-column:1/-1;">
-                    این فروشنده هنوز محصولی برای فروش ندارد.
-                </div>`;
+                `
+                <div
+                    class="empty"
+                    style="grid-column:1/-1;"
+                >
+                    این فروشنده هنوز محصولی
+                    برای فروش ندارد.
+                </div>
+                `;
 
             return;
         }
@@ -785,6 +969,7 @@
                 const image =
                     getProductImage(product);
 
+
                 return `
                     <article class="product-card">
 
@@ -792,8 +977,10 @@
                             src="${escapeHTML(image)}"
                             class="product-image"
                             alt="${escapeHTML(product.title)}"
-                            onclick="openProduct('${product.id}')"
-                            onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'"
+                            onclick="openProduct('${escapeHTML(product.id)}')"
+                            onerror="
+                                this.src='https://via.placeholder.com/600x400?text=No+Image'
+                            "
                         >
 
                         <div class="product-info">
@@ -810,9 +997,10 @@
                                 product.city
                                 ? `
                                     <div class="city">
-                                        📍 ${escapeHTML(product.city)}
+                                        📍
+                                        ${escapeHTML(product.city)}
                                     </div>
-                                  `
+                                `
                                 : ""
                             }
 
@@ -833,7 +1021,9 @@
 
         window.location.href =
             "product.html?id=" +
-            encodeURIComponent(productId);
+            encodeURIComponent(
+                productId
+            );
     }
 
 
@@ -843,23 +1033,33 @@
 
     function showError(message) {
 
-        document.getElementById("loading").style.display =
-            "none";
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
 
-        document.getElementById("content").style.display =
-            "none";
+
+        document.getElementById(
+            "content"
+        ).style.display = "none";
+
 
         const errorBox =
-            document.getElementById("errorBox");
+            document.getElementById(
+                "errorBox"
+            );
 
-        errorBox.textContent = message;
 
-        errorBox.style.display = "block";
+        errorBox.textContent =
+            message;
+
+
+        errorBox.style.display =
+            "block";
     }
 
 
     // ==============================
-    // FOLLOW BUTTON
+    // BUTTON EVENT
     // ==============================
 
     document.getElementById(
@@ -876,16 +1076,35 @@
 
     async function init() {
 
+        if (!sellerId) {
+
+            showError(
+                "شناسه فروشنده پیدا نشد."
+            );
+
+            return;
+        }
+
+
         await getCurrentUser();
 
-        await loadProfile();
 
-        await loadFollowStats();
+        const profileLoaded =
+            await loadProfile();
 
-        await checkFollowStatus();
 
-        await loadProducts();
+        if (!profileLoaded) {
+            return;
+        }
+
+
+        await Promise.all([
+            loadFollowStats(),
+            checkFollowStatus(),
+            loadProducts()
+        ]);
     }
+
 
     init();
 
