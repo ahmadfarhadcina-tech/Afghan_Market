@@ -1,26 +1,17 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>ویرایش محصول | بازارک</title>
+    <title>ویرایش پروفایل | بازارک</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
     <style>
-
         * {
             box-sizing: border-box;
         }
-
 
         body {
             margin: 0;
@@ -29,7 +20,6 @@
             color: #17251d;
         }
 
-
         header {
             background: #087443;
             color: white;
@@ -37,9 +27,8 @@
             box-shadow: 0 3px 12px rgba(0,0,0,.1);
         }
 
-
         .header {
-            max-width: 750px;
+            max-width: 700px;
             margin: auto;
             display: flex;
             align-items: center;
@@ -47,14 +36,12 @@
             gap: 15px;
         }
 
-
         .logo {
             color: white;
             text-decoration: none;
             font-size: 22px;
             font-weight: bold;
         }
-
 
         .back {
             color: white;
@@ -64,13 +51,11 @@
             border-radius: 10px;
         }
 
-
         .container {
-            max-width: 750px;
+            max-width: 700px;
             margin: 30px auto;
             padding: 0 15px;
         }
-
 
         .card {
             background: white;
@@ -79,18 +64,46 @@
             box-shadow: 0 8px 30px rgba(0,0,0,.07);
         }
 
-
         h1 {
             margin: 0 0 25px;
             color: #087443;
             font-size: 25px;
         }
 
+        .avatar-box {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e7f4ed;
+            background: #e7f4ed;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        .file-label {
+            display: inline-block;
+            background: #e8f5ee;
+            color: #087443;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #avatarInput {
+            display: none;
+        }
 
         .field {
             margin-bottom: 18px;
         }
-
 
         label {
             display: block;
@@ -99,549 +112,201 @@
             color: #333;
         }
 
-
         input,
-        textarea,
-        select {
-
+        textarea {
             width: 100%;
-
             border: 1px solid #d9e2dc;
-
             border-radius: 11px;
-
             padding: 13px;
-
             font-family: Tahoma, Arial, sans-serif;
-
             font-size: 15px;
-
             outline: none;
-
             background: #fbfdfc;
-
         }
-
 
         input:focus,
-        textarea:focus,
-        select:focus {
-
+        textarea:focus {
             border-color: #087443;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(8,116,67,.08);
-
+            box-shadow: 0 0 0 3px rgba(8,116,67,.08);
         }
-
 
         textarea {
-
-            min-height: 130px;
-
+            min-height: 120px;
             resize: vertical;
-
             line-height: 1.8;
-
         }
-
-
-        .images-title {
-
-            margin: 25px 0 12px;
-
-            font-weight: bold;
-
-            color: #333;
-
-        }
-
-
-        .image-help {
-
-            color: #777;
-
-            font-size: 13px;
-
-            margin-bottom: 15px;
-
-            line-height: 1.8;
-
-        }
-
-
-        .image-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 12px;
-
-            margin-bottom: 15px;
-
-        }
-
-
-        .image-item {
-
-            position: relative;
-
-            border-radius: 12px;
-
-            overflow: hidden;
-
-            background: #eef2ef;
-
-            aspect-ratio: 1 / 1;
-
-        }
-
-
-        .image-item img {
-
-            width: 100%;
-
-            height: 100%;
-
-            object-fit: cover;
-
-            display: block;
-
-        }
-
-
-        .remove-image {
-
-            position: absolute;
-
-            top: 7px;
-
-            left: 7px;
-
-            width: 32px;
-
-            height: 32px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: rgba(198,40,40,.9);
-
-            color: white;
-
-            cursor: pointer;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-        }
-
-
-        .new-image-label {
-
-            display: inline-block;
-
-            background: #e8f5ee;
-
-            color: #087443;
-
-            padding: 11px 15px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            font-weight: bold;
-
-            font-size: 14px;
-
-        }
-
-
-        #imageInput {
-
-            display: none;
-
-        }
-
-
-        .new-images {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 12px;
-
-            margin-top: 15px;
-
-        }
-
-
-        .new-image-item {
-
-            position: relative;
-
-            border-radius: 12px;
-
-            overflow: hidden;
-
-            background: #eef2ef;
-
-            aspect-ratio: 1 / 1;
-
-        }
-
-
-        .new-image-item img {
-
-            width: 100%;
-
-            height: 100%;
-
-            object-fit: cover;
-
-        }
-
-
-        .remove-new-image {
-
-            position: absolute;
-
-            top: 7px;
-
-            left: 7px;
-
-            width: 32px;
-
-            height: 32px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: rgba(198,40,40,.9);
-
-            color: white;
-
-            cursor: pointer;
-
-            font-size: 16px;
-
-        }
-
 
         .save-btn {
-
             width: 100%;
-
             border: none;
-
             background: #087443;
-
             color: white;
-
             padding: 14px;
-
             border-radius: 11px;
-
             font-size: 16px;
-
             font-weight: bold;
-
             cursor: pointer;
-
-            margin-top: 20px;
-
+            margin-top: 8px;
         }
-
 
         .save-btn:hover {
-
             background: #075f37;
-
         }
-
 
         .save-btn:disabled {
-
             opacity: .6;
-
             cursor: not-allowed;
-
         }
-
 
         .message {
-
             display: none;
-
             padding: 12px;
-
             border-radius: 10px;
-
             margin-bottom: 18px;
-
             text-align: center;
-
             font-size: 14px;
-
-            white-space: pre-line;
-
         }
-
 
         .error {
-
             background: #fdeaea;
-
             color: #c62828;
-
         }
-
 
         .success {
-
             background: #e8f5ee;
-
             color: #087443;
-
         }
-
 
         .loading {
-
             text-align: center;
-
             padding: 50px;
-
             color: #777;
-
         }
-
-
-        .hidden {
-
-            display: none !important;
-
-        }
-
 
         @media (max-width: 550px) {
 
             header {
-
                 padding: 13px 15px;
-
             }
-
 
             .header {
-
                 flex-direction: column;
-
                 align-items: stretch;
-
             }
-
 
             .back {
-
                 text-align: center;
-
             }
-
 
             .container {
-
                 margin-top: 20px;
-
             }
-
 
             .card {
-
                 padding: 20px;
-
             }
-
-
-            .image-grid,
-            .new-images {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-            }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
     <div class="header">
 
-        <a
-            href="index.html"
-            class="logo"
-        >
+        <a href="index.html" class="logo">
             🛒 بازارک
         </a>
 
-
-        <a
-            href="my-products.html"
-            class="back"
-        >
-            ← محصولات من
+        <a href="profile.html" class="back">
+            ← برگشت به پروفایل
         </a>
 
     </div>
-
 </header>
-
 
 
 <main class="container">
 
-
-    <div
-        id="loading"
-        class="loading"
-    >
-        ⏳ در حال دریافت اطلاعات محصول...
+    <div id="loading" class="loading">
+        ⏳ در حال دریافت اطلاعات پروفایل...
     </div>
 
 
+    <section id="editArea" class="card" style="display:none;">
 
-    <section
-        id="editArea"
-        class="card hidden"
-    >
+        <h1>✏️ ویرایش پروفایل</h1>
 
-
-        <h1>
-            ✏️ ویرایش محصول
-        </h1>
+        <div id="message" class="message"></div>
 
 
-        <div
-            id="message"
-            class="message"
-        ></div>
+        <div class="avatar-box">
 
+            <img
+                id="avatar"
+                class="avatar"
+                src=""
+                alt="عکس پروفایل"
+            >
+
+            <label
+                for="avatarInput"
+                class="file-label"
+            >
+                📷 تغییر عکس پروفایل
+            </label>
+
+            <input
+                type="file"
+                id="avatarInput"
+                accept="image/*"
+            >
+
+        </div>
 
 
         <div class="field">
 
-            <label for="title">
-                عنوان محصول
+            <label for="fullName">
+                نام کامل
             </label>
 
             <input
                 type="text"
-                id="title"
-                placeholder="مثلاً iPhone 13"
+                id="fullName"
+                placeholder="نام کامل خود را وارد کنید"
             >
 
         </div>
 
 
-
         <div class="field">
 
-            <label for="description">
-                توضیحات
-            </label>
-
-            <textarea
-                id="description"
-                placeholder="توضیحات محصول..."
-            ></textarea>
-
-        </div>
-
-
-
-        <div class="field">
-
-            <label for="price">
-                قیمت
+            <label for="username">
+                نام کاربری
             </label>
 
             <input
-                type="number"
-                id="price"
-                min="0"
-                step="0.01"
-                placeholder="مثلاً 25000"
+                type="text"
+                id="username"
+                placeholder="مثلاً AhmadFarhad"
             >
 
         </div>
 
 
-
         <div class="field">
 
-            <label for="category">
-                دسته‌بندی
+            <label for="bio">
+                درباره من
             </label>
 
-            <select id="category">
-
-                <option value="">
-                    انتخاب دسته‌بندی
-                </option>
-
-                <option value="mobile">
-                    📱 موبایل
-                </option>
-
-                <option value="computer">
-                    💻 کامپیوتر
-                </option>
-
-                <option value="fashion">
-                    👕 فیشن
-                </option>
-
-                <option value="shoes">
-                    👟 کفش
-                </option>
-
-                <option value="gaming">
-                    🎮 گیمینگ
-                </option>
-
-                <option value="home">
-                    🏠 خانه
-                </option>
-
-                <option value="tools">
-                    🔧 ابزار
-                </option>
-
-                <option value="vehicle">
-                    🚗 موتر
-                </option>
-
-            </select>
+            <textarea
+                id="bio"
+                placeholder="کمی درباره خودتان بنویسید..."
+            ></textarea>
 
         </div>
-
 
 
         <div class="field">
@@ -657,59 +322,6 @@
             >
 
         </div>
-
-
-
-        <div class="field">
-
-            <label for="condition">
-                وضعیت کالا
-            </label>
-
-            <select id="condition">
-
-                <option value="">
-                    انتخاب وضعیت
-                </option>
-
-                <option value="new">
-                    نو
-                </option>
-
-                <option value="used">
-                    کارکرده
-                </option>
-
-                <option value="like_new">
-                    در حد نو
-                </option>
-
-                <option value="refurbished">
-                    بازسازی‌شده
-                </option>
-
-            </select>
-
-        </div>
-
-
-
-        <div class="field">
-
-            <label for="stock">
-                موجودی
-            </label>
-
-            <input
-                type="number"
-                id="stock"
-                min="0"
-                step="1"
-                placeholder="مثلاً 1"
-            >
-
-        </div>
-
 
 
         <div class="field">
@@ -728,53 +340,6 @@
         </div>
 
 
-
-        <div class="images-title">
-            🖼️ عکس‌های محصول
-        </div>
-
-
-        <div class="image-help">
-
-            عکس‌های فعلی را می‌بینی.
-            برای حذف هر عکس روی ❌ بزن.
-            برای اضافه کردن عکس جدید، دکمه پایین را بزن.
-
-        </div>
-
-
-
-        <div
-            id="existingImages"
-            class="image-grid"
-        ></div>
-
-
-
-        <label
-            for="imageInput"
-            class="new-image-label"
-        >
-            📷 اضافه کردن عکس جدید
-        </label>
-
-
-        <input
-            type="file"
-            id="imageInput"
-            accept="image/jpeg,image/png,image/webp"
-            multiple
-        >
-
-
-
-        <div
-            id="newImages"
-            class="new-images"
-        ></div>
-
-
-
         <button
             type="button"
             id="saveBtn"
@@ -783,20 +348,15 @@
             💾 ذخیره تغییرات
         </button>
 
-
     </section>
-
 
 </main>
 
 
-
 <script>
-
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
-
 
 const SUPABASE_ANON_KEY =
     "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
@@ -809,106 +369,51 @@ const supabaseClient =
     );
 
 
-
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-const productId =
-    params.get("id");
-
-
-
 const loading =
     document.getElementById("loading");
-
 
 const editArea =
     document.getElementById("editArea");
 
+const avatar =
+    document.getElementById("avatar");
+
+const avatarInput =
+    document.getElementById("avatarInput");
+
+const fullName =
+    document.getElementById("fullName");
+
+const username =
+    document.getElementById("username");
+
+const bio =
+    document.getElementById("bio");
+
+const city =
+    document.getElementById("city");
+
+const whatsapp =
+    document.getElementById("whatsapp");
+
+const saveBtn =
+    document.getElementById("saveBtn");
 
 const message =
     document.getElementById("message");
 
 
-const title =
-    document.getElementById("title");
-
-
-const description =
-    document.getElementById("description");
-
-
-const price =
-    document.getElementById("price");
-
-
-const category =
-    document.getElementById("category");
-
-
-const city =
-    document.getElementById("city");
-
-
-const condition =
-    document.getElementById("condition");
-
-
-const stock =
-    document.getElementById("stock");
-
-
-const whatsapp =
-    document.getElementById("whatsapp");
-
-
-const existingImages =
-    document.getElementById(
-        "existingImages"
-    );
-
-
-const imageInput =
-    document.getElementById(
-        "imageInput"
-    );
-
-
-const newImages =
-    document.getElementById(
-        "newImages"
-    );
-
-
-const saveBtn =
-    document.getElementById(
-        "saveBtn"
-    );
-
-
-
 let currentUser = null;
-
-let currentProduct = null;
-
-let existingImageUrls = [];
-
-let removedImageUrls = [];
-
-let newImageFiles = [];
+let currentAvatarUrl = "";
 
 
+const defaultAvatar =
+    "https://ui-avatars.com/api/?name=User&background=087443&color=fff&size=200";
 
-function showMessage(
-    text,
-    type
-) {
 
-    message.textContent =
-        text;
+function showMessage(text, type) {
+
+    message.textContent = text;
 
     message.className =
         "message " + type;
@@ -919,418 +424,24 @@ function showMessage(
 }
 
 
-
-function hideMessage() {
-
-    message.style.display =
-        "none";
-
-}
-
-
-
-function getImageUrls(product) {
-
-    let urls = [];
-
-
-    if (
-        Array.isArray(
-            product.image_urls
-        )
-    ) {
-
-        urls =
-            product.image_urls
-                .filter(
-                    url =>
-                        typeof url === "string" &&
-                        url.trim() !== ""
-                );
-
-    }
-
-
-    if (
-        urls.length === 0 &&
-        product.image_url
-    ) {
-
-        urls = [
-            product.image_url
-        ];
-
-    }
-
-
-    return [
-        ...new Set(urls)
-    ];
-
-}
-
-
-
-function renderExistingImages() {
-
-    existingImages.innerHTML =
-        "";
-
-
-    if (
-        existingImageUrls.length === 0
-    ) {
-
-        existingImages.innerHTML = `
-
-            <div
-                style="
-                    grid-column:1/-1;
-                    padding:25px;
-                    text-align:center;
-                    color:#888;
-                    background:#f4f7f5;
-                    border-radius:12px;
-                "
-            >
-                📷 عکسی برای این محصول وجود ندارد.
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    existingImageUrls.forEach(
-        (
-            url,
-            index
-        ) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-            item.className =
-                "image-item";
-
-
-            const img =
-                document.createElement(
-                    "img"
-                );
-
-            img.src =
-                url;
-
-            img.alt =
-                "عکس محصول";
-
-
-            img.onerror =
-                function() {
-
-                    this.style.display =
-                        "none";
-
-                };
-
-
-            const removeBtn =
-                document.createElement(
-                    "button"
-                );
-
-            removeBtn.type =
-                "button";
-
-            removeBtn.className =
-                "remove-image";
-
-            removeBtn.textContent =
-                "×";
-
-            removeBtn.title =
-                "حذف عکس";
-
-
-            removeBtn.addEventListener(
-                "click",
-                function() {
-
-                    const removedUrl =
-                        existingImageUrls[
-                            index
-                        ];
-
-
-                    if (
-                        removedUrl &&
-                        !removedImageUrls.includes(
-                            removedUrl
-                        )
-                    ) {
-
-                        removedImageUrls.push(
-                            removedUrl
-                        );
-
-                    }
-
-
-                    existingImageUrls =
-                        existingImageUrls.filter(
-                            (
-                                _,
-                                i
-                            ) =>
-                                i !== index
-                        );
-
-
-                    renderExistingImages();
-
-                }
-            );
-
-
-            item.appendChild(
-                img
-            );
-
-            item.appendChild(
-                removeBtn
-            );
-
-            existingImages.appendChild(
-                item
-            );
-
-        }
-    );
-
-}
-
-
-
-function renderNewImages() {
-
-    newImages.innerHTML =
-        "";
-
-
-    newImageFiles.forEach(
-        (
-            file,
-            index
-        ) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-            item.className =
-                "new-image-item";
-
-
-            const img =
-                document.createElement(
-                    "img"
-                );
-
-
-            img.src =
-                URL.createObjectURL(
-                    file
-                );
-
-
-            img.alt =
-                file.name;
-
-
-            const removeBtn =
-                document.createElement(
-                    "button"
-                );
-
-
-            removeBtn.type =
-                "button";
-
-            removeBtn.className =
-                "remove-new-image";
-
-            removeBtn.textContent =
-                "×";
-
-            removeBtn.title =
-                "حذف عکس جدید";
-
-
-            removeBtn.addEventListener(
-                "click",
-                function() {
-
-                    newImageFiles =
-                        newImageFiles.filter(
-                            (
-                                _,
-                                i
-                            ) =>
-                                i !== index
-                        );
-
-
-                    renderNewImages();
-
-                }
-            );
-
-
-            item.appendChild(
-                img
-            );
-
-            item.appendChild(
-                removeBtn
-            );
-
-
-            newImages.appendChild(
-                item
-            );
-
-        }
-    );
-
-}
-
-
-
-imageInput.addEventListener(
-    "change",
-    function() {
-
-        const files =
-            Array.from(
-                this.files || []
-            );
-
-
-        if (
-            files.length === 0
-        ) {
-
-            return;
-
-        }
-
-
-        const allowedTypes = [
-            "image/jpeg",
-            "image/png",
-            "image/webp"
-        ];
-
-
-        for (
-            const file of files
-        ) {
-
-            if (
-                !allowedTypes.includes(
-                    file.type
-                )
-            ) {
-
-                showMessage(
-                    "❌ فقط JPG، PNG و WEBP مجاز است.",
-                    "error"
-                );
-
-                continue;
-
-            }
-
-
-            if (
-                file.size >
-                10 * 1024 * 1024
-            ) {
-
-                showMessage(
-                    "❌ حجم هر عکس نباید بیشتر از 10MB باشد.",
-                    "error"
-                );
-
-                continue;
-
-            }
-
-
-            newImageFiles.push(
-                file
-            );
-
-        }
-
-
-        renderNewImages();
-
-
-        this.value =
-            "";
-
-    }
-);
-
-
-
-async function loadProduct() {
+async function loadProfile() {
 
     try {
-
-
-        if (!productId) {
-
-            throw new Error(
-                "شناسه محصول پیدا نشد."
-            );
-
-        }
-
-
 
         const {
             data: {
                 session
             },
             error: sessionError
-        } =
-            await supabaseClient
-                .auth
-                .getSession();
+        } = await supabaseClient.auth.getSession();
 
 
-        if (sessionError) {
-
-            throw sessionError;
-
-        }
-
-
-        if (!session) {
+        if (sessionError || !session) {
 
             window.location.href =
                 "login.html";
 
             return;
-
         }
 
 
@@ -1338,726 +449,260 @@ async function loadProduct() {
             session.user;
 
 
-
         const {
-            data: product,
+            data: profile,
             error
-        } =
-            await supabaseClient
-                .from("products")
-                .select("*")
-                .eq(
-                    "id",
-                    productId
-                )
-                .eq(
-                    "seller_id",
-                    currentUser.id
-                )
-                .maybeSingle();
+        } = await supabaseClient
+            .from("profiles")
+            .select("*")
+            .eq("id", currentUser.id)
+            .maybeSingle();
 
 
         if (error) {
 
-            throw error;
+            console.error(error);
 
+            showMessage(
+                "❌ دریافت پروفایل انجام نشد.",
+                "error"
+            );
+
+            loading.style.display =
+                "none";
+
+            editArea.style.display =
+                "block";
+
+            avatar.src =
+                defaultAvatar;
+
+            return;
         }
 
 
-        if (!product) {
+        if (profile) {
 
-            throw new Error(
-                "این محصول پیدا نشد یا شما صاحب آن نیستید."
-            );
+            fullName.value =
+                profile.full_name || "";
+
+            username.value =
+                profile.username || "";
+
+            bio.value =
+                profile.bio || "";
+
+            city.value =
+                profile.city || "";
+
+            whatsapp.value =
+                profile.whatsapp || "";
+
+            currentAvatarUrl =
+                profile.avatar_url || "";
+
+            avatar.src =
+                currentAvatarUrl ||
+                defaultAvatar;
+
+        } else {
+
+            avatar.src =
+                defaultAvatar;
 
         }
-
-
-        currentProduct =
-            product;
-
-
-
-        title.value =
-            product.title || "";
-
-
-        description.value =
-            product.description || "";
-
-
-        price.value =
-            product.price ?? "";
-
-
-        category.value =
-            product.category || "";
-
-
-        city.value =
-            product.city || "";
-
-
-        condition.value =
-            product.condition || "";
-
-
-        stock.value =
-            product.stock ?? 1;
-
-
-        whatsapp.value =
-            product.whatsapp || "";
-
-
-
-        existingImageUrls =
-            getImageUrls(
-                product
-            );
-
-
-        removedImageUrls =
-            [];
-
-
-        newImageFiles =
-            [];
-
-
-
-        renderExistingImages();
-
-        renderNewImages();
-
 
 
         loading.style.display =
             "none";
 
-
-        editArea.classList.remove(
-            "hidden"
-        );
+        editArea.style.display =
+            "block";
 
 
     } catch (error) {
-
 
         console.error(error);
 
-
-        loading.style.display =
-            "none";
-
-
-        editArea.classList.remove(
-            "hidden"
-        );
-
-
-        showMessage(
-            "❌ دریافت محصول انجام نشد:\n" +
-            error.message,
-            "error"
-        );
+        loading.textContent =
+            "❌ خطایی رخ داد.";
 
     }
 
 }
 
 
+avatarInput.addEventListener(
+    "change",
+    function() {
 
-function getFileExtension(file) {
+        const file =
+            this.files[0];
 
-    const name =
-        file.name || "";
-
-
-    const parts =
-        name.split(".");
-
-
-    if (
-        parts.length < 2
-    ) {
-
-        return "jpg";
-
-    }
+        if (!file) {
+            return;
+        }
 
 
-    const extension =
-        parts
-            .pop()
-            .toLowerCase();
+        if (!file.type.startsWith("image/")) {
 
-
-    if (
-        [
-            "jpeg",
-            "jpg",
-            "png",
-            "webp"
-        ].includes(
-            extension
-        )
-    ) {
-
-        return extension;
-
-    }
-
-
-    return "jpg";
-
-}
-
-
-
-async function uploadNewImages() {
-
-    const uploadedUrls = [];
-
-
-    try {
-
-
-        for (
-            const file of newImageFiles
-        ) {
-
-
-            const extension =
-                getFileExtension(
-                    file
-                );
-
-
-            const safeFileName =
-                Date.now() +
-                "-" +
-                crypto.randomUUID() +
-                "." +
-                extension;
-
-
-            const filePath =
-                currentUser.id +
-                "/" +
-                safeFileName;
-
-
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .storage
-                    .from(
-                        "product-images"
-                    )
-                    .upload(
-                        filePath,
-                        file,
-                        {
-                            upsert: false,
-                            contentType:
-                                file.type
-                        }
-                    );
-
-
-            if (error) {
-
-                throw error;
-
-            }
-
-
-
-            const {
-                data
-            } =
-                supabaseClient
-                    .storage
-                    .from(
-                        "product-images"
-                    )
-                    .getPublicUrl(
-                        filePath
-                    );
-
-
-            if (
-                !data ||
-                !data.publicUrl
-            ) {
-
-                throw new Error(
-                    "آدرس عکس جدید دریافت نشد."
-                );
-
-            }
-
-
-            uploadedUrls.push(
-                data.publicUrl
+            showMessage(
+                "❌ لطفاً یک فایل تصویری انتخاب کنید.",
+                "error"
             );
 
+            this.value = "";
+
+            return;
         }
 
 
-        return uploadedUrls;
+        const preview =
+            URL.createObjectURL(file);
 
-
-    } catch (error) {
-
-
-        if (
-            uploadedUrls.length > 0
-        ) {
-
-            const paths =
-                uploadedUrls
-                    .map(
-                        url =>
-                            getStoragePath(
-                                url
-                            )
-                    )
-                    .filter(Boolean);
-
-
-            if (
-                paths.length > 0
-            ) {
-
-                await supabaseClient
-                    .storage
-                    .from(
-                        "product-images"
-                    )
-                    .remove(
-                        paths
-                    );
-
-            }
-
-        }
-
-
-        throw error;
+        avatar.src =
+            preview;
 
     }
-
-}
-
+);
 
 
-function getStoragePath(
-    publicUrl
-) {
+async function uploadAvatar(file) {
 
-    if (
-        !publicUrl ||
-        typeof publicUrl !== "string"
-    ) {
+    const extension =
+        file.name.split(".").pop().toLowerCase();
 
-        return null;
-
-    }
-
-
-    const marker =
-        "/storage/v1/object/public/product-images/";
-
-
-    const index =
-        publicUrl.indexOf(
-            marker
-        );
-
-
-    if (
-        index === -1
-    ) {
-
-        return null;
-
-    }
-
-
-    return decodeURIComponent(
-        publicUrl.substring(
-            index +
-            marker.length
-        )
-    );
-
-}
-
-
-
-async function deleteStorageImages(
-    urls
-) {
-
-    const paths =
-        urls
-            .map(
-                url =>
-                    getStoragePath(
-                        url
-                    )
-            )
-            .filter(Boolean);
-
-
-    if (
-        paths.length === 0
-    ) {
-
-        return;
-
-    }
+    const filePath =
+        currentUser.id +
+        "/" +
+        Date.now() +
+        "." +
+        extension;
 
 
     const {
         error
-    } =
-        await supabaseClient
-            .storage
-            .from(
-                "product-images"
-            )
-            .remove(
-                paths
-            );
+    } = await supabaseClient
+        .storage
+        .from("avatars")
+        .upload(
+            filePath,
+            file,
+            {
+                upsert: true,
+                contentType: file.type
+            }
+        );
 
 
     if (error) {
-
         throw error;
-
     }
 
-}
 
+    const {
+        data
+    } = supabaseClient
+        .storage
+        .from("avatars")
+        .getPublicUrl(filePath);
+
+
+    return data.publicUrl;
+
+}
 
 
 saveBtn.addEventListener(
     "click",
     async function() {
 
-
-        hideMessage();
-
-
-        const cleanTitle =
-            title.value.trim();
-
-
-        const cleanDescription =
-            description.value.trim();
-
-
-        const numericPrice =
-            Number(
-                price.value
-            );
-
-
-        const numericStock =
-            Number(
-                stock.value
-            );
-
-
-        if (!cleanTitle) {
-
-            showMessage(
-                "❌ عنوان محصول را وارد کنید.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(
-                numericPrice
-            ) ||
-            numericPrice < 0
-        ) {
-
-            showMessage(
-                "❌ قیمت محصول صحیح نیست.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isInteger(
-                numericStock
-            ) ||
-            numericStock < 0
-        ) {
-
-            showMessage(
-                "❌ موجودی محصول صحیح نیست.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!category.value) {
-
-            showMessage(
-                "❌ دسته‌بندی را انتخاب کنید.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-
         saveBtn.disabled =
             true;
-
 
         saveBtn.textContent =
             "⏳ در حال ذخیره...";
 
 
-
-        let uploadedNewUrls = [];
-
-
         try {
 
-
-            /*
-             * مرحله ۱:
-             * عکس‌های جدید را آپلود می‌کنیم.
-             */
-
-            uploadedNewUrls =
-                await uploadNewImages();
+            let avatarUrl =
+                currentAvatarUrl;
 
 
-
-            /*
-             * مرحله ۲:
-             * عکس‌های نهایی محصول.
-             */
-
-            const finalImageUrls =
-                [
-                    ...existingImageUrls,
-                    ...uploadedNewUrls
-                ];
+            const avatarFile =
+                avatarInput.files[0];
 
 
+            if (avatarFile) {
 
-            /*
-             * مرحله ۳:
-             * ساخت اطلاعات جدید محصول.
-             */
+                avatarUrl =
+                    await uploadAvatar(
+                        avatarFile
+                    );
 
-            const updatedProduct = {
-
-                title:
-                    cleanTitle,
-
-                description:
-                    cleanDescription,
-
-                price:
-                    numericPrice,
-
-                category:
-                    category.value,
-
-                city:
-                    city.value.trim(),
-
-                condition:
-                    condition.value || null,
-
-                stock:
-                    numericStock,
-
-                whatsapp:
-                    whatsapp.value.trim(),
-
-                image_url:
-                    finalImageUrls[0] ||
-                    null,
-
-                image_urls:
-                    finalImageUrls,
-
-                updated_at:
-                    new Date().toISOString()
-
-            };
+            }
 
 
+            const cleanUsername =
+                username.value
+                    .trim()
+                    .replace(/^@+/, "");
 
-            /*
-             * مرحله ۴:
-             * فقط محصول متعلق به خود کاربر
-             * آپدیت می‌شود.
-             */
 
             const {
-                error:
-                    updateError
-            } =
-                await supabaseClient
-                    .from("products")
-                    .update(
-                        updatedProduct
-                    )
-                    .eq(
-                        "id",
-                        productId
-                    )
-                    .eq(
-                        "seller_id",
-                        currentUser.id
-                    );
+                error
+            } = await supabaseClient
+                .from("profiles")
+                .upsert(
+                    {
+                        id: currentUser.id,
+                        full_name: fullName.value.trim(),
+                        username: cleanUsername || null,
+                        bio: bio.value.trim(),
+                        city: city.value.trim(),
+                        whatsapp: whatsapp.value.trim(),
+                        avatar_url: avatarUrl || null,
+                        updated_at: new Date().toISOString()
+                    },
+                    {
+                        onConflict: "id"
+                    }
+                );
 
 
-            if (
-                updateError
-            ) {
-
-                throw updateError;
-
+            if (error) {
+                throw error;
             }
-
-
-
-            /*
-             * مرحله ۵:
-             * بعد از موفقیت DB،
-             * عکس‌هایی که کاربر حذف کرده
-             * از Storage پاک می‌شوند.
-             */
-
-            if (
-                removedImageUrls.length > 0
-            ) {
-
-                try {
-
-                    await deleteStorageImages(
-                        removedImageUrls
-                    );
-
-                } catch (
-                    storageError
-                ) {
-
-                    console.error(
-                        storageError
-                    );
-
-
-                    showMessage(
-                        "⚠️ محصول ذخیره شد، اما بعضی عکس‌های حذف‌شده از Storage پاک نشدند.",
-                        "error"
-                    );
-
-
-                    setTimeout(
-                        function() {
-
-                            window.location.href =
-                                "my-products.html";
-
-                        },
-                        1800
-                    );
-
-
-                    return;
-
-                }
-
-            }
-
 
 
             showMessage(
-                "✅ محصول با موفقیت ویرایش شد.",
+                "✅ پروفایل با موفقیت ذخیره شد.",
                 "success"
             );
+
+
+            currentAvatarUrl =
+                avatarUrl;
 
 
             setTimeout(
                 function() {
 
                     window.location.href =
-                        "my-products.html";
+                        "profile.html";
 
                 },
-                1000
+                900
             );
 
 
         } catch (error) {
 
-
             console.error(error);
 
-
-
-            /*
-             * اگر DB آپدیت نشد،
-             * عکس‌های جدیدی که همین عملیات
-             * آپلود کرده بودیم پاک می‌شوند.
-             */
-
-            if (
-                uploadedNewUrls.length > 0
-            ) {
-
-                try {
-
-                    await deleteStorageImages(
-                        uploadedNewUrls
-                    );
-
-                } catch (
-                    cleanupError
-                ) {
-
-                    console.error(
-                        cleanupError
-                    );
-
-                }
-
-            }
-
-
-
             showMessage(
-                "❌ ویرایش محصول انجام نشد:\n" +
+                "❌ ذخیره پروفایل انجام نشد:\n" +
                 error.message,
                 "error"
             );
@@ -2065,7 +710,6 @@ saveBtn.addEventListener(
 
             saveBtn.disabled =
                 false;
-
 
             saveBtn.textContent =
                 "💾 ذخیره تغییرات";
@@ -2076,13 +720,9 @@ saveBtn.addEventListener(
 );
 
 
-
-loadProduct();
-
+loadProfile();
 
 </script>
 
-
 </body>
-
 </html>
