@@ -155,6 +155,7 @@
             display: block;
         }
 
+
         /* ==============================
            PRODUCTS GRID
         ============================== */
@@ -166,18 +167,13 @@
             align-items: start;
         }
 
-        /*
-           هر محصول یک ستون مستقل دارد.
-           پروفایل فروشنده بالای کارت قرار می‌گیرد.
-        */
-
         .product-item {
             min-width: 0;
         }
 
 
         /* ==============================
-           SELLER - OUTSIDE PRODUCT CARD
+           SELLER
         ============================== */
 
         .seller-box {
@@ -268,10 +264,12 @@
             font-weight: bold;
             cursor: pointer;
             white-space: nowrap;
+
             transition:
                 transform 0.18s ease,
                 background 0.18s ease,
                 opacity 0.18s ease;
+
             flex-shrink: 0;
         }
 
@@ -298,15 +296,18 @@
             border: 1px solid #e5e9e7;
             border-radius: 16px;
             overflow: hidden;
+
             transition:
                 transform 0.25s ease,
                 box-shadow 0.25s ease;
+
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
 
         .product-card:hover {
             transform: translateY(-4px);
+
             box-shadow:
                 0 12px 30px
                 rgba(0,0,0,0.08);
@@ -320,11 +321,6 @@
         /* ==============================
            PRODUCT IMAGE
         ============================== */
-
-        /*
-           دیگر ارتفاع ثابت نداریم.
-           عکس با اندازه و نسبت واقعی خودش نمایش داده می‌شود.
-        */
 
         .product-image {
             width: 100%;
@@ -357,12 +353,16 @@
             position: absolute;
             left: 10px;
             bottom: 10px;
+
             background: rgba(0,0,0,.65);
             color: white;
+
             padding: 5px 9px;
             border-radius: 8px;
+
             font-size: 11px;
             direction: rtl;
+
             pointer-events: none;
             line-height: normal;
         }
@@ -402,6 +402,72 @@
             padding: 5px 9px;
             border-radius: 7px;
             font-size: 11px;
+        }
+
+
+        /* ==============================
+           SOCIAL ACTIONS
+        ============================== */
+
+        .social-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 10px 12px 12px;
+
+            border-top: 1px solid #edf1ef;
+            background: #ffffff;
+        }
+
+        .social-btn {
+            flex: 1;
+
+            border: 1px solid #e3e9e6;
+            background: #f8faf9;
+            color: #39443f;
+
+            min-height: 40px;
+
+            border-radius: 11px;
+
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            transition:
+                transform 0.18s ease,
+                background 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease;
+        }
+
+        .social-btn:hover {
+            background: #eef8f4;
+            border-color: #cfe9dd;
+            color: #087a55;
+        }
+
+        .social-btn:active {
+            transform: scale(0.94);
+        }
+
+        .like-btn.liked {
+            background: #fff0f0;
+            border-color: #ffd2d2;
+            color: #e53935;
+        }
+
+        .social-count {
+            font-size: 12px;
+            font-weight: 900;
         }
 
 
@@ -1153,12 +1219,16 @@
                 )
                 .join("");
 
+
+        loadSocialData(
+            products
+        );
+
     }
 
 
     /* ==============================
-       PRODUCT + SELLER
-       SELLER IS OUTSIDE CARD
+       PRODUCT CARD
     ============================== */
 
     function createProductCard(
@@ -1304,11 +1374,6 @@
         }
 
 
-        /*
-           اگر فروشنده را قبلاً دنبال کرده باشیم
-           دکمه اصلاً ساخته نمی‌شود.
-        */
-
         const alreadyFollowing =
             sellerId &&
             followingUsers.has(
@@ -1354,11 +1419,6 @@
         }
 
 
-        /*
-           پروفایل فروشنده کاملاً بیرون
-           از کارت محصول است.
-        */
-
         const sellerHTML =
             sellerId
 
@@ -1396,9 +1456,73 @@
             : "";
 
 
-        /*
-           sellerHTML بیرون از article است.
-        */
+        /* ==============================
+           SOCIAL
+        ============================== */
+
+        const socialHTML = `
+
+            <div
+                class="social-actions"
+                onclick="event.stopPropagation();"
+            >
+
+                <button
+                    type="button"
+                    class="social-btn like-btn"
+                    id="like-btn-${escapeHTML(product.id)}"
+                    onclick="
+                        toggleLike(
+                            '${escapeHTML(product.id)}'
+                        );
+                    "
+                >
+
+                    ❤️
+
+                    <span>
+                        لایک
+                    </span>
+
+                    <span
+                        class="social-count"
+                        data-like-count="${escapeHTML(product.id)}"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="social-btn"
+                    onclick="
+                        openComments(
+                            '${escapeHTML(product.id)}'
+                        );
+                    "
+                >
+
+                    💬
+
+                    <span>
+                        نظر
+                    </span>
+
+                    <span
+                        class="social-count"
+                        data-comment-count="${escapeHTML(product.id)}"
+                    >
+                        0
+                    </span>
+
+                </button>
+
+            </div>
+
+        `;
+
 
         return `
 
@@ -1465,11 +1589,411 @@
 
                     </div>
 
+
+                    ${socialHTML}
+
                 </article>
 
             </div>
 
         `;
+
+    }
+
+
+    /* ==============================
+       LOAD LIKE + COMMENT DATA
+    ============================== */
+
+    async function loadSocialData(
+        products
+    ) {
+
+        if (!products.length) {
+            return;
+        }
+
+
+        const productIds =
+            products.map(
+                product =>
+                    product.id
+            );
+
+
+        /* ==============================
+           LOAD LIKES
+        ============================== */
+
+        const {
+            data: likes,
+            error: likesError
+        } =
+        await supabaseClient
+            .from("product_likes")
+            .select(
+                "product_id,user_id"
+            )
+            .in(
+                "product_id",
+                productIds
+            );
+
+
+        if (likesError) {
+
+            console.error(
+                "Likes Error:",
+                likesError
+            );
+
+        }
+
+
+        const likeCounts = {};
+
+
+        (likes || []).forEach(
+            like => {
+
+                likeCounts[
+                    like.product_id
+                ] =
+                    (
+                        likeCounts[
+                            like.product_id
+                        ] || 0
+                    ) + 1;
+
+            }
+        );
+
+
+        productIds.forEach(
+            productId => {
+
+                const count =
+                    likeCounts[
+                        productId
+                    ] || 0;
+
+
+                const element =
+                    document.querySelector(
+                        `[data-like-count="${productId}"]`
+                    );
+
+
+                if (element) {
+
+                    element.textContent =
+                        count;
+
+                }
+
+            }
+        );
+
+
+        /* ==============================
+           CURRENT USER LIKES
+        ============================== */
+
+        if (currentUser) {
+
+            (likes || []).forEach(
+                like => {
+
+                    if (
+                        like.user_id ===
+                        currentUser.id
+                    ) {
+
+                        const button =
+                            document.getElementById(
+                                `like-btn-${like.product_id}`
+                            );
+
+
+                        if (button) {
+
+                            button.classList.add(
+                                "liked"
+                            );
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* ==============================
+           LOAD COMMENTS COUNT
+        ============================== */
+
+        const {
+            data: comments,
+            error: commentsError
+        } =
+        await supabaseClient
+            .from("product_comments")
+            .select(
+                "product_id"
+            )
+            .in(
+                "product_id",
+                productIds
+            );
+
+
+        if (commentsError) {
+
+            console.error(
+                "Comments Error:",
+                commentsError
+            );
+
+            return;
+
+        }
+
+
+        const commentCounts = {};
+
+
+        (comments || []).forEach(
+            comment => {
+
+                commentCounts[
+                    comment.product_id
+                ] =
+                    (
+                        commentCounts[
+                            comment.product_id
+                        ] || 0
+                    ) + 1;
+
+            }
+        );
+
+
+        productIds.forEach(
+            productId => {
+
+                const count =
+                    commentCounts[
+                        productId
+                    ] || 0;
+
+
+                const element =
+                    document.querySelector(
+                        `[data-comment-count="${productId}"]`
+                    );
+
+
+                if (element) {
+
+                    element.textContent =
+                        count;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* ==============================
+       LIKE
+    ============================== */
+
+    async function toggleLike(
+        productId
+    ) {
+
+        if (!currentUser) {
+
+            alert(
+                "برای لایک کردن ابتدا وارد حساب شوید."
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            document.getElementById(
+                `like-btn-${productId}`
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        button.disabled = true;
+
+
+        const alreadyLiked =
+            button.classList.contains(
+                "liked"
+            );
+
+
+        if (alreadyLiked) {
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("product_likes")
+                .delete()
+                .eq(
+                    "product_id",
+                    productId
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
+
+            if (error) {
+
+                console.error(
+                    "Unlike Error:",
+                    error
+                );
+
+                alert(
+                    "لغو لایک انجام نشد."
+                );
+
+            } else {
+
+                button.classList.remove(
+                    "liked"
+                );
+
+
+                const countElement =
+                    document.querySelector(
+                        `[data-like-count="${productId}"]`
+                    );
+
+
+                if (countElement) {
+
+                    const oldCount =
+                        Number(
+                            countElement.textContent
+                        ) || 0;
+
+
+                    countElement.textContent =
+                        Math.max(
+                            0,
+                            oldCount - 1
+                        );
+
+                }
+
+            }
+
+        } else {
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("product_likes")
+                .insert({
+
+                    product_id:
+                        productId,
+
+                    user_id:
+                        currentUser.id
+
+                });
+
+
+            if (error) {
+
+                console.error(
+                    "Like Error:",
+                    error
+                );
+
+
+                if (
+                    error.code !==
+                    "23505"
+                ) {
+
+                    alert(
+                        "لایک انجام نشد."
+                    );
+
+                }
+
+            } else {
+
+                button.classList.add(
+                    "liked"
+                );
+
+
+                const countElement =
+                    document.querySelector(
+                        `[data-like-count="${productId}"]`
+                    );
+
+
+                if (countElement) {
+
+                    const oldCount =
+                        Number(
+                            countElement.textContent
+                        ) || 0;
+
+
+                    countElement.textContent =
+                        oldCount + 1;
+
+                }
+
+            }
+
+        }
+
+
+        button.disabled = false;
+
+    }
+
+
+    /* ==============================
+       OPEN COMMENTS
+    ============================== */
+
+    function openComments(
+        productId
+    ) {
+
+        window.location.href =
+            "comments.html?id=" +
+            encodeURIComponent(
+                productId
+            );
 
     }
 
@@ -1542,11 +2066,6 @@
         button.disabled = true;
 
 
-        /*
-           فقط FOLLOW انجام می‌شود.
-           بعد از موفقیت، دکمه کاملاً حذف می‌شود.
-        */
-
         const {
             error
         } =
@@ -1570,11 +2089,6 @@
                 error
             );
 
-
-            /*
-               اگر قبلاً Follow شده باشد
-               دکمه را هم حذف می‌کنیم.
-            */
 
             if (
                 error.code === "23505"
@@ -1602,20 +2116,10 @@
         }
 
 
-        /*
-           Follow موفق شد.
-           وضعیت ذخیره می‌شود.
-        */
-
         followingUsers.add(
             sellerId
         );
 
-
-        /*
-           دکمه کاملاً ناپدید می‌شود.
-           هیچ متن دیگری جای آن نمی‌آید.
-        */
 
         button.remove();
 
