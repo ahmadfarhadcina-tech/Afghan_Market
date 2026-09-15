@@ -2,13 +2,8 @@
 <html lang="fa" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>نظرات | بازارک</title>
 
@@ -94,8 +89,7 @@ input {
 
     transition:
         transform .18s ease,
-        background .18s ease,
-        opacity .18s ease;
+        background .18s ease;
 }
 
 .back-btn:hover {
@@ -104,7 +98,7 @@ input {
 }
 
 .back-btn:active {
-    transform: scale(.88);
+    transform: scale(.86);
 }
 
 .header-title {
@@ -138,7 +132,6 @@ input {
 .product-box {
     background: white;
     border-radius: 13px;
-
     padding: 10px;
 
     box-shadow:
@@ -162,7 +155,6 @@ input {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 .product-box img {
@@ -218,12 +210,13 @@ input {
 .comments-list {
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 12px;
 }
 
 
 /* =========================================
-   COMPACT COMMENT
+   COMMENT
+   بدون قاب
 ========================================= */
 
 .comment-item {
@@ -231,40 +224,20 @@ input {
     align-self: flex-start;
 
     width: fit-content;
-
-    max-width: min(90%, 560px);
+    max-width: min(92%, 560px);
 
     min-width: 0;
 
-    background: #f9fcfa;
+    padding: 0;
 
-    border:
-        1px solid
-        #e2ece5;
+    background: transparent;
 
-    border-radius: 11px;
-
-    padding:
-        8px
-        10px;
+    border: none;
 
     box-shadow: none;
 
     animation:
         commentIn .24s ease both;
-
-    transition:
-        border-color .18s ease,
-        background .18s ease,
-        transform .18s ease;
-}
-
-.comment-item:hover {
-    border-color: #d5e5db;
-}
-
-.comment-item:active {
-    transform: scale(.995);
 }
 
 @keyframes commentIn {
@@ -272,7 +245,7 @@ input {
     from {
         opacity: 0;
         transform:
-            translateY(8px)
+            translateY(7px)
             scale(.985);
     }
 
@@ -282,7 +255,36 @@ input {
             translateY(0)
             scale(1);
     }
+}
 
+
+/* =========================================
+   COMMENT CONTENT
+   بک‌گراند فقط اندازه محتوا
+========================================= */
+
+.comment-content {
+    width: fit-content;
+    max-width: 100%;
+
+    background: #edf6f0;
+
+    border-radius: 10px;
+
+    padding:
+        7px 9px;
+
+    transition:
+        background .18s ease,
+        transform .18s ease;
+}
+
+.comment-content:hover {
+    background: #e8f3ec;
+}
+
+.comment-content:active {
+    transform: scale(.995);
 }
 
 
@@ -297,19 +299,19 @@ input {
 
     gap: 7px;
 
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .comment-avatar {
 
-    width: 30px;
-    height: 30px;
+    width: 29px;
+    height: 29px;
 
     border-radius: 50%;
 
     object-fit: cover;
 
-    background: #e7f4ed;
+    background: #dcefe4;
 
     cursor: pointer;
 
@@ -321,14 +323,15 @@ input {
 }
 
 .comment-avatar:hover {
+
     transform: scale(1.07);
 
     box-shadow:
-        0 0 0 3px #e5f2ea;
+        0 0 0 3px #dceee3;
 }
 
 .comment-avatar:active {
-    transform: scale(.88);
+    transform: scale(.86);
 }
 
 .comment-user {
@@ -343,7 +346,7 @@ input {
 }
 
 .comment-user:hover {
-    opacity: .75;
+    opacity: .72;
 }
 
 .comment-user:active {
@@ -367,7 +370,7 @@ input {
 
 .comment-user-username {
 
-    color: #999;
+    color: #8b958f;
 
     font-size: 9px;
 
@@ -383,20 +386,19 @@ input {
 
     color: #303934;
 
-    font-size: 13px;
+    font-size: 12.5px;
 
-    line-height: 1.7;
+    line-height: 1.65;
 
     white-space: pre-wrap;
 
     overflow-wrap: anywhere;
-
-    height: auto;
 }
 
 
 /* =========================================
    ACTIONS
+   جدا از بک‌گراند کامنت
 ========================================= */
 
 .comment-actions {
@@ -405,15 +407,11 @@ input {
 
     align-items: center;
 
-    gap: 2px;
+    gap: 3px;
 
-    margin-top: 5px;
+    margin-top: 4px;
 
-    padding-top: 4px;
-
-    border-top:
-        1px solid
-        #e9efeb;
+    padding: 0;
 }
 
 .comment-action {
@@ -429,8 +427,7 @@ input {
     font-size: 10px;
 
     padding:
-        3px
-        6px;
+        3px 6px;
 
     border-radius: 6px;
 
@@ -444,26 +441,158 @@ input {
 }
 
 .comment-action:hover {
-    background: #edf5f0;
+
+    background: #e9f2ec;
+
     color: #087443;
 }
 
 .comment-action:active {
-    transform: scale(.86);
+    transform: scale(.82);
 }
 
 .comment-action.liked {
+
     color: #c62828;
-    background: #fff1f1;
+
+    background: #fff0f0;
 }
 
 .comment-action.loading {
-    opacity: .55;
+
+    opacity: .5;
+
     pointer-events: none;
 }
 
-.delete-comment {
+
+/* =========================================
+   THREE DOT MENU
+========================================= */
+
+.more-wrapper {
+    position: relative;
+}
+
+.more-button {
+
+    width: 27px;
+    height: 27px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #8b948e;
+
+    border-radius: 50%;
+
+    font-size: 17px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        color .18s ease,
+        transform .16s ease;
+}
+
+.more-button:hover {
+
+    background: #e9f1ec;
+
+    color: #087443;
+}
+
+.more-button:active {
+    transform: scale(.8);
+}
+
+.more-menu {
+
+    position: absolute;
+
+    top: 30px;
+    right: 0;
+
+    min-width: 105px;
+
+    background: white;
+
+    border-radius: 9px;
+
+    padding: 4px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.10);
+
+    border: 1px solid #e5ebe7;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(-5px)
+        scale(.95);
+
+    transform-origin: top right;
+
+    transition:
+        opacity .18s ease,
+        transform .18s ease,
+        visibility .18s ease;
+
+    z-index: 50;
+}
+
+.more-menu.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.more-menu button {
+
+    width: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    padding:
+        8px 9px;
+
+    border-radius: 6px;
+
+    text-align: right;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
     color: #c62828;
+
+    cursor: pointer;
+
+    transition:
+        background .16s ease,
+        transform .16s ease;
+}
+
+.more-menu button:hover {
+    background: #fff1f1;
+}
+
+.more-menu button:active {
+    transform: scale(.94);
 }
 
 
@@ -473,21 +602,19 @@ input {
 
 .replies {
 
-    margin-top: 6px;
+    margin-top: 7px;
 
-    margin-right: 12px;
+    margin-right: 13px;
 
     padding-right: 7px;
 
-    border-right:
-        2px solid
-        #dfece4;
+    border-right: 2px solid #dce9e1;
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 5px;
+    gap: 7px;
 }
 
 .reply-item {
@@ -496,17 +623,11 @@ input {
 
     max-width: 94%;
 
-    background: #fcfdfc;
+    padding: 0;
 
-    border:
-        1px solid
-        #e7eee9;
+    background: transparent;
 
-    border-radius: 9px;
-
-    padding:
-        6px
-        8px;
+    border: none;
 
     box-shadow: none;
 
@@ -514,12 +635,25 @@ input {
         replyIn .2s ease both;
 }
 
+.reply-content {
+
+    width: fit-content;
+    max-width: 100%;
+
+    background: #f1f7f3;
+
+    border-radius: 9px;
+
+    padding:
+        6px 8px;
+}
+
 @keyframes replyIn {
 
     from {
         opacity: 0;
         transform:
-            translateX(-7px)
+            translateX(-6px)
             scale(.98);
     }
 
@@ -529,16 +663,15 @@ input {
             translateX(0)
             scale(1);
     }
-
 }
 
 .reply-item .comment-header {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .reply-item .comment-avatar {
-    width: 27px;
-    height: 27px;
+    width: 26px;
+    height: 26px;
 }
 
 .reply-item .comment-user-name {
@@ -550,13 +683,14 @@ input {
 }
 
 .reply-item .comment-text {
+
     font-size: 12px;
-    line-height: 1.65;
+
+    line-height: 1.6;
 }
 
 .reply-item .comment-actions {
     margin-top: 4px;
-    padding-top: 3px;
 }
 
 
@@ -589,7 +723,6 @@ input {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 .reply-form {
@@ -608,16 +741,14 @@ input {
     min-width: 0;
 
     border:
-        1px solid
-        #dce6df;
+        1px solid #dce6df;
 
     background: white;
 
     border-radius: 8px;
 
     padding:
-        7px
-        9px;
+        7px 9px;
 
     outline: none;
 
@@ -635,8 +766,7 @@ input {
     border-color: #087443;
 
     box-shadow:
-        0 0 0 2px
-        rgba(8,116,67,.07);
+        0 0 0 2px rgba(8,116,67,.07);
 }
 
 .reply-send {
@@ -650,8 +780,7 @@ input {
     border-radius: 8px;
 
     padding:
-        7px
-        10px;
+        7px 10px;
 
     cursor: pointer;
 
@@ -661,7 +790,6 @@ input {
 
     transition:
         transform .16s ease,
-        opacity .18s ease,
         background .18s ease;
 }
 
@@ -670,7 +798,7 @@ input {
 }
 
 .reply-send:active {
-    transform: scale(.9);
+    transform: scale(.88);
 }
 
 
@@ -685,7 +813,6 @@ input {
     bottom: 0;
 
     right: 0;
-
     left: 0;
 
     z-index: 30;
@@ -697,12 +824,10 @@ input {
         blur(10px);
 
     border-top:
-        1px solid
-        #e4ebe6;
+        1px solid #e4ebe6;
 
     padding:
-        9px
-        14px;
+        9px 14px;
 
     animation:
         composerIn .3s ease both;
@@ -719,7 +844,6 @@ input {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 .composer-inner {
@@ -740,14 +864,12 @@ input {
     min-width: 0;
 
     border:
-        1px solid
-        #dce6df;
+        1px solid #dce6df;
 
     border-radius: 10px;
 
     padding:
-        10px
-        11px;
+        10px 11px;
 
     outline: none;
 
@@ -765,8 +887,7 @@ input {
     border-color: #087443;
 
     box-shadow:
-        0 0 0 2px
-        rgba(8,116,67,.07);
+        0 0 0 2px rgba(8,116,67,.07);
 }
 
 .send-btn {
@@ -780,8 +901,7 @@ input {
     border-radius: 10px;
 
     padding:
-        0
-        15px;
+        0 15px;
 
     cursor: pointer;
 
@@ -793,8 +913,8 @@ input {
 
     transition:
         transform .16s ease,
-        opacity .18s ease,
-        background .18s ease;
+        background .18s ease,
+        opacity .18s ease;
 }
 
 .send-btn:hover {
@@ -802,11 +922,13 @@ input {
 }
 
 .send-btn:active {
-    transform: scale(.93);
+    transform: scale(.91);
 }
 
 .send-btn:disabled {
+
     opacity: .65;
+
     pointer-events: none;
 }
 
@@ -822,8 +944,7 @@ input {
     color: #888;
 
     padding:
-        45px
-        20px;
+        45px 20px;
 
     font-size: 13px;
 
@@ -862,8 +983,7 @@ input {
     color: white;
 
     padding:
-        8px
-        13px;
+        8px 13px;
 
     border-radius: 8px;
 
@@ -878,6 +998,185 @@ input {
 
 .login-state a:active {
     transform: scale(.94);
+}
+
+
+/* =========================================
+   DELETE MODAL
+========================================= */
+
+.delete-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 200;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(10,25,17,.28);
+
+    backdrop-filter:
+        blur(5px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity .22s ease,
+        visibility .22s ease;
+}
+
+.delete-overlay.show {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.delete-dialog {
+
+    width: min(330px, 100%);
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.16);
+
+    transform:
+        translateY(12px)
+        scale(.94);
+
+    transition:
+        transform .25s cubic-bezier(.2,.8,.2,1);
+}
+
+.delete-overlay.show
+.delete-dialog {
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.delete-icon {
+
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 10px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fff0f0;
+
+    color: #c62828;
+
+    font-size: 22px;
+}
+
+.delete-title {
+
+    font-weight: bold;
+
+    color: #26332c;
+
+    font-size: 14px;
+}
+
+.delete-text {
+
+    color: #7c8580;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+    margin-top: 6px;
+}
+
+.delete-buttons {
+
+    display: flex;
+
+    gap: 7px;
+
+    margin-top: 16px;
+}
+
+.delete-buttons button {
+
+    flex: 1;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 9px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        transform .16s ease,
+        background .18s ease,
+        opacity .18s ease;
+}
+
+.delete-buttons button:active {
+    transform: scale(.91);
+}
+
+.cancel-delete {
+
+    background: #eef3ef;
+
+    color: #536058;
+}
+
+.cancel-delete:hover {
+    background: #e4ebe6;
+}
+
+.confirm-delete {
+
+    background: #c62828;
+
+    color: white;
+}
+
+.confirm-delete:hover {
+    background: #b51f1f;
+}
+
+.confirm-delete.loading {
+
+    opacity: .6;
+
+    pointer-events: none;
 }
 
 
@@ -902,8 +1201,7 @@ input {
     color: white;
 
     padding:
-        9px
-        14px;
+        9px 14px;
 
     border-radius: 9px;
 
@@ -917,7 +1215,7 @@ input {
         opacity .22s ease,
         transform .22s ease;
 
-    z-index: 100;
+    z-index: 300;
 }
 
 .toast.show {
@@ -937,7 +1235,7 @@ input {
 @media (max-width: 550px) {
 
     .comment-item {
-        max-width: 94%;
+        max-width: 96%;
     }
 
     .comments-container {
@@ -946,7 +1244,7 @@ input {
     }
 
     .comment-text {
-        font-size: 12.5px;
+        font-size: 12px;
     }
 
 }
@@ -970,11 +1268,9 @@ input {
 
         scroll-behavior: auto !important;
     }
-
 }
 
 </style>
-
 </head>
 
 
@@ -1102,6 +1398,53 @@ input {
 </div>
 
 
+<!-- DELETE MODAL -->
+
+<div
+    id="deleteOverlay"
+    class="delete-overlay"
+>
+
+    <div class="delete-dialog">
+
+        <div class="delete-icon">
+            🗑️
+        </div>
+
+        <div class="delete-title">
+            حذف این نظر؟
+        </div>
+
+        <div class="delete-text">
+            این نظر برای همیشه حذف می‌شود و قابل بازگردانی نیست.
+        </div>
+
+        <div class="delete-buttons">
+
+            <button
+                type="button"
+                class="cancel-delete"
+                onclick="closeDeleteModal()"
+            >
+                انصراف
+            </button>
+
+            <button
+                id="confirmDeleteButton"
+                type="button"
+                class="confirm-delete"
+                onclick="confirmDeleteComment()"
+            >
+                حذف نظر
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <div
     id="toast"
     class="toast"
@@ -1156,6 +1499,16 @@ const toast =
         "toast"
     );
 
+const deleteOverlay =
+    document.getElementById(
+        "deleteOverlay"
+    );
+
+const confirmDeleteButton =
+    document.getElementById(
+        "confirmDeleteButton"
+    );
+
 
 /* =========================================
    STATE
@@ -1170,6 +1523,8 @@ let comments = [];
 let profiles = {};
 
 let commentLikes = {};
+
+let commentToDelete = null;
 
 
 /* =========================================
@@ -1220,14 +1575,12 @@ async function start() {
 
         loginState.style.display =
             "block";
-
     }
 
 
     await loadProduct();
 
     await loadComments();
-
 }
 
 
@@ -1321,7 +1674,6 @@ async function loadProduct() {
     ).textContent =
         product.title ||
         "نظرات محصول";
-
 }
 
 
@@ -1393,7 +1745,6 @@ async function loadComments() {
     await loadCommentLikes();
 
     renderComments();
-
 }
 
 
@@ -1456,10 +1807,8 @@ async function loadProfiles() {
             profiles[
                 profile.id
             ] = profile;
-
         }
     );
-
 }
 
 
@@ -1528,9 +1877,7 @@ async function loadCommentLikes() {
                     count: 0,
 
                     liked: false
-
                 };
-
             }
 
 
@@ -1548,17 +1895,14 @@ async function loadCommentLikes() {
                 commentLikes[
                     like.comment_id
                 ].liked = true;
-
             }
-
         }
     );
-
 }
 
 
 /* =========================================
-   RENDER
+   RENDER COMMENTS
 ========================================= */
 
 function renderComments() {
@@ -1591,11 +1935,9 @@ function renderComments() {
                         comment,
                         false
                     );
-
                 }
             )
             .join("");
-
 }
 
 
@@ -1640,7 +1982,6 @@ function renderComment(
             count: 0,
 
             liked: false
-
         };
 
 
@@ -1652,6 +1993,24 @@ function renderComment(
         );
 
 
+    const isOwner =
+        currentUser &&
+        currentUser.id ===
+            comment.user_id;
+
+
+    const safeCommentId =
+        escapeAttribute(
+            comment.id
+        );
+
+
+    const safeUserId =
+        escapeAttribute(
+            comment.user_id
+        );
+
+
     return `
 
         <div
@@ -1660,38 +2019,42 @@ function renderComment(
                     ? "reply-item"
                     : "comment-item"
             }"
-            data-comment="${escapeAttribute(comment.id)}"
+            data-comment="${safeCommentId}"
         >
 
-            <div class="comment-header">
+            <div class="comment-content">
 
-                <img
-                    class="comment-avatar"
-                    src="${escapeAttribute(avatar)}"
-                    alt=""
-                    onclick="openUserProfile('${escapeAttribute(comment.user_id)}')"
-                >
+                <div class="comment-header">
 
-                <div
-                    class="comment-user"
-                    onclick="openUserProfile('${escapeAttribute(comment.user_id)}')"
-                >
+                    <img
+                        class="comment-avatar"
+                        src="${escapeAttribute(avatar)}"
+                        alt=""
+                        onclick="openUserProfile('${safeUserId}')"
+                    >
 
-                    <div class="comment-user-name">
-                        ${escapeHTML(name)}
-                    </div>
+                    <div
+                        class="comment-user"
+                        onclick="openUserProfile('${safeUserId}')"
+                    >
 
-                    <div class="comment-user-username">
-                        ${escapeHTML(username)}
+                        <div class="comment-user-name">
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div class="comment-user-username">
+                            ${escapeHTML(username)}
+                        </div>
+
                     </div>
 
                 </div>
 
-            </div>
 
+                <div class="comment-text">
+                    ${escapeHTML(comment.comment)}
+                </div>
 
-            <div class="comment-text">
-                ${escapeHTML(comment.comment)}
             </div>
 
 
@@ -1704,53 +2067,60 @@ function renderComment(
                             ? "liked"
                             : ""
                     }"
-                    onclick="toggleCommentLike('${escapeAttribute(comment.id)}', this)"
+                    onclick="toggleCommentLike('${safeCommentId}', this)"
                 >
-
                     ❤️
-
                     <span>
                         ${likeData.count || 0}
                     </span>
-
                 </button>
 
 
                 ${
                     !isReply
                     ? `
-
                         <button
                             type="button"
                             class="comment-action"
-                            onclick="showReplyBox('${escapeAttribute(comment.id)}')"
+                            onclick="showReplyBox('${safeCommentId}')"
                         >
-
                             ↩️ پاسخ
-
                         </button>
-
                     `
                     : ""
                 }
 
 
                 ${
-                    currentUser &&
-                    currentUser.id ===
-                        comment.user_id
-
+                    isOwner
                     ? `
 
-                        <button
-                            type="button"
-                            class="comment-action delete-comment"
-                            onclick="deleteComment('${escapeAttribute(comment.id)}', this)"
-                        >
+                        <div class="more-wrapper">
 
-                            🗑️ حذف
+                            <button
+                                type="button"
+                                class="more-button"
+                                onclick="toggleMoreMenu('${safeCommentId}', event)"
+                                aria-label="بیشتر"
+                            >
+                                ⋮
+                            </button>
 
-                        </button>
+                            <div
+                                id="more-menu-${safeCommentId}"
+                                class="more-menu"
+                            >
+
+                                <button
+                                    type="button"
+                                    onclick="openDeleteModal('${safeCommentId}')"
+                                >
+                                    🗑️ حذف نظر
+                                </button>
+
+                            </div>
+
+                        </div>
 
                     `
                     : ""
@@ -1761,18 +2131,17 @@ function renderComment(
 
             ${
                 !isReply
-
                 ? `
 
                     <div
                         class="reply-box"
-                        id="reply-box-${escapeAttribute(comment.id)}"
+                        id="reply-box-${safeCommentId}"
                     >
 
                         <div class="reply-form">
 
                             <input
-                                id="reply-input-${escapeAttribute(comment.id)}"
+                                id="reply-input-${safeCommentId}"
                                 class="reply-input"
                                 type="text"
                                 maxlength="1000"
@@ -1782,11 +2151,9 @@ function renderComment(
                             <button
                                 type="button"
                                 class="reply-send"
-                                onclick="sendReply('${escapeAttribute(comment.id)}', this)"
+                                onclick="sendReply('${safeCommentId}', this)"
                             >
-
                                 ارسال
-
                             </button>
 
                         </div>
@@ -1794,14 +2161,12 @@ function renderComment(
                     </div>
 
                 `
-
                 : ""
             }
 
 
             ${
                 replies.length
-
                 ? `
 
                     <div class="replies">
@@ -1822,19 +2187,17 @@ function renderComment(
                     </div>
 
                 `
-
                 : ""
             }
 
         </div>
 
     `;
-
 }
 
 
 /* =========================================
-   OPEN USER PROFILE
+   USER PROFILE
 ========================================= */
 
 function openUserProfile(userId) {
@@ -1859,11 +2222,6 @@ function openUserProfile(userId) {
     setTimeout(
         function() {
 
-            /*
-               اگر comments داخل iframe باشد،
-               کل صفحه اصلی به seller profile می‌رود.
-            */
-
             if (
                 window.parent &&
                 window.parent !== window
@@ -1876,13 +2234,286 @@ function openUserProfile(userId) {
 
                 window.location.href =
                     url;
-
             }
 
         },
         220
     );
+}
 
+
+/* =========================================
+   THREE DOT MENU
+========================================= */
+
+function toggleMoreMenu(
+    commentId,
+    event
+) {
+
+    event.stopPropagation();
+
+
+    document
+        .querySelectorAll(
+            ".more-menu.show"
+        )
+        .forEach(
+            function(menu) {
+
+                if (
+                    menu.id !==
+                    "more-menu-" +
+                    commentId
+                ) {
+
+                    menu.classList.remove(
+                        "show"
+                    );
+                }
+            }
+        );
+
+
+    const menu =
+        document.getElementById(
+            "more-menu-" +
+            commentId
+        );
+
+
+    if (!menu) {
+        return;
+    }
+
+
+    menu.classList.toggle(
+        "show"
+    );
+}
+
+
+document.addEventListener(
+    "click",
+    function() {
+
+        document
+            .querySelectorAll(
+                ".more-menu.show"
+            )
+            .forEach(
+                function(menu) {
+
+                    menu.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
+
+    }
+);
+
+
+/* =========================================
+   OPEN DELETE MODAL
+========================================= */
+
+function openDeleteModal(
+    commentId
+) {
+
+    event?.stopPropagation();
+
+
+    const comment =
+        comments.find(
+            item =>
+                item.id ===
+                commentId
+        );
+
+
+    if (!comment) {
+        return;
+    }
+
+
+    if (
+        !currentUser ||
+        currentUser.id !==
+            comment.user_id
+    ) {
+
+        showToast(
+            "شما اجازه حذف این نظر را ندارید."
+        );
+
+        return;
+    }
+
+
+    commentToDelete =
+        commentId;
+
+
+    document
+        .querySelectorAll(
+            ".more-menu.show"
+        )
+        .forEach(
+            function(menu) {
+
+                menu.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+
+
+    deleteOverlay.classList.add(
+        "show"
+    );
+}
+
+
+/* =========================================
+   CLOSE DELETE MODAL
+========================================= */
+
+function closeDeleteModal() {
+
+    deleteOverlay.classList.remove(
+        "show"
+    );
+
+    commentToDelete =
+        null;
+
+}
+
+
+/* =========================================
+   CONFIRM DELETE
+========================================= */
+
+async function confirmDeleteComment() {
+
+    if (
+        !commentToDelete ||
+        !currentUser
+    ) {
+        return;
+    }
+
+
+    const comment =
+        comments.find(
+            item =>
+                item.id ===
+                commentToDelete
+        );
+
+
+    if (!comment) {
+
+        closeDeleteModal();
+
+        return;
+    }
+
+
+    if (
+        comment.user_id !==
+        currentUser.id
+    ) {
+
+        showToast(
+            "شما اجازه حذف این نظر را ندارید."
+        );
+
+        closeDeleteModal();
+
+        return;
+    }
+
+
+    confirmDeleteButton.classList.add(
+        "loading"
+    );
+
+    confirmDeleteButton.textContent =
+        "در حال حذف...";
+
+
+    const deletingId =
+        commentToDelete;
+
+
+    const {
+        error
+    } = await supabaseClient
+
+        .from("product_comments")
+
+        .delete()
+
+        .eq(
+            "id",
+            deletingId
+        )
+
+        .eq(
+            "user_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Delete comment error:",
+            error
+        );
+
+        showToast(
+            "❌ حذف کامنت انجام نشد."
+        );
+
+        confirmDeleteButton.classList.remove(
+            "loading"
+        );
+
+        confirmDeleteButton.textContent =
+            "حذف نظر";
+
+        return;
+    }
+
+
+    closeDeleteModal();
+
+
+    showToast(
+        "کامنت حذف شد ✓"
+    );
+
+
+    await loadComments();
+
+
+    sendParentMessage(
+        "comment-deleted"
+    );
+
+
+    confirmDeleteButton.classList.remove(
+        "loading"
+    );
+
+    confirmDeleteButton.textContent =
+        "حذف نظر";
 }
 
 
@@ -1974,11 +2605,8 @@ function showReplyBox(
                 },
                 100
             );
-
         }
-
     }
-
 }
 
 
@@ -2057,7 +2685,6 @@ async function sendReply(
 
             parent_id:
                 parentId
-
         });
 
 
@@ -2096,7 +2723,6 @@ async function sendReply(
     sendParentMessage(
         "comment-added"
     );
-
 }
 
 
@@ -2174,7 +2800,6 @@ async function sendComment() {
 
             parent_id:
                 null
-
         });
 
 
@@ -2220,12 +2845,11 @@ async function sendComment() {
 
     sendButton.disabled =
         false;
-
 }
 
 
 /* =========================================
-   LIKE / UNLIKE COMMENT
+   LIKE
 ========================================= */
 
 async function toggleCommentLike(
@@ -2251,7 +2875,6 @@ async function toggleCommentLike(
             count: 0,
 
             liked: false
-
         };
 
 
@@ -2304,20 +2927,14 @@ async function toggleCommentLike(
 
                     user_id:
                         currentUser.id
-
                 });
 
 
             if (error) {
                 throw error;
             }
-
         }
 
-
-        /*
-           فقط اطلاعات لایک را دوباره می‌گیریم.
-        */
 
         await loadComments();
 
@@ -2350,105 +2967,12 @@ async function toggleCommentLike(
         button.classList.remove(
             "loading"
         );
-
     }
-
 }
 
 
 /* =========================================
-   DELETE COMMENT
-========================================= */
-
-async function deleteComment(
-    commentId,
-    button
-) {
-
-    if (!currentUser) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            "آیا این کامنت حذف شود؟"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    if (button) {
-
-        button.classList.add(
-            "loading"
-        );
-
-    }
-
-
-    const {
-        error
-    } = await supabaseClient
-
-        .from("product_comments")
-
-        .delete()
-
-        .eq(
-            "id",
-            commentId
-        )
-
-        .eq(
-            "user_id",
-            currentUser.id
-        );
-
-
-    if (error) {
-
-        console.error(
-            "Delete comment error:",
-            error
-        );
-
-        showToast(
-            "❌ حذف کامنت انجام نشد."
-        );
-
-        if (button) {
-
-            button.classList.remove(
-                "loading"
-            );
-
-        }
-
-        return;
-    }
-
-
-    showToast(
-        "کامنت حذف شد ✓"
-    );
-
-
-    await loadComments();
-
-
-    sendParentMessage(
-        "comment-deleted"
-    );
-
-}
-
-
-/* =========================================
-   CLOSE
+   CLOSE COMMENTS
 ========================================= */
 
 function closeComments() {
@@ -2488,13 +3012,11 @@ function closeComments() {
 
                 window.location.href =
                     "products.html";
-
             }
 
         },
         220
     );
-
 }
 
 
@@ -2523,9 +3045,7 @@ function sendParentMessage(
 
             "*"
         );
-
     }
-
 }
 
 
@@ -2551,7 +3071,6 @@ function navigateSmooth(
         },
         220
     );
-
 }
 
 
@@ -2590,7 +3109,6 @@ function showToast(
             },
             2200
         );
-
 }
 
 
@@ -2630,7 +3148,6 @@ function escapeHTML(
         /'/g,
         "&#039;"
     );
-
 }
 
 
@@ -2641,12 +3158,11 @@ function escapeAttribute(
     return escapeHTML(
         value
     );
-
 }
 
 
 /* =========================================
-   SEND BUTTON
+   SEND
 ========================================= */
 
 sendButton.addEventListener(
@@ -2667,6 +3183,46 @@ mainInput.addEventListener(
             event.preventDefault();
 
             sendComment();
+        }
+
+    }
+);
+
+
+/* =========================================
+   DELETE MODAL BACKDROP
+========================================= */
+
+deleteOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target ===
+            deleteOverlay
+        ) {
+
+            closeDeleteModal();
+        }
+
+    }
+);
+
+
+/* =========================================
+   ESC
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeDeleteModal();
 
         }
 
@@ -2676,5 +3232,4 @@ mainInput.addEventListener(
 </script>
 
 </body>
-
 </html>
