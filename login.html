@@ -12,7 +12,6 @@
 
     <title>ورود | بازارک</title>
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
@@ -31,7 +30,6 @@
             min-height: 100vh;
         }
 
-
         header {
             height: 70px;
             background: #0b3d2e;
@@ -44,7 +42,6 @@
             padding: 0 6%;
         }
 
-
         .logo {
             color: white;
             text-decoration: none;
@@ -53,11 +50,9 @@
             font-weight: bold;
         }
 
-
         .logo span {
             color: #39d98a;
         }
-
 
         .back {
             color: white;
@@ -65,9 +60,7 @@
             font-size: 14px;
         }
 
-
         main {
-
             min-height: calc(100vh - 70px);
 
             display: flex;
@@ -77,9 +70,7 @@
             padding: 35px 15px;
         }
 
-
         .login-box {
-
             width: 100%;
             max-width: 470px;
 
@@ -94,51 +85,32 @@
                 rgba(0, 0, 0, 0.08);
         }
 
-
         .title {
-
             text-align: center;
-
             margin-bottom: 8px;
-
             font-size: 27px;
         }
 
-
         .subtitle {
-
             text-align: center;
-
             color: #777;
-
             font-size: 14px;
-
             margin-bottom: 28px;
         }
 
-
         .form-group {
-
             margin-bottom: 18px;
         }
 
-
         label {
-
             display: block;
-
             margin-bottom: 7px;
-
             font-size: 14px;
-
             font-weight: bold;
         }
 
-
         input {
-
             width: 100%;
-
             height: 50px;
 
             border: 1px solid #dce3df;
@@ -156,9 +128,7 @@
             direction: rtl;
         }
 
-
         input:focus {
-
             border-color: #19a968;
 
             box-shadow:
@@ -166,21 +136,15 @@
                 rgba(25, 169, 104, 0.10);
         }
 
-
         .password-wrapper {
-
             position: relative;
         }
 
-
         .password-wrapper input {
-
             padding-left: 55px;
         }
 
-
         .show-password {
-
             position: absolute;
 
             left: 10px;
@@ -199,9 +163,7 @@
             font-size: 13px;
         }
 
-
         .forgot {
-
             display: block;
 
             text-align: left;
@@ -215,9 +177,7 @@
             font-size: 13px;
         }
 
-
         .login-btn {
-
             width: 100%;
 
             height: 52px;
@@ -241,23 +201,16 @@
             transition: 0.2s;
         }
 
-
         .login-btn:hover {
-
             background: #08794b;
         }
 
-
         .login-btn:disabled {
-
             opacity: 0.6;
-
             cursor: not-allowed;
         }
 
-
         .message {
-
             display: none;
 
             padding: 12px;
@@ -271,9 +224,7 @@
             line-height: 1.7;
         }
 
-
         .success {
-
             display: block;
 
             background: #e8f8ef;
@@ -281,9 +232,7 @@
             color: #147a45;
         }
 
-
         .error {
-
             display: block;
 
             background: #fff0f0;
@@ -291,9 +240,7 @@
             color: #b42323;
         }
 
-
         .register-link {
-
             text-align: center;
 
             margin-top: 22px;
@@ -303,9 +250,7 @@
             font-size: 14px;
         }
 
-
         .register-link a {
-
             color: #0b8f5a;
 
             text-decoration: none;
@@ -313,9 +258,7 @@
             font-weight: bold;
         }
 
-
         .terms {
-
             margin-top: 18px;
 
             text-align: center;
@@ -327,25 +270,18 @@
             line-height: 1.8;
         }
 
-
         @media (max-width: 500px) {
 
             header {
-
                 padding: 0 20px;
             }
 
-
             .login-box {
-
                 padding: 25px 20px;
-
                 border-radius: 18px;
             }
 
-
             .title {
-
                 font-size: 23px;
             }
 
@@ -381,7 +317,6 @@
 
 
 <main>
-
 
     <div class="login-box">
 
@@ -503,7 +438,6 @@
 
     </div>
 
-
 </main>
 
 
@@ -514,7 +448,6 @@
     // ==========================================
     // SUPABASE
     // ==========================================
-
 
     const SUPABASE_URL =
         "https://vhiewoopyqugdxwvsbno.supabase.co";
@@ -535,11 +468,9 @@
         );
 
 
-
     // ==========================================
     // ELEMENTS
     // ==========================================
-
 
     const loginForm =
         document.getElementById("loginForm");
@@ -561,54 +492,46 @@
         document.getElementById("message");
 
 
-
     // ==========================================
     // MESSAGE
     // ==========================================
 
-
     function showMessage(text, type) {
 
-        message.textContent = text;
+        message.textContent =
+            text;
 
         message.className =
             "message " + type;
-    }
 
+    }
 
 
     // ==========================================
     // SHOW PASSWORD
     // ==========================================
 
-
     document
         .getElementById("showPassword")
         .addEventListener(
             "click",
-            function () {
-
+            function() {
 
                 if (
                     passwordInput.type ===
                     "password"
                 ) {
 
-
                     passwordInput.type =
                         "text";
-
 
                     this.textContent =
                         "پنهان";
 
-
                 } else {
-
 
                     passwordInput.type =
                         "password";
-
 
                     this.textContent =
                         "نمایش";
@@ -619,23 +542,109 @@
         );
 
 
+    // ==========================================
+    // CHECK PROFILE
+    // ==========================================
+
+    async function checkUserProfile(userId) {
+
+        const {
+            data: profile,
+            error
+        } =
+        await supabaseClient
+            .from("profiles")
+            .select(`
+                id,
+                full_name,
+                username
+            `)
+            .eq(
+                "id",
+                userId
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "PROFILE CHECK ERROR:",
+                error
+            );
+
+            throw error;
+
+        }
+
+
+        /*
+           اگر پروفایل وجود نداشته باشد،
+           یک پروفایل خالی می‌سازیم.
+        */
+
+        if (!profile) {
+
+            const {
+                error: insertError
+            } =
+            await supabaseClient
+                .from("profiles")
+                .insert({
+                    id: userId
+                });
+
+
+            if (
+                insertError &&
+                insertError.code !== "23505"
+            ) {
+
+                console.error(
+                    "PROFILE CREATE ERROR:",
+                    insertError
+                );
+
+                throw insertError;
+
+            }
+
+
+            return false;
+
+        }
+
+
+        /*
+           اگر پروفایل کامل باشد،
+           کاربر قدیمی است.
+        */
+
+        const profileComplete =
+            Boolean(
+                profile.full_name &&
+                profile.username
+            );
+
+
+        return profileComplete;
+
+    }
+
 
     // ==========================================
     // LOGIN
     // ==========================================
 
-
     loginForm.addEventListener(
         "submit",
         async function(event) {
-
 
             event.preventDefault();
 
 
             message.className =
                 "message";
-
 
             message.textContent =
                 "";
@@ -649,8 +658,10 @@
                 passwordInput.value;
 
 
-
-            if (!email || !password) {
+            if (
+                !email ||
+                !password
+            ) {
 
                 showMessage(
                     "لطفاً ایمیل و رمز عبور را وارد کنید.",
@@ -658,92 +669,163 @@
                 );
 
                 return;
+
             }
 
 
-
-            loginBtn.disabled = true;
+            loginBtn.disabled =
+                true;
 
 
             loginBtn.textContent =
                 "در حال ورود...";
 
 
-
             try {
 
 
-                const { data, error } =
-                    await supabaseClient.auth.signInWithPassword({
+                const {
+                    data,
+                    error
+                } =
+                await supabaseClient.auth
+                    .signInWithPassword({
 
-                        email: email,
+                        email:
+                            email,
 
-                        password: password
+                        password:
+                            password
 
                     });
 
 
-
                 if (error) {
 
-
-                    console.error(error);
-
-
-                    showMessage(
-                        "ایمیل یا رمز عبور اشتباه است.",
-                        "error"
+                    console.error(
+                        error
                     );
 
 
+                    /*
+                       اگر ایمیل تأیید نشده باشد
+                       یا رمز اشتباه باشد،
+                       اینجا متوقف می‌شود.
+                    */
+
+                    if (
+                        error.message
+                            .toLowerCase()
+                            .includes("email not confirmed")
+                    ) {
+
+                        showMessage(
+                            "ایمیل شما هنوز تأیید نشده است.",
+                            "error"
+                        );
+
+                    } else {
+
+                        showMessage(
+                            "ایمیل یا رمز عبور اشتباه است.",
+                            "error"
+                        );
+
+                    }
+
+
                     return;
+
                 }
 
+
+                if (
+                    !data ||
+                    !data.user
+                ) {
+
+                    showMessage(
+                        "ورود انجام نشد. دوباره تلاش کنید.",
+                        "error"
+                    );
+
+                    return;
+
+                }
 
 
                 console.log(
                     "Logged in:",
-                    data
+                    data.user
                 );
 
+
+                /*
+                   بررسی پروفایل
+                */
+
+                const profileComplete =
+                    await checkUserProfile(
+                        data.user.id
+                    );
 
 
                 showMessage(
-                    "ورود موفق بود! در حال انتقال...",
+                    profileComplete
+                        ? "ورود موفق بود! در حال انتقال..."
+                        : "حساب شما آماده است. ابتدا پروفایل خود را تکمیل کنید...",
                     "success"
                 );
-
 
 
                 setTimeout(
                     function() {
 
-                        window.location.href =
-                            "index.html";
+                        if (
+                            profileComplete
+                        ) {
+
+                            /*
+                               کاربر قدیمی
+                            */
+
+                            window.location.href =
+                                "index.html";
+
+                        } else {
+
+                            /*
+                               کاربر جدید یا
+                               پروفایل ناقص
+                            */
+
+                            window.location.href =
+                                "edit-profile.html";
+
+                        }
 
                     },
-                    1000
+                    700
                 );
 
 
             } catch (error) {
 
-
-                console.error(error);
-
-
-                showMessage(
-                    "خطایی رخ داد. دوباره تلاش کنید.",
-                    "error"
+                console.error(
+                    "LOGIN ERROR:",
+                    error
                 );
 
 
-            } finally {
+                showMessage(
+                    "خطایی در بررسی پروفایل رخ داد. دوباره تلاش کنید.",
+                    "error"
+                );
 
+            } finally {
 
                 loginBtn.disabled =
                     false;
-
 
                 loginBtn.textContent =
                     "ورود";
@@ -754,18 +836,15 @@
     );
 
 
-
     // ==========================================
     // FORGOT PASSWORD
     // ==========================================
-
 
     document
         .getElementById("forgotPassword")
         .addEventListener(
             "click",
             async function(event) {
-
 
                 event.preventDefault();
 
@@ -774,52 +853,45 @@
                     emailInput.value.trim();
 
 
-
                 if (!email) {
-
 
                     showMessage(
                         "اول ایمیل خود را وارد کنید.",
                         "error"
                     );
 
-
                     emailInput.focus();
 
-
                     return;
-                }
 
+                }
 
 
                 try {
 
-
-                    const { error } =
-                        await supabaseClient.auth.resetPasswordForEmail(
+                    const {
+                        error
+                    } =
+                    await supabaseClient.auth
+                        .resetPasswordForEmail(
                             email,
                             {
-
                                 redirectTo:
                                     "https://ahmadfarhadcina-tech.github.io/Afghan_Market/"
-
                             }
                         );
 
 
-
                     if (error) {
-
 
                         showMessage(
                             error.message,
                             "error"
                         );
 
-
                         return;
-                    }
 
+                    }
 
 
                     showMessage(
@@ -830,8 +902,9 @@
 
                 } catch (error) {
 
-
-                    console.error(error);
+                    console.error(
+                        error
+                    );
 
 
                     showMessage(
