@@ -2,7 +2,6 @@
 <html lang="fa" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,513 +11,427 @@
 
 <style>
 
-/* ================================
-   BASE
-================================ */
-
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-html,
-body{
-    margin:0;
-    padding:0;
-    width:100%;
-    min-height:100%;
+html {
+    scroll-behavior: smooth;
 }
 
-html{
-    scroll-behavior:smooth;
-}
+body {
+    margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    background: #f4f7f5;
+    color: #17251d;
 
-body{
-    font-family:Tahoma,Arial,sans-serif;
-    background:#f4f7f5;
-    color:#17251d;
-
-    /*
-       فقط برای اینکه آخرین پیام
-       زیر نوار پایین نرود.
-    */
-    padding-bottom:82px;
-
-    opacity:1;
-    transform:translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 
     transition:
         opacity .24s ease,
         transform .24s ease;
 }
 
-body.page-leaving{
-    opacity:0;
-    transform:translateY(8px);
+body.page-leaving {
+    opacity: 0;
+    transform: translateY(8px);
 }
 
 button,
-input{
-    -webkit-tap-highlight-color:transparent;
+input {
+    -webkit-tap-highlight-color: transparent;
 }
 
 
-/* ================================
+/* =========================================
    HEADER
-================================ */
+========================================= */
 
-.header{
-    position:sticky;
-    top:0;
-    z-index:20;
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
 
-    background:rgba(255,255,255,.96);
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
 
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-
-    border-bottom:1px solid #e7eee9;
-
-    padding:12px 16px;
+    border-bottom: 1px solid #e7eee9;
+    padding: 12px 16px;
 }
 
-.header-inner{
-    max-width:700px;
-    margin:auto;
+.header-inner {
+    max-width: 700px;
+    margin: auto;
 
-    display:flex;
-    align-items:center;
-
-    gap:10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.back-btn{
-    width:39px;
-    height:39px;
+.back-btn {
+    width: 38px;
+    height: 38px;
 
-    border:0;
-    border-radius:50%;
+    border: none;
+    border-radius: 50%;
 
-    background:#eef5f1;
-    color:#087443;
+    background: #f1f6f3;
+    color: #087443;
 
-    font-size:21px;
+    font-size: 20px;
 
-    cursor:pointer;
+    cursor: pointer;
 
     transition:
         transform .18s ease,
         background .18s ease;
 }
 
-.back-btn:hover{
-    background:#e2efe7;
+.back-btn:hover {
+    background: #e7f3ec;
+    transform: scale(1.05);
 }
 
-.back-btn:active{
-    transform:scale(.84);
+.back-btn:active {
+    transform: scale(.86);
 }
 
-.header-title{
-    flex:1;
+.header-title {
+    flex: 1;
 }
 
-.header-title strong{
-    display:block;
-    color:#087443;
-    font-size:16px;
+.header-title strong {
+    display: block;
+    color: #087443;
+    font-size: 16px;
 }
 
-.header-title span{
-    display:block;
-    color:#888;
-    font-size:11px;
-    margin-top:3px;
+.header-title span {
+    display: block;
+    color: #888;
+    font-size: 11px;
+    margin-top: 3px;
 }
 
 
-/* ================================
+/* =========================================
    PRODUCT PREVIEW
-================================ */
+========================================= */
 
-.product-preview{
-    max-width:700px;
-    margin:12px auto;
-    padding:0 14px;
+.product-preview {
+    max-width: 700px;
+    margin: 12px auto;
+    padding: 0 14px;
 }
 
-.product-box{
-    background:#fff;
-    border-radius:13px;
-
-    padding:10px;
+.product-box {
+    background: white;
+    border-radius: 13px;
+    padding: 10px;
 
     box-shadow:
         0 3px 12px rgba(0,0,0,.045);
 
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-    gap:10px;
-
-    animation:
-        productIn .3s ease both;
+    animation: productIn .3s ease both;
 }
 
-@keyframes productIn{
+@keyframes productIn {
 
-    from{
-        opacity:0;
-        transform:translateY(-7px);
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
 }
 
-.product-box img{
-    width:56px;
-    height:56px;
+.product-box img {
+    width: 56px;
+    height: 56px;
 
-    border-radius:9px;
+    border-radius: 9px;
 
-    object-fit:cover;
+    object-fit: cover;
 
-    background:#eef2ef;
+    background: #eef2ef;
 
-    flex-shrink:0;
+    flex-shrink: 0;
 }
 
-.product-box-info{
-    min-width:0;
+.product-box-info {
+    min-width: 0;
 }
 
-.product-box-title{
-    font-weight:bold;
-    font-size:13px;
+.product-box-title {
+    font-weight: bold;
+    font-size: 13px;
 
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.product-box-price{
-    color:#087443;
-    font-size:12px;
+.product-box-price {
+    color: #087443;
+    font-size: 12px;
 
-    margin-top:5px;
+    margin-top: 5px;
 
-    font-weight:bold;
+    font-weight: bold;
 }
 
 
-/* ================================
-   COMMENTS
-================================ */
+/* =========================================
+   COMMENTS AREA
+========================================= */
 
-.comments-container{
-    width:100%;
-    max-width:700px;
-
-    margin:auto;
+.comments-container {
+    max-width: 700px;
+    margin: auto;
 
     /*
-       پایین اضافه تا کامنت آخر
-       پشت composer نرود.
+       فضای پایین برای اینکه آخرین کامنت
+       پشت نوار ارسال مخفی نشود.
     */
     padding:
-        4px
-        12px
-        25px;
+        3px
+        14px
+        150px;
 }
 
-.comments-list{
-    display:flex;
-    flex-direction:column;
-
-    gap:18px;
-
-    width:100%;
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 
-/* ================================
+/* =========================================
    COMMENT
-   کاملاً بدون کارت
-================================ */
+========================================= */
 
-.comment-item,
-.reply-item{
-    width:100%;
+.comment-item {
 
-    margin:0;
-    padding:0;
+    align-self: flex-start;
 
-    background:transparent;
-    border:0;
-    box-shadow:none;
+    width: fit-content;
+    max-width: min(92%, 560px);
 
-    display:flex;
-    flex-direction:column;
+    min-width: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
 
     animation:
         commentIn .24s ease both;
 }
 
-@keyframes commentIn{
+@keyframes commentIn {
 
-    from{
-        opacity:0;
-        transform:translateY(7px);
+    from {
+        opacity: 0;
+        transform:
+            translateY(7px)
+            scale(.985);
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
     }
-
 }
 
 
-/* ================================
-   ALIGNMENT
-================================ */
+/* =========================================
+   COMMENT CONTENT
+========================================= */
 
-/*
-   کامنت خود کاربر → راست
-   کامنت دیگران → چپ
-*/
+.comment-content {
 
-.comment-item.mine{
-    align-items:flex-end;
-}
+    width: fit-content;
+    max-width: 100%;
 
-.comment-item.other{
-    align-items:flex-start;
-}
+    background: #edf6f0;
 
+    border-radius: 10px;
 
-/* ================================
-   MESSAGE WRAP
-================================ */
-
-.message-wrap{
-    width:fit-content;
-    max-width:88%;
-
-    display:flex;
-    flex-direction:column;
-}
-
-
-/* ================================
-   USER HEADER
-================================ */
-
-.comment-header{
-    width:fit-content;
-
-    display:flex;
-    align-items:center;
-
-    gap:7px;
-
-    margin-bottom:4px;
-
-    cursor:pointer;
+    padding:
+        7px 9px;
 
     transition:
-        transform .18s ease,
-        opacity .18s ease;
+        background .18s ease,
+        transform .18s ease;
 }
 
-.comment-item.mine .comment-header{
-    align-self:flex-end;
+.comment-content:hover {
+    background: #e8f3ec;
 }
 
-.comment-item.other .comment-header{
-    align-self:flex-start;
+.comment-content:active {
+    transform: scale(.995);
 }
 
-.comment-header:active{
-    transform:scale(.97);
-    opacity:.75;
+
+/* =========================================
+   COMMENT HEADER
+========================================= */
+
+.comment-header {
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 4px;
 }
 
-.comment-avatar{
-    width:33px;
-    height:33px;
+.comment-avatar {
 
-    border-radius:50%;
+    width: 29px;
+    height: 29px;
 
-    object-fit:cover;
+    border-radius: 50%;
 
-    background:#dfeee5;
+    object-fit: cover;
 
-    flex-shrink:0;
+    background: #dcefe4;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
 
     transition:
         transform .2s ease,
         box-shadow .2s ease;
 }
 
-.comment-avatar:hover{
-    transform:scale(1.06);
+.comment-avatar:hover {
+
+    transform: scale(1.07);
 
     box-shadow:
-        0 0 0 3px #dcece3;
+        0 0 0 3px #dceee3;
 }
 
-.comment-avatar:active{
-    transform:scale(.86);
+.comment-avatar:active {
+    transform: scale(.86);
 }
 
-.comment-user{
-    min-width:0;
-}
+.comment-user {
 
-.comment-user-name{
-    color:#087443;
+    cursor: pointer;
 
-    font-weight:bold;
-
-    font-size:11px;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-}
-
-.comment-user-username{
-    color:#8d9690;
-
-    font-size:9px;
-
-    margin-top:1px;
-}
-
-
-/* ================================
-   MESSAGE BUBBLE
-   فقط اندازه خود پیام
-================================ */
-
-.message-bubble{
-
-    /*
-       مهم‌ترین قسمت:
-       عرض فقط به اندازه متن
-    */
-
-    display:inline-block;
-
-    width:fit-content;
-
-    max-width:100%;
-
-    padding:
-        6px 10px;
-
-    background:#e7f3eb;
-
-    border-radius:10px;
-
-    color:#27332c;
-
-    font-size:13px;
-
-    line-height:1.65;
-
-    white-space:pre-wrap;
-
-    overflow-wrap:anywhere;
-
-    /*
-       متن خود پیام:
-       راست‌چین و طبیعی
-    */
-    text-align:right;
-
-    direction:rtl;
+    min-width: 0;
 
     transition:
-        background .18s ease,
-        transform .16s ease;
+        opacity .18s ease,
+        transform .18s ease;
 }
 
-.message-bubble:hover{
-    background:#e1f0e6;
+.comment-user:hover {
+    opacity: .72;
 }
 
-.message-bubble:active{
-    transform:scale(.99);
+.comment-user:active {
+    transform: translateX(-2px);
+}
+
+.comment-user-name {
+
+    color: #087443;
+
+    font-weight: bold;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.comment-user-username {
+
+    color: #8b958f;
+
+    font-size: 9px;
+
+    margin-top: 1px;
 }
 
 
-/*
-   پیام دیگران
-*/
+/* =========================================
+   COMMENT TEXT
+========================================= */
 
-.comment-item.other .message-bubble{
-    background:#fff;
+.comment-text {
 
-    text-align:left;
-    direction:ltr;
+    color: #303934;
+
+    font-size: 12.5px;
+
+    line-height: 1.65;
+
+    white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
+
+    text-align: right;
 }
 
-.comment-item.other .message-bubble:hover{
-    background:#fafcfb;
-}
 
-
-/* ================================
+/* =========================================
    ACTIONS
-   کاملاً خارج از پیام
-================================ */
+========================================= */
 
-.comment-actions{
+.comment-actions {
 
-    width:fit-content;
+    display: flex;
 
-    display:flex;
-    align-items:center;
+    align-items: center;
 
-    gap:3px;
+    gap: 3px;
 
-    margin-top:3px;
+    margin-top: 4px;
 
-    min-height:25px;
+    padding: 0;
 }
 
-.comment-item.mine .comment-actions{
-    align-self:flex-end;
-}
+.comment-action {
 
-.comment-item.other .comment-actions{
-    align-self:flex-start;
-}
+    border: none;
 
-.comment-action{
+    background: transparent;
 
-    border:0;
+    color: #7b847e;
 
-    background:transparent;
+    font-family: inherit;
 
-    color:#7b857e;
+    font-size: 10px;
 
-    font-family:inherit;
+    padding:
+        3px 6px;
 
-    font-size:10px;
+    border-radius: 6px;
 
-    padding:3px 6px;
-
-    border-radius:6px;
-
-    cursor:pointer;
+    cursor: pointer;
 
     transition:
         background .18s ease,
@@ -527,52 +440,58 @@ input{
         opacity .18s ease;
 }
 
-.comment-action:hover{
-    background:#e8f1eb;
-    color:#087443;
+.comment-action:hover {
+
+    background: #e9f2ec;
+
+    color: #087443;
 }
 
-.comment-action:active{
-    transform:scale(.82);
+.comment-action:active {
+    transform: scale(.82);
 }
 
-.comment-action.liked{
-    color:#c62828;
-    background:#fff0f0;
+.comment-action.liked {
+
+    color: #c62828;
+
+    background: #fff0f0;
 }
 
-.comment-action.loading{
-    opacity:.5;
-    pointer-events:none;
+.comment-action.loading {
+
+    opacity: .5;
+
+    pointer-events: none;
 }
 
 
-/* ================================
-   THREE DOT
-================================ */
+/* =========================================
+   THREE DOT MENU
+========================================= */
 
-.more-wrapper{
-    position:relative;
+.more-wrapper {
+    position: relative;
 }
 
-.more-button{
+.more-button {
 
-    width:25px;
-    height:25px;
+    width: 27px;
+    height: 27px;
 
-    border:0;
+    border: none;
 
-    background:transparent;
+    background: transparent;
 
-    color:#8a938d;
+    color: #8b948e;
 
-    border-radius:50%;
+    border-radius: 50%;
 
-    font-size:17px;
+    font-size: 17px;
 
-    line-height:25px;
+    line-height: 1;
 
-    cursor:pointer;
+    cursor: pointer;
 
     transition:
         background .18s ease,
@@ -580,398 +499,446 @@ input{
         transform .16s ease;
 }
 
-.more-button:hover{
-    background:#e8f1eb;
-    color:#087443;
+.more-button:hover {
+
+    background: #e9f1ec;
+
+    color: #087443;
 }
 
-.more-button:active{
-    transform:scale(.8);
+.more-button:active {
+    transform: scale(.8);
 }
 
+.more-menu {
 
-/* ================================
-   MORE MENU
-================================ */
+    position: absolute;
 
-.more-menu{
+    top: 30px;
+    right: 0;
 
-    position:absolute;
+    min-width: 105px;
 
-    top:28px;
-    right:0;
+    background: white;
 
-    min-width:110px;
+    border-radius: 9px;
 
-    background:#fff;
-
-    border-radius:9px;
-
-    padding:4px;
-
-    border:1px solid #e3ebe6;
+    padding: 4px;
 
     box-shadow:
-        0 9px 25px rgba(0,0,0,.11);
+        0 8px 25px rgba(0,0,0,.10);
 
-    opacity:0;
-    visibility:hidden;
+    border: 1px solid #e5ebe7;
+
+    opacity: 0;
+
+    visibility: hidden;
 
     transform:
         translateY(-5px)
-        scale(.94);
+        scale(.95);
 
-    transform-origin:top right;
+    transform-origin: top right;
 
     transition:
         opacity .18s ease,
         transform .18s ease,
         visibility .18s ease;
 
-    z-index:60;
+    z-index: 50;
 }
 
-.more-menu.show{
+.more-menu.show {
 
-    opacity:1;
-    visibility:visible;
+    opacity: 1;
+
+    visibility: visible;
 
     transform:
         translateY(0)
         scale(1);
 }
 
-.more-menu button{
+.more-menu button {
 
-    width:100%;
+    width: 100%;
 
-    border:0;
+    border: none;
 
-    background:transparent;
+    background: transparent;
 
-    color:#c62828;
+    padding:
+        8px 9px;
 
-    font-family:inherit;
+    border-radius: 6px;
 
-    font-size:10px;
+    text-align: right;
 
-    text-align:right;
+    font-family: inherit;
 
-    padding:8px;
+    font-size: 10px;
 
-    border-radius:7px;
+    color: #c62828;
 
-    cursor:pointer;
+    cursor: pointer;
 
     transition:
         background .16s ease,
         transform .16s ease;
 }
 
-.more-menu button:hover{
-    background:#fff1f1;
+.more-menu button:hover {
+    background: #fff1f1;
 }
 
-.more-menu button:active{
-    transform:scale(.94);
+.more-menu button:active {
+    transform: scale(.94);
 }
 
 
-/* ================================
+/* =========================================
    REPLIES
-================================ */
+========================================= */
 
-.replies{
+.replies {
 
-    width:100%;
+    margin-top: 7px;
 
-    margin-top:8px;
+    margin-right: 13px;
 
-    padding-right:12px;
+    padding-right: 7px;
 
-    border-right:2px solid #dce9e1;
+    border-right: 2px solid #dce9e1;
 
-    display:flex;
+    display: flex;
 
-    flex-direction:column;
+    flex-direction: column;
 
-    gap:10px;
+    gap: 7px;
 }
 
-.reply-item{
-    width:100%;
+.reply-item {
+
+    width: fit-content;
+
+    max-width: 94%;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+
+    animation:
+        replyIn .2s ease both;
 }
 
-.reply-item .message-wrap{
-    max-width:88%;
-}
+.reply-content {
 
-.reply-item .message-bubble{
-    background:#f0f6f2;
+    width: fit-content;
+    max-width: 100%;
 
-    font-size:12px;
+    background: #f1f7f3;
+
+    border-radius: 9px;
 
     padding:
-        6px 9px;
+        6px 8px;
 }
 
-.reply-item .comment-avatar{
-    width:29px;
-    height:29px;
+@keyframes replyIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(-6px)
+            scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(0)
+            scale(1);
+    }
 }
 
-.reply-item .comment-user-name{
-    font-size:10px;
+.reply-item .comment-header {
+    margin-bottom: 3px;
 }
 
-.reply-item .comment-user-username{
-    font-size:8px;
+.reply-item .comment-avatar {
+    width: 26px;
+    height: 26px;
+}
+
+.reply-item .comment-user-name {
+    font-size: 10px;
+}
+
+.reply-item .comment-user-username {
+    font-size: 8px;
+}
+
+.reply-item .comment-text {
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.reply-item .comment-actions {
+    margin-top: 4px;
 }
 
 
-/* ================================
+/* =========================================
    REPLY BOX
-================================ */
+========================================= */
 
-.reply-box{
+.reply-box {
 
-    width:100%;
+    margin-top: 6px;
 
-    margin-top:6px;
-
-    display:none;
+    display: none;
 
     animation:
         replyBoxIn .2s ease both;
 }
 
-.reply-box.show{
-    display:block;
+.reply-box.show {
+    display: block;
 }
 
-@keyframes replyBoxIn{
+@keyframes replyBoxIn {
 
-    from{
-        opacity:0;
-        transform:translateY(-5px);
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
 }
 
-.reply-form{
+.reply-form {
 
-    display:flex;
+    display: flex;
 
-    gap:6px;
+    align-items: center;
 
-    width:min(100%,420px);
+    gap: 5px;
 }
 
-.reply-input{
+.reply-input {
 
-    flex:1;
-    min-width:0;
+    flex: 1;
 
-    border:1px solid #d6e2da;
+    min-width: 0;
 
-    background:#fff;
+    border:
+        1px solid #dce6df;
 
-    border-radius:9px;
+    background: white;
+
+    border-radius: 8px;
 
     padding:
-        8px 10px;
+        7px 9px;
 
-    outline:none;
+    outline: none;
 
-    font-family:inherit;
+    font-family: inherit;
 
-    font-size:11px;
+    font-size: 11px;
 
     transition:
         border-color .18s ease,
         box-shadow .18s ease;
 }
 
-.reply-input:focus{
+.reply-input:focus {
 
-    border-color:#087443;
+    border-color: #087443;
 
     box-shadow:
         0 0 0 2px rgba(8,116,67,.07);
 }
 
-.reply-send{
+.reply-send {
 
-    border:0;
+    border: none;
 
-    background:#087443;
+    background: #087443;
 
-    color:#fff;
+    color: white;
 
-    border-radius:9px;
+    border-radius: 8px;
 
-    padding:0 12px;
+    padding:
+        7px 10px;
 
-    font-family:inherit;
+    cursor: pointer;
 
-    font-size:11px;
+    font-family: inherit;
 
-    cursor:pointer;
+    font-size: 11px;
 
     transition:
         transform .16s ease,
         background .18s ease;
 }
 
-.reply-send:hover{
-    background:#07643a;
+.reply-send:hover {
+    background: #07643a;
 }
 
-.reply-send:active{
-    transform:scale(.88);
+.reply-send:active {
+    transform: scale(.88);
 }
 
 
-/* ================================
-   FIXED COMMENT COMPOSER
-================================ */
+/* =========================================
+   FIXED BOTTOM INPUT
+========================================= */
 
-.comment-composer{
+.comment-composer {
 
-    /*
-       کاملاً فیکس به پایین صفحه
-    */
+    position: fixed;
 
-    position:fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-    left:0 !important;
-    right:0 !important;
-    bottom:0 !important;
+    width: 100%;
 
-    width:100%;
+    z-index: 100;
 
-    z-index:1000;
+    background:
+        rgba(255,255,255,.98);
 
-    background:rgba(255,255,255,.98);
+    backdrop-filter:
+        blur(10px);
 
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:
+        blur(10px);
 
-    border-top:1px solid #dfe8e2;
+    border-top:
+        1px solid #e4ebe6;
 
-    /*
-       به لبه پایین می‌چسبد
-    */
     padding:
-        9px
-        12px
-        calc(9px + env(safe-area-inset-bottom));
+        10px 14px;
 
-    box-shadow:
-        0 -5px 20px rgba(0,0,0,.07);
+    /*
+       برای گوشی‌هایی که نوار پایین سیستم دارند.
+    */
+    padding-bottom:
+        calc(
+            10px +
+            env(safe-area-inset-bottom)
+        );
 
     animation:
         composerIn .3s ease both;
 }
 
-@keyframes composerIn{
+@keyframes composerIn {
 
-    from{
-        opacity:0;
-        transform:translateY(15px);
+    from {
+        opacity: 0;
+        transform: translateY(15px);
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
 }
 
-.composer-inner{
+.composer-inner {
 
-    width:100%;
+    width: 100%;
 
-    max-width:700px;
+    max-width: 700px;
 
-    margin:auto;
+    margin: auto;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    gap:8px;
+    gap: 7px;
 }
 
-.main-input{
+.main-input {
 
-    flex:1;
+    flex: 1;
 
-    min-width:0;
+    min-width: 0;
 
-    height:48px;
+    height: 44px;
 
-    border:1px solid #d3e0d8;
+    border:
+        1px solid #dce6df;
 
-    border-radius:13px;
-
-    background:#f7faf8;
+    border-radius: 11px;
 
     padding:
-        0 14px;
+        0 12px;
 
-    outline:none;
+    outline: none;
 
-    font-family:inherit;
+    font-family: inherit;
 
-    font-size:13px;
+    font-size: 13px;
 
-    color:#27332c;
+    background: white;
+
+    direction: rtl;
+
+    text-align: right;
 
     transition:
         border-color .18s ease,
-        background .18s ease,
         box-shadow .18s ease;
 }
 
-.main-input:focus{
+.main-input:focus {
 
-    background:#fff;
-
-    border-color:#087443;
+    border-color: #087443;
 
     box-shadow:
-        0 0 0 3px rgba(8,116,67,.07);
+        0 0 0 2px rgba(8,116,67,.07);
 }
 
-.send-btn{
+.send-btn {
 
-    height:48px;
+    border: none;
 
-    min-width:75px;
+    background: #087443;
 
-    border:0;
+    color: white;
 
-    border-radius:13px;
+    border-radius: 11px;
 
-    background:#087443;
+    height: 44px;
 
-    color:#fff;
+    padding:
+        0 17px;
 
-    padding:0 15px;
+    flex-shrink: 0;
 
-    font-family:inherit;
+    cursor: pointer;
 
-    font-weight:bold;
+    font-family: inherit;
 
-    font-size:12px;
+    font-weight: bold;
 
-    cursor:pointer;
+    font-size: 12px;
 
     transition:
         transform .16s ease,
@@ -979,133 +946,143 @@ input{
         opacity .18s ease;
 }
 
-.send-btn:hover{
-    background:#07643a;
+.send-btn:hover {
+    background: #07643a;
 }
 
-.send-btn:active{
-    transform:scale(.91);
+.send-btn:active {
+    transform: scale(.91);
 }
 
-.send-btn:disabled{
-    opacity:.6;
-    pointer-events:none;
+.send-btn:disabled {
+
+    opacity: .65;
+
+    pointer-events: none;
 }
 
 
-/* ================================
-   LOGIN
-================================ */
+/* =========================================
+   LOGIN / STATES
+========================================= */
 
-.login-state{
+.state {
 
-    background:#fff;
+    text-align: center;
 
-    border-radius:13px;
+    color: #888;
 
-    padding:18px;
+    padding:
+        45px 20px;
 
-    margin-bottom:15px;
+    font-size: 13px;
 
-    text-align:center;
-
-    color:#777;
-
-    font-size:12px;
+    animation:
+        commentIn .25s ease both;
 }
 
-.login-state a{
+.login-state {
 
-    display:inline-block;
+    background: white;
 
-    margin-top:9px;
+    border-radius: 13px;
 
-    background:#087443;
+    padding: 18px;
 
-    color:#fff;
+    margin-bottom: 12px;
 
-    padding:9px 14px;
+    text-align: center;
 
-    border-radius:9px;
+    color: #777;
 
-    text-decoration:none;
+    font-size: 12px;
 
-    font-size:11px;
+    animation:
+        commentIn .25s ease both;
+}
+
+.login-state a {
+
+    display: inline-block;
+
+    margin-top: 9px;
+
+    background: #087443;
+
+    color: white;
+
+    padding:
+        8px 13px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 11px;
 
     transition:
-        transform .16s ease;
+        transform .16s ease,
+        opacity .18s ease;
 }
 
-.login-state a:active{
-    transform:scale(.93);
-}
-
-
-/* ================================
-   STATE
-================================ */
-
-.state{
-
-    text-align:center;
-
-    color:#8a938d;
-
-    padding:45px 20px;
-
-    font-size:13px;
+.login-state a:active {
+    transform: scale(.94);
 }
 
 
-/* ================================
+/* =========================================
    DELETE MODAL
-================================ */
+========================================= */
 
-.delete-overlay{
+.delete-overlay {
 
-    position:fixed;
+    position: fixed;
 
-    inset:0;
+    inset: 0;
 
-    z-index:2000;
+    z-index: 200;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
-    justify-content:center;
+    align-items: center;
 
-    padding:20px;
+    justify-content: center;
 
-    background:rgba(10,25,17,.28);
+    padding: 20px;
 
-    backdrop-filter:blur(5px);
-    -webkit-backdrop-filter:blur(5px);
+    background:
+        rgba(10,25,17,.28);
 
-    opacity:0;
-    visibility:hidden;
+    backdrop-filter:
+        blur(5px);
+
+    opacity: 0;
+
+    visibility: hidden;
 
     transition:
         opacity .22s ease,
         visibility .22s ease;
 }
 
-.delete-overlay.show{
+.delete-overlay.show {
 
-    opacity:1;
-    visibility:visible;
+    opacity: 1;
+
+    visibility: visible;
 }
 
-.delete-dialog{
+.delete-dialog {
 
-    width:min(330px,100%);
+    width: min(330px, 100%);
 
-    background:#fff;
+    background: white;
 
-    border-radius:18px;
+    border-radius: 18px;
 
-    padding:20px;
+    padding: 20px;
 
-    text-align:center;
+    text-align: center;
 
     box-shadow:
         0 18px 50px rgba(0,0,0,.16);
@@ -1118,79 +1095,79 @@ input{
         transform .25s cubic-bezier(.2,.8,.2,1);
 }
 
-.delete-overlay.show .delete-dialog{
+.delete-overlay.show
+.delete-dialog {
 
     transform:
         translateY(0)
         scale(1);
 }
 
-.delete-icon{
+.delete-icon {
 
-    width:48px;
-    height:48px;
+    width: 48px;
+    height: 48px;
 
-    margin:
-        0 auto 10px;
+    margin: 0 auto 10px;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
 
-    border-radius:50%;
+    border-radius: 50%;
 
-    background:#fff0f0;
+    background: #fff0f0;
 
-    color:#c62828;
+    color: #c62828;
 
-    font-size:22px;
+    font-size: 22px;
 }
 
-.delete-title{
+.delete-title {
 
-    font-weight:bold;
+    font-weight: bold;
 
-    color:#26332c;
+    color: #26332c;
 
-    font-size:14px;
+    font-size: 14px;
 }
 
-.delete-text{
+.delete-text {
 
-    color:#7c8580;
+    color: #7c8580;
 
-    font-size:11px;
+    font-size: 11px;
 
-    line-height:1.7;
+    line-height: 1.7;
 
-    margin-top:6px;
+    margin-top: 6px;
 }
 
-.delete-buttons{
+.delete-buttons {
 
-    display:flex;
+    display: flex;
 
-    gap:7px;
+    gap: 7px;
 
-    margin-top:16px;
+    margin-top: 16px;
 }
 
-.delete-buttons button{
+.delete-buttons button {
 
-    flex:1;
+    flex: 1;
 
-    border:0;
+    border: none;
 
-    border-radius:9px;
+    border-radius: 9px;
 
-    padding:9px;
+    padding: 9px;
 
-    font-family:inherit;
+    font-family: inherit;
 
-    font-size:11px;
+    font-size: 11px;
 
-    cursor:pointer;
+    cursor: pointer;
 
     transition:
         transform .16s ease,
@@ -1198,172 +1175,158 @@ input{
         opacity .18s ease;
 }
 
-.delete-buttons button:active{
-    transform:scale(.91);
+.delete-buttons button:active {
+    transform: scale(.91);
 }
 
-.cancel-delete{
+.cancel-delete {
 
-    background:#eef3ef;
+    background: #eef3ef;
 
-    color:#536058;
+    color: #536058;
 }
 
-.cancel-delete:hover{
-    background:#e4ebe6;
+.cancel-delete:hover {
+    background: #e4ebe6;
 }
 
-.confirm-delete{
+.confirm-delete {
 
-    background:#c62828;
+    background: #c62828;
 
-    color:#fff;
+    color: white;
 }
 
-.confirm-delete:hover{
-    background:#b51f1f;
+.confirm-delete:hover {
+    background: #b51f1f;
 }
 
-.confirm-delete.loading{
+.confirm-delete.loading {
 
-    opacity:.6;
+    opacity: .6;
 
-    pointer-events:none;
+    pointer-events: none;
 }
 
 
-/* ================================
+/* =========================================
    TOAST
-================================ */
+========================================= */
 
-.toast{
+.toast {
 
-    position:fixed;
+    position: fixed;
 
-    left:50%;
+    left: 50%;
 
-    /*
-       بالاتر از composer
-    */
-    bottom:76px;
+    bottom: 78px;
 
     transform:
-        translate(-50%,18px)
+        translate(-50%, 18px)
         scale(.96);
 
-    background:#17251d;
+    background: #17251d;
 
-    color:#fff;
+    color: white;
 
-    padding:10px 15px;
+    padding:
+        9px 14px;
 
-    border-radius:10px;
+    border-radius: 9px;
 
-    font-size:11px;
+    font-size: 11px;
 
-    opacity:0;
+    opacity: 0;
 
-    pointer-events:none;
+    pointer-events: none;
 
     transition:
         opacity .22s ease,
         transform .22s ease;
 
-    z-index:3000;
+    z-index: 300;
 }
 
-.toast.show{
+.toast.show {
 
-    opacity:1;
+    opacity: 1;
 
     transform:
-        translate(-50%,0)
+        translate(-50%, 0)
         scale(1);
 }
 
 
-/* ================================
+/* =========================================
    MOBILE
-================================ */
+========================================= */
 
-@media(max-width:550px){
+@media (max-width: 550px) {
 
-    .comments-container{
+    .comment-item {
+        max-width: 96%;
+    }
 
-        padding-left:8px;
-        padding-right:8px;
+    .comments-container {
+
+        padding-left: 9px;
+        padding-right: 9px;
 
         /*
-           فضای کافی برای نوار پایین
+           فضای بیشتر برای composer ثابت
         */
-        padding-bottom:30px;
+        padding-bottom: 150px;
     }
 
-    .message-wrap{
-        max-width:90%;
+    .comment-text {
+        font-size: 12px;
     }
 
-    .message-bubble{
-
-        font-size:13px;
-
-        padding:
-            6px 10px;
+    .comment-composer {
+        padding-left: 9px;
+        padding-right: 9px;
     }
 
-    .comment-composer{
-
-        padding-left:8px;
-        padding-right:8px;
+    .main-input {
+        height: 46px;
+        font-size: 13px;
     }
 
-    .main-input{
-
-        height:49px;
-
-        font-size:13px;
+    .send-btn {
+        height: 46px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
-    .send-btn{
-
-        height:49px;
-
-        min-width:70px;
-    }
 }
 
 
-/* ================================
+/* =========================================
    REDUCED MOTION
-================================ */
+========================================= */
 
-@media(prefers-reduced-motion:reduce){
+@media (prefers-reduced-motion: reduce) {
 
     *,
     *::before,
-    *::after{
+    *::after {
 
-        animation-duration:.01ms !important;
+        animation-duration: .01ms !important;
 
-        animation-iteration-count:1 !important;
+        animation-iteration-count: 1 !important;
 
-        transition-duration:.01ms !important;
+        transition-duration: .01ms !important;
 
-        scroll-behavior:auto !important;
+        scroll-behavior: auto !important;
     }
 }
 
 </style>
-
 </head>
 
 
 <body>
 
-
-<!-- ================================
-     HEADER
-================================ -->
 
 <header class="header">
 
@@ -1373,6 +1336,7 @@ input{
             class="back-btn"
             type="button"
             onclick="closeComments()"
+            aria-label="بستن"
         >
             ×
         </button>
@@ -1393,10 +1357,6 @@ input{
 
 </header>
 
-
-<!-- ================================
-     PRODUCT
-================================ -->
 
 <section class="product-preview">
 
@@ -1431,10 +1391,6 @@ input{
 </section>
 
 
-<!-- ================================
-     COMMENTS
-================================ -->
-
 <main class="comments-container">
 
     <div
@@ -1468,9 +1424,9 @@ input{
 </main>
 
 
-<!-- ================================
-     FIXED COMPOSER
-================================ -->
+<!-- =========================================
+     FIXED COMMENT COMPOSER
+========================================= -->
 
 <div class="comment-composer">
 
@@ -1497,9 +1453,7 @@ input{
 </div>
 
 
-<!-- ================================
-     DELETE MODAL
-================================ -->
+<!-- DELETE MODAL -->
 
 <div
     id="deleteOverlay"
@@ -1554,9 +1508,9 @@ input{
 
 <script>
 
-/* ================================
+/* =========================================
    SUPABASE
-================================ */
+========================================= */
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
@@ -1571,35 +1525,49 @@ const supabaseClient =
     );
 
 
-/* ================================
+/* =========================================
    ELEMENTS
-================================ */
+========================================= */
 
 const commentsList =
-    document.getElementById("commentsList");
+    document.getElementById(
+        "commentsList"
+    );
 
 const mainInput =
-    document.getElementById("mainInput");
+    document.getElementById(
+        "mainInput"
+    );
 
 const sendButton =
-    document.getElementById("sendButton");
+    document.getElementById(
+        "sendButton"
+    );
 
 const loginState =
-    document.getElementById("loginState");
+    document.getElementById(
+        "loginState"
+    );
 
 const toast =
-    document.getElementById("toast");
+    document.getElementById(
+        "toast"
+    );
 
 const deleteOverlay =
-    document.getElementById("deleteOverlay");
+    document.getElementById(
+        "deleteOverlay"
+    );
 
 const confirmDeleteButton =
-    document.getElementById("confirmDeleteButton");
+    document.getElementById(
+        "confirmDeleteButton"
+    );
 
 
-/* ================================
+/* =========================================
    STATE
-================================ */
+========================================= */
 
 let currentUser = null;
 
@@ -1614,9 +1582,9 @@ let commentLikes = {};
 let commentToDelete = null;
 
 
-/* ================================
+/* =========================================
    PRODUCT ID
-================================ */
+========================================= */
 
 const params =
     new URLSearchParams(
@@ -1628,13 +1596,13 @@ productId =
     params.get("productId");
 
 
-/* ================================
+/* =========================================
    START
-================================ */
+========================================= */
 
-async function start(){
+async function start() {
 
-    if(!productId){
+    if (!productId) {
 
         commentsList.innerHTML = `
             <div class="state">
@@ -1647,7 +1615,7 @@ async function start(){
 
 
     const {
-        data:{
+        data: {
             session
         }
     } =
@@ -1658,7 +1626,7 @@ async function start(){
         session?.user || null;
 
 
-    if(!currentUser){
+    if (!currentUser) {
 
         loginState.style.display =
             "block";
@@ -1670,20 +1638,20 @@ async function start(){
     await loadComments();
 }
 
+
 start();
 
 
-/* ================================
+/* =========================================
    PRODUCT
-================================ */
+========================================= */
 
-async function loadProduct(){
+async function loadProduct() {
 
     const {
-        data:product,
+        data: product,
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("products")
 
@@ -1699,7 +1667,7 @@ async function loadProduct(){
         .maybeSingle();
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Product error:",
@@ -1710,7 +1678,7 @@ async function loadProduct(){
     }
 
 
-    if(!product){
+    if (!product) {
         return;
     }
 
@@ -1718,7 +1686,9 @@ async function loadProduct(){
     const image =
         product.image_url ||
         (
-            Array.isArray(product.image_urls) &&
+            Array.isArray(
+                product.image_urls
+            ) &&
             product.image_urls.length
                 ? product.image_urls[0]
                 : ""
@@ -1762,11 +1732,11 @@ async function loadProduct(){
 }
 
 
-/* ================================
+/* =========================================
    LOAD COMMENTS
-================================ */
+========================================= */
 
-async function loadComments(){
+async function loadComments() {
 
     commentsList.innerHTML = `
         <div class="state">
@@ -1778,8 +1748,7 @@ async function loadComments(){
     const {
         data,
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("product_comments")
 
@@ -1800,12 +1769,12 @@ async function loadComments(){
         .order(
             "created_at",
             {
-                ascending:true
+                ascending: true
             }
         );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Comments error:",
@@ -1834,11 +1803,11 @@ async function loadComments(){
 }
 
 
-/* ================================
-   PROFILES
-================================ */
+/* =========================================
+   LOAD PROFILES
+========================================= */
 
-async function loadProfiles(){
+async function loadProfiles() {
 
     const userIds =
         [
@@ -1851,7 +1820,7 @@ async function loadProfiles(){
         ];
 
 
-    if(!userIds.length){
+    if (!userIds.length) {
         return;
     }
 
@@ -1859,8 +1828,7 @@ async function loadProfiles(){
     const {
         data,
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("profiles")
 
@@ -1874,7 +1842,7 @@ async function loadProfiles(){
         );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Profiles error:",
@@ -1889,27 +1857,26 @@ async function loadProfiles(){
 
 
     (data || []).forEach(
-        function(profile){
+        function(profile) {
 
             profiles[
                 profile.id
             ] = profile;
-
         }
     );
 }
 
 
-/* ================================
-   COMMENT LIKES
-================================ */
+/* =========================================
+   LOAD COMMENT LIKES
+========================================= */
 
-async function loadCommentLikes(){
+async function loadCommentLikes() {
 
     commentLikes = {};
 
 
-    if(!comments.length){
+    if (!comments.length) {
         return;
     }
 
@@ -1924,8 +1891,7 @@ async function loadCommentLikes(){
     const {
         data,
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("comment_likes")
 
@@ -1939,7 +1905,7 @@ async function loadCommentLikes(){
         );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Comment likes error:",
@@ -1951,21 +1917,22 @@ async function loadCommentLikes(){
 
 
     (data || []).forEach(
-        function(like){
+        function(like) {
 
-            if(
+            if (
                 !commentLikes[
                     like.comment_id
                 ]
-            ){
+            ) {
 
                 commentLikes[
                     like.comment_id
                 ] = {
-                    count:0,
-                    liked:false
-                };
 
+                    count: 0,
+
+                    liked: false
+                };
             }
 
 
@@ -1974,30 +1941,28 @@ async function loadCommentLikes(){
             ].count++;
 
 
-            if(
+            if (
                 currentUser &&
                 like.user_id ===
                     currentUser.id
-            ){
+            ) {
 
                 commentLikes[
                     like.comment_id
                 ].liked = true;
-
             }
-
         }
     );
 }
 
 
-/* ================================
+/* =========================================
    RENDER COMMENTS
-================================ */
+========================================= */
 
-function renderComments(){
+function renderComments() {
 
-    if(!comments.length){
+    if (!comments.length) {
 
         commentsList.innerHTML = `
             <div class="state">
@@ -2019,27 +1984,26 @@ function renderComments(){
     commentsList.innerHTML =
         roots
             .map(
-                function(comment){
+                function(comment) {
 
                     return renderComment(
                         comment,
                         false
                     );
-
                 }
             )
             .join("");
 }
 
 
-/* ================================
+/* =========================================
    RENDER COMMENT
-================================ */
+========================================= */
 
 function renderComment(
     comment,
     isReply
-){
+) {
 
     const profile =
         profiles[
@@ -2055,7 +2019,8 @@ function renderComment(
 
     const username =
         profile.username
-            ? "@" + profile.username
+            ? "@" +
+              profile.username
             : "";
 
 
@@ -2068,8 +2033,10 @@ function renderComment(
         commentLikes[
             comment.id
         ] || {
-            count:0,
-            liked:false
+
+            count: 0,
+
+            liked: false
         };
 
 
@@ -2084,13 +2051,7 @@ function renderComment(
     const isOwner =
         currentUser &&
         currentUser.id ===
-            comment.user_id;
-
-
-    const alignmentClass =
-        isOwner
-            ? "mine"
-            : "other";
+        comment.user_id;
 
 
     const safeCommentId =
@@ -2111,28 +2072,26 @@ function renderComment(
             class="${
                 isReply
                     ? "reply-item"
-                    : "comment-item " +
-                      alignmentClass
+                    : "comment-item"
             }"
             data-comment="${safeCommentId}"
         >
 
-            <div class="message-wrap">
+            <div class="comment-content">
 
-                <!-- USER -->
-
-                <div
-                    class="comment-header"
-                    onclick="openUserProfile('${safeUserId}')"
-                >
+                <div class="comment-header">
 
                     <img
                         class="comment-avatar"
                         src="${escapeAttribute(avatar)}"
                         alt=""
+                        onclick="openUserProfile('${safeUserId}')"
                     >
 
-                    <div class="comment-user">
+                    <div
+                        class="comment-user"
+                        onclick="openUserProfile('${safeUserId}')"
+                    >
 
                         <div class="comment-user-name">
                             ${escapeHTML(name)}
@@ -2147,147 +2106,144 @@ function renderComment(
                 </div>
 
 
-                <!-- ONLY MESSAGE BACKGROUND -->
-
-                <div class="message-bubble">
+                <div class="comment-text">
                     ${escapeHTML(comment.comment)}
                 </div>
 
-
-                <!-- ACTIONS OUTSIDE MESSAGE -->
-
-                <div class="comment-actions">
-
-                    <button
-                        type="button"
-                        class="comment-action ${
-                            likeData.liked
-                                ? "liked"
-                                : ""
-                        }"
-                        onclick="toggleCommentLike('${safeCommentId}',this)"
-                    >
-                        ❤️
-                        <span>
-                            ${likeData.count || 0}
-                        </span>
-                    </button>
+            </div>
 
 
-                    ${
-                        !isReply
-                        ? `
-                            <button
-                                type="button"
-                                class="comment-action"
-                                onclick="showReplyBox('${safeCommentId}')"
-                            >
-                                ↩️ پاسخ
-                            </button>
-                        `
-                        : ""
-                    }
+            <div class="comment-actions">
 
+                <button
+                    type="button"
+                    class="comment-action ${
+                        likeData.liked
+                            ? "liked"
+                            : ""
+                    }"
+                    onclick="toggleCommentLike('${safeCommentId}', this)"
+                >
+                    ❤️
+                    <span>
+                        ${likeData.count || 0}
+                    </span>
+                </button>
 
-                    ${
-                        isOwner
-                        ? `
-                            <div class="more-wrapper">
-
-                                <button
-                                    type="button"
-                                    class="more-button"
-                                    onclick="toggleMoreMenu('${safeCommentId}',event)"
-                                >
-                                    ⋮
-                                </button>
-
-                                <div
-                                    id="more-menu-${safeCommentId}"
-                                    class="more-menu"
-                                >
-
-                                    <button
-                                        type="button"
-                                        onclick="openDeleteModal('${safeCommentId}',event)"
-                                    >
-                                        🗑️ حذف نظر
-                                    </button>
-
-                                </div>
-
-                            </div>
-                        `
-                        : ""
-                    }
-
-                </div>
-
-
-                <!-- REPLY BOX -->
 
                 ${
                     !isReply
                     ? `
-                        <div
-                            class="reply-box"
-                            id="reply-box-${safeCommentId}"
+                        <button
+                            type="button"
+                            class="comment-action"
+                            onclick="showReplyBox('${safeCommentId}')"
                         >
-
-                            <div class="reply-form">
-
-                                <input
-                                    id="reply-input-${safeCommentId}"
-                                    class="reply-input"
-                                    type="text"
-                                    maxlength="1000"
-                                    placeholder="پاسخ خود را بنویسید..."
-                                >
-
-                                <button
-                                    type="button"
-                                    class="reply-send"
-                                    onclick="sendReply('${safeCommentId}',this)"
-                                >
-                                    ارسال
-                                </button>
-
-                            </div>
-
-                        </div>
+                            ↩️ پاسخ
+                        </button>
                     `
                     : ""
                 }
 
 
-                <!-- REPLIES -->
-
                 ${
-                    replies.length
+                    isOwner
                     ? `
-                        <div class="replies">
 
-                            ${
-                                replies
-                                    .map(
-                                        function(reply){
+                        <div class="more-wrapper">
 
-                                            return renderComment(
-                                                reply,
-                                                true
-                                            );
+                            <button
+                                type="button"
+                                class="more-button"
+                                onclick="toggleMoreMenu('${safeCommentId}', event)"
+                                aria-label="بیشتر"
+                            >
+                                ⋮
+                            </button>
 
-                                        }
-                                    )
-                                    .join("")
-                            }
+                            <div
+                                id="more-menu-${safeCommentId}"
+                                class="more-menu"
+                            >
+
+                                <button
+                                    type="button"
+                                    onclick="openDeleteModal('${safeCommentId}', event)"
+                                >
+                                    🗑️ حذف نظر
+                                </button>
+
+                            </div>
 
                         </div>
+
                     `
                     : ""
                 }
 
             </div>
+
+
+            ${
+                !isReply
+                ? `
+
+                    <div
+                        class="reply-box"
+                        id="reply-box-${safeCommentId}"
+                    >
+
+                        <div class="reply-form">
+
+                            <input
+                                id="reply-input-${safeCommentId}"
+                                class="reply-input"
+                                type="text"
+                                maxlength="1000"
+                                placeholder="پاسخ خود را بنویسید..."
+                            >
+
+                            <button
+                                type="button"
+                                class="reply-send"
+                                onclick="sendReply('${safeCommentId}', this)"
+                            >
+                                ارسال
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `
+                : ""
+            }
+
+
+            ${
+                replies.length
+                ? `
+
+                    <div class="replies">
+
+                        ${replies
+                            .map(
+                                function(reply) {
+
+                                    return renderComment(
+                                        reply,
+                                        true
+                                    );
+
+                                }
+                            )
+                            .join("")}
+
+                    </div>
+
+                `
+                : ""
+            }
 
         </div>
 
@@ -2295,13 +2251,13 @@ function renderComment(
 }
 
 
-/* ================================
-   PROFILE
-================================ */
+/* =========================================
+   USER PROFILE
+========================================= */
 
-function openUserProfile(userId){
+function openUserProfile(userId) {
 
-    if(!userId){
+    if (!userId) {
         return;
     }
 
@@ -2319,17 +2275,17 @@ function openUserProfile(userId){
 
 
     setTimeout(
-        function(){
+        function() {
 
-            if(
+            if (
                 window.parent &&
                 window.parent !== window
-            ){
+            ) {
 
                 window.parent.location.href =
                     url;
 
-            }else{
+            } else {
 
                 window.location.href =
                     url;
@@ -2341,14 +2297,14 @@ function openUserProfile(userId){
 }
 
 
-/* ================================
+/* =========================================
    THREE DOT MENU
-================================ */
+========================================= */
 
 function toggleMoreMenu(
     commentId,
     event
-){
+) {
 
     event.stopPropagation();
 
@@ -2358,20 +2314,18 @@ function toggleMoreMenu(
             ".more-menu.show"
         )
         .forEach(
-            function(menu){
+            function(menu) {
 
-                if(
+                if (
                     menu.id !==
                     "more-menu-" +
                     commentId
-                ){
+                ) {
 
                     menu.classList.remove(
                         "show"
                     );
-
                 }
-
             }
         );
 
@@ -2383,7 +2337,7 @@ function toggleMoreMenu(
         );
 
 
-    if(!menu){
+    if (!menu) {
         return;
     }
 
@@ -2396,14 +2350,14 @@ function toggleMoreMenu(
 
 document.addEventListener(
     "click",
-    function(){
+    function() {
 
         document
             .querySelectorAll(
                 ".more-menu.show"
             )
             .forEach(
-                function(menu){
+                function(menu) {
 
                     menu.classList.remove(
                         "show"
@@ -2416,16 +2370,16 @@ document.addEventListener(
 );
 
 
-/* ================================
-   DELETE MODAL
-================================ */
+/* =========================================
+   OPEN DELETE MODAL
+========================================= */
 
 function openDeleteModal(
     commentId,
     event
-){
+) {
 
-    if(event){
+    if (event) {
         event.stopPropagation();
     }
 
@@ -2438,20 +2392,16 @@ function openDeleteModal(
         );
 
 
-    if(!comment){
+    if (!comment) {
         return;
     }
 
 
-    /*
-       امنیت سمت کلاینت
-    */
-
-    if(
+    if (
         !currentUser ||
         currentUser.id !==
             comment.user_id
-    ){
+    ) {
 
         showToast(
             "شما اجازه حذف این نظر را ندارید."
@@ -2470,7 +2420,7 @@ function openDeleteModal(
             ".more-menu.show"
         )
         .forEach(
-            function(menu){
+            function(menu) {
 
                 menu.classList.remove(
                     "show"
@@ -2486,7 +2436,11 @@ function openDeleteModal(
 }
 
 
-function closeDeleteModal(){
+/* =========================================
+   CLOSE DELETE MODAL
+========================================= */
+
+function closeDeleteModal() {
 
     deleteOverlay.classList.remove(
         "show"
@@ -2497,16 +2451,16 @@ function closeDeleteModal(){
 }
 
 
-/* ================================
+/* =========================================
    CONFIRM DELETE
-================================ */
+========================================= */
 
-async function confirmDeleteComment(){
+async function confirmDeleteComment() {
 
-    if(
+    if (
         !commentToDelete ||
         !currentUser
-    ){
+    ) {
         return;
     }
 
@@ -2519,17 +2473,24 @@ async function confirmDeleteComment(){
         );
 
 
-    if(
-        !comment ||
-        comment.user_id !==
-            currentUser.id
-    ){
+    if (!comment) {
 
         closeDeleteModal();
+
+        return;
+    }
+
+
+    if (
+        comment.user_id !==
+        currentUser.id
+    ) {
 
         showToast(
             "شما اجازه حذف این نظر را ندارید."
         );
+
+        closeDeleteModal();
 
         return;
     }
@@ -2549,8 +2510,7 @@ async function confirmDeleteComment(){
 
     const {
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("product_comments")
 
@@ -2567,7 +2527,7 @@ async function confirmDeleteComment(){
         );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Delete comment error:",
@@ -2614,22 +2574,22 @@ async function confirmDeleteComment(){
 }
 
 
-/* ================================
-   REPLY BOX
-================================ */
+/* =========================================
+   SHOW REPLY BOX
+========================================= */
 
 function showReplyBox(
     commentId
-){
+) {
 
-    if(!currentUser){
+    if (!currentUser) {
 
         showToast(
             "برای پاسخ دادن ابتدا وارد حساب شوید."
         );
 
         setTimeout(
-            function(){
+            function() {
 
                 navigateSmooth(
                     "login.html"
@@ -2650,7 +2610,7 @@ function showReplyBox(
         );
 
 
-    if(!box){
+    if (!box) {
         return;
     }
 
@@ -2660,9 +2620,9 @@ function showReplyBox(
             ".reply-box.show"
         )
         .forEach(
-            function(item){
+            function(item) {
 
-                if(item !== box){
+                if (item !== box) {
 
                     item.classList.remove(
                         "show"
@@ -2679,11 +2639,11 @@ function showReplyBox(
     );
 
 
-    if(
+    if (
         box.classList.contains(
             "show"
         )
-    ){
+    ) {
 
         const input =
             document.getElementById(
@@ -2692,10 +2652,10 @@ function showReplyBox(
             );
 
 
-        if(input){
+        if (input) {
 
             setTimeout(
-                function(){
+                function() {
 
                     input.focus();
 
@@ -2707,16 +2667,16 @@ function showReplyBox(
 }
 
 
-/* ================================
+/* =========================================
    SEND REPLY
-================================ */
+========================================= */
 
 async function sendReply(
     parentId,
     button
-){
+) {
 
-    if(!currentUser){
+    if (!currentUser) {
 
         showToast(
             "برای پاسخ دادن ابتدا وارد حساب شوید."
@@ -2733,7 +2693,7 @@ async function sendReply(
         );
 
 
-    if(!input){
+    if (!input) {
         return;
     }
 
@@ -2742,7 +2702,7 @@ async function sendReply(
         input.value.trim();
 
 
-    if(!text){
+    if (!text) {
 
         showToast(
             "لطفاً متن پاسخ را بنویسید."
@@ -2754,13 +2714,10 @@ async function sendReply(
     }
 
 
-    button.disabled =
-        true;
-
+    button.disabled = true;
 
     const originalText =
         button.textContent;
-
 
     button.textContent =
         "⌛";
@@ -2768,8 +2725,7 @@ async function sendReply(
 
     const {
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("product_comments")
 
@@ -2786,11 +2742,10 @@ async function sendReply(
 
             parent_id:
                 parentId
-
         });
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Reply error:",
@@ -2828,20 +2783,20 @@ async function sendReply(
 }
 
 
-/* ================================
-   SEND MAIN COMMENT
-================================ */
+/* =========================================
+   MAIN COMMENT
+========================================= */
 
-async function sendComment(){
+async function sendComment() {
 
-    if(!currentUser){
+    if (!currentUser) {
 
         showToast(
             "برای ثبت نظر ابتدا وارد حساب شوید."
         );
 
         setTimeout(
-            function(){
+            function() {
 
                 navigateSmooth(
                     "login.html"
@@ -2859,7 +2814,7 @@ async function sendComment(){
         mainInput.value.trim();
 
 
-    if(!text){
+    if (!text) {
 
         showToast(
             "لطفاً متن نظر را بنویسید."
@@ -2885,8 +2840,7 @@ async function sendComment(){
 
     const {
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
 
         .from("product_comments")
 
@@ -2906,7 +2860,7 @@ async function sendComment(){
         });
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "Comment error:",
@@ -2951,16 +2905,16 @@ async function sendComment(){
 }
 
 
-/* ================================
+/* =========================================
    LIKE
-================================ */
+========================================= */
 
 async function toggleCommentLike(
     commentId,
     button
-){
+) {
 
-    if(!currentUser){
+    if (!currentUser) {
 
         showToast(
             "برای لایک کردن ابتدا وارد حساب شوید."
@@ -2975,9 +2929,9 @@ async function toggleCommentLike(
             commentId
         ] || {
 
-            count:0,
+            count: 0,
 
-            liked:false
+            liked: false
         };
 
 
@@ -2986,14 +2940,15 @@ async function toggleCommentLike(
     );
 
 
-    try{
+    try {
 
-        if(existing.liked){
+        if (
+            existing.liked
+        ) {
 
             const {
                 error
-            } =
-            await supabaseClient
+            } = await supabaseClient
 
                 .from("comment_likes")
 
@@ -3010,16 +2965,15 @@ async function toggleCommentLike(
                 );
 
 
-            if(error){
+            if (error) {
                 throw error;
             }
 
-        }else{
+        } else {
 
             const {
                 error
-            } =
-            await supabaseClient
+            } = await supabaseClient
 
                 .from("comment_likes")
 
@@ -3033,16 +2987,16 @@ async function toggleCommentLike(
                 });
 
 
-            if(error){
+            if (error) {
                 throw error;
             }
-
         }
 
 
         await loadComments();
 
-    }catch(error){
+
+    } catch (error) {
 
         console.error(
             "Comment like error:",
@@ -3050,10 +3004,10 @@ async function toggleCommentLike(
         );
 
 
-        if(
+        if (
             error.code ===
             "23505"
-        ){
+        ) {
 
             await loadComments();
 
@@ -3065,7 +3019,7 @@ async function toggleCommentLike(
             "❌ لایک کامنت انجام نشد."
         );
 
-    }finally{
+    } finally {
 
         button.classList.remove(
             "loading"
@@ -3074,11 +3028,11 @@ async function toggleCommentLike(
 }
 
 
-/* ================================
-   CLOSE
-================================ */
+/* =========================================
+   CLOSE COMMENTS
+========================================= */
 
-function closeComments(){
+function closeComments() {
 
     document.body.classList.add(
         "page-leaving"
@@ -3086,12 +3040,12 @@ function closeComments(){
 
 
     setTimeout(
-        function(){
+        function() {
 
-            if(
+            if (
                 window.parent &&
                 window.parent !== window
-            ){
+            ) {
 
                 window.parent.postMessage(
                     {
@@ -3105,13 +3059,13 @@ function closeComments(){
             }
 
 
-            if(
+            if (
                 window.history.length > 1
-            ){
+            ) {
 
                 window.history.back();
 
-            }else{
+            } else {
 
                 window.location.href =
                     "products.html";
@@ -3123,18 +3077,18 @@ function closeComments(){
 }
 
 
-/* ================================
+/* =========================================
    PARENT MESSAGE
-================================ */
+========================================= */
 
 function sendParentMessage(
     type
-){
+) {
 
-    if(
+    if (
         window.parent &&
         window.parent !== window
-    ){
+    ) {
 
         window.parent.postMessage(
 
@@ -3152,13 +3106,13 @@ function sendParentMessage(
 }
 
 
-/* ================================
-   NAVIGATION
-================================ */
+/* =========================================
+   SMOOTH NAVIGATION
+========================================= */
 
 function navigateSmooth(
     url
-){
+) {
 
     document.body.classList.add(
         "page-leaving"
@@ -3166,7 +3120,7 @@ function navigateSmooth(
 
 
     setTimeout(
-        function(){
+        function() {
 
             window.location.href =
                 url;
@@ -3177,15 +3131,15 @@ function navigateSmooth(
 }
 
 
-/* ================================
+/* =========================================
    TOAST
-================================ */
+========================================= */
 
 let toastTimer = null;
 
 function showToast(
     message
-){
+) {
 
     toast.textContent =
         message;
@@ -3203,7 +3157,7 @@ function showToast(
 
     toastTimer =
         setTimeout(
-            function(){
+            function() {
 
                 toast.classList.remove(
                     "show"
@@ -3215,13 +3169,13 @@ function showToast(
 }
 
 
-/* ================================
+/* =========================================
    HELPERS
-================================ */
+========================================= */
 
 function escapeHTML(
     value
-){
+) {
 
     return String(
         value ?? ""
@@ -3256,7 +3210,7 @@ function escapeHTML(
 
 function escapeAttribute(
     value
-){
+) {
 
     return escapeHTML(
         value
@@ -3264,9 +3218,9 @@ function escapeAttribute(
 }
 
 
-/* ================================
-   EVENTS
-================================ */
+/* =========================================
+   SEND
+========================================= */
 
 sendButton.addEventListener(
     "click",
@@ -3276,12 +3230,12 @@ sendButton.addEventListener(
 
 mainInput.addEventListener(
     "keydown",
-    function(event){
+    function(event) {
 
-        if(
+        if (
             event.key ===
             "Enter"
-        ){
+        ) {
 
             event.preventDefault();
 
@@ -3292,14 +3246,18 @@ mainInput.addEventListener(
 );
 
 
+/* =========================================
+   DELETE MODAL BACKDROP
+========================================= */
+
 deleteOverlay.addEventListener(
     "click",
-    function(event){
+    function(event) {
 
-        if(
+        if (
             event.target ===
             deleteOverlay
-        ){
+        ) {
 
             closeDeleteModal();
         }
@@ -3308,16 +3266,21 @@ deleteOverlay.addEventListener(
 );
 
 
+/* =========================================
+   ESC
+========================================= */
+
 document.addEventListener(
     "keydown",
-    function(event){
+    function(event) {
 
-        if(
+        if (
             event.key ===
             "Escape"
-        ){
+        ) {
 
             closeDeleteModal();
+
         }
 
     }
@@ -3326,5 +3289,4 @@ document.addEventListener(
 </script>
 
 </body>
-
 </html>
