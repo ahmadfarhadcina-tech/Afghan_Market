@@ -1118,10 +1118,6 @@
 <div class="comments-app">
 
 
-    <!-- ==============================
-         HEADER
-    =============================== -->
-
     <header class="top-header">
 
         <div class="header-main">
@@ -1191,10 +1187,6 @@
     </header>
 
 
-    <!-- ==============================
-         COMMENTS
-    =============================== -->
-
     <main
         class="comments-scroll"
         id="commentsScroll"
@@ -1215,10 +1207,6 @@
 
     </main>
 
-
-    <!-- ==============================
-         COMMENT INPUT
-    =============================== -->
 
     <div class="input-area">
 
@@ -1258,11 +1246,6 @@
 
 <script>
 
-
-    /* =================================
-       SUPABASE
-    ================================= */
-
     const SUPABASE_URL =
         "https://vhiewoopyqugdxwvsbno.supabase.co";
 
@@ -1293,9 +1276,10 @@
         params.get("productId");
 
 
-    /* =================================
-       ELEMENTS
-    ================================= */
+    /* صفحه‌ای که کاربر از آن وارد کامنت شده */
+    const fromPage =
+        params.get("from");
+
 
     const commentsScroll =
         document.getElementById(
@@ -1380,6 +1364,11 @@
 
     function closeComments() {
 
+        /*
+         * اگر Comments داخل iframe باز شده باشد،
+         * به صفحه اصلی پیام بسته‌شدن می‌فرستیم.
+         */
+
         if (
             window.parent &&
             window.parent !== window
@@ -1390,11 +1379,50 @@
                 "*"
             );
 
-        } else {
+            return;
+
+        }
+
+
+        /*
+         * اگر از صفحه مشخصی آمده باشیم،
+         * دقیقاً به همان صفحه برمی‌گردیم.
+         */
+
+        if (fromPage) {
+
+            window.location.href =
+                fromPage;
+
+            return;
+
+        }
+
+
+        /*
+         * اگر from وجود نداشت،
+         * از history استفاده می‌کنیم.
+         */
+
+        if (
+            document.referrer &&
+            document.referrer !==
+                window.location.href
+        ) {
 
             history.back();
 
+            return;
+
         }
+
+
+        /*
+         * مسیر پیش‌فرض
+         */
+
+        window.location.href =
+            "products.html";
 
     }
 
@@ -1616,10 +1644,6 @@
         comments =
             data || [];
 
-
-        /* =================================
-           LOAD PROFILES
-        ================================= */
 
         const userIds =
             [
@@ -2126,10 +2150,6 @@
         );
 
 
-        /* =================================
-           TELL PRODUCTS PAGE
-        ================================= */
-
         if (
             window.parent &&
             window.parent !== window
@@ -2277,10 +2297,6 @@
             "نظر حذف شد."
         );
 
-
-        /* =================================
-           TELL PRODUCTS PAGE
-        ================================= */
 
         if (
             window.parent &&
@@ -2649,3 +2665,5 @@
 </body>
 
 </html>
+
+فقط دقت کن: برای اینکه "fromPage" واقعاً کار کند، صفحه Profile و Products هم باید هنگام باز کردن Comments، آدرس صفحه خودشان را بفرستند. کد خود "comments.html" آماده دریافت آن است.
