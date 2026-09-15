@@ -3,1111 +3,516 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>نظرات محصول | بازارک</title>
-
-    <meta
-        name="description"
-        content="نظرات کاربران درباره محصول در بازارک"
-    >
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        body {
-
-            font-family:
-                Tahoma,
-                Arial,
-                sans-serif;
-
-            background: #f7f9f8;
-
-            color: #18211d;
-
-            min-height: 100vh;
-
-            overflow-x: hidden;
-
-        }
-
-
-        button,
-        textarea {
-
-            font-family: inherit;
-
-        }
-
-
-        button {
-
-            -webkit-tap-highlight-color:
-                transparent;
-
-        }
-
-
-        /* =================================
-           MAIN APP
-        ================================= */
-
-        .comments-app {
-
-            width: 100%;
-
-            min-height: 100vh;
-
-            display: flex;
-
-            flex-direction: column;
-
-            background: #ffffff;
-
-        }
-
-
-        /* =================================
-           HEADER
-        ================================= */
-
-        .top-header {
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 20;
-
-            background:
-                rgba(255,255,255,.96);
-
-            backdrop-filter:
-                blur(14px);
-
-            -webkit-backdrop-filter:
-                blur(14px);
-
-            border-bottom:
-                1px solid #e7ece9;
-
-        }
-
-
-        .header-main {
-
-            min-height: 68px;
-
-            padding:
-                12px 18px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
-        }
-
-
-        .close-button {
-
-            width: 40px;
-
-            height: 40px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: #f1f4f2;
-
-            color: #39443f;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-
-            cursor: pointer;
-
-            transition:
-                transform .18s ease,
-                background .18s ease;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .close-button:hover {
-
-            background: #e7ece9;
-
-        }
-
-
-        .close-button:active {
-
-            transform:
-                scale(.88);
-
-        }
-
-
-        .header-title {
-
-            flex: 1;
-
-            min-width: 0;
-
-        }
-
-
-        .header-title h1 {
-
-            font-size: 17px;
-
-            font-weight: 900;
-
-            margin-bottom: 4px;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            white-space: nowrap;
-
-        }
-
-
-        .header-title p {
-
-            color: #78827e;
-
-            font-size: 11px;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            white-space: nowrap;
-
-        }
-
-
-        .comment-count-top {
-
-            background: #eef8f4;
-
-            color: #087a55;
-
-            border:
-                1px solid #d7eee4;
-
-            padding:
-                7px 10px;
-
-            border-radius: 10px;
-
-            font-size: 11px;
-
-            font-weight: 900;
-
-            white-space: nowrap;
-
-        }
-
-
-        /* =================================
-           PRODUCT MINI INFO
-        ================================= */
-
-        .product-mini {
-
-            display: none;
-
-            padding:
-                10px 18px;
-
-            background: #fbfcfb;
-
-            border-bottom:
-                1px solid #edf1ef;
-
-        }
-
-
-        .product-mini-inner {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-        }
-
-
-        .product-mini-image {
-
-            width: 45px;
-
-            height: 45px;
-
-            border-radius: 10px;
-
-            object-fit: cover;
-
-            background: #edf1ef;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .product-mini-placeholder {
-
-            width: 45px;
-
-            height: 45px;
-
-            border-radius: 10px;
-
-            background: #edf1ef;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .product-mini-text {
-
-            min-width: 0;
-
-        }
-
-
-        .product-mini-text strong {
-
-            display: block;
-
-            font-size: 13px;
-
-            margin-bottom: 4px;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            white-space: nowrap;
-
-        }
-
-
-        .product-mini-text span {
-
-            color: #087a55;
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-        }
-
-
-        /* =================================
-           COMMENTS AREA
-        ================================= */
-
-        .comments-scroll {
-
-            flex: 1;
-
-            padding:
-                15px 18px 110px;
-
-            overflow-y: auto;
-
-            overscroll-behavior:
-                contain;
-
-            scroll-behavior:
-                smooth;
-
-        }
-
-
-        .comments-scroll::-webkit-scrollbar {
-
-            width: 5px;
-
-        }
-
-
-        .comments-scroll::-webkit-scrollbar-thumb {
-
-            background: #d4ddd8;
-
-            border-radius: 20px;
-
-        }
-
-
-        /* =================================
-           LOADING
-        ================================= */
-
-        .loading {
-
-            min-height: 260px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            flex-direction: column;
-
-            gap: 12px;
-
-            color: #087a55;
-
-            font-size: 14px;
-
-        }
-
-
-        .loading-spinner {
-
-            width: 32px;
-
-            height: 32px;
-
-            border:
-                3px solid #e1ebe6;
-
-            border-top-color:
-                #087a55;
-
-            border-radius: 50%;
-
-            animation:
-                spin .8s linear infinite;
-
-        }
-
-
-        @keyframes spin {
-
-            to {
-                transform:
-                    rotate(360deg);
-            }
-
-        }
-
-
-        /* =================================
-           EMPTY
-        ================================= */
-
-        .empty-comments {
-
-            min-height: 320px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            flex-direction: column;
-
-            text-align: center;
-
-            padding: 30px;
-
-        }
-
-
-        .empty-icon {
-
-            width: 75px;
-
-            height: 75px;
-
-            border-radius: 50%;
-
-            background: #eef8f4;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 34px;
-
-            margin-bottom: 16px;
-
-        }
-
-
-        .empty-comments h2 {
-
-            font-size: 18px;
-
-            margin-bottom: 8px;
-
-        }
-
-
-        .empty-comments p {
-
-            color: #77817d;
-
-            font-size: 13px;
-
-            line-height: 1.9;
-
-            max-width: 350px;
-
-        }
-
-
-        /* =================================
-           COMMENT ITEM
-        ================================= */
-
-        .comment-item {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            gap: 10px;
-
-            margin-bottom: 18px;
-
-            animation:
-                commentIn .3s ease both;
-
-        }
-
-
-        @keyframes commentIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(8px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0);
-
-            }
-
-        }
-
-
-        .avatar {
-
-            width: 42px;
-
-            height: 42px;
-
-            border-radius: 50%;
-
-            object-fit: cover;
-
-            background: #e8efeb;
-
-            border:
-                1px solid #dce5e0;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .avatar-placeholder {
-
-            width: 42px;
-
-            height: 42px;
-
-            border-radius: 50%;
-
-            background: #087a55;
-
-            color: white;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 18px;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .comment-content {
-
-            min-width: 0;
-
-            flex: 1;
-
-        }
-
-
-        .comment-bubble {
-
-            background: #f4f7f5;
-
-            border-radius:
-                5px 17px 17px 17px;
-
-            padding:
-                11px 13px;
-
-            position: relative;
-
-        }
-
-
-        .comment-top {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            margin-bottom: 7px;
-
-        }
-
-
-        .comment-name {
-
-            font-size: 12px;
-
-            font-weight: 900;
-
-            color: #26332d;
-
-            max-width: 170px;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            white-space: nowrap;
-
-        }
-
-
-        .comment-username {
-
-            font-size: 10px;
-
-            color: #8a9490;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            white-space: nowrap;
-
-        }
-
-
-        .comment-text {
-
-            font-size: 13px;
-
-            line-height: 1.9;
-
-            color: #3d4944;
-
-            white-space: pre-wrap;
-
-            word-break: break-word;
-
-        }
-
-
-        .comment-footer {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            padding:
-                6px 3px 0;
-
-        }
-
-
-        .comment-time {
-
-            color: #8a9490;
-
-            font-size: 9px;
-
-        }
-
-
-        .delete-comment {
-
-            border: none;
-
-            background: transparent;
-
-            color: #b42318;
-
-            font-size: 10px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            padding: 4px 6px;
-
-            border-radius: 6px;
-
-        }
-
-
-        .delete-comment:hover {
-
-            background: #fff0ef;
-
-        }
-
-
-        /* =================================
-           LOGIN MESSAGE
-        ================================= */
-
-        .login-message {
-
-            background: #eef8f4;
-
-            border:
-                1px solid #d4ede2;
-
-            border-radius: 14px;
-
-            padding:
-                13px 14px;
-
-            margin-bottom: 18px;
-
-            color: #087a55;
-
-            font-size: 12px;
-
-            line-height: 1.8;
-
-            text-align: center;
-
-        }
-
-
-        .login-message a {
-
-            color: #055c40;
-
-            font-weight: 900;
-
-            text-decoration: underline;
-
-        }
-
-
-        /* =================================
-           ERROR
-        ================================= */
-
-        .error-box {
-
-            margin: 20px 0;
-
-            background: #fff4f4;
-
-            border:
-                1px solid #ffd2d2;
-
-            color: #b42318;
-
-            border-radius: 14px;
-
-            padding: 18px;
-
-            text-align: center;
-
-            font-size: 12px;
-
-            line-height: 1.8;
-
-        }
-
-
-        /* =================================
-           INPUT AREA
-        ================================= */
-
-        .input-area {
-
-            position: fixed;
-
-            left: 0;
-
-            right: 0;
-
-            bottom: 0;
-
-            z-index: 30;
-
-            background:
-                rgba(255,255,255,.97);
-
-            backdrop-filter:
-                blur(15px);
-
-            -webkit-backdrop-filter:
-                blur(15px);
-
-            border-top:
-                1px solid #e4eae7;
-
-            padding:
-                10px 14px;
-
-            padding-bottom:
-                max(
-                    10px,
-                    env(safe-area-inset-bottom)
-                );
-
-        }
-
-
-        .input-wrapper {
-
-            max-width: 850px;
-
-            margin: auto;
-
-            display: flex;
-
-            align-items: flex-end;
-
-            gap: 8px;
-
-        }
-
-
-        .comment-input {
-
-            flex: 1;
-
-            min-height: 43px;
-
-            max-height: 120px;
-
-            resize: none;
-
-            border:
-                1px solid #dce4e0;
-
-            border-radius: 14px;
-
-            background: #f7f9f8;
-
-            outline: none;
-
-            padding:
-                11px 13px;
-
-            font-size: 12px;
-
-            color: #25322c;
-
-            line-height: 1.7;
-
-            transition:
-                border-color .2s ease,
-                background .2s ease;
-
-        }
-
-
-        .comment-input:focus {
-
-            border-color:
-                #087a55;
-
-            background:
-                #ffffff;
-
-        }
-
-
-        .comment-input::placeholder {
-
-            color: #9aa39f;
-
-        }
-
-
-        .send-button {
-
-            width: 44px;
-
-            height: 43px;
-
-            border: none;
-
-            border-radius: 13px;
-
-            background: #087a55;
-
-            color: white;
-
-            font-size: 18px;
-
-            cursor: pointer;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            transition:
-                transform .18s ease,
-                background .18s ease;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .send-button:hover {
-
-            background: #055c40;
-
-        }
-
-
-        .send-button:active {
-
-            transform:
-                scale(.9);
-
-        }
-
-
-        .send-button:disabled {
-
-            opacity: .55;
-
-            cursor: wait;
-
-        }
-
-
-        /* =================================
-           NOTIFICATION
-        ================================= */
-
-        .toast {
-
-            position: fixed;
-
-            top: 78px;
-
-            left: 50%;
-
-            transform:
-                translate(-50%, -15px);
-
-            z-index: 100;
-
-            background: #18211d;
-
-            color: white;
-
-            padding:
-                10px 16px;
-
-            border-radius: 10px;
-
-            font-size: 11px;
-
-            opacity: 0;
-
-            visibility: hidden;
-
-            transition:
-                opacity .25s ease,
-                transform .25s ease,
-                visibility .25s ease;
-
-            max-width:
-                calc(100% - 30px);
-
-            text-align: center;
-
-        }
-
-
-        .toast.show {
-
-            opacity: 1;
-
-            visibility: visible;
-
-            transform:
-                translate(-50%, 0);
-
-        }
-
-
-        /* =================================
-           DESKTOP
-        ================================= */
-
-        @media (min-width: 700px) {
-
-            body {
-
-                background: #eef2f0;
-
-                padding: 20px;
-
-            }
-
-
-            .comments-app {
-
-                max-width: 900px;
-
-                min-height:
-                    calc(100vh - 40px);
-
-                margin: auto;
-
-                border-radius: 22px;
-
-                overflow: hidden;
-
-                box-shadow:
-                    0 15px 50px
-                    rgba(0,0,0,.10);
-
-            }
-
-
-            .input-area {
-
-                position: absolute;
-
-                left: auto;
-
-                right: auto;
-
-                bottom: auto;
-
-                width: 100%;
-
-            }
-
-        }
-
-
-        @media (max-width: 450px) {
-
-            .header-main {
-
-                padding:
-                    10px 12px;
-
-            }
-
-
-            .comments-scroll {
-
-                padding-left: 12px;
-
-                padding-right: 12px;
-
-            }
-
-
-            .comment-name {
-
-                max-width: 130px;
-
-            }
-
-
-            .comment-count-top {
-
-                padding:
-                    6px 8px;
-
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>نظرات | بازارک</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    background: #f4f7f5;
+    color: #17251d;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: white;
+    border-bottom: 1px solid #e7eee9;
+    padding: 14px 16px;
+}
+
+.header-inner {
+    max-width: 700px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #f1f6f3;
+    color: #087443;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.header-title {
+    flex: 1;
+}
+
+.header-title strong {
+    display: block;
+    color: #087443;
+    font-size: 16px;
+}
+
+.header-title span {
+    display: block;
+    color: #888;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+
+/* ================================
+   PRODUCT
+================================ */
+
+.product-preview {
+    max-width: 700px;
+    margin: 14px auto;
+    padding: 0 14px;
+}
+
+.product-box {
+    background: white;
+    border-radius: 15px;
+    padding: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-box img {
+    width: 62px;
+    height: 62px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #eef2ef;
+}
+
+.product-box-info {
+    min-width: 0;
+}
+
+.product-box-title {
+    font-weight: bold;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.product-box-price {
+    color: #087443;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+
+/* ================================
+   COMMENTS
+================================ */
+
+.comments-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 5px 14px 130px;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+
+/*
+   مهم:
+   کارت به اندازه محتوای خودش است.
+*/
+
+.comment-item {
+    align-self: flex-start;
+    width: fit-content;
+    max-width: min(92%, 560px);
+    min-width: 0;
+
+    background: white;
+    border-radius: 15px;
+    padding: 11px 13px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.055);
+
+    animation: commentIn .28s ease both;
+}
+
+
+@keyframes commentIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* ================================
+   COMMENT HEADER
+================================ */
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.comment-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e7f4ed;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.comment-user {
+    cursor: pointer;
+    min-width: 0;
+}
+
+.comment-user-name {
+    color: #087443;
+    font-weight: bold;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comment-user-username {
+    color: #999;
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+
+/* ================================
+   COMMENT TEXT
+================================ */
+
+.comment-text {
+    color: #333;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+
+/* ================================
+   COMMENT ACTIONS
+================================ */
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 9px;
+    padding-top: 8px;
+    border-top: 1px solid #edf1ee;
+}
+
+.comment-action {
+    border: none;
+    background: transparent;
+    color: #777;
+    font-family: inherit;
+    font-size: 11px;
+    padding: 5px 7px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.comment-action:hover {
+    background: #f1f6f3;
+    color: #087443;
+}
+
+.comment-action.liked {
+    color: #c62828;
+    background: #fff3f3;
+}
+
+.delete-comment {
+    color: #c62828;
+}
+
+
+/* ================================
+   REPLIES
+================================ */
+
+.replies {
+    margin-top: 10px;
+    margin-right: 17px;
+    padding-right: 10px;
+    border-right: 2px solid #e1eee6;
+
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.reply-item {
+    width: fit-content;
+    max-width: 95%;
+    background: #f7faf8;
+    border: 1px solid #e8eee9;
+    border-radius: 12px;
+    padding: 9px 11px;
+
+    animation: replyIn .25s ease both;
+}
+
+@keyframes replyIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+.reply-item .comment-header {
+    margin-bottom: 6px;
+}
+
+
+/* ================================
+   REPLY BOX
+================================ */
+
+.reply-box {
+    margin-top: 9px;
+    display: none;
+    animation: replyBoxIn .22s ease both;
+}
+
+.reply-box.show {
+    display: block;
+}
+
+@keyframes replyBoxIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.reply-form {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.reply-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #dce6df;
+    background: #fafcfb;
+    border-radius: 10px;
+    padding: 9px 10px;
+    outline: none;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.reply-input:focus {
+    border-color: #087443;
+    background: white;
+}
+
+.reply-send {
+    border: none;
+    background: #087443;
+    color: white;
+    border-radius: 9px;
+    padding: 9px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+
+/* ================================
+   BOTTOM INPUT
+================================ */
+
+.comment-composer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 30;
+
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
+
+    border-top: 1px solid #e4ebe6;
+
+    padding: 10px 14px;
+}
+
+.composer-inner {
+    max-width: 700px;
+    margin: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.main-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #dce6df;
+    border-radius: 11px;
+    padding: 11px 12px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.main-input:focus {
+    border-color: #087443;
+}
+
+.send-btn {
+    border: none;
+    background: #087443;
+    color: white;
+    border-radius: 11px;
+    padding: 0 17px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+
+/* ================================
+   EMPTY / LOADING
+================================ */
+
+.state {
+    text-align: center;
+    color: #888;
+    padding: 50px 20px;
+    font-size: 13px;
+}
+
+.login-state {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #777;
+}
+
+.login-state a {
+    display: inline-block;
+    margin-top: 10px;
+    background: #087443;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+
+/* ================================
+   TOAST
+================================ */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 80px;
+    transform: translate(-50%, 20px);
+
+    background: #17251d;
+    color: white;
+
+    padding: 10px 15px;
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: .25s ease;
+
+    z-index: 100;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+
+@media (max-width: 550px) {
+
+    .comment-item {
+        max-width: 94%;
+    }
+
+    .comments-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -1115,123 +520,118 @@
 <body>
 
 
-<div class="comments-app">
+<header class="header">
 
+    <div class="header-inner">
 
-    <header class="top-header">
-
-        <div class="header-main">
-
-            <button
-                class="close-button"
-                type="button"
-                onclick="closeComments()"
-                aria-label="بستن"
-            >
-                ✕
-            </button>
-
-
-            <div class="header-title">
-
-                <h1>
-                    نظرات
-                </h1>
-
-                <p id="headerProductTitle">
-                    در حال دریافت محصول...
-                </p>
-
-            </div>
-
-
-            <div
-                class="comment-count-top"
-                id="topCommentCount"
-            >
-                0 نظر
-            </div>
-
-        </div>
-
-
-        <div
-            class="product-mini"
-            id="productMini"
+        <button
+            class="back-btn"
+            type="button"
+            onclick="closeComments()"
         >
+            ×
+        </button>
 
-            <div class="product-mini-inner">
+        <div class="header-title">
 
-                <div id="productMiniImage"></div>
+            <strong>
+                💬 نظرات
+            </strong>
 
-                <div class="product-mini-text">
-
-                    <strong
-                        id="miniProductTitle"
-                    >
-                        محصول
-                    </strong>
-
-                    <span
-                        id="miniProductPrice"
-                    >
-                        —
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </header>
-
-
-    <main
-        class="comments-scroll"
-        id="commentsScroll"
-    >
-
-        <div
-            class="loading"
-            id="loading"
-        >
-
-            <div class="loading-spinner"></div>
-
-            <span>
-                در حال دریافت نظرات...
+            <span id="commentSubtitle">
+                نظرات محصول
             </span>
 
         </div>
 
-    </main>
+    </div>
+
+</header>
 
 
-    <div class="input-area">
+<section class="product-preview">
 
-        <div class="input-wrapper">
+    <div
+        id="productBox"
+        class="product-box"
+        style="display:none;"
+    >
 
-            <textarea
-                id="commentInput"
-                class="comment-input"
-                rows="1"
-                maxlength="1000"
-                placeholder="نظر خود را بنویسید..."
-            ></textarea>
+        <img
+            id="productImage"
+            src=""
+            alt=""
+        >
 
+        <div class="product-box-info">
 
-            <button
-                id="sendButton"
-                class="send-button"
-                type="button"
-                onclick="sendComment()"
-                aria-label="ارسال نظر"
-            >
-                ➤
-            </button>
+            <div
+                id="productTitle"
+                class="product-box-title"
+            ></div>
+
+            <div
+                id="productPrice"
+                class="product-box-price"
+            ></div>
 
         </div>
+
+    </div>
+
+</section>
+
+
+<main class="comments-container">
+
+    <div
+        id="loginState"
+        class="login-state"
+        style="display:none;"
+    >
+        برای نوشتن نظر ابتدا وارد حساب شوید.
+
+        <br>
+
+        <a href="login.html">
+            ورود به حساب
+        </a>
+    </div>
+
+
+    <div
+        id="commentsList"
+        class="comments-list"
+    >
+
+        <div class="state">
+            ⏳ در حال دریافت نظرها...
+        </div>
+
+    </div>
+
+</main>
+
+
+<div class="comment-composer">
+
+    <div class="composer-inner">
+
+        <input
+            id="mainInput"
+            class="main-input"
+            type="text"
+            maxlength="1000"
+            placeholder="نظر خود را بنویسید..."
+        >
+
+        <button
+            id="sendButton"
+            class="send-btn"
+            type="button"
+        >
+            ارسال
+        </button>
 
     </div>
 
@@ -1239,1431 +639,1311 @@
 
 
 <div
-    class="toast"
     id="toast"
+    class="toast"
 ></div>
 
 
 <script>
 
-    const SUPABASE_URL =
-        "https://vhiewoopyqugdxwvsbno.supabase.co";
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+    "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
-    const SUPABASE_KEY =
-        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const commentsList =
+    document.getElementById(
+        "commentsList"
+    );
+
+const mainInput =
+    document.getElementById(
+        "mainInput"
+    );
+
+const sendButton =
+    document.getElementById(
+        "sendButton"
+    );
+
+const loginState =
+    document.getElementById(
+        "loginState"
+    );
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
 
 
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+/* =========================================
+   STATE
+========================================= */
+
+let currentUser = null;
+let productId = null;
+let comments = [];
+let profiles = {};
+let commentLikes = {};
 
 
-    /* =================================
-       URL
-    ================================= */
+/* =========================================
+   PRODUCT ID
+========================================= */
 
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
-
-    const productId =
-        params.get("id") ||
-        params.get("productId");
-
-
-    /* صفحه‌ای که کاربر از آن وارد کامنت شده */
-    const fromPage =
-        params.get("from");
+productId =
+    params.get("id") ||
+    params.get("productId");
 
 
-    const commentsScroll =
-        document.getElementById(
-            "commentsScroll"
-        );
+/* =========================================
+   START
+========================================= */
 
+async function start() {
 
-    const commentInput =
-        document.getElementById(
-            "commentInput"
-        );
+    if (!productId) {
 
+        commentsList.innerHTML = `
+            <div class="state">
+                ❌ شناسه محصول پیدا نشد.
+            </div>
+        `;
 
-    const sendButton =
-        document.getElementById(
-            "sendButton"
-        );
-
-
-    const loading =
-        document.getElementById(
-            "loading"
-        );
-
-
-    const topCommentCount =
-        document.getElementById(
-            "topCommentCount"
-        );
-
-
-    const headerProductTitle =
-        document.getElementById(
-            "headerProductTitle"
-        );
-
-
-    const productMini =
-        document.getElementById(
-            "productMini"
-        );
-
-
-    const productMiniImage =
-        document.getElementById(
-            "productMiniImage"
-        );
-
-
-    const miniProductTitle =
-        document.getElementById(
-            "miniProductTitle"
-        );
-
-
-    const miniProductPrice =
-        document.getElementById(
-            "miniProductPrice"
-        );
-
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    let currentUser = null;
-
-    let currentProduct = null;
-
-    let comments = [];
-
-    let profiles = {};
-
-    let toastTimer = null;
-
-
-    /* =================================
-       CLOSE
-    ================================= */
-
-    function closeComments() {
-
-        /*
-         * اگر Comments داخل iframe باز شده باشد،
-         * به صفحه اصلی پیام بسته‌شدن می‌فرستیم.
-         */
-
-        if (
-            window.parent &&
-            window.parent !== window
-        ) {
-
-            window.parent.postMessage(
-                "close-comments",
-                "*"
-            );
-
-            return;
-
-        }
-
-
-        /*
-         * اگر از صفحه مشخصی آمده باشیم،
-         * دقیقاً به همان صفحه برمی‌گردیم.
-         */
-
-        if (fromPage) {
-
-            window.location.href =
-                fromPage;
-
-            return;
-
-        }
-
-
-        /*
-         * اگر from وجود نداشت،
-         * از history استفاده می‌کنیم.
-         */
-
-        if (
-            document.referrer &&
-            document.referrer !==
-                window.location.href
-        ) {
-
-            history.back();
-
-            return;
-
-        }
-
-
-        /*
-         * مسیر پیش‌فرض
-         */
-
-        window.location.href =
-            "products.html";
-
+        return;
     }
 
 
-    /* =================================
-       START
-    ================================= */
-
-    async function start() {
-
-        if (!productId) {
-
-            showError(
-                "شناسه محصول پیدا نشد."
-            );
-
-            return;
-
+    const {
+        data: {
+            session
         }
+    } =
+    await supabaseClient.auth.getSession();
 
 
-        try {
-
-            await getCurrentUser();
-
-            await loadProduct();
-
-            await loadComments();
-
-            setupInput();
-
-        }
-
-        catch (error) {
-
-            console.error(
-                error
-            );
-
-            showError(
-                "خطایی در دریافت اطلاعات رخ داد."
-            );
-
-        }
-
-    }
+    currentUser =
+        session?.user || null;
 
 
-    /* =================================
-       CURRENT USER
-    ================================= */
+    if (!currentUser) {
 
-    async function getCurrentUser() {
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.getUser();
-
-
-        if (!error && data?.user) {
-
-            currentUser =
-                data.user;
-
-        } else {
-
-            currentUser = null;
-
-        }
-
-    }
-
-
-    /* =================================
-       PRODUCT
-    ================================= */
-
-    async function loadProduct() {
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("products")
-            .select(`
-                id,
-                title,
-                price,
-                image_url,
-                image_urls,
-                status
-            `)
-            .eq(
-                "id",
-                productId
-            )
-            .maybeSingle();
-
-
-        if (error) {
-
-            throw error;
-
-        }
-
-
-        if (!data) {
-
-            showError(
-                "این محصول پیدا نشد."
-            );
-
-            return;
-
-        }
-
-
-        currentProduct =
-            data;
-
-
-        headerProductTitle.textContent =
-            data.title ||
-            "محصول";
-
-
-        miniProductTitle.textContent =
-            data.title ||
-            "محصول";
-
-
-        miniProductPrice.textContent =
-            data.price !== null &&
-            data.price !== undefined
-                ? `${formatPrice(data.price)} افغانی`
-                : "قیمت نامشخص";
-
-
-        const image =
-            getFirstImage(
-                data
-            );
-
-
-        if (image) {
-
-            productMiniImage.innerHTML = `
-
-                <img
-                    class="product-mini-image"
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(
-                        data.title || "محصول"
-                    )}"
-                >
-
-            `;
-
-        } else {
-
-            productMiniImage.innerHTML = `
-
-                <div class="product-mini-placeholder">
-                    🛍️
-                </div>
-
-            `;
-
-        }
-
-
-        productMini.style.display =
+        loginState.style.display =
             "block";
 
     }
 
 
-    /* =================================
-       COMMENTS
-    ================================= */
+    await loadProduct();
 
-    async function loadComments() {
+    await loadComments();
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("product_comments")
-            .select(`
-                id,
-                product_id,
-                user_id,
-                comment,
-                created_at
-            `)
-            .eq(
-                "product_id",
-                productId
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: true
-                }
-            );
+}
 
 
-        if (error) {
-
-            throw error;
-
-        }
+start();
 
 
-        comments =
-            data || [];
+/* =========================================
+   PRODUCT
+========================================= */
+
+async function loadProduct() {
+
+    const {
+        data: product,
+        error
+    } = await supabaseClient
+        .from("products")
+        .select(
+            "id,title,price,image_url,image_urls"
+        )
+        .eq(
+            "id",
+            productId
+        )
+        .maybeSingle();
 
 
-        const userIds =
-            [
-                ...new Set(
-                    comments
-                        .map(
-                            item =>
-                                item.user_id
-                        )
-                        .filter(Boolean)
-                )
-            ];
+    if (error) {
 
+        console.error(error);
 
-        profiles = {};
-
-
-        if (userIds.length) {
-
-            const {
-                data: profileData,
-                error: profileError
-            } =
-            await supabaseClient
-                .from("profiles")
-                .select(`
-                    id,
-                    full_name,
-                    username,
-                    avatar_url
-                `)
-                .in(
-                    "id",
-                    userIds
-                );
-
-
-            if (profileError) {
-
-                console.error(
-                    "Profiles Error:",
-                    profileError
-                );
-
-            } else {
-
-                (profileData || []).forEach(
-                    profile => {
-
-                        profiles[
-                            profile.id
-                        ] =
-                            profile;
-
-                    }
-                );
-
-            }
-
-        }
-
-
-        renderComments();
-
+        return;
     }
 
 
-    /* =================================
-       RENDER
-    ================================= */
-
-    function renderComments() {
-
-        updateCount();
-
-
-        if (!comments.length) {
-
-            commentsScroll.innerHTML = `
-
-                <div class="empty-comments">
-
-                    <div class="empty-icon">
-                        💬
-                    </div>
-
-                    <h2>
-                        هنوز نظری ثبت نشده
-                    </h2>
-
-                    <p>
-                        اولین نفری باش که درباره
-                        این محصول نظر می‌دهد.
-                    </p>
-
-                </div>
-
-            `;
-
-
-            if (!currentUser) {
-
-                addLoginMessage();
-
-            }
-
-
-            return;
-
-        }
-
-
-        let html = "";
-
-
-        if (!currentUser) {
-
-            html += `
-
-                <div class="login-message">
-
-                    برای نوشتن نظر ابتدا
-                    <a href="login.html">
-                        وارد حساب شوید
-                    </a>.
-
-                </div>
-
-            `;
-
-        }
-
-
-        html += comments
-            .map(
-                comment =>
-                    createCommentHTML(
-                        comment
-                    )
-            )
-            .join("");
-
-
-        commentsScroll.innerHTML =
-            html;
-
-
-        scrollToBottom();
-
+    if (!product) {
+        return;
     }
 
 
-    /* =================================
-       COMMENT HTML
-    ================================= */
-
-    function createCommentHTML(
-        comment
-    ) {
-
-        const profile =
-            profiles[
-                comment.user_id
-            ] || {};
-
-
-        const name =
-            profile.full_name ||
-            profile.username ||
-            "کاربر بازارک";
-
-
-        const username =
-            profile.username
-                ? "@" + profile.username
-                : "";
-
-
-        const avatar =
-            profile.avatar_url;
-
-
-        let avatarHTML;
-
-
-        if (avatar) {
-
-            avatarHTML = `
-
-                <img
-                    class="avatar"
-                    src="${escapeHTML(avatar)}"
-                    alt="${escapeHTML(name)}"
-                    onerror="
-                        this.style.display='none';
-                        this.nextElementSibling.style.display='flex';
-                    "
-                >
-
-                <div
-                    class="avatar-placeholder"
-                    style="display:none;"
-                >
-                    👤
-                </div>
-
-            `;
-
-        } else {
-
-            avatarHTML = `
-
-                <div class="avatar-placeholder">
-                    👤
-                </div>
-
-            `;
-
-        }
-
-
-        const ownComment =
-            currentUser &&
-            currentUser.id ===
-            comment.user_id;
-
-
-        const deleteHTML =
-            ownComment
-
-                ? `
-
-                    <button
-                        type="button"
-                        class="delete-comment"
-                        onclick="
-                            deleteComment(
-                                '${escapeHTML(comment.id)}'
-                            )
-                        "
-                    >
-                        حذف
-                    </button>
-
-                  `
-
-                : "";
-
-
-        return `
-
-            <article
-                class="comment-item"
-                data-comment-id="${escapeHTML(
-                    comment.id
-                )}"
-            >
-
-                ${avatarHTML}
-
-
-                <div class="comment-content">
-
-                    <div class="comment-bubble">
-
-                        <div class="comment-top">
-
-                            <span class="comment-name">
-                                ${escapeHTML(name)}
-                            </span>
-
-                            ${
-                                username
-                                    ? `
-                                        <span class="comment-username">
-                                            ${escapeHTML(username)}
-                                        </span>
-                                      `
-                                    : ""
-                            }
-
-                        </div>
-
-
-                        <div class="comment-text">
-                            ${escapeHTML(
-                                comment.comment
-                            )}
-                        </div>
-
-                    </div>
-
-
-                    <div class="comment-footer">
-
-                        <span class="comment-time">
-
-                            ${formatDate(
-                                comment.created_at
-                            )}
-
-                        </span>
-
-                        ${deleteHTML}
-
-                    </div>
-
-                </div>
-
-            </article>
-
-        `;
-
-    }
-
-
-    /* =================================
-       ADD LOGIN MESSAGE
-    ================================= */
-
-    function addLoginMessage() {
-
-        const message =
-            document.createElement(
-                "div"
-            );
-
-
-        message.className =
-            "login-message";
-
-
-        message.innerHTML = `
-
-            برای نوشتن نظر ابتدا
-            <a href="login.html">
-                وارد حساب شوید
-            </a>.
-
-        `;
-
-
-        commentsScroll.appendChild(
-            message
-        );
-
-    }
-
-
-    /* =================================
-       SEND COMMENT
-    ================================= */
-
-    async function sendComment() {
-
-        if (!currentUser) {
-
-            showToast(
-                "برای ثبت نظر ابتدا وارد حساب شوید."
-            );
-
-
-            setTimeout(
-                () => {
-
-                    window.location.href =
-                        "login.html";
-
-                },
-                900
-            );
-
-
-            return;
-
-        }
-
-
-        const text =
-            commentInput.value.trim();
-
-
-        if (!text) {
-
-            showToast(
-                "لطفاً متن نظر را بنویسید."
-            );
-
-            commentInput.focus();
-
-            return;
-
-        }
-
-
-        if (text.length > 1000) {
-
-            showToast(
-                "نظر نمی‌تواند بیشتر از ۱۰۰۰ کاراکتر باشد."
-            );
-
-            return;
-
-        }
-
-
-        sendButton.disabled =
-            true;
-
-
-        const originalButton =
-            sendButton.innerHTML;
-
-
-        sendButton.innerHTML =
-            "⌛";
-
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("product_comments")
-            .insert({
-
-                product_id:
-                    productId,
-
-                user_id:
-                    currentUser.id,
-
-                comment:
-                    text
-
-            })
-            .select(`
-                id,
-                product_id,
-                user_id,
-                comment,
-                created_at
-            `)
-            .single();
-
-
-        if (error) {
-
-            console.error(
-                "Comment Insert Error:",
-                error
-            );
-
-
-            showToast(
-                "ثبت نظر انجام نشد. دوباره تلاش کنید."
-            );
-
-
-            sendButton.innerHTML =
-                originalButton;
-
-            sendButton.disabled =
-                false;
-
-            return;
-
-        }
-
-
-        comments.push(
-            data
-        );
-
-
-        const profile =
-            await loadSingleProfile(
-                currentUser.id
-            );
-
-
-        if (profile) {
-
-            profiles[
-                currentUser.id
-            ] =
-                profile;
-
-        }
-
-
-        commentInput.value =
-            "";
-
-
-        autoResize();
-
-
-        renderComments();
-
-
-        showToast(
-            "نظر شما با موفقیت ثبت شد ✓"
-        );
-
-
-        if (
-            window.parent &&
-            window.parent !== window
-        ) {
-
-            window.parent.postMessage(
-                {
-                    type:
-                        "comment-added",
-
-                    productId:
-                        productId
-                },
-                "*"
-            );
-
-        }
-
-
-        sendButton.innerHTML =
-            originalButton;
-
-        sendButton.disabled =
-            false;
-
-    }
-
-
-    /* =================================
-       LOAD SINGLE PROFILE
-    ================================= */
-
-    async function loadSingleProfile(
-        userId
-    ) {
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("profiles")
-            .select(`
-                id,
-                full_name,
-                username,
-                avatar_url
-            `)
-            .eq(
-                "id",
-                userId
-            )
-            .maybeSingle();
-
-
-        if (error) {
-
-            console.error(
-                error
-            );
-
-            return null;
-
-        }
-
-
-        return data;
-
-    }
-
-
-    /* =================================
-       DELETE COMMENT
-    ================================= */
-
-    async function deleteComment(
-        commentId
-    ) {
-
-        if (!currentUser) {
-
-            return;
-
-        }
-
-
-        const confirmed =
-            confirm(
-                "آیا مطمئن هستید که می‌خواهید این نظر را حذف کنید؟"
-            );
-
-
-        if (!confirmed) {
-
-            return;
-
-        }
-
-
-        const {
-            error
-        } =
-        await supabaseClient
-            .from("product_comments")
-            .delete()
-            .eq(
-                "id",
-                commentId
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            );
-
-
-        if (error) {
-
-            console.error(
-                "Delete Comment Error:",
-                error
-            );
-
-
-            showToast(
-                "حذف نظر انجام نشد."
-            );
-
-            return;
-
-        }
-
-
-        comments =
-            comments.filter(
-                item =>
-                    item.id !==
-                    commentId
-            );
-
-
-        renderComments();
-
-
-        showToast(
-            "نظر حذف شد."
-        );
-
-
-        if (
-            window.parent &&
-            window.parent !== window
-        ) {
-
-            window.parent.postMessage(
-                {
-                    type:
-                        "comment-deleted",
-
-                    productId:
-                        productId
-                },
-                "*"
-            );
-
-        }
-
-    }
-
-
-    /* =================================
-       INPUT
-    ================================= */
-
-    function setupInput() {
-
-        commentInput.addEventListener(
-            "input",
-            autoResize
-        );
-
-
-        commentInput.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key === "Enter" &&
-                    !event.shiftKey
-                ) {
-
-                    event.preventDefault();
-
-                    sendComment();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    function autoResize() {
-
-        commentInput.style.height =
-            "auto";
-
-
-        commentInput.style.height =
-            Math.min(
-                commentInput.scrollHeight,
-                120
-            ) + "px";
-
-    }
-
-
-    /* =================================
-       SCROLL
-    ================================= */
-
-    function scrollToBottom() {
-
-        setTimeout(
-            () => {
-
-                commentsScroll.scrollTo({
-
-                    top:
-                        commentsScroll.scrollHeight,
-
-                    behavior:
-                        "smooth"
-
-                });
-
-            },
-            50
-        );
-
-    }
-
-
-    /* =================================
-       COUNT
-    ================================= */
-
-    function updateCount() {
-
-        const count =
-            comments.length;
-
-
-        topCommentCount.textContent =
-            `${count} نظر`;
-
-    }
-
-
-    /* =================================
-       FIRST IMAGE
-    ================================= */
-
-    function getFirstImage(
-        product
-    ) {
-
-        if (
-            Array.isArray(
-                product.image_urls
-            ) &&
+    const image =
+        product.image_url ||
+        (
+            Array.isArray(product.image_urls) &&
             product.image_urls.length
-        ) {
-
-            return product.image_urls[0];
-
-        }
-
-
-        if (
-            product.image_url
-        ) {
-
-            return product.image_url;
-
-        }
-
-
-        return null;
-
-    }
-
-
-    /* =================================
-       PRICE
-    ================================= */
-
-    function formatPrice(
-        price
-    ) {
-
-        if (
-            price === null ||
-            price === undefined
-        ) {
-
-            return "—";
-
-        }
-
-
-        return Number(price)
-            .toLocaleString("fa-AF");
-
-    }
-
-
-    /* =================================
-       DATE
-    ================================= */
-
-    function formatDate(
-        dateString
-    ) {
-
-        if (!dateString) {
-
-            return "";
-
-        }
-
-
-        const date =
-            new Date(
-                dateString
-            );
-
-
-        try {
-
-            const datePart =
-                date.toLocaleDateString(
-                    "fa-AF",
-                    {
-                        year:
-                            "numeric",
-
-                        month:
-                            "short",
-
-                        day:
-                            "numeric"
-                    }
-                );
-
-
-            const timePart =
-                date.toLocaleTimeString(
-                    "fa-AF",
-                    {
-                        hour:
-                            "2-digit",
-
-                        minute:
-                            "2-digit"
-                    }
-                );
-
-
-            return `${datePart} • ${timePart}`;
-
-        }
-
-        catch {
-
-            return date.toLocaleString();
-
-        }
-
-    }
-
-
-    /* =================================
-       ESCAPE
-    ================================= */
-
-    function escapeHTML(
-        value
-    ) {
-
-        return String(
-            value ?? ""
-        )
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
+                ? product.image_urls[0]
+                : ""
         );
 
-    }
+
+    document.getElementById(
+        "productImage"
+    ).src =
+        image ||
+        "https://via.placeholder.com/100x100?text=B";
 
 
-    /* =================================
-       ERROR
-    ================================= */
+    document.getElementById(
+        "productTitle"
+    ).textContent =
+        product.title ||
+        "محصول";
 
-    function showError(
-        message
-    ) {
 
-        commentsScroll.innerHTML = `
+    document.getElementById(
+        "productPrice"
+    ).textContent =
+        Number(
+            product.price || 0
+        ).toLocaleString() +
+        " افغانی";
 
-            <div class="error-box">
 
-                ❌
+    document.getElementById(
+        "productBox"
+    ).style.display =
+        "flex";
 
-                <br><br>
 
-                ${escapeHTML(message)}
+    document.getElementById(
+        "commentSubtitle"
+    ).textContent =
+        product.title ||
+        "نظرات محصول";
 
+}
+
+
+/* =========================================
+   LOAD COMMENTS
+========================================= */
+
+async function loadComments() {
+
+    commentsList.innerHTML = `
+        <div class="state">
+            ⏳ در حال دریافت نظرها...
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("product_comments")
+        .select(`
+            id,
+            product_id,
+            user_id,
+            comment,
+            parent_id,
+            created_at
+        `)
+        .eq(
+            "product_id",
+            productId
+        )
+        .order(
+            "created_at",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Comments error:",
+            error
+        );
+
+        commentsList.innerHTML = `
+            <div class="state">
+                ❌ دریافت نظرها انجام نشد.
             </div>
-
         `;
 
+        return;
     }
 
 
-    /* =================================
-       TOAST
-    ================================= */
-
-    function showToast(
-        message
-    ) {
-
-        clearTimeout(
-            toastTimer
-        );
+    comments =
+        data || [];
 
 
-        toast.textContent =
-            message;
+    await loadProfiles();
+
+    await loadCommentLikes();
+
+    renderComments();
+
+}
 
 
-        toast.classList.add(
-            "show"
-        );
+/* =========================================
+   LOAD PROFILES
+========================================= */
+
+async function loadProfiles() {
+
+    const userIds =
+        [
+            ...new Set(
+                comments.map(
+                    item => item.user_id
+                )
+            )
+        ];
 
 
-        toastTimer =
-            setTimeout(
-                () => {
-
-                    toast.classList.remove(
-                        "show"
-                    );
-
-                },
-                2500
-            );
-
+    if (!userIds.length) {
+        return;
     }
 
 
-    /* =================================
-       ESC KEY
-    ================================= */
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select(
+            "id,full_name,username,avatar_url"
+        )
+        .in(
+            "id",
+            userIds
+        );
 
-    document.addEventListener(
-        "keydown",
-        function(event) {
+
+    if (error) {
+
+        console.error(
+            "Profiles error:",
+            error
+        );
+
+        return;
+    }
+
+
+    profiles = {};
+
+
+    (data || []).forEach(
+        function(profile) {
+
+            profiles[
+                profile.id
+            ] = profile;
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   LOAD COMMENT LIKES
+========================================= */
+
+async function loadCommentLikes() {
+
+    commentLikes = {};
+
+
+    if (!comments.length) {
+        return;
+    }
+
+
+    const commentIds =
+        comments.map(
+            item => item.id
+        );
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("comment_likes")
+        .select(
+            "comment_id,user_id"
+        )
+        .in(
+            "comment_id",
+            commentIds
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Comment likes error:",
+            error
+        );
+
+        return;
+    }
+
+
+    (data || []).forEach(
+        function(like) {
 
             if (
-                event.key === "Escape"
+                !commentLikes[
+                    like.comment_id
+                ]
             ) {
 
-                closeComments();
+                commentLikes[
+                    like.comment_id
+                ] = {
+                    count: 0,
+                    liked: false
+                };
+
+            }
+
+
+            commentLikes[
+                like.comment_id
+            ].count++;
+
+
+            if (
+                currentUser &&
+                like.user_id ===
+                    currentUser.id
+            ) {
+
+                commentLikes[
+                    like.comment_id
+                ].liked = true;
 
             }
 
         }
     );
 
+}
 
-    /* =================================
-       START APP
-    ================================= */
 
-    start();
+/* =========================================
+   RENDER
+========================================= */
+
+function renderComments() {
+
+    if (!comments.length) {
+
+        commentsList.innerHTML = `
+            <div class="state">
+                💬 هنوز نظری ثبت نشده است.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const roots =
+        comments.filter(
+            item =>
+                !item.parent_id
+        );
+
+
+    commentsList.innerHTML =
+        roots.map(
+            function(comment) {
+
+                return renderComment(
+                    comment,
+                    false
+                );
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================================
+   RENDER COMMENT
+========================================= */
+
+function renderComment(
+    comment,
+    isReply
+) {
+
+    const profile =
+        profiles[
+            comment.user_id
+        ] || {};
+
+
+    const name =
+        profile.full_name ||
+        profile.username ||
+        "کاربر بازارک";
+
+
+    const username =
+        profile.username
+            ? "@" + profile.username
+            : "";
+
+
+    const avatar =
+        profile.avatar_url ||
+        "https://ui-avatars.com/api/?name=User&background=087443&color=fff&size=100";
+
+
+    const likeData =
+        commentLikes[
+            comment.id
+        ] || {
+            count: 0,
+            liked: false
+        };
+
+
+    const replies =
+        comments.filter(
+            item =>
+                item.parent_id ===
+                comment.id
+        );
+
+
+    return `
+
+        <div
+            class="${isReply ? "reply-item" : "comment-item"}"
+            data-comment="${escapeAttribute(comment.id)}"
+        >
+
+            <div class="comment-header">
+
+                <img
+                    class="comment-avatar"
+                    src="${escapeAttribute(avatar)}"
+                    alt=""
+                    onclick="openUserProfile('${escapeAttribute(comment.user_id)}')"
+                >
+
+                <div
+                    class="comment-user"
+                    onclick="openUserProfile('${escapeAttribute(comment.user_id)}')"
+                >
+
+                    <div class="comment-user-name">
+                        ${escapeHTML(name)}
+                    </div>
+
+                    <div class="comment-user-username">
+                        ${escapeHTML(username)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="comment-text">
+                ${escapeHTML(comment.comment)}
+            </div>
+
+
+            <div class="comment-actions">
+
+                <button
+                    type="button"
+                    class="comment-action ${likeData.liked ? "liked" : ""}"
+                    onclick="toggleCommentLike('${escapeAttribute(comment.id)}')"
+                >
+                    ❤️
+                    <span>
+                        ${likeData.count || 0}
+                    </span>
+                </button>
+
+
+                ${
+                    !isReply
+                    ? `
+                        <button
+                            type="button"
+                            class="comment-action"
+                            onclick="showReplyBox('${escapeAttribute(comment.id)}')"
+                        >
+                            ↩️ پاسخ
+                        </button>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    currentUser &&
+                    currentUser.id ===
+                        comment.user_id
+                    ? `
+                        <button
+                            type="button"
+                            class="comment-action delete-comment"
+                            onclick="deleteComment('${escapeAttribute(comment.id)}')"
+                        >
+                            🗑️ حذف
+                        </button>
+                    `
+                    : ""
+                }
+
+            </div>
+
+
+            ${
+                !isReply
+                ? `
+
+                    <div
+                        class="reply-box"
+                        id="reply-box-${escapeAttribute(comment.id)}"
+                    >
+
+                        <div class="reply-form">
+
+                            <input
+                                id="reply-input-${escapeAttribute(comment.id)}"
+                                class="reply-input"
+                                type="text"
+                                maxlength="1000"
+                                placeholder="پاسخ خود را بنویسید..."
+                            >
+
+                            <button
+                                type="button"
+                                class="reply-send"
+                                onclick="sendReply('${escapeAttribute(comment.id)}')"
+                            >
+                                ارسال
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `
+                : ""
+            }
+
+
+            ${
+                replies.length
+                ? `
+
+                    <div class="replies">
+
+                        ${replies.map(
+                            function(reply) {
+
+                                return renderComment(
+                                    reply,
+                                    true
+                                );
+
+                            }
+                        ).join("")}
+
+                    </div>
+
+                `
+                : ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================
+   OPEN USER PROFILE
+========================================= */
+
+function openUserProfile(userId) {
+
+    if (!userId) {
+        return;
+    }
+
+
+    window.location.href =
+        "seller-profile.html?id=" +
+        encodeURIComponent(userId);
+
+}
+
+
+/* =========================================
+   SHOW REPLY BOX
+========================================= */
+
+function showReplyBox(commentId) {
+
+    if (!currentUser) {
+
+        showToast(
+            "برای پاسخ دادن ابتدا وارد حساب شوید."
+        );
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "login.html";
+
+            },
+            700
+        );
+
+        return;
+    }
+
+
+    const box =
+        document.getElementById(
+            "reply-box-" +
+            commentId
+        );
+
+
+    if (!box) {
+        return;
+    }
+
+
+    document
+        .querySelectorAll(".reply-box.show")
+        .forEach(
+            function(item) {
+
+                if (item !== box) {
+
+                    item.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+    box.classList.toggle(
+        "show"
+    );
+
+
+    if (box.classList.contains("show")) {
+
+        const input =
+            document.getElementById(
+                "reply-input-" +
+                commentId
+            );
+
+
+        if (input) {
+
+            input.focus();
+
+        }
+
+    }
+
+}
+
+
+/* =========================================
+   SEND REPLY
+========================================= */
+
+async function sendReply(parentId) {
+
+    if (!currentUser) {
+
+        showToast(
+            "برای پاسخ دادن ابتدا وارد حساب شوید."
+        );
+
+        return;
+    }
+
+
+    const input =
+        document.getElementById(
+            "reply-input-" +
+            parentId
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        showToast(
+            "لطفاً متن پاسخ را بنویسید."
+        );
+
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("product_comments")
+        .insert({
+            product_id:
+                productId,
+            user_id:
+                currentUser.id,
+            comment:
+                text,
+            parent_id:
+                parentId
+        });
+
+
+    if (error) {
+
+        console.error(
+            "Reply error:",
+            error
+        );
+
+        showToast(
+            "❌ ثبت پاسخ انجام نشد."
+        );
+
+        return;
+    }
+
+
+    showToast(
+        "پاسخ شما ثبت شد ✓"
+    );
+
+
+    await loadComments();
+
+
+    sendParentMessage(
+        "comment-added"
+    );
+
+}
+
+
+/* =========================================
+   MAIN COMMENT
+========================================= */
+
+async function sendComment() {
+
+    if (!currentUser) {
+
+        showToast(
+            "برای ثبت نظر ابتدا وارد حساب شوید."
+        );
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "login.html";
+
+            },
+            700
+        );
+
+        return;
+    }
+
+
+    const text =
+        mainInput.value.trim();
+
+
+    if (!text) {
+
+        showToast(
+            "لطفاً متن نظر را بنویسید."
+        );
+
+        mainInput.focus();
+
+        return;
+    }
+
+
+    sendButton.disabled =
+        true;
+
+
+    const originalText =
+        sendButton.textContent;
+
+
+    sendButton.textContent =
+        "⌛";
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("product_comments")
+        .insert({
+            product_id:
+                productId,
+            user_id:
+                currentUser.id,
+            comment:
+                text,
+            parent_id:
+                null
+        });
+
+
+    if (error) {
+
+        console.error(
+            "Comment error:",
+            error
+        );
+
+        showToast(
+            "❌ ثبت نظر انجام نشد."
+        );
+
+        sendButton.textContent =
+            originalText;
+
+        sendButton.disabled =
+            false;
+
+        return;
+    }
+
+
+    mainInput.value = "";
+
+
+    showToast(
+        "نظر شما ثبت شد ✓"
+    );
+
+
+    await loadComments();
+
+
+    sendParentMessage(
+        "comment-added"
+    );
+
+
+    sendButton.textContent =
+        originalText;
+
+    sendButton.disabled =
+        false;
+
+}
+
+
+/* =========================================
+   LIKE / UNLIKE COMMENT
+========================================= */
+
+async function toggleCommentLike(commentId) {
+
+    if (!currentUser) {
+
+        showToast(
+            "برای لایک کردن ابتدا وارد حساب شوید."
+        );
+
+        return;
+    }
+
+
+    const existing =
+        commentLikes[
+            commentId
+        ] || {
+            count: 0,
+            liked: false
+        };
+
+
+    try {
+
+        if (existing.liked) {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("comment_likes")
+                .delete()
+                .eq(
+                    "comment_id",
+                    commentId
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+        } else {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("comment_likes")
+                .insert({
+                    comment_id:
+                        commentId,
+                    user_id:
+                        currentUser.id
+                });
+
+
+            if (error) {
+                throw error;
+            }
+
+        }
+
+
+        await loadComments();
+
+    } catch (error) {
+
+        console.error(
+            "Comment like error:",
+            error
+        );
+
+
+        if (
+            error.code === "23505"
+        ) {
+
+            await loadComments();
+
+            return;
+        }
+
+
+        showToast(
+            "❌ لایک کامنت انجام نشد."
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE COMMENT
+========================================= */
+
+async function deleteComment(commentId) {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "آیا این کامنت حذف شود؟"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("product_comments")
+        .delete()
+        .eq(
+            "id",
+            commentId
+        )
+        .eq(
+            "user_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Delete comment error:",
+            error
+        );
+
+        showToast(
+            "❌ حذف کامنت انجام نشد."
+        );
+
+        return;
+    }
+
+
+    showToast(
+        "کامنت حذف شد ✓"
+    );
+
+
+    await loadComments();
+
+
+    sendParentMessage(
+        "comment-deleted"
+    );
+
+}
+
+
+/* =========================================
+   CLOSE
+========================================= */
+
+function closeComments() {
+
+    if (
+        window.parent &&
+        window.parent !== window
+    ) {
+
+        window.parent.postMessage(
+            {
+                type:
+                    "close-comments"
+            },
+            "*"
+        );
+
+        return;
+    }
+
+
+    if (
+        window.history.length > 1
+    ) {
+
+        window.history.back();
+
+    } else {
+
+        window.location.href =
+            "products.html";
+
+    }
+
+}
+
+
+/* =========================================
+   PARENT MESSAGE
+========================================= */
+
+function sendParentMessage(type) {
+
+    if (
+        window.parent &&
+        window.parent !== window
+    ) {
+
+        window.parent.postMessage(
+            {
+                type:
+                    type,
+                productId:
+                    productId
+            },
+            "*"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+let toastTimer = null;
+
+function showToast(message) {
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function() {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+}
+
+
+/* =========================================
+   SEND BUTTON
+========================================= */
+
+sendButton.addEventListener(
+    "click",
+    sendComment
+);
+
+
+mainInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            sendComment();
+
+        }
+
+    }
+);
 
 </script>
 
 </body>
-
 </html>
-
-فقط دقت کن: برای اینکه "fromPage" واقعاً کار کند، صفحه Profile و Products هم باید هنگام باز کردن Comments، آدرس صفحه خودشان را بفرستند. کد خود "comments.html" آماده دریافت آن است.
