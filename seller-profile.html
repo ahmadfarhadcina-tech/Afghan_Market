@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروفایل فروشنده | بازارک</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7f5;
+            color: #17231c;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .header {
+            background: #123d28;
+            color: white;
+            padding: 18px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .header-inner {
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .header-title {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px 14px 50px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 22px;
+            padding: 25px 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.06);
+            text-align: center;
+        }
+
+        .avatar {
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e3eee7;
+            margin-bottom: 12px;
+        }
+
+        .name {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .username {
+            color: #6b786f;
+            margin-top: 5px;
+            direction: ltr;
+        }
+
+        .bio {
+            max-width: 600px;
+            margin: 15px auto 0;
+            color: #4c5a51;
+            line-height: 1.8;
+        }
+
+        .info {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            color: #58655d;
+            font-size: 14px;
+        }
+
+        .follow-btn {
+            border: none;
+            background: #167342;
+            color: white;
+            padding: 11px 30px;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 18px;
+        }
+
+        .follow-btn.following {
+            background: #e8eee9;
+            color: #174a2e;
+        }
+
+        .follow-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .login-message {
+            margin-top: 15px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .stat {
+            background: #f3f7f4;
+            border-radius: 15px;
+            padding: 14px 8px;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #123d28;
+        }
+
+        .stat-title {
+            font-size: 13px;
+            color: #718078;
+            margin-top: 4px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 25px 4px 15px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 17px;
+            overflow: hidden;
+            box-shadow: 0 3px 14px rgba(0,0,0,.06);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            object-position: center;
+            background: #eef2ef;
+            display: block;
+            cursor: pointer;
+        }
+
+        .product-info {
+            padding: 13px;
+        }
+
+        .product-title {
+            font-weight: bold;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .price {
+            color: #168047;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .city {
+            color: #7b857f;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .empty {
+            background: white;
+            border-radius: 18px;
+            padding: 35px 20px;
+            text-align: center;
+            color: #778078;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+            color: #68736c;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #b42318;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .products {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .product-image {
+                height: 160px;
+            }
+
+            .name {
+                font-size: 21px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 210px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <a href="javascript:history.back()" class="back-btn">→</a>
+        <div class="header-title">پروفایل فروشنده</div>
+    </div>
+</header>
+
+<main class="container">
+
+    <div id="loading" class="loading">
+        در حال بارگذاری پروفایل...
+    </div>
+
+    <div id="content" style="display:none;">
+
+        <section class="profile-card">
+
+            <img id="avatar"
+                 class="avatar"
+                 src=""
+                 alt="پروفایل">
+
+            <h1 id="fullName" class="name">فروشنده</h1>
+
+            <div id="username" class="username"></div>
+
+            <p id="bio" class="bio"></p>
+
+            <div class="info">
+                <span id="city"></span>
+                <span id="whatsapp"></span>
+            </div>
+
+            <button id="followBtn"
+                    class="follow-btn"
+                    style="display:none;">
+                دنبال کردن
+            </button>
+
+            <div id="loginMessage"
+                 class="login-message"
+                 style="display:none;">
+                برای دنبال کردن این فروشنده ابتدا وارد حساب شوید.
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div id="followersCount" class="stat-number">0</div>
+                    <div class="stat-title">دنبال‌کننده</div>
+                </div>
+
+                <div class="stat">
+                    <div id="followingCount" class="stat-number">0</div>
+                    <div class="stat-title">دنبال‌شونده</div>
+                </div>
+
+                <div class="stat">
+                    <div id="productsCount" class="stat-number">0</div>
+                    <div class="stat-title">محصولات</div>
+                </div>
+            </div>
+
+        </section>
+
+        <h2 class="section-title">
+            محصولات این فروشنده
+        </h2>
+
+        <div id="products" class="products"></div>
+
+    </div>
+
+    <div id="errorBox"
+         class="error"
+         style="display:none;">
+    </div>
+
+</main>
+
+<script>
+    // ==============================
+    // SUPABASE
+    // ==============================
+
+    const SUPABASE_URL =
+        "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+    const supabaseClient =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    // ==============================
+    // VARIABLES
+    // ==============================
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const sellerId =
+        params.get("id");
+
+    let currentUser = null;
+
+    let isFollowing = false;
+
+
+    // ==============================
+    // HELPERS
+    // ==============================
+
+    function escapeHTML(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    function formatPrice(price) {
+
+        if (price === null || price === undefined) {
+            return "قیمت نامشخص";
+        }
+
+        return Number(price).toLocaleString("fa-AF") + " افغانی";
+    }
+
+
+    function getProductImage(product) {
+
+        if (
+            Array.isArray(product.image_urls) &&
+            product.image_urls.length > 0
+        ) {
+            return product.image_urls[0];
+        }
+
+        if (product.image_url) {
+            return product.image_url;
+        }
+
+        return "https://via.placeholder.com/600x400?text=No+Image";
+    }
+
+
+    // ==============================
+    // GET CURRENT USER
+    // ==============================
+
+    async function getCurrentUser() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getUser();
+
+        if (!error && data && data.user) {
+            currentUser = data.user;
+        }
+    }
+
+
+    // ==============================
+    // LOAD PROFILE
+    // ==============================
+
+    async function loadProfile() {
+
+        if (!sellerId) {
+            showError("شناسه فروشنده پیدا نشد.");
+            return;
+        }
+
+        const {
+            data: profile,
+            error
+        } = await supabaseClient
+            .from("profiles")
+            .select(`
+                id,
+                full_name,
+                username,
+                bio,
+                avatar_url,
+                whatsapp,
+                city
+            `)
+            .eq("id", sellerId)
+            .maybeSingle();
+
+        if (error) {
+            console.error(error);
+            showError("خطا در دریافت پروفایل فروشنده.");
+            return;
+        }
+
+        if (!profile) {
+            showError("این پروفایل پیدا نشد.");
+            return;
+        }
+
+        document.getElementById("avatar").src =
+            profile.avatar_url ||
+            "https://ui-avatars.com/api/?name=" +
+            encodeURIComponent(
+                profile.full_name ||
+                profile.username ||
+                "Seller"
+            );
+
+        document.getElementById("fullName").textContent =
+            profile.full_name ||
+            profile.username ||
+            "فروشنده";
+
+        document.getElementById("username").textContent =
+            profile.username
+                ? "@" + profile.username
+                : "";
+
+        document.getElementById("bio").textContent =
+            profile.bio || "";
+
+        document.getElementById("city").textContent =
+            profile.city
+                ? "📍 " + profile.city
+                : "";
+
+        document.getElementById("whatsapp").textContent =
+            profile.whatsapp
+                ? "📱 " + profile.whatsapp
+                : "";
+
+        document.title =
+            (profile.full_name ||
+             profile.username ||
+             "پروفایل فروشنده") +
+            " | بازارک";
+
+        document.getElementById("content").style.display =
+            "block";
+
+        document.getElementById("loading").style.display =
+            "none";
+    }
+
+
+    // ==============================
+    // FOLLOW STATS
+    // ==============================
+
+    async function loadFollowStats() {
+
+        const {
+            count: followers,
+            error: followersError
+        } = await supabaseClient
+            .from("followers")
+            .select("*", {
+                count: "exact",
+                head: true
+            })
+            .eq("following_id", sellerId);
+
+        if (!followersError) {
+            document.getElementById(
+                "followersCount"
+            ).textContent = followers || 0;
+        }
+
+
+        const {
+            count: following,
+            error: followingError
+        } = await supabaseClient
+            .from("followers")
+            .select("*", {
+                count: "exact",
+                head: true
+            })
+            .eq("follower_id", sellerId);
+
+        if (!followingError) {
+            document.getElementById(
+                "followingCount"
+            ).textContent = following || 0;
+        }
+    }
+
+
+    // ==============================
+    // CHECK FOLLOW
+    // ==============================
+
+    async function checkFollowStatus() {
+
+        const button =
+            document.getElementById("followBtn");
+
+        const message =
+            document.getElementById("loginMessage");
+
+        if (!currentUser) {
+
+            button.style.display = "none";
+
+            message.style.display = "block";
+
+            return;
+        }
+
+        // خود کاربر
+        if (currentUser.id === sellerId) {
+
+            button.style.display = "none";
+
+            message.style.display = "none";
+
+            return;
+        }
+
+        button.style.display = "inline-block";
+
+        message.style.display = "none";
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("followers")
+            .select("id")
+            .eq("follower_id", currentUser.id)
+            .eq("following_id", sellerId)
+            .maybeSingle();
+
+        if (!error && data) {
+            isFollowing = true;
+        } else {
+            isFollowing = false;
+        }
+
+        updateFollowButton();
+    }
+
+
+    function updateFollowButton() {
+
+        const button =
+            document.getElementById("followBtn");
+
+        if (isFollowing) {
+
+            button.textContent =
+                "دنبال می‌کنید ✓";
+
+            button.classList.add("following");
+
+        } else {
+
+            button.textContent =
+                "دنبال کردن";
+
+            button.classList.remove("following");
+        }
+    }
+
+
+    // ==============================
+    // FOLLOW / UNFOLLOW
+    // ==============================
+
+    async function toggleFollow() {
+
+        if (!currentUser) {
+            alert("ابتدا وارد حساب خود شوید.");
+            return;
+        }
+
+        if (currentUser.id === sellerId) {
+            return;
+        }
+
+        const button =
+            document.getElementById("followBtn");
+
+        button.disabled = true;
+
+
+        if (isFollowing) {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("followers")
+                .delete()
+                .eq("follower_id", currentUser.id)
+                .eq("following_id", sellerId);
+
+            if (error) {
+
+                console.error(error);
+
+                alert("لغو دنبال کردن انجام نشد.");
+
+            } else {
+
+                isFollowing = false;
+
+                updateFollowButton();
+
+                loadFollowStats();
+            }
+
+        } else {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("followers")
+                .insert({
+                    follower_id: currentUser.id,
+                    following_id: sellerId
+                });
+
+            if (error) {
+
+                console.error(error);
+
+                alert("دنبال کردن انجام نشد.");
+
+            } else {
+
+                isFollowing = true;
+
+                updateFollowButton();
+
+                loadFollowStats();
+            }
+        }
+
+        button.disabled = false;
+    }
+
+
+    // ==============================
+    // LOAD PRODUCTS
+    // ==============================
+
+    async function loadProducts() {
+
+        const {
+            data: products,
+            error
+        } = await supabaseClient
+            .from("products")
+            .select(`
+                id,
+                title,
+                price,
+                city,
+                image_url,
+                image_urls,
+                status,
+                created_at
+            `)
+            .eq("seller_id", sellerId)
+            .eq("status", "active")
+            .order("created_at", {
+                ascending: false
+            });
+
+        if (error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "products"
+            ).innerHTML =
+                `<div class="empty">
+                    خطا در دریافت محصولات.
+                </div>`;
+
+            return;
+        }
+
+        document.getElementById(
+            "productsCount"
+        ).textContent = products.length;
+
+        const container =
+            document.getElementById("products");
+
+        if (!products.length) {
+
+            container.innerHTML =
+                `<div class="empty"
+                      style="grid-column:1/-1;">
+                    این فروشنده هنوز محصولی برای فروش ندارد.
+                </div>`;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            products.map(product => {
+
+                const image =
+                    getProductImage(product);
+
+                return `
+                    <article class="product-card">
+
+                        <img
+                            src="${escapeHTML(image)}"
+                            class="product-image"
+                            alt="${escapeHTML(product.title)}"
+                            onclick="openProduct('${product.id}')"
+                            onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'"
+                        >
+
+                        <div class="product-info">
+
+                            <div class="product-title">
+                                ${escapeHTML(product.title)}
+                            </div>
+
+                            <div class="price">
+                                ${formatPrice(product.price)}
+                            </div>
+
+                            ${
+                                product.city
+                                ? `
+                                    <div class="city">
+                                        📍 ${escapeHTML(product.city)}
+                                    </div>
+                                  `
+                                : ""
+                            }
+
+                        </div>
+
+                    </article>
+                `;
+
+            }).join("");
+    }
+
+
+    // ==============================
+    // OPEN PRODUCT
+    // ==============================
+
+    function openProduct(productId) {
+
+        window.location.href =
+            "product.html?id=" +
+            encodeURIComponent(productId);
+    }
+
+
+    // ==============================
+    // ERROR
+    // ==============================
+
+    function showError(message) {
+
+        document.getElementById("loading").style.display =
+            "none";
+
+        document.getElementById("content").style.display =
+            "none";
+
+        const errorBox =
+            document.getElementById("errorBox");
+
+        errorBox.textContent = message;
+
+        errorBox.style.display = "block";
+    }
+
+
+    // ==============================
+    // FOLLOW BUTTON
+    // ==============================
+
+    document.getElementById(
+        "followBtn"
+    ).addEventListener(
+        "click",
+        toggleFollow
+    );
+
+
+    // ==============================
+    // START
+    // ==============================
+
+    async function init() {
+
+        await getCurrentUser();
+
+        await loadProfile();
+
+        await loadFollowStats();
+
+        await checkFollowStatus();
+
+        await loadProducts();
+    }
+
+    init();
+
+</script>
+
+</body>
+</html>
