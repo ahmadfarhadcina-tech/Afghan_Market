@@ -14,11 +14,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
     <style>
 
         * {
             box-sizing: border-box;
         }
+
 
         body {
             margin: 0;
@@ -27,12 +29,14 @@
             color: #17251d;
         }
 
+
         header {
             background: #087443;
             color: white;
             padding: 15px 20px;
             box-shadow: 0 3px 12px rgba(0,0,0,.1);
         }
+
 
         .header {
             max-width: 1000px;
@@ -43,12 +47,14 @@
             gap: 15px;
         }
 
+
         .logo {
             color: white;
             text-decoration: none;
             font-size: 22px;
             font-weight: bold;
         }
+
 
         .back {
             color: white;
@@ -58,11 +64,13 @@
             border-radius: 10px;
         }
 
+
         .container {
             max-width: 1000px;
             margin: 30px auto;
             padding: 0 15px;
         }
+
 
         h1 {
             margin: 0 0 20px;
@@ -70,23 +78,28 @@
             font-size: 25px;
         }
 
+
         .message {
             display: none;
             padding: 13px;
             border-radius: 10px;
             margin-bottom: 20px;
             text-align: center;
+            white-space: pre-line;
         }
+
 
         .error {
             background: #fdeaea;
             color: #c62828;
         }
 
+
         .success {
             background: #e8f5ee;
             color: #087443;
         }
+
 
         .loading {
             text-align: center;
@@ -94,11 +107,13 @@
             color: #777;
         }
 
+
         .products {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 18px;
         }
+
 
         .product-card {
             background: white;
@@ -106,6 +121,7 @@
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0,0,0,.07);
         }
+
 
         .product-image {
             width: 100%;
@@ -115,15 +131,31 @@
             background: #eef2ef;
         }
 
+
+        .no-image {
+            width: 100%;
+            height: 210px;
+            background: #eef2ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 40px;
+        }
+
+
         .product-info {
             padding: 16px;
         }
+
 
         .product-title {
             font-size: 17px;
             font-weight: bold;
             margin-bottom: 10px;
+            line-height: 1.6;
         }
+
 
         .price {
             color: #087443;
@@ -132,16 +164,26 @@
             margin-bottom: 8px;
         }
 
+
         .category {
             color: #777;
             font-size: 13px;
             margin-bottom: 15px;
         }
 
+
+        .city {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+
         .actions {
             display: flex;
             gap: 8px;
         }
+
 
         .edit-btn,
         .delete-btn {
@@ -152,17 +194,31 @@
             cursor: pointer;
             font-family: inherit;
             font-weight: bold;
+            font-size: 14px;
         }
+
 
         .edit-btn {
             background: #e8f5ee;
             color: #087443;
         }
 
+
+        .edit-btn:hover {
+            background: #d9eee2;
+        }
+
+
         .delete-btn {
             background: #fdeaea;
             color: #c62828;
         }
+
+
+        .delete-btn:hover {
+            background: #f9dada;
+        }
+
 
         .empty {
             background: white;
@@ -170,7 +226,9 @@
             padding: 50px 20px;
             text-align: center;
             color: #777;
+            grid-column: 1 / -1;
         }
+
 
         @media (max-width: 750px) {
 
@@ -180,23 +238,32 @@
 
         }
 
+
         @media (max-width: 500px) {
+
+            header {
+                padding: 13px 15px;
+            }
+
 
             .header {
                 flex-direction: column;
                 align-items: stretch;
             }
 
+
             .back {
                 text-align: center;
             }
 
-            .products {
-                grid-template-columns: 1fr;
-            }
 
             .container {
                 margin-top: 20px;
+            }
+
+
+            .products {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -233,7 +300,9 @@
 </header>
 
 
+
 <main class="container">
+
 
     <h1>
         📦 محصولات من
@@ -260,7 +329,9 @@
         style="display:none;"
     ></div>
 
+
 </main>
+
 
 
 <script>
@@ -281,6 +352,7 @@ const supabaseClient =
     );
 
 
+
 const loading =
     document.getElementById("loading");
 
@@ -293,9 +365,15 @@ const message =
     document.getElementById("message");
 
 
+
+let currentUser = null;
+
+
+
 function showMessage(text, type) {
 
-    message.textContent = text;
+    message.textContent =
+        text;
 
     message.className =
         "message " + type;
@@ -304,6 +382,419 @@ function showMessage(text, type) {
         "block";
 
 }
+
+
+
+async function loadMyProducts() {
+
+    try {
+
+
+        const {
+            data: {
+                session
+            },
+            error: sessionError
+        } =
+            await supabaseClient
+                .auth
+                .getSession();
+
+
+        if (sessionError) {
+
+            throw sessionError;
+
+        }
+
+
+        if (!session) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        currentUser =
+            session.user;
+
+
+
+        const {
+            data: myProducts,
+            error
+        } =
+            await supabaseClient
+                .from("products")
+                .select("*")
+                .eq(
+                    "seller_id",
+                    currentUser.id
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+
+        loading.style.display =
+            "none";
+
+
+        products.style.display =
+            "grid";
+
+
+
+        if (
+            !myProducts ||
+            myProducts.length === 0
+        ) {
+
+            products.innerHTML = `
+
+                <div class="empty">
+
+                    📦 هنوز هیچ محصولی ثبت نکرده‌اید.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+
+        products.innerHTML =
+            myProducts
+                .map(
+                    product =>
+                        createProductCard(product)
+                )
+                .join("");
+
+
+    } catch (error) {
+
+
+        console.error(error);
+
+
+        loading.style.display =
+            "none";
+
+
+        products.style.display =
+            "none";
+
+
+        showMessage(
+            "❌ دریافت محصولات انجام نشد:\n" +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+
+function createProductCard(product) {
+
+
+    let imageUrl = "";
+
+
+
+    if (
+        Array.isArray(product.image_urls) &&
+        product.image_urls.length > 0
+    ) {
+
+        imageUrl =
+            product.image_urls[0];
+
+    } else {
+
+        imageUrl =
+            product.image_url || "";
+
+    }
+
+
+
+    const imageHTML =
+        imageUrl
+
+        ?
+
+        `
+
+            <img
+                class="product-image"
+                src="${escapeHtml(imageUrl)}"
+                alt="${escapeHtml(
+                    product.title || "محصول"
+                )}"
+                loading="lazy"
+            >
+
+        `
+
+        :
+
+        `
+
+            <div class="no-image">
+                📦
+            </div>
+
+        `;
+
+
+
+    return `
+
+        <article class="product-card">
+
+
+            ${imageHTML}
+
+
+            <div class="product-info">
+
+
+                <div class="product-title">
+
+                    ${escapeHtml(
+                        product.title ||
+                        "بدون عنوان"
+                    )}
+
+                </div>
+
+
+
+                <div class="price">
+
+                    ${formatPrice(
+                        product.price
+                    )}
+
+                    افغانی
+
+                </div>
+
+
+
+                <div class="category">
+
+                    📂
+                    ${getCategoryName(
+                        product.category
+                    )}
+
+                </div>
+
+
+
+                ${
+                    product.city
+
+                    ?
+
+                    `
+
+                    <div class="city">
+
+                        📍
+                        ${escapeHtml(
+                            product.city
+                        )}
+
+                    </div>
+
+                    `
+
+                    :
+
+                    ""
+
+                }
+
+
+
+                <div class="actions">
+
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        onclick="editProduct('${escapeHtml(product.id)}')"
+                    >
+
+                        ✏️ ویرایش
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="delete-btn"
+                        onclick="deleteProduct('${escapeHtml(product.id)}')"
+                    >
+
+                        🗑️ حذف
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </article>
+
+    `;
+
+}
+
+
+
+function formatPrice(price) {
+
+
+    const number =
+        Number(price);
+
+
+    if (
+        Number.isNaN(number)
+    ) {
+
+        return "0";
+
+    }
+
+
+    return number.toLocaleString(
+        "fa-AF"
+    );
+
+}
+
+
+
+function getCategoryName(category) {
+
+
+    const categories = {
+
+        mobile: "موبایل",
+
+        computer: "کامپیوتر",
+
+        fashion: "فیشن",
+
+        shoes: "کفش",
+
+        gaming: "گیمینگ",
+
+        home: "خانه",
+
+        tools: "ابزار",
+
+        vehicle: "موتر"
+
+    };
+
+
+    return (
+        categories[category] ||
+        category ||
+        "نامشخص"
+    );
+
+}
+
+
+
+function escapeHtml(value) {
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+function editProduct(productId) {
+
+
+    window.location.href =
+        "edit-product.html?id=" +
+        encodeURIComponent(productId);
+
+}
+
+
+
+async function deleteProduct(productId) {
+
+
+    alert(
+        "حذف واقعی محصول را در مرحله بعد اضافه می‌کنیم."
+    );
+
+}
+
+
+
+loadMyProducts();
 
 
 </script>
