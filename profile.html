@@ -1,415 +1,616 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html><html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>پروفایل | بازارک</title>
 
-    <title>پروفایل من | بازارک</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    body {
+        margin: 0;
+        font-family: Tahoma, Arial, sans-serif;
+        background: #f4f7f5;
+        color: #17251d;
+    }
 
-        body {
-            margin: 0;
-            font-family: Tahoma, Arial, sans-serif;
-            background: #f4f7f5;
-            color: #17251d;
-        }
+    header {
+        background: #087443;
+        color: white;
+        padding: 15px 20px;
+        box-shadow: 0 3px 12px rgba(0,0,0,.1);
+    }
 
-        header {
-            background: #087443;
-            color: white;
-            padding: 15px 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,.1);
-        }
+    .header {
+        max-width: 1100px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
 
-        .header {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
+    .logo {
+        color: white;
+        text-decoration: none;
+        font-size: 22px;
+        font-weight: bold;
+    }
 
-        .logo {
-            color: white;
-            text-decoration: none;
-            font-size: 22px;
-            font-weight: bold;
-        }
+    .back {
+        color: white;
+        text-decoration: none;
+        background: rgba(255,255,255,.12);
+        padding: 10px 14px;
+        border-radius: 10px;
+    }
 
-        .back {
-            color: white;
-            text-decoration: none;
-            background: rgba(255,255,255,.12);
-            padding: 10px 14px;
-            border-radius: 10px;
-        }
+    .container {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 15px;
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
+    .profile-card {
+        background: white;
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 8px 30px rgba(0,0,0,.07);
+        margin-bottom: 25px;
+    }
 
-        .profile-card {
-            background: white;
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 8px 30px rgba(0,0,0,.07);
-            margin-bottom: 25px;
+    .profile-top {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #e7f4ed;
+        background: #e7f4ed;
+        flex-shrink: 0;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-info h1 {
+        margin: 0 0 8px;
+        color: #087443;
+        font-size: 27px;
+    }
+
+    .username {
+        color: #777;
+        margin-bottom: 12px;
+    }
+
+    .bio {
+        line-height: 1.8;
+        color: #444;
+        margin: 0;
+    }
+
+    .details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .detail {
+        background: #f1f7f3;
+        padding: 9px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    .profile-stats {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+    }
+
+    .stat {
+        background: #f7faf8;
+        border: 1px solid #e5eee8;
+        border-radius: 12px;
+        padding: 10px 15px;
+        text-align: center;
+        min-width: 95px;
+    }
+
+    .stat strong {
+        display: block;
+        color: #087443;
+        font-size: 19px;
+        margin-bottom: 4px;
+    }
+
+    .stat span {
+        color: #777;
+        font-size: 12px;
+    }
+
+    .profile-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .edit-profile,
+    .follow-btn {
+        display: inline-block;
+        border: none;
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 11px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .edit-profile {
+        background: #087443;
+        color: white;
+    }
+
+    .follow-btn {
+        background: #087443;
+        color: white;
+    }
+
+    .follow-btn.following {
+        background: #e9f3ed;
+        color: #087443;
+        border: 1px solid #cfe2d6;
+    }
+
+    .section-title {
+        margin: 0 0 18px;
+        color: #087443;
+        font-size: 23px;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .product-card {
+        position: relative;
+        background: white;
+        border-radius: 16px;
+        overflow: visible;
+        box-shadow: 0 6px 20px rgba(0,0,0,.07);
+    }
+
+    .product-image-wrap {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #eef2ef;
+        display: block;
+        cursor: pointer;
+    }
+
+    .menu-wrap {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+    }
+
+    .menu-btn {
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255,255,255,.95);
+        color: #17251d;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 3px 12px rgba(0,0,0,.18);
+    }
+
+    .product-menu {
+        position: absolute;
+        top: 44px;
+        left: 0;
+        width: 145px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,.15);
+        overflow: hidden;
+        display: none;
+        border: 1px solid #e8eee9;
+    }
+
+    .product-menu.show {
+        display: block;
+    }
+
+    .product-menu button,
+    .product-menu a {
+        width: 100%;
+        display: block;
+        border: none;
+        background: white;
+        padding: 12px 14px;
+        text-align: right;
+        text-decoration: none;
+        color: #222;
+        font-family: inherit;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .product-menu button:hover,
+    .product-menu a:hover {
+        background: #f3f7f4;
+    }
+
+    .product-menu .danger {
+        color: #c62828;
+    }
+
+    .product-content {
+        padding: 15px;
+    }
+
+    .product-title {
+        font-size: 17px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .product-price {
+        color: #087443;
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .product-city {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .social-actions {
+        display: flex;
+        gap: 8px;
+        border-top: 1px solid #edf1ee;
+        padding-top: 12px;
+    }
+
+    .social-btn {
+        flex: 1;
+        border: 1px solid #e2e9e4;
+        background: #fafcfb;
+        color: #555;
+        border-radius: 9px;
+        padding: 9px 6px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13px;
+    }
+
+    .social-btn.liked {
+        color: #c62828;
+        background: #fff3f3;
+        border-color: #f1cccc;
+    }
+
+    .comments {
+        margin-top: 12px;
+        display: none;
+    }
+
+    .comments.show {
+        display: block;
+    }
+
+    .comment-form {
+        display: flex;
+        gap: 7px;
+    }
+
+    .comment-input {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid #dce6df;
+        border-radius: 9px;
+        padding: 9px;
+        font-family: inherit;
+        outline: none;
+    }
+
+    .comment-input:focus {
+        border-color: #087443;
+    }
+
+    .comment-send {
+        border: none;
+        background: #087443;
+        color: white;
+        border-radius: 9px;
+        padding: 0 13px;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .comments-list {
+        margin-top: 10px;
+        max-height: 220px;
+        overflow-y: auto;
+    }
+
+    .comment-item {
+        background: #f6f9f7;
+        border-radius: 9px;
+        padding: 9px 10px;
+        margin-bottom: 7px;
+    }
+
+    .comment-user {
+        font-size: 12px;
+        font-weight: bold;
+        color: #087443;
+        margin-bottom: 4px;
+    }
+
+    .comment-text {
+        font-size: 13px;
+        color: #444;
+        line-height: 1.7;
+    }
+
+    .empty {
+        background: white;
+        border-radius: 16px;
+        padding: 45px 20px;
+        text-align: center;
+        color: #777;
+        box-shadow: 0 6px 20px rgba(0,0,0,.05);
+        grid-column: 1 / -1;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 50px;
+        color: #777;
+    }
+
+    .login-box {
+        background: white;
+        border-radius: 18px;
+        padding: 40px 20px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0,0,0,.06);
+    }
+
+    .login-box a {
+        display: inline-block;
+        margin-top: 15px;
+        background: #087443;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    @media (max-width: 800px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .profile-top {
-            display: flex;
-            align-items: center;
-            gap: 25px;
+            align-items: flex-start;
+        }
+    }
+
+    @media (max-width: 550px) {
+        header {
+            padding: 13px 15px;
         }
 
-        .avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #e7f4ed;
-            background: #e7f4ed;
+        .header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .back {
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .profile-card {
+            padding: 20px;
+        }
+
+        .profile-top {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .profile-info {
-            flex: 1;
+            width: 100%;
         }
 
-        .profile-info h1 {
-            margin: 0 0 8px;
-            color: #087443;
-            font-size: 27px;
-        }
-
-        .username {
-            color: #777;
-            margin-bottom: 12px;
-        }
-
-        .bio {
-            line-height: 1.8;
-            color: #444;
-            margin: 0;
-        }
-
-        .details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .detail {
-            background: #f1f7f3;
-            padding: 9px 12px;
-            border-radius: 10px;
-            font-size: 14px;
-        }
-
-        .edit-profile {
-            display: inline-block;
-            margin-top: 20px;
-            background: #087443;
-            color: white;
-            text-decoration: none;
-            padding: 12px 18px;
-            border-radius: 11px;
-            font-weight: bold;
-        }
-
-        .section-title {
-            margin: 0 0 18px;
-            color: #087443;
-            font-size: 23px;
+        .details,
+        .profile-stats,
+        .profile-buttons {
+            justify-content: center;
         }
 
         .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,.07);
+            grid-template-columns: 1fr;
         }
 
         .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #eef2ef;
-            display: block;
+            height: 220px;
         }
+    }
+</style>
 
-        .product-content {
-            padding: 15px;
-        }
+</head><body><header>
+    <div class="header">    <a href="index.html" class="logo">
+        🛒 بازارک
+    </a>
 
-        .product-title {
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    <a href="index.html" class="back">
+        ← برگشت به بازار
+    </a>
 
-        .product-price {
-            color: #087443;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
+</div>
 
-        .product-city {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 14px;
-        }
+</header><main class="container"><div id="loading" class="loading">
+    ⏳ در حال دریافت پروفایل...
+</div>
 
-        .product-actions {
-            display: flex;
-            gap: 8px;
-        }
+<div id="loginBox" class="login-box" style="display:none;">
 
-        .action-btn {
-            flex: 1;
-            border: none;
-            cursor: pointer;
-            border-radius: 9px;
-            padding: 10px 8px;
-            font-size: 13px;
-            font-weight: bold;
-        }
+    <h2>🔐 ورود به حساب</h2>
 
-        .delete-btn {
-            background: #fdeaea;
-            color: #c62828;
-        }
+    <p>
+        برای مشاهده پروفایل ابتدا وارد حساب شوید.
+    </p>
 
-        .delete-btn:hover {
-            background: #f8d5d5;
-        }
+    <a href="login.html">
+        ورود به حساب
+    </a>
 
-        .empty {
-            background: white;
-            border-radius: 16px;
-            padding: 45px 20px;
-            text-align: center;
-            color: #777;
-            box-shadow: 0 6px 20px rgba(0,0,0,.05);
-        }
+</div>
 
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: #777;
-        }
+<div id="profileArea" style="display:none;">
 
-        .login-box {
-            background: white;
-            border-radius: 18px;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,.06);
-        }
+    <section class="profile-card">
 
-        .login-box a {
-            display: inline-block;
-            margin-top: 15px;
-            background: #087443;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-        }
+        <div class="profile-top">
 
-        @media (max-width: 800px) {
+            <img
+                id="avatar"
+                class="avatar"
+                src=""
+                alt="عکس پروفایل"
+            >
 
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            <div class="profile-info">
 
-            .profile-top {
-                align-items: flex-start;
-            }
-        }
+                <h1 id="fullName">
+                    کاربر بازارک
+                </h1>
 
-        @media (max-width: 550px) {
+                <div class="username" id="username">
+                    @username
+                </div>
 
-            header {
-                padding: 13px 15px;
-            }
+                <p class="bio" id="bio">
+                    هنوز درباره خود چیزی ننوشته‌اید.
+                </p>
 
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-            }
+                <div class="details">
 
-            .back {
-                text-align: center;
-            }
-
-            .container {
-                margin-top: 20px;
-            }
-
-            .profile-card {
-                padding: 20px;
-            }
-
-            .profile-top {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .profile-info {
-                width: 100%;
-            }
-
-            .details {
-                justify-content: center;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .product-image {
-                height: 220px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
-    <div class="header">
-
-        <a href="index.html" class="logo">
-            🛒 بازارک
-        </a>
-
-        <a href="index.html" class="back">
-            ← برگشت به بازار
-        </a>
-
-    </div>
-</header>
-
-
-<main class="container">
-
-    <div id="loading" class="loading">
-        ⏳ در حال دریافت پروفایل...
-    </div>
-
-
-    <div id="loginBox" class="login-box" style="display:none;">
-
-        <h2>🔐 ورود به حساب</h2>
-
-        <p>
-            برای مشاهده پروفایل خود ابتدا وارد حساب شوید.
-        </p>
-
-        <a href="login.html">
-            ورود به حساب
-        </a>
-
-    </div>
-
-
-    <div id="profileArea" style="display:none;">
-
-        <section class="profile-card">
-
-            <div class="profile-top">
-
-                <img
-                    id="avatar"
-                    class="avatar"
-                    src=""
-                    alt="عکس پروفایل"
-                >
-
-                <div class="profile-info">
-
-                    <h1 id="fullName">
-                        کاربر بازارک
-                    </h1>
-
-                    <div class="username" id="username">
-                        @username
+                    <div class="detail" id="city">
+                        📍 شهر ثبت نشده
                     </div>
 
-                    <p class="bio" id="bio">
-                        هنوز درباره خود چیزی ننوشته‌اید.
-                    </p>
-
-                    <div class="details">
-
-                        <div class="detail" id="city">
-                            📍 شهر ثبت نشده
-                        </div>
-
-                        <div class="detail" id="whatsapp">
-                            📱 واتساپ ثبت نشده
-                        </div>
-
+                    <div class="detail" id="whatsapp">
+                        📱 واتساپ ثبت نشده
                     </div>
+
+                </div>
+
+                <div class="profile-stats">
+
+                    <div class="stat">
+                        <strong id="followersCount">0</strong>
+                        <span>دنبال‌کننده</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong id="followingCount">0</strong>
+                        <span>دنبال‌شونده</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong id="productsCount">0</strong>
+                        <span>محصول</span>
+                    </div>
+
+                </div>
+
+                <div class="profile-buttons">
 
                     <a
                         href="edit-profile.html"
+                        id="editProfileBtn"
                         class="edit-profile"
                     >
                         ✏️ ویرایش پروفایل
                     </a>
 
+                    <button
+                        id="followBtn"
+                        class="follow-btn"
+                        style="display:none;"
+                        type="button"
+                    >
+                        ➕ دنبال کردن
+                    </button>
+
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
+    </section>
 
-        <section>
+    <section>
 
-            <h2 class="section-title">
-                🛍️ محصولات من
-            </h2>
+        <h2 class="section-title">
+            🛍️ محصولات
+        </h2>
 
-            <div
-                id="productsGrid"
-                class="products-grid"
-            ></div>
+        <div
+            id="productsGrid"
+            class="products-grid"
+        ></div>
 
-        </section>
+    </section>
 
-    </div>
+</div>
 
-</main>
-
-
-<script>
+</main><script>
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
 
 const SUPABASE_ANON_KEY =
     "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -430,9 +631,21 @@ const profileArea =
 const productsGrid =
     document.getElementById("productsGrid");
 
+const followBtn =
+    document.getElementById("followBtn");
+
+const editProfileBtn =
+    document.getElementById("editProfileBtn");
+
 
 let currentUser = null;
+let profileUserId = null;
+let isOwnProfile = false;
 
+
+/* =========================================
+   START
+========================================= */
 
 async function loadProfile() {
 
@@ -468,33 +681,34 @@ async function loadProfile() {
             session.user;
 
 
-        const {
-            data: profile,
-            error: profileError
-        } = await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id", currentUser.id)
-            .maybeSingle();
+        /*
+         * اگر URL به شکل:
+         * profile.html?id=USER_ID
+         * باشد، پروفایل همان کاربر نمایش داده می‌شود.
+         *
+         * اگر id وجود نداشته باشد،
+         * پروفایل خود کاربر نمایش داده می‌شود.
+         */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        profileUserId =
+            params.get("id") ||
+            currentUser.id;
 
 
-        if (profileError) {
+        isOwnProfile =
+            profileUserId === currentUser.id;
 
-            console.error(profileError);
 
-            loading.style.display = "none";
+        await loadUserProfile();
 
-            profileArea.style.display = "block";
-
-        } else {
-
-            displayProfile(profile);
-
-        }
-
+        await loadFollowStats();
 
         await loadProducts();
-
 
     } catch (error) {
 
@@ -507,6 +721,51 @@ async function loadProfile() {
 
 }
 
+
+/* =========================================
+   USER PROFILE
+========================================= */
+
+async function loadUserProfile() {
+
+    const {
+        data: profile,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", profileUserId)
+        .maybeSingle();
+
+
+    if (error) {
+
+        console.error(error);
+
+        loading.textContent =
+            "❌ دریافت پروفایل انجام نشد.";
+
+        return;
+    }
+
+
+    if (!profile) {
+
+        loading.textContent =
+            "❌ این پروفایل پیدا نشد.";
+
+        return;
+    }
+
+
+    displayProfile(profile);
+
+}
+
+
+/* =========================================
+   DISPLAY PROFILE
+========================================= */
 
 function displayProfile(profile) {
 
@@ -553,8 +812,265 @@ function displayProfile(profile) {
             ? "📱 " + profile.whatsapp
             : "📱 واتساپ ثبت نشده";
 
+
+    if (isOwnProfile) {
+
+        followBtn.style.display =
+            "none";
+
+        editProfileBtn.style.display =
+            "inline-block";
+
+        document.querySelector(".section-title").textContent =
+            "🛍️ محصولات من";
+
+    } else {
+
+        followBtn.style.display =
+            "inline-block";
+
+        editProfileBtn.style.display =
+            "none";
+
+        document.querySelector(".section-title").textContent =
+            "🛍️ محصولات";
+    }
+
 }
 
+
+/* =========================================
+   FOLLOW STATS
+========================================= */
+
+async function loadFollowStats() {
+
+    const {
+        count: followersCount,
+        error: followersError
+    } = await supabaseClient
+        .from("followers")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("following_id", profileUserId);
+
+
+    if (followersError) {
+
+        console.error(
+            "Followers error:",
+            followersError
+        );
+
+    } else {
+
+        document.getElementById(
+            "followersCount"
+        ).textContent =
+            followersCount || 0;
+
+    }
+
+
+    const {
+        count: followingCount,
+        error: followingError
+    } = await supabaseClient
+        .from("followers")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("follower_id", profileUserId);
+
+
+    if (followingError) {
+
+        console.error(
+            "Following error:",
+            followingError
+        );
+
+    } else {
+
+        document.getElementById(
+            "followingCount"
+        ).textContent =
+            followingCount || 0;
+
+    }
+
+
+    if (!isOwnProfile) {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("followers")
+            .select("id")
+            .eq("follower_id", currentUser.id)
+            .eq("following_id", profileUserId)
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Follow status error:",
+                error
+            );
+
+            return;
+        }
+
+
+        updateFollowButton(
+            !!data
+        );
+    }
+
+}
+
+
+/* =========================================
+   FOLLOW / UNFOLLOW
+========================================= */
+
+followBtn.addEventListener(
+    "click",
+    async function() {
+
+        if (!currentUser) {
+
+            alert(
+                "ابتدا وارد حساب شوید."
+            );
+
+            return;
+        }
+
+
+        if (isOwnProfile) {
+            return;
+        }
+
+
+        followBtn.disabled =
+            true;
+
+
+        const currentlyFollowing =
+            followBtn.classList.contains(
+                "following"
+            );
+
+
+        try {
+
+            if (currentlyFollowing) {
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("followers")
+                    .delete()
+                    .eq(
+                        "follower_id",
+                        currentUser.id
+                    )
+                    .eq(
+                        "following_id",
+                        profileUserId
+                    );
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                updateFollowButton(false);
+
+            } else {
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("followers")
+                    .insert({
+                        follower_id:
+                            currentUser.id,
+                        following_id:
+                            profileUserId
+                    });
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                updateFollowButton(true);
+            }
+
+
+            await loadFollowStats();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "❌ عملیات دنبال کردن انجام نشد:\n" +
+                error.message
+            );
+
+        } finally {
+
+            followBtn.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   FOLLOW BUTTON
+========================================= */
+
+function updateFollowButton(isFollowing) {
+
+    if (isFollowing) {
+
+        followBtn.textContent =
+            "✓ دنبال می‌کنید";
+
+        followBtn.classList.add(
+            "following"
+        );
+
+    } else {
+
+        followBtn.textContent =
+            "➕ دنبال کردن";
+
+        followBtn.classList.remove(
+            "following"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   PRODUCTS
+========================================= */
 
 async function loadProducts() {
 
@@ -564,7 +1080,7 @@ async function loadProducts() {
     } = await supabaseClient
         .from("products")
         .select("*")
-        .eq("seller_id", currentUser.id)
+        .eq("seller_id", profileUserId)
         .order(
             "created_at",
             {
@@ -587,96 +1103,890 @@ async function loadProducts() {
     }
 
 
+    document.getElementById(
+        "productsCount"
+    ).textContent =
+        products?.length || 0;
+
+
     if (!products || products.length === 0) {
 
         productsGrid.innerHTML = `
-            <div class="empty">
-                <div style="font-size:45px;">📦</div>
-                <h3>هنوز محصولی ثبت نکرده‌اید</h3>
-                <p>محصول خود را ثبت کنید تا اینجا نمایش داده شود.</p>
 
-                <a
-                    href="seller.html"
-                    style="
-                        display:inline-block;
-                        margin-top:12px;
-                        background:#087443;
-                        color:white;
-                        padding:11px 18px;
-                        border-radius:10px;
-                        text-decoration:none;
-                    "
-                >
-                    🏪 ثبت محصول
-                </a>
+            <div class="empty">
+
+                <div style="font-size:45px;">
+                    📦
+                </div>
+
+                <h3>
+                    ${
+                        isOwnProfile
+                        ? "هنوز محصولی ثبت نکرده‌اید"
+                        : "این کاربر هنوز محصولی ثبت نکرده است"
+                    }
+                </h3>
+
+                ${
+                    isOwnProfile
+                    ? `
+                        <p>
+                            محصول خود را ثبت کنید تا اینجا نمایش داده شود.
+                        </p>
+
+                        <a
+                            href="seller.html"
+                            style="
+                                display:inline-block;
+                                margin-top:12px;
+                                background:#087443;
+                                color:white;
+                                padding:11px 18px;
+                                border-radius:10px;
+                                text-decoration:none;
+                            "
+                        >
+                            🏪 ثبت محصول
+                        </a>
+                    `
+                    : ""
+                }
+
             </div>
+
         `;
 
         return;
     }
 
 
+    /*
+     * ابتدا کارت‌ها را می‌سازیم.
+     */
+
     productsGrid.innerHTML =
-        products.map(function(product) {
+        products.map(
+            function(product) {
 
-            const image =
-                product.image_url ||
-                "https://via.placeholder.com/600x400?text=Bazaarak";
+                const image =
+                    product.image_url ||
+                    (
+                        Array.isArray(
+                            product.image_urls
+                        ) &&
+                        product.image_urls.length
+                            ? product.image_urls[0]
+                            : ""
+                    ) ||
+                    "https://via.placeholder.com/600x400?text=Bazaarak";
 
 
-            return `
+                const ownerMenu =
+                    isOwnProfile
+                    ? `
 
-                <article class="product-card">
-
-                    <img
-                        class="product-image"
-                        src="${image}"
-                        alt="${escapeHTML(product.title)}"
-                        onerror="this.src='https://via.placeholder.com/600x400?text=Bazaarak'"
-                    >
-
-                    <div class="product-content">
-
-                        <div class="product-title">
-                            ${escapeHTML(product.title)}
-                        </div>
-
-                        <div class="product-price">
-                            ${Number(product.price || 0).toLocaleString()} افغانی
-                        </div>
-
-                        <div class="product-city">
-                            📍 ${escapeHTML(product.city || "شهر ثبت نشده")}
-                        </div>
-
-                        <div class="product-actions">
+                        <div class="menu-wrap">
 
                             <button
                                 type="button"
-                                class="action-btn delete-btn"
-                                onclick="deleteProduct('${product.id}')"
+                                class="menu-btn"
+                                onclick="toggleProductMenu(event, '${product.id}')"
                             >
-                                🗑️ حذف
+                                ⋮
                             </button>
+
+                            <div
+                                class="product-menu"
+                                id="menu-${product.id}"
+                            >
+
+                                <a
+                                    href="edit-product.html?id=${product.id}"
+                                >
+                                    ✏️ ویرایش
+                                </a>
+
+                                <button
+                                    type="button"
+                                    class="danger"
+                                    onclick="deleteProduct('${product.id}')"
+                                >
+                                    🗑️ حذف
+                                </button>
+
+                            </div>
 
                         </div>
 
-                    </div>
+                    `
+                    : "";
 
-                </article>
 
-            `;
+                return `
 
-        }).join("");
+                    <article
+                        class="product-card"
+                        data-product-id="${product.id}"
+                    >
+
+                        <div class="product-image-wrap">
+
+                            <img
+                                class="product-image"
+                                src="${escapeAttribute(image)}"
+                                alt="${escapeAttribute(product.title)}"
+                                onerror="this.src='https://via.placeholder.com/600x400?text=Bazaarak'"
+                                onclick="openProduct('${product.id}')"
+                            >
+
+                            ${ownerMenu}
+
+                        </div>
+
+
+                        <div class="product-content">
+
+                            <div class="product-title">
+                                ${escapeHTML(product.title)}
+                            </div>
+
+                            <div class="product-price">
+                                ${Number(
+                                    product.price || 0
+                                ).toLocaleString()}
+                                افغانی
+                            </div>
+
+                            <div class="product-city">
+                                📍
+                                ${escapeHTML(
+                                    product.city ||
+                                    "شهر ثبت نشده"
+                                )}
+                            </div>
+
+
+                            <div class="social-actions">
+
+                                <button
+                                    type="button"
+                                    class="social-btn like-btn"
+                                    data-like-button="${product.id}"
+                                    onclick="toggleLike('${product.id}')"
+                                >
+                                    ❤️
+                                    <span
+                                        data-like-count="${product.id}"
+                                    >
+                                        0
+                                    </span>
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="social-btn"
+                                    onclick="toggleComments('${product.id}')"
+                                >
+                                    💬
+                                    <span
+                                        data-comment-count="${product.id}"
+                                    >
+                                        0
+                                    </span>
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                class="comments"
+                                id="comments-${product.id}"
+                            >
+
+                                <div class="comment-form">
+
+                                    <input
+                                        type="text"
+                                        class="comment-input"
+                                        id="comment-input-${product.id}"
+                                        maxlength="500"
+                                        placeholder="نظر خود را بنویسید..."
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="comment-send"
+                                        onclick="addComment('${product.id}')"
+                                    >
+                                        ارسال
+                                    </button>
+
+                                </div>
+
+
+                                <div
+                                    class="comments-list"
+                                    id="comments-list-${product.id}"
+                                >
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }
+        ).join("");
+
+
+    /*
+     * بعد از ساخت کارت‌ها،
+     * تعداد Like و Comment و وضعیت Like
+     * را واقعی از Supabase می‌گیریم.
+     */
+
+    await loadSocialData(products);
 
 }
 
 
+/* =========================================
+   SOCIAL DATA
+========================================= */
+
+async function loadSocialData(products) {
+
+    if (!products.length) {
+        return;
+    }
+
+
+    const productIds =
+        products.map(
+            product => product.id
+        );
+
+
+    const {
+        data: likes,
+        error: likesError
+    } = await supabaseClient
+        .from("product_likes")
+        .select("product_id,user_id")
+        .in(
+            "product_id",
+            productIds
+        );
+
+
+    if (likesError) {
+
+        console.error(
+            "Likes error:",
+            likesError
+        );
+
+    } else {
+
+        likes.forEach(
+            function(like) {
+
+                const countElement =
+                    document.querySelector(
+                        `[data-like-count="${like.product_id}"]`
+                    );
+
+
+                if (countElement) {
+
+                    countElement.textContent =
+                        Number(
+                            countElement.textContent
+                        ) + 1;
+
+                }
+
+
+                if (
+                    currentUser &&
+                    like.user_id === currentUser.id
+                ) {
+
+                    const button =
+                        document.querySelector(
+                            `[data-like-button="${like.product_id}"]`
+                        );
+
+
+                    if (button) {
+
+                        button.classList.add(
+                            "liked"
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    const {
+        data: comments,
+        error: commentsError
+    } = await supabaseClient
+        .from("product_comments")
+        .select("id,product_id,user_id,comment,created_at")
+        .in(
+            "product_id",
+            productIds
+        )
+        .order(
+            "created_at",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (commentsError) {
+
+        console.error(
+            "Comments error:",
+            commentsError
+        );
+
+    } else {
+
+        const commentCounts = {};
+
+
+        comments.forEach(
+            function(comment) {
+
+                if (
+                    !commentCounts[
+                        comment.product_id
+                    ]
+                ) {
+
+                    commentCounts[
+                        comment.product_id
+                    ] = 0;
+
+                }
+
+
+                commentCounts[
+                    comment.product_id
+                ]++;
+
+            }
+        );
+
+
+        Object.keys(
+            commentCounts
+        ).forEach(
+            function(productId) {
+
+                const element =
+                    document.querySelector(
+                        `[data-comment-count="${productId}"]`
+                    );
+
+
+                if (element) {
+
+                    element.textContent =
+                        commentCounts[
+                            productId
+                        ];
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   LIKE / UNLIKE
+========================================= */
+
+async function toggleLike(productId) {
+
+    if (!currentUser) {
+
+        alert(
+            "برای لایک کردن ابتدا وارد حساب شوید."
+        );
+
+        return;
+    }
+
+
+    const button =
+        document.querySelector(
+            `[data-like-button="${productId}"]`
+        );
+
+
+    if (!button) {
+        return;
+    }
+
+
+    const isLiked =
+        button.classList.contains(
+            "liked"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    try {
+
+        if (isLiked) {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("product_likes")
+                .delete()
+                .eq(
+                    "product_id",
+                    productId
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            button.classList.remove(
+                "liked"
+            );
+
+
+        } else {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("product_likes")
+                .insert({
+                    product_id:
+                        productId,
+                    user_id:
+                        currentUser.id
+                });
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            button.classList.add(
+                "liked"
+            );
+
+        }
+
+
+        const {
+            count,
+            error: countError
+        } = await supabaseClient
+            .from("product_likes")
+            .select("*", {
+                count: "exact",
+                head: true
+            })
+            .eq(
+                "product_id",
+                productId
+            );
+
+
+        if (!countError) {
+
+            const countElement =
+                document.querySelector(
+                    `[data-like-count="${productId}"]`
+                );
+
+
+            if (countElement) {
+
+                countElement.textContent =
+                    count || 0;
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ تغییر لایک انجام نشد:\n" +
+            error.message
+        );
+
+    } finally {
+
+        button.disabled =
+            false;
+
+    }
+
+}
+
+
+/* =========================================
+   COMMENTS
+========================================= */
+
+async function toggleComments(productId) {
+
+    const box =
+        document.getElementById(
+            "comments-" + productId
+        );
+
+
+    if (!box) {
+        return;
+    }
+
+
+    box.classList.toggle(
+        "show"
+    );
+
+
+    if (
+        box.classList.contains(
+            "show"
+        )
+    ) {
+
+        await loadComments(
+            productId
+        );
+
+    }
+
+}
+
+
+async function loadComments(productId) {
+
+    const list =
+        document.getElementById(
+            "comments-list-" + productId
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML =
+        `<div style="color:#888;font-size:12px;">در حال دریافت نظرها...</div>`;
+
+
+    const {
+        data: comments,
+        error
+    } = await supabaseClient
+        .from("product_comments")
+        .select(`
+            id,
+            product_id,
+            user_id,
+            comment,
+            created_at,
+            profiles:user_id (
+                full_name,
+                username,
+                avatar_url
+            )
+        `)
+        .eq(
+            "product_id",
+            productId
+        )
+        .order(
+            "created_at",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            `<div style="color:#c62828;font-size:12px;">❌ دریافت نظرها انجام نشد.</div>`;
+
+        return;
+    }
+
+
+    if (!comments || comments.length === 0) {
+
+        list.innerHTML =
+            `<div style="color:#888;font-size:12px;">هنوز نظری ثبت نشده است.</div>`;
+
+        return;
+    }
+
+
+    list.innerHTML =
+        comments.map(
+            function(item) {
+
+                const name =
+                    item.profiles?.full_name ||
+                    item.profiles?.username ||
+                    "کاربر بازارک";
+
+
+                return `
+
+                    <div class="comment-item">
+
+                        <div class="comment-user">
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div class="comment-text">
+                            ${escapeHTML(item.comment)}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+async function addComment(productId) {
+
+    if (!currentUser) {
+
+        alert(
+            "برای نظر دادن ابتدا وارد حساب شوید."
+        );
+
+        return;
+    }
+
+
+    const input =
+        document.getElementById(
+            "comment-input-" + productId
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        alert(
+            "لطفاً نظر خود را بنویسید."
+        );
+
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("product_comments")
+        .insert({
+            product_id:
+                productId,
+            user_id:
+                currentUser.id,
+            comment:
+                text
+        });
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ ثبت نظر انجام نشد:\n" +
+            error.message
+        );
+
+        return;
+    }
+
+
+    input.value = "";
+
+
+    await loadComments(
+        productId
+    );
+
+
+    const {
+        count
+    } = await supabaseClient
+        .from("product_comments")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq(
+            "product_id",
+            productId
+        );
+
+
+    const countElement =
+        document.querySelector(
+            `[data-comment-count="${productId}"]`
+        );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            count || 0;
+
+    }
+
+}
+
+
+/* =========================================
+   THREE DOT MENU
+========================================= */
+
+function toggleProductMenu(
+    event,
+    productId
+) {
+
+    event.stopPropagation();
+
+
+    const menu =
+        document.getElementById(
+            "menu-" + productId
+        );
+
+
+    document
+        .querySelectorAll(".product-menu.show")
+        .forEach(
+            function(item) {
+
+                if (item !== menu) {
+
+                    item.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+    if (menu) {
+
+        menu.classList.toggle(
+            "show"
+        );
+
+    }
+
+}
+
+
+document.addEventListener(
+    "click",
+    function() {
+
+        document
+            .querySelectorAll(".product-menu.show")
+            .forEach(
+                function(menu) {
+
+                    menu.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
+
+    }
+);
+
+
+/* =========================================
+   DELETE PRODUCT + IMAGES
+========================================= */
+
 async function deleteProduct(id) {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    if (!isOwnProfile) {
+        return;
+    }
+
 
     if (!id) {
 
-        alert("شناسه محصول پیدا نشد.");
+        alert(
+            "شناسه محصول پیدا نشد."
+        );
 
         return;
     }
@@ -684,7 +1994,7 @@ async function deleteProduct(id) {
 
     const confirmed =
         confirm(
-            "⚠️ آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟\n\nاین کار قابل برگشت نیست."
+            "⚠️ آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟\n\nخود محصول و تصاویر آن حذف خواهند شد و این کار قابل برگشت نیست."
         );
 
 
@@ -693,16 +2003,214 @@ async function deleteProduct(id) {
     }
 
 
-    const {
-        error
-    } = await supabaseClient
-        .from("products")
-        .delete()
-        .eq("id", id)
-        .eq("seller_id", currentUser.id);
+    try {
+
+        /*
+         * ابتدا اطلاعات تصاویر محصول را می‌گیریم.
+         */
+
+        const {
+            data: product,
+            error: productError
+        } = await supabaseClient
+            .from("products")
+            .select(
+                "id,seller_id,image_url,image_urls"
+            )
+            .eq(
+                "id",
+                id
+            )
+            .eq(
+                "seller_id",
+                currentUser.id
+            )
+            .maybeSingle();
 
 
-    if (error) {
+        if (productError) {
+            throw productError;
+        }
+
+
+        if (!product) {
+
+            alert(
+                "❌ محصول پیدا نشد یا متعلق به شما نیست."
+            );
+
+            return;
+        }
+
+
+        /*
+         * ساخت لیست URL تصاویر
+         */
+
+        const imageUrls = [];
+
+
+        if (
+            Array.isArray(
+                product.image_urls
+            )
+        ) {
+
+            product.image_urls.forEach(
+                function(url) {
+
+                    if (url) {
+                        imageUrls.push(url);
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (
+            product.image_url &&
+            !imageUrls.includes(
+                product.image_url
+            )
+        ) {
+
+            imageUrls.push(
+                product.image_url
+            );
+
+        }
+
+
+        /*
+         * تبدیل Public URL به Storage Path
+         */
+
+        const storagePaths = [];
+
+
+        imageUrls.forEach(
+            function(url) {
+
+                try {
+
+                    const parsed =
+                        new URL(url);
+
+
+                    const marker =
+                        "/storage/v1/object/public/product-images/";
+
+
+                    const index =
+                        parsed.pathname.indexOf(
+                            marker
+                        );
+
+
+                    if (index !== -1) {
+
+                        const path =
+                            decodeURIComponent(
+                                parsed.pathname.substring(
+                                    index + marker.length
+                                )
+                            );
+
+
+                        if (
+                            path &&
+                            !storagePaths.includes(
+                                path
+                            )
+                        ) {
+
+                            storagePaths.push(
+                                path
+                            );
+
+                        }
+
+                    }
+
+                } catch (error) {
+
+                    console.warn(
+                        "Invalid image URL:",
+                        url
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * اول تصاویر را حذف می‌کنیم.
+         */
+
+        if (storagePaths.length > 0) {
+
+            const {
+                error: storageError
+            } = await supabaseClient
+                .storage
+                .from("product-images")
+                .remove(
+                    storagePaths
+                );
+
+
+            if (storageError) {
+
+                console.error(
+                    storageError
+                );
+
+                throw new Error(
+                    "تصاویر محصول از Storage حذف نشدند. محصول حذف نشد تا اطلاعات ناقص باقی نماند."
+                );
+
+            }
+
+        }
+
+
+        /*
+         * سپس خود محصول را حذف می‌کنیم.
+         */
+
+        const {
+            error: deleteError
+        } = await supabaseClient
+            .from("products")
+            .delete()
+            .eq(
+                "id",
+                id
+            )
+            .eq(
+                "seller_id",
+                currentUser.id
+            );
+
+
+        if (deleteError) {
+            throw deleteError;
+        }
+
+
+        alert(
+            "✅ محصول و تصاویر آن با موفقیت حذف شدند."
+        );
+
+
+        await loadProducts();
+
+
+    } catch (error) {
 
         console.error(error);
 
@@ -711,19 +2219,72 @@ async function deleteProduct(id) {
             error.message
         );
 
+    }
+
+}
+
+
+/* =========================================
+   OPEN PRODUCT
+========================================= */
+
+function openProduct(id) {
+
+    if (!id) {
         return;
     }
 
 
-    alert(
-        "✅ محصول با موفقیت حذف شد."
-    );
-
-
-    await loadProducts();
+    window.location.href =
+        "product.html?id=" +
+        encodeURIComponent(id);
 
 }
 
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function escapeHTML(value) {
+
+    return String(value || "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHTML(
+        value
+    );
+
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
 
 function showLogin() {
 
@@ -739,21 +2300,11 @@ function showLogin() {
 }
 
 
-function escapeHTML(value) {
-
-    return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
+/* =========================================
+   RUN
+========================================= */
 
 loadProfile();
 
-</script>
-
-</body>
+</script></body>
 </html>
