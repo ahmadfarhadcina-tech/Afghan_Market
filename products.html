@@ -35,7 +35,6 @@
             color: inherit;
         }
 
-        /* جلوگیری از هایلایت آبی موبایل */
         a,
         button {
             -webkit-tap-highlight-color: transparent;
@@ -156,82 +155,39 @@
             display: block;
         }
 
+        /* ==============================
+           PRODUCTS GRID
+        ============================== */
+
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
+            gap: 22px 18px;
+            align-items: start;
         }
 
-        .product-card {
-            background: white;
-            border: 1px solid #e5e9e7;
-            border-radius: 16px;
-            overflow: hidden;
-            transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
+        /*
+           هر محصول یک ستون مستقل دارد.
+           پروفایل فروشنده بالای کارت قرار می‌گیرد.
+        */
 
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow:
-                0 12px 30px
-                rgba(0,0,0,0.08);
-        }
-
-        /* انیمیشن کوچک هنگام لمس کارت */
-        .product-card:active {
-            transform: scale(0.985);
-        }
-
-        .product-image {
-            height: 190px;
-            background: #eef2f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
-            display: block;
-        }
-
-        .no-image {
-            font-size: 55px;
-        }
-
-        .photo-count {
-            position: absolute;
-            left: 10px;
-            bottom: 10px;
-            background: rgba(0,0,0,.65);
-            color: white;
-            padding: 5px 9px;
-            border-radius: 8px;
-            font-size: 11px;
-            direction: rtl;
-            pointer-events: none;
+        .product-item {
+            min-width: 0;
         }
 
 
         /* ==============================
-           SELLER
+           SELLER - OUTSIDE PRODUCT CARD
         ============================== */
 
         .seller-box {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 8px;
-            margin-bottom: 13px;
             min-width: 0;
+            margin: 0 4px 9px;
+            min-height: 36px;
         }
 
         .seller-link {
@@ -242,7 +198,6 @@
             max-width: 100%;
             width: fit-content;
 
-            /* انیمیشن مستقل فروشنده */
             transition:
                 transform 0.18s ease,
                 opacity 0.18s ease;
@@ -254,8 +209,12 @@
             color: #087a55;
         }
 
-        /* فقط خود فروشنده تکان بخورد */
         .seller-link:active {
+            transform: scale(0.94);
+            opacity: 0.75;
+        }
+
+        .seller-clicked {
             transform: scale(0.94);
             opacity: 0.75;
         }
@@ -295,29 +254,25 @@
 
 
         /* ==============================
-           FOLLOW BUTTON
+           FOLLOW
         ============================== */
 
         .follow-btn {
             border: none;
             background: #087a55;
             color: white;
-            padding: 6px 10px;
+            padding: 6px 11px;
             border-radius: 8px;
             font-family: inherit;
             font-size: 10px;
             font-weight: bold;
             cursor: pointer;
             white-space: nowrap;
-
             transition:
                 transform 0.18s ease,
                 background 0.18s ease,
                 opacity 0.18s ease;
-
             flex-shrink: 0;
-
-            -webkit-tap-highlight-color: transparent;
         }
 
         .follow-btn:hover {
@@ -328,17 +283,94 @@
             transform: scale(0.92);
         }
 
-        .follow-btn.following {
-            background: #e8efeb;
-            color: #087a55;
-            border: 1px solid #d5e2db;
-        }
-
         .follow-btn:disabled {
             opacity: 0.6;
             cursor: wait;
         }
 
+
+        /* ==============================
+           PRODUCT CARD
+        ============================== */
+
+        .product-card {
+            background: white;
+            border: 1px solid #e5e9e7;
+            border-radius: 16px;
+            overflow: hidden;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 12px 30px
+                rgba(0,0,0,0.08);
+        }
+
+        .product-card:active {
+            transform: scale(0.985);
+        }
+
+
+        /* ==============================
+           PRODUCT IMAGE
+        ============================== */
+
+        /*
+           دیگر ارتفاع ثابت نداریم.
+           عکس با اندازه و نسبت واقعی خودش نمایش داده می‌شود.
+        */
+
+        .product-image {
+            width: 100%;
+            background: transparent;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: initial;
+            object-position: initial;
+        }
+
+        .no-image {
+            min-height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2f0;
+            font-size: 55px;
+            line-height: normal;
+        }
+
+        .photo-count {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            background: rgba(0,0,0,.65);
+            color: white;
+            padding: 5px 9px;
+            border-radius: 8px;
+            font-size: 11px;
+            direction: rtl;
+            pointer-events: none;
+            line-height: normal;
+        }
+
+
+        /* ==============================
+           PRODUCT INFO
+        ============================== */
 
         .product-info {
             padding: 16px;
@@ -371,6 +403,11 @@
             border-radius: 7px;
             font-size: 11px;
         }
+
+
+        /* ==============================
+           OTHER
+        ============================== */
 
         .empty {
             background: white;
@@ -424,6 +461,11 @@
             text-align: center;
         }
 
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
         @media (max-width: 900px) {
 
             .products-grid {
@@ -450,10 +492,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .product-image {
-                height: 150px;
-            }
-
             .page-title h1 {
                 font-size: 24px;
             }
@@ -465,6 +503,8 @@
 
             .seller-box {
                 gap: 5px;
+                margin-left: 2px;
+                margin-right: 2px;
             }
 
             .seller-link {
@@ -487,10 +527,6 @@
 
             .products-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .product-image {
-                height: 200px;
             }
 
             .seller-name {
@@ -749,7 +785,7 @@
 
 
     /* ==============================
-       GET URL VALUES
+       URL VALUES
     ============================== */
 
     const urlParams =
@@ -889,9 +925,7 @@
         productsGrid.innerHTML = `
 
             <div class="loading">
-
                 ⏳ در حال دریافت محصولات...
-
             </div>
 
         `;
@@ -1037,11 +1071,6 @@
         );
 
 
-        /*
-           پروفایل فروشنده را
-           به هر محصول وصل می‌کنیم
-        */
-
         allProducts =
             allProducts.map(
                 product => ({
@@ -1128,7 +1157,8 @@
 
 
     /* ==============================
-       PRODUCT CARD
+       PRODUCT + SELLER
+       SELLER IS OUTSIDE CARD
     ============================== */
 
     function createProductCard(
@@ -1158,7 +1188,13 @@
                     src="${escapeHTML(firstImage)}"
                     alt="${escapeHTML(product.title)}"
                     loading="lazy"
-                    onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<div class=&quot;no-image&quot;>🛍️</div>')"
+                    onerror="
+                        this.style.display='none';
+                        this.parentElement.insertAdjacentHTML(
+                            'beforeend',
+                            '<div class=&quot;no-image&quot;>🛍️</div>'
+                        )
+                    "
                 >
 
             `;
@@ -1204,7 +1240,7 @@
 
 
         /* ==============================
-           SELLER INFORMATION
+           SELLER
         ============================== */
 
         const seller =
@@ -1233,10 +1269,17 @@
 
                 <img
                     class="seller-avatar"
-                    src="${escapeHTML(seller.avatar_url)}"
-                    alt="${escapeHTML(sellerName)}"
+                    src="${escapeHTML(
+                        seller.avatar_url
+                    )}"
+                    alt="${escapeHTML(
+                        sellerName
+                    )}"
                     loading="lazy"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='flex';
+                    "
                 >
 
                 <div
@@ -1261,7 +1304,12 @@
         }
 
 
-        const isFollowing =
+        /*
+           اگر فروشنده را قبلاً دنبال کرده باشیم
+           دکمه اصلاً ساخته نمی‌شود.
+        */
+
+        const alreadyFollowing =
             sellerId &&
             followingUsers.has(
                 sellerId
@@ -1278,27 +1326,38 @@
 
         if (
             sellerId &&
-            !isOwnProfile
+            !isOwnProfile &&
+            !alreadyFollowing
         ) {
 
             followButtonHTML = `
 
                 <button
                     type="button"
-                    class="follow-btn ${isFollowing ? "following" : ""}"
-                    data-seller-id="${escapeHTML(sellerId)}"
-                    onclick="event.stopPropagation(); toggleFollowFromProducts(this, '${escapeHTML(sellerId)}')"
+                    class="follow-btn"
+                    data-seller-id="${escapeHTML(
+                        sellerId
+                    )}"
+                    onclick="
+                        event.stopPropagation();
+                        toggleFollowFromProducts(
+                            this,
+                            '${escapeHTML(sellerId)}'
+                        );
+                    "
                 >
-                    ${isFollowing
-                        ? "✓ دنبال می‌کنید"
-                        : "+ دنبال کردن"
-                    }
+                    + دنبال کردن
                 </button>
 
             `;
 
         }
 
+
+        /*
+           پروفایل فروشنده کاملاً بیرون
+           از کارت محصول است.
+        */
 
         const sellerHTML =
             sellerId
@@ -1308,19 +1367,22 @@
                 <div class="seller-box">
 
                     <a
-                        href="seller-profile.html?id=${encodeURIComponent(sellerId)}"
+                        href="seller-profile.html?id=${encodeURIComponent(
+                            sellerId
+                        )}"
                         class="seller-link"
-                        onclick="event.stopPropagation(); sellerClickAnimation(this, event);"
+                        onclick="
+                            event.stopPropagation();
+                            sellerClickAnimation(this, event);
+                        "
                     >
 
                         ${sellerAvatarHTML}
 
                         <span class="seller-name">
-
                             ${escapeHTML(
                                 sellerName
                             )}
-
                         </span>
 
                     </a>
@@ -1334,67 +1396,78 @@
             : "";
 
 
+        /*
+           sellerHTML بیرون از article است.
+        */
+
         return `
 
-            <article
-                class="product-card"
-                onclick="openProduct('${escapeHTML(product.id)}')"
-            >
+            <div class="product-item">
 
-                <div class="product-image">
+                ${sellerHTML}
 
-                    ${imageHTML}
+                <article
+                    class="product-card"
+                    onclick="
+                        openProduct(
+                            '${escapeHTML(product.id)}'
+                        )
+                    "
+                >
 
-                    ${photoCountHTML}
+                    <div class="product-image">
 
-                </div>
+                        ${imageHTML}
 
-
-                <div class="product-info">
-
-                    ${sellerHTML}
-
-
-                    <h3>
-
-                        ${escapeHTML(
-                            product.title
-                        )}
-
-                    </h3>
-
-
-                    <div class="price">
-
-                        ${formatPrice(
-                            product.price
-                        )}
-
-                        افغانی
+                        ${photoCountHTML}
 
                     </div>
 
 
-                    <div class="location">
+                    <div class="product-info">
 
-                        📍
+                        <h3>
 
-                        ${escapeHTML(
-                            getCityName(city)
-                        )}
+                            ${escapeHTML(
+                                product.title
+                            )}
+
+                        </h3>
+
+
+                        <div class="price">
+
+                            ${formatPrice(
+                                product.price
+                            )}
+
+                            افغانی
+
+                        </div>
+
+
+                        <div class="location">
+
+                            📍
+
+                            ${escapeHTML(
+                                getCityName(city)
+                            )}
+
+                        </div>
+
+
+                        <span class="condition">
+
+                            ${condition}
+
+                        </span>
 
                     </div>
 
+                </article>
 
-                    <span class="condition">
-
-                        ${condition}
-
-                    </span>
-
-                </div>
-
-            </article>
+            </div>
 
         `;
 
@@ -1416,6 +1489,7 @@
             "seller-clicked"
         );
 
+
         setTimeout(
             () => {
 
@@ -1430,7 +1504,7 @@
 
 
     /* ==============================
-       FOLLOW / UNFOLLOW
+       FOLLOW
     ============================== */
 
     async function toggleFollowFromProducts(
@@ -1468,150 +1542,82 @@
         button.disabled = true;
 
 
-        const currentlyFollowing =
-            followingUsers.has(
-                sellerId
+        /*
+           فقط FOLLOW انجام می‌شود.
+           بعد از موفقیت، دکمه کاملاً حذف می‌شود.
+        */
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("followers")
+            .insert({
+
+                follower_id:
+                    currentUser.id,
+
+                following_id:
+                    sellerId
+
+            });
+
+
+        if (error) {
+
+            console.error(
+                "Follow Error:",
+                error
             );
 
 
-        if (currentlyFollowing) {
+            /*
+               اگر قبلاً Follow شده باشد
+               دکمه را هم حذف می‌کنیم.
+            */
 
-            const {
-                error
-            } =
-            await supabaseClient
-                .from("followers")
-                .delete()
-                .eq(
-                    "follower_id",
-                    currentUser.id
-                )
-                .eq(
-                    "following_id",
-                    sellerId
-                );
-
-
-            if (error) {
-
-                console.error(
-                    "Unfollow Error:",
-                    error
-                );
-
-                alert(
-                    "لغو دنبال کردن انجام نشد."
-                );
-
-            } else {
-
-                followingUsers.delete(
-                    sellerId
-                );
-
-                updateFollowButton(
-                    button,
-                    false
-                );
-
-            }
-
-        } else {
-
-            const {
-                error
-            } =
-            await supabaseClient
-                .from("followers")
-                .insert({
-
-                    follower_id:
-                        currentUser.id,
-
-                    following_id:
-                        sellerId
-
-                });
-
-
-            if (error) {
-
-                console.error(
-                    "Follow Error:",
-                    error
-                );
-
-
-                if (
-                    error.code === "23505"
-                ) {
-
-                    followingUsers.add(
-                        sellerId
-                    );
-
-                    updateFollowButton(
-                        button,
-                        true
-                    );
-
-                } else {
-
-                    alert(
-                        "دنبال کردن انجام نشد."
-                    );
-
-                }
-
-            } else {
+            if (
+                error.code === "23505"
+            ) {
 
                 followingUsers.add(
                     sellerId
                 );
 
-                updateFollowButton(
-                    button,
-                    true
+                button.remove();
+
+            } else {
+
+                alert(
+                    "دنبال کردن انجام نشد."
                 );
+
+                button.disabled = false;
 
             }
 
-        }
 
-
-        button.disabled = false;
-
-    }
-
-
-    /* ==============================
-       UPDATE FOLLOW BUTTON
-    ============================== */
-
-    function updateFollowButton(
-        button,
-        following
-    ) {
-
-        if (following) {
-
-            button.textContent =
-                "✓ دنبال می‌کنید";
-
-            button.classList.add(
-                "following"
-            );
-
-        } else {
-
-            button.textContent =
-                "+ دنبال کردن";
-
-            button.classList.remove(
-                "following"
-            );
+            return;
 
         }
+
+
+        /*
+           Follow موفق شد.
+           وضعیت ذخیره می‌شود.
+        */
+
+        followingUsers.add(
+            sellerId
+        );
+
+
+        /*
+           دکمه کاملاً ناپدید می‌شود.
+           هیچ متن دیگری جای آن نمی‌آید.
+        */
+
+        button.remove();
 
     }
 
@@ -1736,7 +1742,7 @@
 
 
     /* ==============================
-       FILTER SYSTEM
+       FILTER
     ============================== */
 
     function applyFilters() {
@@ -2001,7 +2007,7 @@
 
 
     /* ==============================
-       CONDITION NAME
+       CONDITION
     ============================== */
 
     function getConditionName(
@@ -2029,7 +2035,7 @@
 
 
     /* ==============================
-       CITY NAME
+       CITY
     ============================== */
 
     function getCityName(
@@ -2100,7 +2106,7 @@
 
 
     /* ==============================
-       HTML SAFETY
+       ESCAPE HTML
     ============================== */
 
     function escapeHTML(
