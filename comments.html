@@ -4,9 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>نظرات | بازارک</title>
 
@@ -14,522 +12,513 @@
 
 <style>
 
-/* =========================================
+/* ================================
    BASE
-========================================= */
+================================ */
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
 html,
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    font-family: Tahoma, Arial, sans-serif;
-    background: #f4f7f5;
-    color: #17251d;
+body{
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f4f7f5;
+    color:#17251d;
 
-    padding-bottom: 82px;
+    /*
+       فقط برای اینکه آخرین پیام
+       زیر نوار پایین نرود.
+    */
+    padding-bottom:82px;
 
-    opacity: 1;
-    transform: translateY(0);
+    opacity:1;
+    transform:translateY(0);
 
     transition:
         opacity .24s ease,
         transform .24s ease;
 }
 
-body.page-leaving {
-    opacity: 0;
-    transform: translateY(8px);
+body.page-leaving{
+    opacity:0;
+    transform:translateY(8px);
 }
 
 button,
-input {
-    -webkit-tap-highlight-color: transparent;
+input{
+    -webkit-tap-highlight-color:transparent;
 }
 
 
-/* =========================================
+/* ================================
    HEADER
-========================================= */
+================================ */
 
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
+.header{
+    position:sticky;
+    top:0;
+    z-index:20;
 
-    background: rgba(255,255,255,.96);
+    background:rgba(255,255,255,.96);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
 
-    border-bottom: 1px solid #e7eee9;
+    border-bottom:1px solid #e7eee9;
 
-    padding: 12px 16px;
+    padding:12px 16px;
 }
 
-.header-inner {
-    max-width: 700px;
-    margin: auto;
+.header-inner{
+    max-width:700px;
+    margin:auto;
 
-    display: flex;
-    align-items: center;
+    display:flex;
+    align-items:center;
 
-    gap: 10px;
+    gap:10px;
 }
 
-.back-btn {
-    width: 39px;
-    height: 39px;
+.back-btn{
+    width:39px;
+    height:39px;
 
-    border: none;
-    border-radius: 50%;
+    border:0;
+    border-radius:50%;
 
-    background: #eef5f1;
+    background:#eef5f1;
+    color:#087443;
 
-    color: #087443;
+    font-size:21px;
 
-    font-size: 21px;
-
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         transform .18s ease,
         background .18s ease;
 }
 
-.back-btn:hover {
-    background: #e2efe7;
+.back-btn:hover{
+    background:#e2efe7;
 }
 
-.back-btn:active {
-    transform: scale(.84);
+.back-btn:active{
+    transform:scale(.84);
 }
 
-.header-title {
-    flex: 1;
+.header-title{
+    flex:1;
 }
 
-.header-title strong {
-    display: block;
-
-    color: #087443;
-
-    font-size: 16px;
+.header-title strong{
+    display:block;
+    color:#087443;
+    font-size:16px;
 }
 
-.header-title span {
-    display: block;
-
-    color: #888;
-
-    font-size: 11px;
-
-    margin-top: 3px;
+.header-title span{
+    display:block;
+    color:#888;
+    font-size:11px;
+    margin-top:3px;
 }
 
 
-/* =========================================
-   PRODUCT
-========================================= */
+/* ================================
+   PRODUCT PREVIEW
+================================ */
 
-.product-preview {
-    max-width: 700px;
-
-    margin: 12px auto;
-
-    padding:
-        0 14px;
+.product-preview{
+    max-width:700px;
+    margin:12px auto;
+    padding:0 14px;
 }
 
-.product-box {
-    background: white;
+.product-box{
+    background:#fff;
+    border-radius:13px;
 
-    border-radius: 13px;
-
-    padding: 10px;
+    padding:10px;
 
     box-shadow:
         0 3px 12px rgba(0,0,0,.045);
 
-    display: flex;
+    display:flex;
+    align-items:center;
 
-    align-items: center;
-
-    gap: 10px;
+    gap:10px;
 
     animation:
         productIn .3s ease both;
 }
 
-@keyframes productIn {
+@keyframes productIn{
 
-    from {
-        opacity: 0;
-        transform: translateY(-7px);
+    from{
+        opacity:0;
+        transform:translateY(-7px);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 
 }
 
-.product-box img {
-    width: 56px;
-    height: 56px;
+.product-box img{
+    width:56px;
+    height:56px;
 
-    border-radius: 9px;
+    border-radius:9px;
 
-    object-fit: cover;
+    object-fit:cover;
 
-    background: #eef2ef;
+    background:#eef2ef;
 
-    flex-shrink: 0;
+    flex-shrink:0;
 }
 
-.product-box-info {
-    min-width: 0;
+.product-box-info{
+    min-width:0;
 }
 
-.product-box-title {
-    font-weight: bold;
+.product-box-title{
+    font-weight:bold;
+    font-size:13px;
 
-    font-size: 13px;
-
-    overflow: hidden;
-
-    white-space: nowrap;
-
-    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 
-.product-box-price {
-    color: #087443;
+.product-box-price{
+    color:#087443;
+    font-size:12px;
 
-    font-size: 12px;
+    margin-top:5px;
 
-    margin-top: 5px;
-
-    font-weight: bold;
+    font-weight:bold;
 }
 
 
-/* =========================================
-   COMMENTS AREA
-========================================= */
+/* ================================
+   COMMENTS
+================================ */
 
-.comments-container {
-    max-width: 700px;
+.comments-container{
+    width:100%;
+    max-width:700px;
 
-    margin: auto;
+    margin:auto;
 
+    /*
+       پایین اضافه تا کامنت آخر
+       پشت composer نرود.
+    */
     padding:
         4px
         12px
-        20px;
+        25px;
 }
 
-.comments-list {
+.comments-list{
+    display:flex;
+    flex-direction:column;
 
-    display: flex;
+    gap:18px;
 
-    flex-direction: column;
-
-    gap: 15px;
+    width:100%;
 }
 
 
-/* =========================================
-   COMMENT ROW
-========================================= */
+/* ================================
+   COMMENT
+   کاملاً بدون کارت
+================================ */
 
 .comment-item,
-.reply-item {
+.reply-item{
+    width:100%;
 
-    width: 100%;
+    margin:0;
+    padding:0;
 
-    background: transparent;
+    background:transparent;
+    border:0;
+    box-shadow:none;
 
-    border: none;
-
-    box-shadow: none;
-
-    padding: 0;
-
-    margin: 0;
-
-    display: flex;
-
-    flex-direction: column;
+    display:flex;
+    flex-direction:column;
 
     animation:
         commentIn .24s ease both;
 }
 
-@keyframes commentIn {
+@keyframes commentIn{
 
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(7px);
+    from{
+        opacity:0;
+        transform:translateY(7px);
     }
 
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0);
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 
 }
 
 
-/* =========================================
-   MESSAGE ALIGNMENT
-========================================= */
+/* ================================
+   ALIGNMENT
+================================ */
 
 /*
-   کامنت خود کاربر = راست
-   کامنت دیگران = چپ
+   کامنت خود کاربر → راست
+   کامنت دیگران → چپ
 */
 
-.comment-item.mine {
-    align-items: flex-start;
+.comment-item.mine{
+    align-items:flex-end;
 }
 
-.comment-item.other {
-    align-items: flex-end;
-}
-
-
-/* =========================================
-   MESSAGE BODY
-========================================= */
-
-.message-wrap {
-
-    width: fit-content;
-
-    max-width: min(82%, 500px);
-
-    display: flex;
-
-    flex-direction: column;
+.comment-item.other{
+    align-items:flex-start;
 }
 
 
-/* =========================================
-   USER
-========================================= */
+/* ================================
+   MESSAGE WRAP
+================================ */
 
-.comment-header {
+.message-wrap{
+    width:fit-content;
+    max-width:88%;
 
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    margin-bottom: 5px;
-
-    width: fit-content;
-
-    cursor: pointer;
+    display:flex;
+    flex-direction:column;
 }
 
-.comment-avatar {
 
-    width: 34px;
-    height: 34px;
+/* ================================
+   USER HEADER
+================================ */
 
-    border-radius: 50%;
+.comment-header{
+    width:fit-content;
 
-    object-fit: cover;
+    display:flex;
+    align-items:center;
 
-    background: #dfeee5;
+    gap:7px;
 
-    flex-shrink: 0;
+    margin-bottom:4px;
+
+    cursor:pointer;
+
+    transition:
+        transform .18s ease,
+        opacity .18s ease;
+}
+
+.comment-item.mine .comment-header{
+    align-self:flex-end;
+}
+
+.comment-item.other .comment-header{
+    align-self:flex-start;
+}
+
+.comment-header:active{
+    transform:scale(.97);
+    opacity:.75;
+}
+
+.comment-avatar{
+    width:33px;
+    height:33px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    background:#dfeee5;
+
+    flex-shrink:0;
 
     transition:
         transform .2s ease,
         box-shadow .2s ease;
 }
 
-.comment-avatar:hover {
-
-    transform: scale(1.06);
+.comment-avatar:hover{
+    transform:scale(1.06);
 
     box-shadow:
         0 0 0 3px #dcece3;
 }
 
-.comment-avatar:active {
-    transform: scale(.86);
+.comment-avatar:active{
+    transform:scale(.86);
 }
 
-.comment-user {
-
-    min-width: 0;
-
-    transition:
-        opacity .18s ease,
-        transform .18s ease;
+.comment-user{
+    min-width:0;
 }
 
-.comment-user:hover {
-    opacity: .7;
+.comment-user-name{
+    color:#087443;
+
+    font-weight:bold;
+
+    font-size:11px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
 }
 
-.comment-user:active {
-    transform: translateX(-2px);
-}
+.comment-user-username{
+    color:#8d9690;
 
-.comment-user-name {
+    font-size:9px;
 
-    color: #087443;
-
-    font-weight: bold;
-
-    font-size: 11px;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-}
-
-.comment-user-username {
-
-    color: #8d9690;
-
-    font-size: 9px;
-
-    margin-top: 1px;
+    margin-top:1px;
 }
 
 
-/* =========================================
-   MESSAGE
-   فقط بک‌گراند، بدون کارت
-========================================= */
+/* ================================
+   MESSAGE BUBBLE
+   فقط اندازه خود پیام
+================================ */
 
-.message-bubble {
+.message-bubble{
 
-    width: fit-content;
+    /*
+       مهم‌ترین قسمت:
+       عرض فقط به اندازه متن
+    */
 
-    max-width: 100%;
+    display:inline-block;
+
+    width:fit-content;
+
+    max-width:100%;
 
     padding:
-        9px 12px;
+        6px 10px;
 
-    background: #e7f3eb;
+    background:#e7f3eb;
 
-    border-radius: 13px;
+    border-radius:10px;
 
-    color: #27332c;
+    color:#27332c;
 
-    font-size: 13px;
+    font-size:13px;
 
-    line-height: 1.7;
+    line-height:1.65;
 
-    white-space: pre-wrap;
+    white-space:pre-wrap;
 
-    overflow-wrap: anywhere;
+    overflow-wrap:anywhere;
+
+    /*
+       متن خود پیام:
+       راست‌چین و طبیعی
+    */
+    text-align:right;
+
+    direction:rtl;
 
     transition:
-        transform .16s ease,
-        background .18s ease;
+        background .18s ease,
+        transform .16s ease;
 }
 
-.message-bubble:hover {
-    background: #e1f0e6;
+.message-bubble:hover{
+    background:#e1f0e6;
 }
 
-.message-bubble:active {
-    transform: scale(.99);
-}
-
-
-/* =========================================
-   OTHER MESSAGE
-========================================= */
-
-.comment-item.other
-.message-bubble {
-
-    background: #ffffff;
-
-    border-radius: 13px;
-
-}
-
-.comment-item.other
-.message-bubble:hover {
-    background: #fafcfb;
+.message-bubble:active{
+    transform:scale(.99);
 }
 
 
-/* =========================================
+/*
+   پیام دیگران
+*/
+
+.comment-item.other .message-bubble{
+    background:#fff;
+
+    text-align:left;
+    direction:ltr;
+}
+
+.comment-item.other .message-bubble:hover{
+    background:#fafcfb;
+}
+
+
+/* ================================
    ACTIONS
-   بیرون از بک‌گراند
-========================================= */
+   کاملاً خارج از پیام
+================================ */
 
-.comment-actions {
+.comment-actions{
 
-    display: flex;
+    width:fit-content;
 
-    align-items: center;
+    display:flex;
+    align-items:center;
 
-    gap: 4px;
+    gap:3px;
 
-    margin-top: 5px;
+    margin-top:3px;
 
-    min-height: 28px;
+    min-height:25px;
 }
 
-.comment-item.mine
-.comment-actions {
-
-    justify-content: flex-start;
+.comment-item.mine .comment-actions{
+    align-self:flex-end;
 }
 
-.comment-item.other
-.comment-actions {
-
-    justify-content: flex-end;
+.comment-item.other .comment-actions{
+    align-self:flex-start;
 }
 
-.comment-action {
+.comment-action{
 
-    border: none;
+    border:0;
 
-    background: transparent;
+    background:transparent;
 
-    color: #7b857e;
+    color:#7b857e;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 11px;
+    font-size:10px;
 
-    padding:
-        4px 7px;
+    padding:3px 6px;
 
-    border-radius: 7px;
+    border-radius:6px;
 
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         background .18s ease,
@@ -538,56 +527,52 @@ input {
         opacity .18s ease;
 }
 
-.comment-action:hover {
-
-    background: #e8f1eb;
-
-    color: #087443;
+.comment-action:hover{
+    background:#e8f1eb;
+    color:#087443;
 }
 
-.comment-action:active {
-    transform: scale(.82);
+.comment-action:active{
+    transform:scale(.82);
 }
 
-.comment-action.liked {
-
-    color: #c62828;
-
-    background: #fff0f0;
+.comment-action.liked{
+    color:#c62828;
+    background:#fff0f0;
 }
 
-.comment-action.loading {
-
-    opacity: .5;
-
-    pointer-events: none;
+.comment-action.loading{
+    opacity:.5;
+    pointer-events:none;
 }
 
 
-/* =========================================
-   THREE DOTS
-========================================= */
+/* ================================
+   THREE DOT
+================================ */
 
-.more-wrapper {
-    position: relative;
+.more-wrapper{
+    position:relative;
 }
 
-.more-button {
+.more-button{
 
-    width: 29px;
-    height: 29px;
+    width:25px;
+    height:25px;
 
-    border: none;
+    border:0;
 
-    background: transparent;
+    background:transparent;
 
-    color: #8a938d;
+    color:#8a938d;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    font-size: 18px;
+    font-size:17px;
 
-    cursor: pointer;
+    line-height:25px;
+
+    cursor:pointer;
 
     transition:
         background .18s ease,
@@ -595,367 +580,358 @@ input {
         transform .16s ease;
 }
 
-.more-button:hover {
-
-    background: #e8f1eb;
-
-    color: #087443;
+.more-button:hover{
+    background:#e8f1eb;
+    color:#087443;
 }
 
-.more-button:active {
-    transform: scale(.8);
+.more-button:active{
+    transform:scale(.8);
 }
 
-.more-menu {
 
-    position: absolute;
+/* ================================
+   MORE MENU
+================================ */
 
-    top: 32px;
+.more-menu{
 
-    right: 0;
+    position:absolute;
 
-    min-width: 110px;
+    top:28px;
+    right:0;
 
-    background: white;
+    min-width:110px;
 
-    border-radius: 10px;
+    background:#fff;
 
-    padding: 4px;
+    border-radius:9px;
 
-    border: 1px solid #e3ebe6;
+    padding:4px;
+
+    border:1px solid #e3ebe6;
 
     box-shadow:
         0 9px 25px rgba(0,0,0,.11);
 
-    opacity: 0;
-
-    visibility: hidden;
+    opacity:0;
+    visibility:hidden;
 
     transform:
         translateY(-5px)
         scale(.94);
 
-    transform-origin: top right;
+    transform-origin:top right;
 
     transition:
         opacity .18s ease,
         transform .18s ease,
         visibility .18s ease;
 
-    z-index: 60;
+    z-index:60;
 }
 
-.more-menu.show {
+.more-menu.show{
 
-    opacity: 1;
-
-    visibility: visible;
+    opacity:1;
+    visibility:visible;
 
     transform:
         translateY(0)
         scale(1);
 }
 
-.more-menu button {
+.more-menu button{
 
-    width: 100%;
+    width:100%;
 
-    border: none;
+    border:0;
 
-    background: transparent;
+    background:transparent;
 
-    color: #c62828;
+    color:#c62828;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 10px;
+    font-size:10px;
 
-    text-align: right;
+    text-align:right;
 
-    padding: 8px;
+    padding:8px;
 
-    border-radius: 7px;
+    border-radius:7px;
 
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         background .16s ease,
         transform .16s ease;
 }
 
-.more-menu button:hover {
-    background: #fff1f1;
+.more-menu button:hover{
+    background:#fff1f1;
 }
 
-.more-menu button:active {
-    transform: scale(.94);
+.more-menu button:active{
+    transform:scale(.94);
 }
 
 
-/* =========================================
+/* ================================
    REPLIES
-========================================= */
+================================ */
 
-.replies {
+.replies{
 
-    width: 100%;
+    width:100%;
 
-    margin-top: 9px;
+    margin-top:8px;
 
-    padding-right: 12px;
+    padding-right:12px;
 
-    border-right:
-        2px solid #dce9e1;
+    border-right:2px solid #dce9e1;
 
-    display: flex;
+    display:flex;
 
-    flex-direction: column;
+    flex-direction:column;
 
-    gap: 10px;
+    gap:10px;
 }
 
-.reply-item {
-
-    align-items: flex-start;
+.reply-item{
+    width:100%;
 }
 
-.reply-item .message-wrap {
-
-    max-width: 88%;
+.reply-item .message-wrap{
+    max-width:88%;
 }
 
-.reply-item .message-bubble {
+.reply-item .message-bubble{
+    background:#f0f6f2;
 
-    background: #f0f6f2;
-
-    font-size: 12px;
+    font-size:12px;
 
     padding:
-        8px 10px;
+        6px 9px;
 }
 
-.reply-item .comment-avatar {
-
-    width: 29px;
-    height: 29px;
+.reply-item .comment-avatar{
+    width:29px;
+    height:29px;
 }
 
-.reply-item .comment-user-name {
-    font-size: 10px;
+.reply-item .comment-user-name{
+    font-size:10px;
 }
 
-.reply-item .comment-user-username {
-    font-size: 8px;
+.reply-item .comment-user-username{
+    font-size:8px;
 }
 
 
-/* =========================================
+/* ================================
    REPLY BOX
-========================================= */
+================================ */
 
-.reply-box {
+.reply-box{
 
-    width: 100%;
+    width:100%;
 
-    margin-top: 7px;
+    margin-top:6px;
 
-    display: none;
+    display:none;
 
     animation:
         replyBoxIn .2s ease both;
 }
 
-.reply-box.show {
-    display: block;
+.reply-box.show{
+    display:block;
 }
 
-@keyframes replyBoxIn {
+@keyframes replyBoxIn{
 
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(-5px);
+    from{
+        opacity:0;
+        transform:translateY(-5px);
     }
 
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0);
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
+
 }
 
-.reply-form {
+.reply-form{
 
-    display: flex;
+    display:flex;
 
-    gap: 6px;
+    gap:6px;
 
-    width: min(100%, 420px);
+    width:min(100%,420px);
 }
 
-.reply-input {
+.reply-input{
 
-    flex: 1;
+    flex:1;
+    min-width:0;
 
-    min-width: 0;
+    border:1px solid #d6e2da;
 
-    border:
-        1px solid #d6e2da;
+    background:#fff;
 
-    background: white;
-
-    border-radius: 10px;
+    border-radius:9px;
 
     padding:
         8px 10px;
 
-    outline: none;
+    outline:none;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 11px;
+    font-size:11px;
 
     transition:
         border-color .18s ease,
         box-shadow .18s ease;
 }
 
-.reply-input:focus {
+.reply-input:focus{
 
-    border-color: #087443;
+    border-color:#087443;
 
     box-shadow:
         0 0 0 2px rgba(8,116,67,.07);
 }
 
-.reply-send {
+.reply-send{
 
-    border: none;
+    border:0;
 
-    background: #087443;
+    background:#087443;
 
-    color: white;
+    color:#fff;
 
-    border-radius: 9px;
+    border-radius:9px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 11px;
+    font-size:11px;
 
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         transform .16s ease,
         background .18s ease;
 }
 
-.reply-send:hover {
-    background: #07643a;
+.reply-send:hover{
+    background:#07643a;
 }
 
-.reply-send:active {
-    transform: scale(.88);
+.reply-send:active{
+    transform:scale(.88);
 }
 
 
-/* =========================================
-   BOTTOM COMPOSER
-========================================= */
+/* ================================
+   FIXED COMMENT COMPOSER
+================================ */
 
-.comment-composer {
+.comment-composer{
 
-    position: fixed;
+    /*
+       کاملاً فیکس به پایین صفحه
+    */
 
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position:fixed !important;
 
-    z-index: 100;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
 
-    background:
-        rgba(255,255,255,.98);
+    width:100%;
 
-    backdrop-filter:
-        blur(12px);
+    z-index:1000;
 
-    -webkit-backdrop-filter:
-        blur(12px);
+    background:rgba(255,255,255,.98);
 
-    border-top:
-        1px solid #dfe8e2;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
 
+    border-top:1px solid #dfe8e2;
+
+    /*
+       به لبه پایین می‌چسبد
+    */
     padding:
-        10px 12px;
+        9px
+        12px
+        calc(9px + env(safe-area-inset-bottom));
 
     box-shadow:
-        0 -5px 20px rgba(0,0,0,.06);
+        0 -5px 20px rgba(0,0,0,.07);
 
     animation:
         composerIn .3s ease both;
 }
 
-@keyframes composerIn {
+@keyframes composerIn{
 
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(15px);
+    from{
+        opacity:0;
+        transform:translateY(15px);
     }
 
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0);
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
+
 }
 
-.composer-inner {
+.composer-inner{
 
-    width: 100%;
+    width:100%;
 
-    max-width: 700px;
+    max-width:700px;
 
-    margin: auto;
+    margin:auto;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 8px;
+    gap:8px;
 }
 
-.main-input {
+.main-input{
 
-    flex: 1;
+    flex:1;
 
-    min-width: 0;
+    min-width:0;
 
-    height: 46px;
+    height:48px;
 
-    border:
-        1px solid #d3e0d8;
+    border:1px solid #d3e0d8;
 
-    border-radius: 13px;
+    border-radius:13px;
 
-    background: #f7faf8;
+    background:#f7faf8;
 
     padding:
-        0 13px;
+        0 14px;
 
-    outline: none;
+    outline:none;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 13px;
+    font-size:13px;
 
-    color: #27332c;
+    color:#27332c;
 
     transition:
         border-color .18s ease,
@@ -963,40 +939,39 @@ input {
         box-shadow .18s ease;
 }
 
-.main-input:focus {
+.main-input:focus{
 
-    background: white;
+    background:#fff;
 
-    border-color: #087443;
+    border-color:#087443;
 
     box-shadow:
         0 0 0 3px rgba(8,116,67,.07);
 }
 
-.send-btn {
+.send-btn{
 
-    height: 46px;
+    height:48px;
 
-    min-width: 72px;
+    min-width:75px;
 
-    border: none;
+    border:0;
 
-    border-radius: 13px;
+    border-radius:13px;
 
-    background: #087443;
+    background:#087443;
 
-    color: white;
+    color:#fff;
 
-    padding:
-        0 14px;
+    padding:0 15px;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-weight: bold;
+    font-weight:bold;
 
-    font-size: 12px;
+    font-size:12px;
 
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         transform .16s ease,
@@ -1004,141 +979,133 @@ input {
         opacity .18s ease;
 }
 
-.send-btn:hover {
-    background: #07643a;
+.send-btn:hover{
+    background:#07643a;
 }
 
-.send-btn:active {
-    transform: scale(.91);
+.send-btn:active{
+    transform:scale(.91);
 }
 
-.send-btn:disabled {
-
-    opacity: .6;
-
-    pointer-events: none;
+.send-btn:disabled{
+    opacity:.6;
+    pointer-events:none;
 }
 
 
-/* =========================================
+/* ================================
    LOGIN
-========================================= */
+================================ */
 
-.login-state {
+.login-state{
 
-    background: white;
+    background:#fff;
 
-    border-radius: 13px;
+    border-radius:13px;
 
-    padding: 18px;
+    padding:18px;
 
-    margin-bottom: 15px;
+    margin-bottom:15px;
 
-    text-align: center;
+    text-align:center;
 
-    color: #777;
+    color:#777;
 
-    font-size: 12px;
+    font-size:12px;
 }
 
-.login-state a {
+.login-state a{
 
-    display: inline-block;
+    display:inline-block;
 
-    margin-top: 9px;
+    margin-top:9px;
 
-    background: #087443;
+    background:#087443;
 
-    color: white;
+    color:#fff;
 
-    padding:
-        9px 14px;
+    padding:9px 14px;
 
-    border-radius: 9px;
+    border-radius:9px;
 
-    text-decoration: none;
+    text-decoration:none;
 
-    font-size: 11px;
+    font-size:11px;
 
     transition:
         transform .16s ease;
 }
 
-.login-state a:active {
-    transform: scale(.93);
+.login-state a:active{
+    transform:scale(.93);
 }
 
 
-/* =========================================
+/* ================================
    STATE
-========================================= */
+================================ */
 
-.state {
+.state{
 
-    text-align: center;
+    text-align:center;
 
-    color: #8a938d;
+    color:#8a938d;
 
-    padding:
-        45px 20px;
+    padding:45px 20px;
 
-    font-size: 13px;
+    font-size:13px;
 }
 
 
-/* =========================================
+/* ================================
    DELETE MODAL
-========================================= */
+================================ */
 
-.delete-overlay {
+.delete-overlay{
 
-    position: fixed;
+    position:fixed;
 
-    inset: 0;
+    inset:0;
 
-    z-index: 200;
+    z-index:2000;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content: center;
+    padding:20px;
 
-    padding: 20px;
+    background:rgba(10,25,17,.28);
 
-    background:
-        rgba(10,25,17,.28);
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
 
-    backdrop-filter:
-        blur(5px);
-
-    opacity: 0;
-
-    visibility: hidden;
+    opacity:0;
+    visibility:hidden;
 
     transition:
         opacity .22s ease,
         visibility .22s ease;
 }
 
-.delete-overlay.show {
+.delete-overlay.show{
 
-    opacity: 1;
-
-    visibility: visible;
+    opacity:1;
+    visibility:visible;
 }
 
-.delete-dialog {
+.delete-dialog{
 
-    width: min(330px,100%);
+    width:min(330px,100%);
 
-    background: white;
+    background:#fff;
 
-    border-radius: 18px;
+    border-radius:18px;
 
-    padding: 20px;
+    padding:20px;
 
-    text-align: center;
+    text-align:center;
 
     box-shadow:
         0 18px 50px rgba(0,0,0,.16);
@@ -1151,80 +1118,79 @@ input {
         transform .25s cubic-bezier(.2,.8,.2,1);
 }
 
-.delete-overlay.show
-.delete-dialog {
+.delete-overlay.show .delete-dialog{
 
     transform:
         translateY(0)
         scale(1);
 }
 
-.delete-icon {
+.delete-icon{
 
-    width: 48px;
-    height: 48px;
+    width:48px;
+    height:48px;
 
     margin:
         0 auto 10px;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:center;
+    justify-content:center;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    background: #fff0f0;
+    background:#fff0f0;
 
-    color: #c62828;
+    color:#c62828;
 
-    font-size: 22px;
+    font-size:22px;
 }
 
-.delete-title {
+.delete-title{
 
-    font-weight: bold;
+    font-weight:bold;
 
-    color: #26332c;
+    color:#26332c;
 
-    font-size: 14px;
+    font-size:14px;
 }
 
-.delete-text {
+.delete-text{
 
-    color: #7c8580;
+    color:#7c8580;
 
-    font-size: 11px;
+    font-size:11px;
 
-    line-height: 1.7;
+    line-height:1.7;
 
-    margin-top: 6px;
+    margin-top:6px;
 }
 
-.delete-buttons {
+.delete-buttons{
 
-    display: flex;
+    display:flex;
 
-    gap: 7px;
+    gap:7px;
 
-    margin-top: 16px;
+    margin-top:16px;
 }
 
-.delete-buttons button {
+.delete-buttons button{
 
-    flex: 1;
+    flex:1;
 
-    border: none;
+    border:0;
 
-    border-radius: 9px;
+    border-radius:9px;
 
-    padding: 9px;
+    padding:9px;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 11px;
+    font-size:11px;
 
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         transform .16s ease,
@@ -1232,81 +1198,83 @@ input {
         opacity .18s ease;
 }
 
-.delete-buttons button:active {
-    transform: scale(.91);
+.delete-buttons button:active{
+    transform:scale(.91);
 }
 
-.cancel-delete {
+.cancel-delete{
 
-    background: #eef3ef;
+    background:#eef3ef;
 
-    color: #536058;
+    color:#536058;
 }
 
-.cancel-delete:hover {
-    background: #e4ebe6;
+.cancel-delete:hover{
+    background:#e4ebe6;
 }
 
-.confirm-delete {
+.confirm-delete{
 
-    background: #c62828;
+    background:#c62828;
 
-    color: white;
+    color:#fff;
 }
 
-.confirm-delete:hover {
-    background: #b51f1f;
+.confirm-delete:hover{
+    background:#b51f1f;
 }
 
-.confirm-delete.loading {
+.confirm-delete.loading{
 
-    opacity: .6;
+    opacity:.6;
 
-    pointer-events: none;
+    pointer-events:none;
 }
 
 
-/* =========================================
+/* ================================
    TOAST
-========================================= */
+================================ */
 
-.toast {
+.toast{
 
-    position: fixed;
+    position:fixed;
 
-    left: 50%;
+    left:50%;
 
-    bottom: 75px;
+    /*
+       بالاتر از composer
+    */
+    bottom:76px;
 
     transform:
         translate(-50%,18px)
         scale(.96);
 
-    background: #17251d;
+    background:#17251d;
 
-    color: white;
+    color:#fff;
 
-    padding:
-        10px 15px;
+    padding:10px 15px;
 
-    border-radius: 10px;
+    border-radius:10px;
 
-    font-size: 11px;
+    font-size:11px;
 
-    opacity: 0;
+    opacity:0;
 
-    pointer-events: none;
+    pointer-events:none;
 
     transition:
         opacity .22s ease,
         transform .22s ease;
 
-    z-index: 300;
+    z-index:3000;
 }
 
-.toast.show {
+.toast.show{
 
-    opacity: 1;
+    opacity:1;
 
     transform:
         translate(-50%,0)
@@ -1314,76 +1282,74 @@ input {
 }
 
 
-/* =========================================
+/* ================================
    MOBILE
-========================================= */
+================================ */
 
-@media (max-width:550px) {
+@media(max-width:550px){
 
-    .comments-container {
+    .comments-container{
 
-        padding-left: 8px;
+        padding-left:8px;
+        padding-right:8px;
 
-        padding-right: 8px;
+        /*
+           فضای کافی برای نوار پایین
+        */
+        padding-bottom:30px;
     }
 
-    .message-wrap {
-
-        max-width: 88%;
+    .message-wrap{
+        max-width:90%;
     }
 
-    .message-bubble {
+    .message-bubble{
 
-        font-size: 13px;
+        font-size:13px;
 
         padding:
-            9px 12px;
+            6px 10px;
     }
 
-    .comment-avatar {
+    .comment-composer{
 
-        width: 33px;
-        height: 33px;
+        padding-left:8px;
+        padding-right:8px;
     }
 
-    .main-input {
+    .main-input{
 
-        height: 48px;
+        height:49px;
 
-        font-size: 13px;
+        font-size:13px;
     }
 
-    .send-btn {
+    .send-btn{
 
-        height: 48px;
+        height:49px;
 
-        min-width: 68px;
+        min-width:70px;
     }
-
 }
 
 
-/* =========================================
+/* ================================
    REDUCED MOTION
-========================================= */
+================================ */
 
-@media (prefers-reduced-motion: reduce) {
+@media(prefers-reduced-motion:reduce){
 
     *,
     *::before,
-    *::after {
+    *::after{
 
-        animation-duration:
-            .01ms !important;
+        animation-duration:.01ms !important;
 
-        animation-iteration-count:
-            1 !important;
+        animation-iteration-count:1 !important;
 
-        transition-duration:
-            .01ms !important;
+        transition-duration:.01ms !important;
 
-        scroll-behavior:
-            auto !important;
+        scroll-behavior:auto !important;
     }
 }
 
@@ -1394,6 +1360,10 @@ input {
 
 <body>
 
+
+<!-- ================================
+     HEADER
+================================ -->
 
 <header class="header">
 
@@ -1423,6 +1393,10 @@ input {
 
 </header>
 
+
+<!-- ================================
+     PRODUCT
+================================ -->
 
 <section class="product-preview">
 
@@ -1457,6 +1431,10 @@ input {
 </section>
 
 
+<!-- ================================
+     COMMENTS
+================================ -->
+
 <main class="comments-container">
 
     <div
@@ -1490,9 +1468,9 @@ input {
 </main>
 
 
-<!-- =========================================
-     FIXED COMMENT INPUT
-========================================= -->
+<!-- ================================
+     FIXED COMPOSER
+================================ -->
 
 <div class="comment-composer">
 
@@ -1519,9 +1497,9 @@ input {
 </div>
 
 
-<!-- =========================================
+<!-- ================================
      DELETE MODAL
-========================================= -->
+================================ -->
 
 <div
     id="deleteOverlay"
@@ -1576,9 +1554,9 @@ input {
 
 <script>
 
-/* =========================================
+/* ================================
    SUPABASE
-========================================= */
+================================ */
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
@@ -1593,49 +1571,35 @@ const supabaseClient =
     );
 
 
-/* =========================================
+/* ================================
    ELEMENTS
-========================================= */
+================================ */
 
 const commentsList =
-    document.getElementById(
-        "commentsList"
-    );
+    document.getElementById("commentsList");
 
 const mainInput =
-    document.getElementById(
-        "mainInput"
-    );
+    document.getElementById("mainInput");
 
 const sendButton =
-    document.getElementById(
-        "sendButton"
-    );
+    document.getElementById("sendButton");
 
 const loginState =
-    document.getElementById(
-        "loginState"
-    );
+    document.getElementById("loginState");
 
 const toast =
-    document.getElementById(
-        "toast"
-    );
+    document.getElementById("toast");
 
 const deleteOverlay =
-    document.getElementById(
-        "deleteOverlay"
-    );
+    document.getElementById("deleteOverlay");
 
 const confirmDeleteButton =
-    document.getElementById(
-        "confirmDeleteButton"
-    );
+    document.getElementById("confirmDeleteButton");
 
 
-/* =========================================
+/* ================================
    STATE
-========================================= */
+================================ */
 
 let currentUser = null;
 
@@ -1650,9 +1614,9 @@ let commentLikes = {};
 let commentToDelete = null;
 
 
-/* =========================================
+/* ================================
    PRODUCT ID
-========================================= */
+================================ */
 
 const params =
     new URLSearchParams(
@@ -1664,13 +1628,13 @@ productId =
     params.get("productId");
 
 
-/* =========================================
+/* ================================
    START
-========================================= */
+================================ */
 
-async function start() {
+async function start(){
 
-    if (!productId) {
+    if(!productId){
 
         commentsList.innerHTML = `
             <div class="state">
@@ -1683,7 +1647,7 @@ async function start() {
 
 
     const {
-        data: {
+        data:{
             session
         }
     } =
@@ -1694,7 +1658,7 @@ async function start() {
         session?.user || null;
 
 
-    if (!currentUser) {
+    if(!currentUser){
 
         loginState.style.display =
             "block";
@@ -1706,20 +1670,20 @@ async function start() {
     await loadComments();
 }
 
-
 start();
 
 
-/* =========================================
+/* ================================
    PRODUCT
-========================================= */
+================================ */
 
-async function loadProduct() {
+async function loadProduct(){
 
     const {
-        data: product,
+        data:product,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("products")
 
@@ -1735,7 +1699,7 @@ async function loadProduct() {
         .maybeSingle();
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Product error:",
@@ -1746,7 +1710,7 @@ async function loadProduct() {
     }
 
 
-    if (!product) {
+    if(!product){
         return;
     }
 
@@ -1754,9 +1718,7 @@ async function loadProduct() {
     const image =
         product.image_url ||
         (
-            Array.isArray(
-                product.image_urls
-            ) &&
+            Array.isArray(product.image_urls) &&
             product.image_urls.length
                 ? product.image_urls[0]
                 : ""
@@ -1800,11 +1762,11 @@ async function loadProduct() {
 }
 
 
-/* =========================================
+/* ================================
    LOAD COMMENTS
-========================================= */
+================================ */
 
-async function loadComments() {
+async function loadComments(){
 
     commentsList.innerHTML = `
         <div class="state">
@@ -1816,7 +1778,8 @@ async function loadComments() {
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("product_comments")
 
@@ -1837,12 +1800,12 @@ async function loadComments() {
         .order(
             "created_at",
             {
-                ascending: true
+                ascending:true
             }
         );
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Comments error:",
@@ -1871,11 +1834,11 @@ async function loadComments() {
 }
 
 
-/* =========================================
-   LOAD PROFILES
-========================================= */
+/* ================================
+   PROFILES
+================================ */
 
-async function loadProfiles() {
+async function loadProfiles(){
 
     const userIds =
         [
@@ -1888,7 +1851,7 @@ async function loadProfiles() {
         ];
 
 
-    if (!userIds.length) {
+    if(!userIds.length){
         return;
     }
 
@@ -1896,7 +1859,8 @@ async function loadProfiles() {
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("profiles")
 
@@ -1910,7 +1874,7 @@ async function loadProfiles() {
         );
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Profiles error:",
@@ -1925,7 +1889,7 @@ async function loadProfiles() {
 
 
     (data || []).forEach(
-        function(profile) {
+        function(profile){
 
             profiles[
                 profile.id
@@ -1936,16 +1900,16 @@ async function loadProfiles() {
 }
 
 
-/* =========================================
-   LOAD LIKES
-========================================= */
+/* ================================
+   COMMENT LIKES
+================================ */
 
-async function loadCommentLikes() {
+async function loadCommentLikes(){
 
     commentLikes = {};
 
 
-    if (!comments.length) {
+    if(!comments.length){
         return;
     }
 
@@ -1960,7 +1924,8 @@ async function loadCommentLikes() {
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("comment_likes")
 
@@ -1974,7 +1939,7 @@ async function loadCommentLikes() {
         );
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Comment likes error:",
@@ -1986,19 +1951,19 @@ async function loadCommentLikes() {
 
 
     (data || []).forEach(
-        function(like) {
+        function(like){
 
-            if (
+            if(
                 !commentLikes[
                     like.comment_id
                 ]
-            ) {
+            ){
 
                 commentLikes[
                     like.comment_id
                 ] = {
-                    count: 0,
-                    liked: false
+                    count:0,
+                    liked:false
                 };
 
             }
@@ -2009,11 +1974,11 @@ async function loadCommentLikes() {
             ].count++;
 
 
-            if (
+            if(
                 currentUser &&
                 like.user_id ===
                     currentUser.id
-            ) {
+            ){
 
                 commentLikes[
                     like.comment_id
@@ -2026,13 +1991,13 @@ async function loadCommentLikes() {
 }
 
 
-/* =========================================
-   RENDER
-========================================= */
+/* ================================
+   RENDER COMMENTS
+================================ */
 
-function renderComments() {
+function renderComments(){
 
-    if (!comments.length) {
+    if(!comments.length){
 
         commentsList.innerHTML = `
             <div class="state">
@@ -2054,7 +2019,7 @@ function renderComments() {
     commentsList.innerHTML =
         roots
             .map(
-                function(comment) {
+                function(comment){
 
                     return renderComment(
                         comment,
@@ -2067,14 +2032,14 @@ function renderComments() {
 }
 
 
-/* =========================================
+/* ================================
    RENDER COMMENT
-========================================= */
+================================ */
 
 function renderComment(
     comment,
     isReply
-) {
+){
 
     const profile =
         profiles[
@@ -2090,8 +2055,7 @@ function renderComment(
 
     const username =
         profile.username
-            ? "@" +
-              profile.username
+            ? "@" + profile.username
             : "";
 
 
@@ -2104,8 +2068,8 @@ function renderComment(
         commentLikes[
             comment.id
         ] || {
-            count: 0,
-            liked: false
+            count:0,
+            liked:false
         };
 
 
@@ -2155,6 +2119,8 @@ function renderComment(
 
             <div class="message-wrap">
 
+                <!-- USER -->
+
                 <div
                     class="comment-header"
                     onclick="openUserProfile('${safeUserId}')"
@@ -2181,10 +2147,14 @@ function renderComment(
                 </div>
 
 
+                <!-- ONLY MESSAGE BACKGROUND -->
+
                 <div class="message-bubble">
                     ${escapeHTML(comment.comment)}
                 </div>
 
+
+                <!-- ACTIONS OUTSIDE MESSAGE -->
 
                 <div class="comment-actions">
 
@@ -2195,21 +2165,18 @@ function renderComment(
                                 ? "liked"
                                 : ""
                         }"
-                        onclick="toggleCommentLike('${safeCommentId}', this)"
+                        onclick="toggleCommentLike('${safeCommentId}',this)"
                     >
-
                         ❤️
                         <span>
                             ${likeData.count || 0}
                         </span>
-
                     </button>
 
 
                     ${
                         !isReply
                         ? `
-
                             <button
                                 type="button"
                                 class="comment-action"
@@ -2217,7 +2184,6 @@ function renderComment(
                             >
                                 ↩️ پاسخ
                             </button>
-
                         `
                         : ""
                     }
@@ -2226,13 +2192,12 @@ function renderComment(
                     ${
                         isOwner
                         ? `
-
                             <div class="more-wrapper">
 
                                 <button
                                     type="button"
                                     class="more-button"
-                                    onclick="toggleMoreMenu('${safeCommentId}', event)"
+                                    onclick="toggleMoreMenu('${safeCommentId}',event)"
                                 >
                                     ⋮
                                 </button>
@@ -2244,7 +2209,7 @@ function renderComment(
 
                                     <button
                                         type="button"
-                                        onclick="openDeleteModal('${safeCommentId}', event)"
+                                        onclick="openDeleteModal('${safeCommentId}',event)"
                                     >
                                         🗑️ حذف نظر
                                     </button>
@@ -2252,7 +2217,6 @@ function renderComment(
                                 </div>
 
                             </div>
-
                         `
                         : ""
                     }
@@ -2260,10 +2224,11 @@ function renderComment(
                 </div>
 
 
+                <!-- REPLY BOX -->
+
                 ${
                     !isReply
                     ? `
-
                         <div
                             class="reply-box"
                             id="reply-box-${safeCommentId}"
@@ -2282,7 +2247,7 @@ function renderComment(
                                 <button
                                     type="button"
                                     class="reply-send"
-                                    onclick="sendReply('${safeCommentId}', this)"
+                                    onclick="sendReply('${safeCommentId}',this)"
                                 >
                                     ارسال
                                 </button>
@@ -2290,33 +2255,34 @@ function renderComment(
                             </div>
 
                         </div>
-
                     `
                     : ""
                 }
 
 
+                <!-- REPLIES -->
+
                 ${
                     replies.length
                     ? `
-
                         <div class="replies">
 
-                            ${replies
-                                .map(
-                                    function(reply) {
+                            ${
+                                replies
+                                    .map(
+                                        function(reply){
 
-                                        return renderComment(
-                                            reply,
-                                            true
-                                        );
+                                            return renderComment(
+                                                reply,
+                                                true
+                                            );
 
-                                    }
-                                )
-                                .join("")}
+                                        }
+                                    )
+                                    .join("")
+                            }
 
                         </div>
-
                     `
                     : ""
                 }
@@ -2329,13 +2295,13 @@ function renderComment(
 }
 
 
-/* =========================================
+/* ================================
    PROFILE
-========================================= */
+================================ */
 
-function openUserProfile(userId) {
+function openUserProfile(userId){
 
-    if (!userId) {
+    if(!userId){
         return;
     }
 
@@ -2353,17 +2319,17 @@ function openUserProfile(userId) {
 
 
     setTimeout(
-        function() {
+        function(){
 
-            if (
+            if(
                 window.parent &&
                 window.parent !== window
-            ) {
+            ){
 
                 window.parent.location.href =
                     url;
 
-            } else {
+            }else{
 
                 window.location.href =
                     url;
@@ -2375,14 +2341,14 @@ function openUserProfile(userId) {
 }
 
 
-/* =========================================
+/* ================================
    THREE DOT MENU
-========================================= */
+================================ */
 
 function toggleMoreMenu(
     commentId,
     event
-) {
+){
 
     event.stopPropagation();
 
@@ -2392,13 +2358,13 @@ function toggleMoreMenu(
             ".more-menu.show"
         )
         .forEach(
-            function(menu) {
+            function(menu){
 
-                if (
+                if(
                     menu.id !==
                     "more-menu-" +
                     commentId
-                ) {
+                ){
 
                     menu.classList.remove(
                         "show"
@@ -2417,7 +2383,7 @@ function toggleMoreMenu(
         );
 
 
-    if (!menu) {
+    if(!menu){
         return;
     }
 
@@ -2430,14 +2396,14 @@ function toggleMoreMenu(
 
 document.addEventListener(
     "click",
-    function() {
+    function(){
 
         document
             .querySelectorAll(
                 ".more-menu.show"
             )
             .forEach(
-                function(menu) {
+                function(menu){
 
                     menu.classList.remove(
                         "show"
@@ -2450,16 +2416,16 @@ document.addEventListener(
 );
 
 
-/* =========================================
+/* ================================
    DELETE MODAL
-========================================= */
+================================ */
 
 function openDeleteModal(
     commentId,
     event
-) {
+){
 
-    if (event) {
+    if(event){
         event.stopPropagation();
     }
 
@@ -2472,16 +2438,20 @@ function openDeleteModal(
         );
 
 
-    if (!comment) {
+    if(!comment){
         return;
     }
 
 
-    if (
+    /*
+       امنیت سمت کلاینت
+    */
+
+    if(
         !currentUser ||
         currentUser.id !==
             comment.user_id
-    ) {
+    ){
 
         showToast(
             "شما اجازه حذف این نظر را ندارید."
@@ -2500,7 +2470,7 @@ function openDeleteModal(
             ".more-menu.show"
         )
         .forEach(
-            function(menu) {
+            function(menu){
 
                 menu.classList.remove(
                     "show"
@@ -2516,7 +2486,7 @@ function openDeleteModal(
 }
 
 
-function closeDeleteModal() {
+function closeDeleteModal(){
 
     deleteOverlay.classList.remove(
         "show"
@@ -2527,16 +2497,16 @@ function closeDeleteModal() {
 }
 
 
-/* =========================================
+/* ================================
    CONFIRM DELETE
-========================================= */
+================================ */
 
-async function confirmDeleteComment() {
+async function confirmDeleteComment(){
 
-    if (
+    if(
         !commentToDelete ||
         !currentUser
-    ) {
+    ){
         return;
     }
 
@@ -2549,11 +2519,11 @@ async function confirmDeleteComment() {
         );
 
 
-    if (
+    if(
         !comment ||
         comment.user_id !==
             currentUser.id
-    ) {
+    ){
 
         closeDeleteModal();
 
@@ -2579,7 +2549,8 @@ async function confirmDeleteComment() {
 
     const {
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("product_comments")
 
@@ -2596,7 +2567,7 @@ async function confirmDeleteComment() {
         );
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Delete comment error:",
@@ -2643,22 +2614,22 @@ async function confirmDeleteComment() {
 }
 
 
-/* =========================================
+/* ================================
    REPLY BOX
-========================================= */
+================================ */
 
 function showReplyBox(
     commentId
-) {
+){
 
-    if (!currentUser) {
+    if(!currentUser){
 
         showToast(
             "برای پاسخ دادن ابتدا وارد حساب شوید."
         );
 
         setTimeout(
-            function() {
+            function(){
 
                 navigateSmooth(
                     "login.html"
@@ -2679,7 +2650,7 @@ function showReplyBox(
         );
 
 
-    if (!box) {
+    if(!box){
         return;
     }
 
@@ -2689,9 +2660,9 @@ function showReplyBox(
             ".reply-box.show"
         )
         .forEach(
-            function(item) {
+            function(item){
 
-                if (item !== box) {
+                if(item !== box){
 
                     item.classList.remove(
                         "show"
@@ -2708,11 +2679,11 @@ function showReplyBox(
     );
 
 
-    if (
+    if(
         box.classList.contains(
             "show"
         )
-    ) {
+    ){
 
         const input =
             document.getElementById(
@@ -2721,10 +2692,10 @@ function showReplyBox(
             );
 
 
-        if (input) {
+        if(input){
 
             setTimeout(
-                function() {
+                function(){
 
                     input.focus();
 
@@ -2736,16 +2707,16 @@ function showReplyBox(
 }
 
 
-/* =========================================
+/* ================================
    SEND REPLY
-========================================= */
+================================ */
 
 async function sendReply(
     parentId,
     button
-) {
+){
 
-    if (!currentUser) {
+    if(!currentUser){
 
         showToast(
             "برای پاسخ دادن ابتدا وارد حساب شوید."
@@ -2762,7 +2733,7 @@ async function sendReply(
         );
 
 
-    if (!input) {
+    if(!input){
         return;
     }
 
@@ -2771,7 +2742,7 @@ async function sendReply(
         input.value.trim();
 
 
-    if (!text) {
+    if(!text){
 
         showToast(
             "لطفاً متن پاسخ را بنویسید."
@@ -2797,7 +2768,8 @@ async function sendReply(
 
     const {
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("product_comments")
 
@@ -2818,7 +2790,7 @@ async function sendReply(
         });
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Reply error:",
@@ -2856,20 +2828,20 @@ async function sendReply(
 }
 
 
-/* =========================================
-   MAIN COMMENT
-========================================= */
+/* ================================
+   SEND MAIN COMMENT
+================================ */
 
-async function sendComment() {
+async function sendComment(){
 
-    if (!currentUser) {
+    if(!currentUser){
 
         showToast(
             "برای ثبت نظر ابتدا وارد حساب شوید."
         );
 
         setTimeout(
-            function() {
+            function(){
 
                 navigateSmooth(
                     "login.html"
@@ -2887,7 +2859,7 @@ async function sendComment() {
         mainInput.value.trim();
 
 
-    if (!text) {
+    if(!text){
 
         showToast(
             "لطفاً متن نظر را بنویسید."
@@ -2913,7 +2885,8 @@ async function sendComment() {
 
     const {
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("product_comments")
 
@@ -2933,7 +2906,7 @@ async function sendComment() {
         });
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Comment error:",
@@ -2978,16 +2951,16 @@ async function sendComment() {
 }
 
 
-/* =========================================
+/* ================================
    LIKE
-========================================= */
+================================ */
 
 async function toggleCommentLike(
     commentId,
     button
-) {
+){
 
-    if (!currentUser) {
+    if(!currentUser){
 
         showToast(
             "برای لایک کردن ابتدا وارد حساب شوید."
@@ -3002,9 +2975,9 @@ async function toggleCommentLike(
             commentId
         ] || {
 
-            count: 0,
+            count:0,
 
-            liked: false
+            liked:false
         };
 
 
@@ -3013,15 +2986,14 @@ async function toggleCommentLike(
     );
 
 
-    try {
+    try{
 
-        if (
-            existing.liked
-        ) {
+        if(existing.liked){
 
             const {
                 error
-            } = await supabaseClient
+            } =
+            await supabaseClient
 
                 .from("comment_likes")
 
@@ -3038,15 +3010,16 @@ async function toggleCommentLike(
                 );
 
 
-            if (error) {
+            if(error){
                 throw error;
             }
 
-        } else {
+        }else{
 
             const {
                 error
-            } = await supabaseClient
+            } =
+            await supabaseClient
 
                 .from("comment_likes")
 
@@ -3060,7 +3033,7 @@ async function toggleCommentLike(
                 });
 
 
-            if (error) {
+            if(error){
                 throw error;
             }
 
@@ -3069,8 +3042,7 @@ async function toggleCommentLike(
 
         await loadComments();
 
-
-    } catch (error) {
+    }catch(error){
 
         console.error(
             "Comment like error:",
@@ -3078,10 +3050,10 @@ async function toggleCommentLike(
         );
 
 
-        if (
+        if(
             error.code ===
             "23505"
-        ) {
+        ){
 
             await loadComments();
 
@@ -3093,7 +3065,7 @@ async function toggleCommentLike(
             "❌ لایک کامنت انجام نشد."
         );
 
-    } finally {
+    }finally{
 
         button.classList.remove(
             "loading"
@@ -3102,11 +3074,11 @@ async function toggleCommentLike(
 }
 
 
-/* =========================================
+/* ================================
    CLOSE
-========================================= */
+================================ */
 
-function closeComments() {
+function closeComments(){
 
     document.body.classList.add(
         "page-leaving"
@@ -3114,12 +3086,12 @@ function closeComments() {
 
 
     setTimeout(
-        function() {
+        function(){
 
-            if (
+            if(
                 window.parent &&
                 window.parent !== window
-            ) {
+            ){
 
                 window.parent.postMessage(
                     {
@@ -3133,13 +3105,13 @@ function closeComments() {
             }
 
 
-            if (
+            if(
                 window.history.length > 1
-            ) {
+            ){
 
                 window.history.back();
 
-            } else {
+            }else{
 
                 window.location.href =
                     "products.html";
@@ -3151,18 +3123,18 @@ function closeComments() {
 }
 
 
-/* =========================================
+/* ================================
    PARENT MESSAGE
-========================================= */
+================================ */
 
 function sendParentMessage(
     type
-) {
+){
 
-    if (
+    if(
         window.parent &&
         window.parent !== window
-    ) {
+    ){
 
         window.parent.postMessage(
 
@@ -3180,13 +3152,13 @@ function sendParentMessage(
 }
 
 
-/* =========================================
+/* ================================
    NAVIGATION
-========================================= */
+================================ */
 
 function navigateSmooth(
     url
-) {
+){
 
     document.body.classList.add(
         "page-leaving"
@@ -3194,7 +3166,7 @@ function navigateSmooth(
 
 
     setTimeout(
-        function() {
+        function(){
 
             window.location.href =
                 url;
@@ -3205,15 +3177,15 @@ function navigateSmooth(
 }
 
 
-/* =========================================
+/* ================================
    TOAST
-========================================= */
+================================ */
 
 let toastTimer = null;
 
 function showToast(
     message
-) {
+){
 
     toast.textContent =
         message;
@@ -3231,7 +3203,7 @@ function showToast(
 
     toastTimer =
         setTimeout(
-            function() {
+            function(){
 
                 toast.classList.remove(
                     "show"
@@ -3243,13 +3215,13 @@ function showToast(
 }
 
 
-/* =========================================
+/* ================================
    HELPERS
-========================================= */
+================================ */
 
 function escapeHTML(
     value
-) {
+){
 
     return String(
         value ?? ""
@@ -3284,7 +3256,7 @@ function escapeHTML(
 
 function escapeAttribute(
     value
-) {
+){
 
     return escapeHTML(
         value
@@ -3292,9 +3264,9 @@ function escapeAttribute(
 }
 
 
-/* =========================================
+/* ================================
    EVENTS
-========================================= */
+================================ */
 
 sendButton.addEventListener(
     "click",
@@ -3304,12 +3276,12 @@ sendButton.addEventListener(
 
 mainInput.addEventListener(
     "keydown",
-    function(event) {
+    function(event){
 
-        if (
+        if(
             event.key ===
             "Enter"
-        ) {
+        ){
 
             event.preventDefault();
 
@@ -3322,12 +3294,12 @@ mainInput.addEventListener(
 
 deleteOverlay.addEventListener(
     "click",
-    function(event) {
+    function(event){
 
-        if (
+        if(
             event.target ===
             deleteOverlay
-        ) {
+        ){
 
             closeDeleteModal();
         }
@@ -3338,12 +3310,12 @@ deleteOverlay.addEventListener(
 
 document.addEventListener(
     "keydown",
-    function(event) {
+    function(event){
 
-        if (
+        if(
             event.key ===
             "Escape"
-        ) {
+        ){
 
             closeDeleteModal();
         }
