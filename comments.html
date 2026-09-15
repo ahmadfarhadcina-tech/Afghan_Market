@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>نظرات | بازارک</title>
 
@@ -197,10 +197,6 @@ input {
     max-width: 700px;
     margin: auto;
 
-    /*
-       فضای پایین برای اینکه آخرین کامنت
-       پشت نوار ارسال مخفی نشود.
-    */
     padding:
         3px
         14px
@@ -804,19 +800,22 @@ input {
 
 /* =========================================
    FIXED BOTTOM INPUT
+   + MOBILE KEYBOARD SUPPORT
 ========================================= */
 
 .comment-composer {
 
-    position: fixed;
+    position: fixed !important;
 
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: auto !important;
+    left: 0 !important;
+    right: 0 !important;
 
-    width: 100%;
+    bottom: 0 !important;
 
-    z-index: 100;
+    width: 100% !important;
+
+    z-index: 99999 !important;
 
     background:
         rgba(255,255,255,.98);
@@ -833,14 +832,26 @@ input {
     padding:
         10px 14px;
 
-    /*
-       برای گوشی‌هایی که نوار پایین سیستم دارند.
-    */
     padding-bottom:
         calc(
             10px +
             env(safe-area-inset-bottom)
         );
+
+    margin: 0 !important;
+
+    display: block !important;
+
+    transform:
+        translateY(
+            calc(
+                var(--keyboard-offset, 0px) * -1
+            )
+        );
+
+    transition:
+        transform .16s ease,
+        box-shadow .16s ease;
 
     animation:
         composerIn .3s ease both;
@@ -850,12 +861,14 @@ input {
 
     from {
         opacity: 0;
-        transform: translateY(15px);
+        transform:
+            translateY(15px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform:
+            translateY(0);
     }
 }
 
@@ -865,7 +878,7 @@ input {
 
     max-width: 700px;
 
-    margin: auto;
+    margin: 0 auto;
 
     display: flex;
 
@@ -1272,9 +1285,6 @@ input {
         padding-left: 9px;
         padding-right: 9px;
 
-        /*
-           فضای بیشتر برای composer ثابت
-        */
         padding-bottom: 150px;
     }
 
@@ -1283,8 +1293,15 @@ input {
     }
 
     .comment-composer {
+
         padding-left: 9px;
         padding-right: 9px;
+
+        padding-bottom:
+            calc(
+                9px +
+                env(safe-area-inset-bottom)
+            );
     }
 
     .main-input {
@@ -1438,6 +1455,7 @@ input {
             type="text"
             maxlength="1000"
             placeholder="نظر خود را بنویسید..."
+            autocomplete="off"
         >
 
         <button
@@ -1564,6 +1582,11 @@ const confirmDeleteButton =
         "confirmDeleteButton"
     );
 
+const commentComposer =
+    document.querySelector(
+        ".comment-composer"
+    );
+
 
 /* =========================================
    STATE
@@ -1594,6 +1617,134 @@ const params =
 productId =
     params.get("id") ||
     params.get("productId");
+
+
+/* =========================================
+   KEYBOARD / VISUAL VIEWPORT
+========================================= */
+
+function updateKeyboardPosition() {
+
+    if (!commentComposer) {
+        return;
+    }
+
+    if (!window.visualViewport) {
+        commentComposer.style.setProperty(
+            "--keyboard-offset",
+            "0px"
+        );
+
+        return;
+    }
+
+
+    const viewport =
+        window.visualViewport;
+
+
+    const keyboardHeight =
+        Math.max(
+            0,
+            window.innerHeight -
+            viewport.height -
+            viewport.offsetTop
+        );
+
+
+    /*
+       وقتی کیبورد باز است،
+       composer به اندازه کیبورد بالا می‌رود.
+    */
+
+    commentComposer.style.setProperty(
+        "--keyboard-offset",
+        keyboardHeight + "px"
+    );
+}
+
+
+if (window.visualViewport) {
+
+    window.visualViewport.addEventListener(
+        "resize",
+        updateKeyboardPosition
+    );
+
+    window.visualViewport.addEventListener(
+        "scroll",
+        updateKeyboardPosition
+    );
+}
+
+
+window.addEventListener(
+    "resize",
+    updateKeyboardPosition
+);
+
+
+mainInput.addEventListener(
+    "focus",
+    function() {
+
+        /*
+           اجازه می‌دهیم مرورگر ابتدا
+           کیبورد را باز کند.
+        */
+
+        setTimeout(
+            function() {
+
+                updateKeyboardPosition();
+
+                if (
+                    window.visualViewport
+                ) {
+
+                    mainInput.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                }
+
+            },
+            150
+        );
+
+    }
+);
+
+
+/*
+   وقتی کاربر از کادر خارج شد،
+   composer دوباره پایین صفحه می‌آید.
+*/
+
+mainInput.addEventListener(
+    "blur",
+    function() {
+
+        setTimeout(
+            function() {
+
+                updateKeyboardPosition();
+
+                commentComposer.style.setProperty(
+                    "--keyboard-offset",
+                    "0px"
+                );
+
+            },
+            150
+        );
+
+    }
+);
+
+
+updateKeyboardPosition();
 
 
 /* =========================================
@@ -2881,7 +3032,28 @@ async function sendComment() {
     }
 
 
+    /*
+       اول کادر را خالی می‌کنیم.
+    */
+
     mainInput.value = "";
+
+
+    /*
+       کیبورد را می‌بندیم.
+    */
+
+    mainInput.blur();
+
+
+    /*
+       composer را فوراً به پایین برمی‌گردانیم.
+    */
+
+    commentComposer.style.setProperty(
+        "--keyboard-offset",
+        "0px"
+    );
 
 
     showToast(
@@ -2902,6 +3074,26 @@ async function sendComment() {
 
     sendButton.disabled =
         false;
+
+
+    /*
+       یک بار دیگر بعد از بسته‌شدن کیبورد
+       موقعیت composer را تنظیم می‌کنیم.
+    */
+
+    setTimeout(
+        function() {
+
+            updateKeyboardPosition();
+
+            commentComposer.style.setProperty(
+                "--keyboard-offset",
+                "0px"
+            );
+
+        },
+        250
+    );
 }
 
 
