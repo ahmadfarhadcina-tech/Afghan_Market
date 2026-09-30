@@ -18,80 +18,201 @@
 
     <style>
 
+        :root {
+            --bg: #f5f7f6;
+            --surface: #ffffff;
+            --surface-soft: #f8faf9;
+            --surface-muted: #eef2f0;
+
+            --text: #17211d;
+            --text-soft: #39443f;
+            --muted: #69746f;
+
+            --border: #e5e9e7;
+            --border-soft: #edf1ef;
+
+            --primary: #087a55;
+            --primary-dark: #055c40;
+            --primary-soft: #eef8f4;
+            --primary-border: #d5eee3;
+
+            --danger: #e53935;
+            --danger-soft: #fff0f0;
+
+            --error-bg: #fff4f4;
+            --error-border: #ffd0d0;
+            --error-text: #b42318;
+
+            --shadow: rgba(0, 0, 0, 0.08);
+
+            color-scheme: light;
+        }
+
+
+        html[data-theme="dark"],
+        body.dark,
+        html.dark {
+            --bg: #101513;
+            --surface: #171d1a;
+            --surface-soft: #1d2521;
+            --surface-muted: #222b27;
+
+            --text: #f0f5f2;
+            --text-soft: #d5dfda;
+            --muted: #9ca9a3;
+
+            --border: #2c3833;
+            --border-soft: #26312d;
+
+            --primary: #16a875;
+            --primary-dark: #0d875d;
+            --primary-soft: #17352b;
+            --primary-border: #275442;
+
+            --danger: #ff625e;
+            --danger-soft: #3a2020;
+
+            --error-bg: #351d1d;
+            --error-border: #653333;
+            --error-text: #ff9b96;
+
+            --shadow: rgba(0, 0, 0, 0.28);
+
+            color-scheme: dark;
+        }
+
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+
+        html {
+            background: var(--bg);
+        }
+
+
         body {
             font-family: Tahoma, Arial, sans-serif;
-            background: #f5f7f6;
-            color: #17211d;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+
+            transition:
+                background-color .25s ease,
+                color .25s ease;
         }
+
 
         a {
             text-decoration: none;
             color: inherit;
         }
 
+
         a,
-        button {
+        button,
+        input,
+        select {
             -webkit-tap-highlight-color: transparent;
         }
 
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+
         header {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e9e7;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
+
+            transition:
+                background-color .25s ease,
+                border-color .25s ease;
         }
+
 
         .header-inner {
             max-width: 1200px;
             margin: auto;
             padding: 16px 20px;
+
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
+
         .logo {
             font-size: 24px;
             font-weight: 900;
-            color: #087a55;
+            color: var(--primary);
             white-space: nowrap;
         }
+
 
         .search {
             flex: 1;
             display: flex;
-            background: #f1f4f2;
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
             border-radius: 12px;
             overflow: hidden;
+
+            transition:
+                background-color .25s ease,
+                border-color .25s ease;
         }
+
 
         .search input {
             width: 100%;
             border: none;
             outline: none;
             background: transparent;
+            color: var(--text);
+
             padding: 13px 16px;
             font-size: 14px;
         }
 
-        .search button {
-            border: none;
-            background: #087a55;
-            color: white;
-            padding: 0 22px;
-            cursor: pointer;
+
+        .search input::placeholder {
+            color: var(--muted);
         }
 
-        .search button:hover {
-            background: #055c40;
+
+        .search button {
+            border: none;
+            background: var(--primary);
+            color: white;
+
+            padding: 0 22px;
+            cursor: pointer;
+
+            transition:
+                background-color .2s ease,
+                transform .18s ease;
         }
+
+
+        .search button:hover {
+            background: var(--primary-dark);
+        }
+
+
+        .search button:active {
+            transform: scale(.96);
+        }
+
 
         .header-links {
             display: flex;
@@ -99,258 +220,393 @@
             font-size: 14px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 35px 20px;
+
+        .header-links a {
+            color: var(--text-soft);
+            transition:
+                color .2s ease,
+                transform .18s ease;
         }
+
+
+        .header-links a:hover {
+            color: var(--primary);
+        }
+
+
+        .header-links a:active {
+            transform: scale(.94);
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: auto;
+            padding: 35px 20px 50px;
+        }
+
 
         .page-title {
             margin-bottom: 25px;
         }
 
+
         .page-title h1 {
             font-size: 30px;
             margin-bottom: 8px;
+            color: var(--text);
         }
+
 
         .page-title p {
-            color: #69746f;
+            color: var(--muted);
         }
 
+
         .toolbar {
-            background: white;
-            border: 1px solid #e5e9e7;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 16px;
+
             padding: 15px;
+
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
+
             margin-bottom: 25px;
+
+            transition:
+                background-color .25s ease,
+                border-color .25s ease;
         }
+
 
         .toolbar select {
             padding: 12px 15px;
-            border: 1px solid #dce2df;
+
+            border: 1px solid var(--border);
             border-radius: 10px;
-            background: white;
+
+            background: var(--surface);
+            color: var(--text);
+
             outline: none;
             cursor: pointer;
-            font-family: inherit;
+
+            transition:
+                background-color .2s ease,
+                border-color .2s ease;
         }
+
+
+        .toolbar select:focus {
+            border-color: var(--primary);
+        }
+
 
         .active-category {
             display: none;
-            background: #eef8f4;
-            color: #087a55;
-            border: 1px solid #d5eee3;
+
+            background: var(--primary-soft);
+            color: var(--primary);
+
+            border: 1px solid var(--primary-border);
             border-radius: 10px;
+
             padding: 10px 14px;
+
             font-size: 13px;
             font-weight: bold;
+
             margin-bottom: 20px;
         }
+
 
         .active-category.show {
             display: block;
         }
 
 
-        /* ==============================
+        /* =====================================
            PRODUCTS GRID
-        ============================== */
+        ===================================== */
 
         .products-grid {
+            width: 100%;
+
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 22px 18px;
+
+            /*
+             * Desktop / laptop:
+             * exactly 5 products per row
+             */
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+
+            gap: 24px 16px;
+
             align-items: start;
         }
 
+
         .product-item {
             min-width: 0;
+            width: 100%;
         }
 
 
-        /* ==============================
+        /* =====================================
            SELLER
-        ============================== */
+        ===================================== */
 
         .seller-box {
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 8px;
+
             min-width: 0;
-            margin: 0 4px 9px;
             min-height: 36px;
+
+            margin: 0 4px 9px;
         }
+
 
         .seller-link {
             display: flex;
             align-items: center;
+
             gap: 8px;
+
             min-width: 0;
             max-width: 100%;
             width: fit-content;
 
             transition:
-                transform 0.18s ease,
-                opacity 0.18s ease;
-
-            -webkit-tap-highlight-color: transparent;
+                transform .18s ease,
+                opacity .18s ease;
         }
+
 
         .seller-link:hover .seller-name {
-            color: #087a55;
+            color: var(--primary);
         }
+
 
         .seller-link:active {
-            transform: scale(0.94);
-            opacity: 0.75;
+            transform: scale(.94);
+            opacity: .75;
         }
 
+
         .seller-clicked {
-            transform: scale(0.94);
-            opacity: 0.75;
+            transform: scale(.94);
+            opacity: .75;
         }
+
 
         .seller-avatar {
             width: 34px;
             height: 34px;
+
             border-radius: 50%;
+
             object-fit: cover;
             object-position: center;
-            background: #e8eeeb;
-            border: 1px solid #dce5e0;
+
+            background: var(--surface-muted);
+
+            border: 1px solid var(--border);
+
             flex-shrink: 0;
         }
+
 
         .seller-avatar-placeholder {
             width: 34px;
             height: 34px;
+
             border-radius: 50%;
-            background: #087a55;
+
+            background: var(--primary);
             color: white;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-size: 16px;
+
             flex-shrink: 0;
         }
+
 
         .seller-name {
             font-size: 12px;
             font-weight: bold;
-            color: #39443f;
+
+            color: var(--text-soft);
+
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+
+            transition: color .2s ease;
         }
 
 
-        /* ==============================
+        /* =====================================
            FOLLOW
-        ============================== */
+        ===================================== */
 
         .follow-btn {
             border: none;
-            background: #087a55;
+
+            background: var(--primary);
             color: white;
+
             padding: 6px 11px;
             border-radius: 8px;
-            font-family: inherit;
+
             font-size: 10px;
             font-weight: bold;
+
             cursor: pointer;
             white-space: nowrap;
 
             transition:
-                transform 0.18s ease,
-                background 0.18s ease,
-                opacity 0.18s ease;
+                transform .18s ease,
+                background-color .18s ease,
+                opacity .18s ease;
 
             flex-shrink: 0;
         }
 
+
         .follow-btn:hover {
-            background: #055c40;
+            background: var(--primary-dark);
         }
+
 
         .follow-btn:active {
-            transform: scale(0.92);
+            transform: scale(.92);
         }
 
+
         .follow-btn:disabled {
-            opacity: 0.6;
+            opacity: .6;
             cursor: wait;
         }
 
 
-        /* ==============================
+        /* =====================================
            PRODUCT CARD
-        ============================== */
+        ===================================== */
 
         .product-card {
-            background: white;
-            border: 1px solid #e5e9e7;
+            width: 100%;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
             border-radius: 16px;
+
             overflow: hidden;
 
             transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
+                transform .25s ease,
+                box-shadow .25s ease,
+                background-color .25s ease,
+                border-color .25s ease;
 
             cursor: pointer;
+
             -webkit-tap-highlight-color: transparent;
         }
+
 
         .product-card:hover {
             transform: translateY(-4px);
 
             box-shadow:
-                0 12px 30px
-                rgba(0,0,0,0.08);
+                0 12px 30px var(--shadow);
         }
+
 
         .product-card:active {
-            transform: scale(0.985);
+            transform: scale(.985);
         }
 
 
-        /* ==============================
+        /* =====================================
            PRODUCT IMAGE
-        ============================== */
+        ===================================== */
 
         .product-image {
             width: 100%;
-            background: transparent;
+
+            background: var(--surface-muted);
+
             display: block;
             position: relative;
+
             overflow: hidden;
+
             line-height: 0;
+
+            /*
+             * Keep image area stable so cards don't jump
+             * while images load.
+             */
+            aspect-ratio: 1 / 1;
         }
+
 
         .product-image img {
             width: 100%;
-            height: auto;
+            height: 100%;
+
             display: block;
-            object-fit: initial;
-            object-position: initial;
+
+            object-fit: cover;
+            object-position: center;
+
+            transition:
+                transform .35s ease;
         }
 
+
+        .product-card:hover
+        .product-image img {
+            transform: scale(1.035);
+        }
+
+
         .no-image {
-            min-height: 190px;
+            width: 100%;
+            height: 100%;
+
+            min-height: 150px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #eef2f0;
+
+            background: var(--surface-muted);
+
+            color: var(--muted);
+
             font-size: 55px;
             line-height: normal;
         }
 
+
         .photo-count {
             position: absolute;
+
             left: 10px;
             bottom: 10px;
 
@@ -368,70 +624,100 @@
         }
 
 
-        /* ==============================
+        /* =====================================
            PRODUCT INFO
-        ============================== */
+        ===================================== */
 
         .product-info {
             padding: 16px;
         }
 
+
         .product-info h3 {
             font-size: 16px;
+
             margin-bottom: 10px;
+
             line-height: 1.6;
+
+            color: var(--text);
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+
+            min-height: 51px;
         }
 
+
         .price {
-            color: #087a55;
+            color: var(--primary);
+
             font-weight: 900;
             font-size: 18px;
+
             margin-bottom: 8px;
         }
 
+
         .location {
-            color: #7a8580;
+            color: var(--muted);
+
             font-size: 13px;
+
             margin-bottom: 7px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+
 
         .condition {
             display: inline-block;
-            background: #eef8f4;
-            color: #087a55;
+
+            background: var(--primary-soft);
+            color: var(--primary);
+
             padding: 5px 9px;
             border-radius: 7px;
+
             font-size: 11px;
         }
 
 
-        /* ==============================
+        /* =====================================
            SOCIAL ACTIONS
-        ============================== */
+        ===================================== */
 
         .social-actions {
             display: flex;
             align-items: center;
+
             gap: 8px;
 
             padding: 10px 12px 12px;
 
-            border-top: 1px solid #edf1ef;
-            background: #ffffff;
+            border-top: 1px solid var(--border-soft);
+
+            background: var(--surface);
         }
+
 
         .social-btn {
             flex: 1;
 
-            border: 1px solid #e3e9e6;
-            background: #f8faf9;
-            color: #39443f;
+            border: 1px solid var(--border);
+
+            background: var(--surface-soft);
+            color: var(--text-soft);
 
             min-height: 40px;
 
             border-radius: 11px;
 
-            font-family: inherit;
             font-size: 13px;
             font-weight: bold;
 
@@ -440,30 +726,41 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
             gap: 6px;
 
             transition:
-                transform 0.18s ease,
-                background 0.18s ease,
-                border-color 0.18s ease,
-                color 0.18s ease;
+                transform .18s ease,
+                background-color .18s ease,
+                border-color .18s ease,
+                color .18s ease;
         }
+
 
         .social-btn:hover {
-            background: #eef8f4;
-            border-color: #cfe9dd;
-            color: #087a55;
+            background: var(--primary-soft);
+            border-color: var(--primary-border);
+            color: var(--primary);
         }
+
 
         .social-btn:active {
-            transform: scale(0.94);
+            transform: scale(.94);
         }
 
-        .like-btn.liked {
-            background: #fff0f0;
-            border-color: #ffd2d2;
-            color: #e53935;
+
+        .social-btn:disabled {
+            opacity: .6;
+            cursor: wait;
         }
+
+
+        .like-btn.liked {
+            background: var(--danger-soft);
+            border-color: #ffd2d2;
+            color: var(--danger);
+        }
+
 
         .social-count {
             font-size: 12px;
@@ -471,132 +768,653 @@
         }
 
 
-        /* ==============================
-           OTHER
-        ============================== */
+        /* =====================================
+           EMPTY
+        ===================================== */
 
         .empty {
-            background: white;
-            border: 1px dashed #cfd8d3;
-            border-radius: 20px;
-            padding: 70px 20px;
-            text-align: center;
             grid-column: 1 / -1;
+
+            background: var(--surface);
+
+            border: 1px dashed var(--border);
+
+            border-radius: 20px;
+
+            padding: 70px 20px;
+
+            text-align: center;
         }
+
 
         .empty-icon {
             font-size: 65px;
             margin-bottom: 15px;
         }
 
+
         .empty h2 {
             margin-bottom: 10px;
+            color: var(--text);
         }
 
+
         .empty p {
-            color: #69746f;
+            color: var(--muted);
             margin-bottom: 22px;
         }
 
+
         .sell-button {
             display: inline-block;
-            background: #087a55;
+
+            background: var(--primary);
             color: white;
+
             padding: 13px 24px;
+
             border-radius: 10px;
+
             font-weight: bold;
+
+            transition:
+                transform .18s ease,
+                background-color .18s ease;
         }
 
-        .loading {
-            grid-column: 1 / -1;
-            background: white;
-            border-radius: 20px;
-            padding: 60px;
-            text-align: center;
-            color: #087a55;
-            font-size: 18px;
+
+        .sell-button:hover {
+            background: var(--primary-dark);
         }
+
+
+        .sell-button:active {
+            transform: scale(.96);
+        }
+
+
+        /* =====================================
+           BAZAARAK LOCAL LOADING
+        ===================================== */
+
+        .products-loading {
+            grid-column: 1 / -1;
+
+            width: 100%;
+
+            min-height: 260px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 35px 20px;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            animation:
+                loadingAppear .3s ease both;
+        }
+
+
+        .products-loading-inner {
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 14px;
+        }
+
+
+        .bazaarak-loader {
+            position: relative;
+
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .bazaarak-loader::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            border-radius: 50%;
+
+            border: 4px solid var(--primary-soft);
+
+            border-top-color: var(--primary);
+            border-left-color: var(--primary);
+
+            animation:
+                bazaarakSpin .85s linear infinite;
+        }
+
+
+        .bazaarak-loader-icon {
+            position: relative;
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 11px;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+
+            box-shadow:
+                0 7px 18px
+                rgba(8,122,85,.18);
+
+            animation:
+                bazaarakPulse 1.2s ease-in-out infinite;
+        }
+
+
+        .products-loading-title {
+            color: var(--text);
+
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+
+        .products-loading-text {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            animation:
+                loadingDots 1.4s ease-in-out infinite;
+        }
+
+
+        @keyframes bazaarakSpin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        @keyframes bazaarakPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(.88);
+            }
+
+        }
+
+
+        @keyframes loadingAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        @keyframes loadingDots {
+
+            0%,
+            100% {
+                opacity: .55;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+        }
+
+
+        /* =====================================
+           ERROR
+        ===================================== */
 
         .error {
             grid-column: 1 / -1;
-            background: #fff4f4;
-            border: 1px solid #ffd0d0;
-            color: #b42318;
+
+            background: var(--error-bg);
+
+            border: 1px solid var(--error-border);
+
+            color: var(--error-text);
+
             border-radius: 20px;
+
             padding: 30px;
+
             text-align: center;
         }
 
 
-        /* ==============================
-           RESPONSIVE
-        ============================== */
-
-        @media (max-width: 900px) {
-
-            .products-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
+        .error h2 {
+            margin-bottom: 10px;
         }
 
-        @media (max-width: 650px) {
 
-            .header-inner {
-                flex-wrap: wrap;
+        .error p {
+            line-height: 1.8;
+            word-break: break-word;
+        }
+
+
+        /* =====================================
+           LAPTOP
+        ===================================== */
+
+        @media (min-width: 901px) and (max-width: 1250px) {
+
+            .container {
+                max-width: 1180px;
+                padding-left: 18px;
+                padding-right: 18px;
             }
 
-            .logo {
-                width: 100%;
-            }
-
-            .header-links {
-                display: none;
-            }
 
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(5, minmax(0, 1fr));
+
+                gap: 20px 13px;
             }
 
-            .page-title h1 {
-                font-size: 24px;
+
+            .product-info {
+                padding: 13px;
             }
 
-            .toolbar select {
-                flex: 1;
-                min-width: 140px;
+
+            .product-info h3 {
+                font-size: 14px;
             }
 
-            .seller-box {
+
+            .price {
+                font-size: 16px;
+            }
+
+
+            .social-actions {
+                padding:
+                    8px 9px 10px;
+
                 gap: 5px;
-                margin-left: 2px;
-                margin-right: 2px;
             }
 
-            .seller-link {
-                gap: 6px;
-                flex: 1;
+
+            .social-btn {
+                min-height: 37px;
+                font-size: 11px;
             }
+
 
             .seller-name {
-                max-width: 85px;
+                max-width: 105px;
             }
 
+
             .follow-btn {
-                padding: 6px 8px;
+                padding:
+                    5px 7px;
+
                 font-size: 9px;
             }
 
         }
 
+
+        /* =====================================
+           TABLET
+        ===================================== */
+
+        @media (min-width: 651px) and (max-width: 900px) {
+
+            .products-grid {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+
+                gap: 22px 14px;
+            }
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 650px) {
+
+            .header-inner {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+
+            .logo {
+                width: 100%;
+            }
+
+
+            .header-links {
+                display: none;
+            }
+
+
+            .search {
+                width: 100%;
+            }
+
+
+            .search button {
+                padding: 0 16px;
+            }
+
+
+            .container {
+                padding:
+                    24px 10px 35px;
+            }
+
+
+            .page-title {
+                margin-bottom: 18px;
+            }
+
+
+            .page-title h1 {
+                font-size: 24px;
+            }
+
+
+            .page-title p {
+                font-size: 13px;
+                line-height: 1.8;
+            }
+
+
+            .toolbar {
+                padding: 10px;
+                margin-bottom: 18px;
+                border-radius: 14px;
+            }
+
+
+            .toolbar select {
+                flex: 1;
+
+                min-width:
+                    calc(50% - 6px);
+
+                padding:
+                    10px 9px;
+
+                font-size: 12px;
+            }
+
+
+            /*
+             * IMPORTANT:
+             * Mobile is ALWAYS exactly 2 columns.
+             */
+            .products-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap:
+                    18px 8px;
+            }
+
+
+            .seller-box {
+                gap: 4px;
+
+                margin:
+                    0 2px 7px;
+
+                min-height: 31px;
+            }
+
+
+            .seller-link {
+                gap: 5px;
+                flex: 1;
+            }
+
+
+            .seller-avatar,
+            .seller-avatar-placeholder {
+                width: 30px;
+                height: 30px;
+
+                font-size: 14px;
+            }
+
+
+            .seller-name {
+                max-width: 75px;
+                font-size: 10px;
+            }
+
+
+            .follow-btn {
+                padding:
+                    5px 6px;
+
+                font-size: 8px;
+
+                border-radius: 7px;
+            }
+
+
+            .product-card {
+                border-radius: 12px;
+            }
+
+
+            .product-info {
+                padding: 10px;
+            }
+
+
+            .product-info h3 {
+                font-size: 12px;
+
+                line-height: 1.55;
+
+                margin-bottom: 7px;
+
+                min-height:
+                    37px;
+            }
+
+
+            .price {
+                font-size: 14px;
+
+                margin-bottom: 6px;
+
+                line-height: 1.5;
+            }
+
+
+            .location {
+                font-size: 10px;
+
+                margin-bottom: 6px;
+            }
+
+
+            .condition {
+                padding:
+                    4px 6px;
+
+                font-size: 9px;
+            }
+
+
+            .social-actions {
+                gap: 5px;
+
+                padding:
+                    7px 7px 8px;
+            }
+
+
+            .social-btn {
+                min-height: 34px;
+
+                border-radius: 8px;
+
+                font-size: 10px;
+
+                gap: 3px;
+            }
+
+
+            .social-count {
+                font-size: 10px;
+            }
+
+
+            .photo-count {
+                left: 6px;
+                bottom: 6px;
+
+                padding:
+                    4px 6px;
+
+                font-size: 9px;
+            }
+
+
+            .products-loading {
+                min-height: 230px;
+
+                border-radius: 16px;
+
+                padding:
+                    30px 15px;
+            }
+
+
+            .products-loading-title {
+                font-size: 14px;
+            }
+
+
+            .products-loading-text {
+                font-size: 11px;
+            }
+
+
+            .empty {
+                padding:
+                    55px 15px;
+
+                border-radius: 16px;
+            }
+
+        }
+
+
+        /* =====================================
+           VERY SMALL MOBILE
+           STILL 2 PRODUCTS PER ROW
+        ===================================== */
+
         @media (max-width: 400px) {
 
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap:
+                    15px 7px;
             }
 
+
+            .container {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+
+            .product-info {
+                padding: 8px;
+            }
+
+
+            .product-info h3 {
+                font-size: 11px;
+            }
+
+
+            .price {
+                font-size: 13px;
+            }
+
+
+            .location {
+                font-size: 9px;
+            }
+
+
+            .social-btn {
+                font-size: 9px;
+            }
+
+
+            .social-count {
+                font-size: 9px;
+            }
+
+
             .seller-name {
-                max-width: 140px;
+                max-width: 62px;
+            }
+
+
+            .follow-btn {
+                font-size: 7px;
+                padding:
+                    4px 5px;
             }
 
         }
@@ -621,6 +1439,7 @@
                 type="search"
                 id="searchInput"
                 placeholder="دنبال چه چیزی می‌گردید؟"
+                autocomplete="off"
             >
 
             <button type="submit">
@@ -734,8 +1553,33 @@
         id="productsGrid"
     >
 
-        <div class="loading">
-            ⏳ در حال دریافت محصولات...
+        <!--
+            Loading is intentionally inside the Products section.
+            It does NOT cover the whole page.
+        -->
+
+        <div class="products-loading">
+
+            <div class="products-loading-inner">
+
+                <div class="bazaarak-loader">
+
+                    <div class="bazaarak-loader-icon">
+                        🛒
+                    </div>
+
+                </div>
+
+                <div class="products-loading-title">
+                    در حال دریافت محصولات
+                </div>
+
+                <div class="products-loading-text">
+                    لطفاً کمی صبر کنید...
+                </div>
+
+            </div>
+
         </div>
 
     </section>
@@ -745,15 +1589,17 @@
 
 <script>
 
-    /* ==============================
+    /* =====================================
        SUPABASE
-    ============================== */
+    ===================================== */
 
     const SUPABASE_URL =
         "https://vhiewoopyqugdxwvsbno.supabase.co";
 
+
     const SUPABASE_KEY =
         "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
 
     const supabaseClient =
         window.supabase.createClient(
@@ -762,44 +1608,247 @@
         );
 
 
-    /* ==============================
+    /* =====================================
+       THEME SYSTEM
+       Reads the theme used by index.html.
+    ===================================== */
+
+    function getStoredTheme() {
+
+        const possibleKeys = [
+
+            "bazaarak-theme",
+            "theme",
+            "themeMode",
+            "darkMode"
+
+        ];
+
+
+        for (
+            const key of possibleKeys
+        ) {
+
+            try {
+
+                const value =
+                    localStorage.getItem(key);
+
+
+                if (
+                    value === "dark" ||
+                    value === "light"
+                ) {
+
+                    return value;
+
+                }
+
+
+                if (
+                    key === "darkMode" &&
+                    value === "true"
+                ) {
+
+                    return "dark";
+
+                }
+
+
+                if (
+                    key === "darkMode" &&
+                    value === "false"
+                ) {
+
+                    return "light";
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Theme read error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    function applyTheme(
+        theme
+    ) {
+
+        let finalTheme =
+            theme;
+
+
+        if (
+            finalTheme !== "dark" &&
+            finalTheme !== "light"
+        ) {
+
+            finalTheme =
+                window.matchMedia &&
+                window.matchMedia(
+                    "(prefers-color-scheme: dark)"
+                ).matches
+                    ? "dark"
+                    : "light";
+
+        }
+
+
+        document.documentElement
+            .setAttribute(
+                "data-theme",
+                finalTheme
+            );
+
+
+        document.body.classList.toggle(
+            "dark",
+            finalTheme === "dark"
+        );
+
+
+        document.documentElement.classList.toggle(
+            "dark",
+            finalTheme === "dark"
+        );
+
+    }
+
+
+    function syncTheme() {
+
+        applyTheme(
+            getStoredTheme()
+        );
+
+    }
+
+
+    syncTheme();
+
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            if (
+                [
+                    "bazaarak-theme",
+                    "theme",
+                    "themeMode",
+                    "darkMode"
+                ].includes(
+                    event.key
+                )
+            ) {
+
+                syncTheme();
+
+            }
+
+        }
+    );
+
+
+    /*
+     * Also listen to a shared Bazaarak theme channel.
+     * If index.html broadcasts a theme change,
+     * Products updates immediately.
+     */
+
+    try {
+
+        const themeChannel =
+            new BroadcastChannel(
+                "bazaarak-theme"
+            );
+
+
+        themeChannel.onmessage =
+            function(event) {
+
+                if (
+                    event.data &&
+                    (
+                        event.data.theme === "dark" ||
+                        event.data.theme === "light"
+                    )
+                ) {
+
+                    applyTheme(
+                        event.data.theme
+                    );
+
+                }
+
+            };
+
+    } catch (error) {
+
+        console.warn(
+            "Theme channel unavailable:",
+            error
+        );
+
+    }
+
+
+    /* =====================================
        ELEMENTS
-    ============================== */
+    ===================================== */
 
     const productsGrid =
         document.getElementById(
             "productsGrid"
         );
 
+
     const searchInput =
         document.getElementById(
             "searchInput"
         );
+
 
     const searchForm =
         document.getElementById(
             "searchForm"
         );
 
+
     const categoryFilter =
         document.getElementById(
             "categoryFilter"
         );
+
 
     const sortFilter =
         document.getElementById(
             "sortFilter"
         );
 
+
     const activeCategory =
         document.getElementById(
             "activeCategory"
         );
 
+
     const pageTitle =
         document.getElementById(
             "pageTitle"
         );
+
 
     const pageDescription =
         document.getElementById(
@@ -814,9 +1863,9 @@
     let followingUsers = new Set();
 
 
-    /* ==============================
+    /* =====================================
        CATEGORY NAMES
-    ============================== */
+    ===================================== */
 
     const categoryNames = {
 
@@ -850,17 +1899,19 @@
     };
 
 
-    /* ==============================
+    /* =====================================
        URL VALUES
-    ============================== */
+    ===================================== */
 
     const urlParams =
         new URLSearchParams(
             window.location.search
         );
 
+
     const urlCategory =
         urlParams.get("category");
+
 
     const urlSearch =
         urlParams.get("search");
@@ -885,9 +1936,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        GET CURRENT USER
-    ============================== */
+    ===================================== */
 
     async function getCurrentUser() {
 
@@ -909,16 +1960,17 @@
 
         } else {
 
-            currentUser = null;
+            currentUser =
+                null;
 
         }
 
     }
 
 
-    /* ==============================
+    /* =====================================
        LOAD FOLLOWING USERS
-    ============================== */
+    ===================================== */
 
     async function loadFollowingUsers(
         sellerIds
@@ -982,19 +2034,55 @@
     }
 
 
-    /* ==============================
-       LOAD PRODUCTS
-    ============================== */
+    /* =====================================
+       PRODUCTS LOCAL LOADING
+    ===================================== */
 
-    async function loadProducts() {
+    function showProductsLoading() {
 
         productsGrid.innerHTML = `
 
-            <div class="loading">
-                ⏳ در حال دریافت محصولات...
+            <div class="products-loading">
+
+                <div class="products-loading-inner">
+
+                    <div class="bazaarak-loader">
+
+                        <div class="bazaarak-loader-icon">
+                            🛒
+                        </div>
+
+                    </div>
+
+                    <div class="products-loading-title">
+                        در حال دریافت محصولات
+                    </div>
+
+                    <div class="products-loading-text">
+                        لطفاً کمی صبر کنید...
+                    </div>
+
+                </div>
+
             </div>
 
         `;
+
+    }
+
+
+    /* =====================================
+       LOAD PRODUCTS
+    ===================================== */
+
+    async function loadProducts() {
+
+        /*
+         * Only the Products section changes.
+         * Header, page title and toolbar stay visible.
+         */
+
+        showProductsLoading();
 
 
         await getCurrentUser();
@@ -1021,7 +2109,10 @@
                 status,
                 created_at
             `)
-            .eq("status", "active")
+            .eq(
+                "status",
+                "active"
+            )
             .order(
                 "created_at",
                 {
@@ -1057,6 +2148,7 @@
             `;
 
             return;
+
         }
 
 
@@ -1064,9 +2156,9 @@
             data || [];
 
 
-        /* ==============================
+        /* =================================
            LOAD SELLER PROFILES
-        ============================== */
+        ================================= */
 
         const sellerIds =
             [
@@ -1128,9 +2220,9 @@
         }
 
 
-        /* ==============================
+        /* =================================
            LOAD FOLLOW STATUS
-        ============================== */
+        ================================= */
 
         await loadFollowingUsers(
             sellerIds
@@ -1157,9 +2249,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        RENDER PRODUCTS
-    ============================== */
+    ===================================== */
 
     function renderProducts(
         products
@@ -1206,6 +2298,7 @@
             `;
 
             return;
+
         }
 
 
@@ -1227,9 +2320,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        PRODUCT CARD
-    ============================== */
+    ===================================== */
 
     function createProductCard(
         product
@@ -1309,9 +2402,9 @@
             );
 
 
-        /* ==============================
+        /* =================================
            SELLER
-        ============================== */
+        ================================= */
 
         const seller =
             product.sellerProfile;
@@ -1456,9 +2549,9 @@
             : "";
 
 
-        /* ==============================
+        /* =================================
            SOCIAL
-        ============================== */
+        ================================= */
 
         const socialHTML = `
 
@@ -1551,11 +2644,9 @@
                     <div class="product-info">
 
                         <h3>
-
                             ${escapeHTML(
                                 product.title
                             )}
-
                         </h3>
 
 
@@ -1601,9 +2692,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        LOAD LIKE + COMMENT DATA
-    ============================== */
+    ===================================== */
 
     async function loadSocialData(
         products
@@ -1621,9 +2712,9 @@
             );
 
 
-        /* ==============================
-           LOAD LIKES
-        ============================== */
+        /* =================================
+           LIKES
+        ================================= */
 
         const {
             data: likes,
@@ -1695,9 +2786,9 @@
         );
 
 
-        /* ==============================
+        /* =================================
            CURRENT USER LIKES
-        ============================== */
+        ================================= */
 
         if (currentUser) {
 
@@ -1731,9 +2822,9 @@
         }
 
 
-        /* ==============================
-           LOAD COMMENTS COUNT
-        ============================== */
+        /* =================================
+           COMMENTS
+        ================================= */
 
         const {
             data: comments,
@@ -1809,9 +2900,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        LIKE
-    ============================== */
+    ===================================== */
 
     async function toggleLike(
         productId
@@ -1981,9 +3072,9 @@
     }
 
 
-    /* ==============================
-       OPEN COMMENTS
-    ============================== */
+    /* =====================================
+       COMMENTS
+    ===================================== */
 
     function openComments(
         productId
@@ -1998,9 +3089,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        SELLER CLICK ANIMATION
-    ============================== */
+    ===================================== */
 
     function sellerClickAnimation(
         element,
@@ -2027,9 +3118,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        FOLLOW
-    ============================== */
+    ===================================== */
 
     async function toggleFollowFromProducts(
         button,
@@ -2126,9 +3217,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        GET IMAGES
-    ============================== */
+    ===================================== */
 
     function getProductImages(
         product
@@ -2170,9 +3261,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        OPEN PRODUCT
-    ============================== */
+    ===================================== */
 
     function openProduct(
         id
@@ -2185,9 +3276,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        SEARCH
-    ============================== */
+    ===================================== */
 
     searchForm.addEventListener(
         "submit",
@@ -2215,9 +3306,9 @@
     );
 
 
-    /* ==============================
+    /* =====================================
        CATEGORY
-    ============================== */
+    ===================================== */
 
     categoryFilter.addEventListener(
         "change",
@@ -2231,9 +3322,9 @@
     );
 
 
-    /* ==============================
+    /* =====================================
        SORT
-    ============================== */
+    ===================================== */
 
     sortFilter.addEventListener(
         "change",
@@ -2245,9 +3336,9 @@
     );
 
 
-    /* ==============================
+    /* =====================================
        FILTER
-    ============================== */
+    ===================================== */
 
     function applyFilters() {
 
@@ -2391,9 +3482,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        CATEGORY UI
-    ============================== */
+    ===================================== */
 
     function updateCategoryUI(
         category,
@@ -2450,9 +3541,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        UPDATE URL
-    ============================== */
+    ===================================== */
 
     function updateURL() {
 
@@ -2510,9 +3601,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        CONDITION
-    ============================== */
+    ===================================== */
 
     function getConditionName(
         condition
@@ -2538,9 +3629,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        CITY
-    ============================== */
+    ===================================== */
 
     function getCityName(
         city
@@ -2584,9 +3675,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        PRICE
-    ============================== */
+    ===================================== */
 
     function formatPrice(
         price
@@ -2609,9 +3700,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        ESCAPE HTML
-    ============================== */
+    ===================================== */
 
     function escapeHTML(
         value
@@ -2649,9 +3740,9 @@
     }
 
 
-    /* ==============================
+    /* =====================================
        START
-    ============================== */
+    ===================================== */
 
     loadProducts();
 
