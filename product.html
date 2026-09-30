@@ -905,6 +905,46 @@ header{
         font-size:9px;
     }
 }
+
+    .comment-user-wrap{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    min-width:0;
+}
+
+.comment-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:var(--primary);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex-shrink:0;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.comment-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.comment-user-info{
+    min-width:0;
+}
+
+.comment-user{
+    font-weight:bold;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
 </style>
 </head>
 
@@ -2156,7 +2196,6 @@ async function toggleFollowSeller(){
 
 
 /* COMMENTS */
-
 async function loadComments(){
 
     const list =
@@ -2203,26 +2242,109 @@ async function loadComments(){
             </div>
         `;
 
-    }else{
-
-        list.innerHTML =
-        data.map(
-            comment =>
-            renderComment(comment)
-        ).join("");
+        calculateRating([]);
+        renderCommentForm();
+        return;
     }
+
+    /*
+     * دریافت پروفایل تمام کاربرانی که
+     * برای این محصول نظر داده‌اند
+     */
+    const userIds = [
+        ...new Set(
+            data
+            .map(item => item.user_id)
+            .filter(Boolean)
+        )
+    ];
+
+    let profiles = [];
+
+    if(userIds.length){
+
+        const {
+            data:profileData,
+            error:profileError
+        } =
+        await supabaseClient
+        .from("seller_profiles")
+        .select(`
+            id,
+            username,
+            full_name,
+            avatar_url
+        `)
+        .in("id",userIds);
+
+        if(profileError){
+
+            console.error(
+                "Comment profiles:",
+                profileError
+            );
+
+        }else{
+
+            profiles = profileData || [];
+        }
+    }
+
+    const profileMap = new Map(
+        profiles.map(
+            profile => [
+                profile.id,
+                profile
+            ]
+        )
+    );
+
+    list.innerHTML =
+    data.map(
+        comment => {
+
+            const profile =
+            profileMap.get(
+                comment.user_id
+            ) || null;
+
+            return renderComment(
+                comment,
+                profile
+            );
+        }
+    ).join("");
 
     calculateRating(data || []);
     renderCommentForm();
 }
 
-function renderComment(comment){
+function renderComment(
+    comment,
+    profile = null
+){
 
     const name =
+    profile?.full_name ||
+    profile?.username ||
     comment.user_name ||
     comment.full_name ||
     comment.username ||
     "کاربر بازارک";
+
+    const avatar =
+    profile?.avatar_url || "";
+
+    const avatarHTML =
+    avatar
+    ? `
+        <img
+            src="${escapeHTML(avatar)}"
+            alt="${escapeHTML(name)}"
+            onerror="this.parentElement.innerHTML='👤'"
+        >
+    `
+    : "👤";
 
     const rating =
     Number(comment.rating || 5);
@@ -2252,12 +2374,24 @@ function renderComment(comment){
 
             <div class="comment-head">
 
-                <div class="comment-user">
-                    ${escapeHTML(name)}
-                </div>
+                <div class="comment-user-wrap">
 
-                <div class="comment-date">
-                    ${escapeHTML(date)}
+                    <div class="comment-avatar">
+                        ${avatarHTML}
+                    </div>
+
+                    <div class="comment-user-info">
+
+                        <div class="comment-user">
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div class="comment-date">
+                            ${escapeHTML(date)}
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
