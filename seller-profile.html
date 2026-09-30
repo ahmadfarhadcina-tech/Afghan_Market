@@ -1,525 +1,1360 @@
-<!DOCTYPE html><html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پروفایل فروشنده | بازارک</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#087a55">
+<title>پروفایل فروشنده | بازارک</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+:root{
+    --bg:#f4f7f5;
+    --card:#fff;
+    --header:#123d28;
+    --text:#17231c;
+    --muted:#6b786f;
+    --border:#e1e8e3;
+    --soft:#f1f6f3;
+    --green:#167342;
+    --green2:#087a55;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+    --shadow:0 5px 22px rgba(0,0,0,.06);
+}
+
+html.dark{
+    --bg:#0f1512;
+    --card:#17201b;
+    --header:#0b2116;
+    --text:#f1f5f2;
+    --muted:#aab7af;
+    --border:#2a3830;
+    --soft:#202c25;
+    --green:#35b96f;
+    --green2:#20b87a;
+    --danger:#f87171;
+    --warning:#fbbf24;
+    --shadow:0 5px 25px rgba(0,0,0,.25);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    background:var(--bg);
+    color-scheme:light;
+}
+
+html.dark{
+    color-scheme:dark;
+}
+
+body{
+    font-family:Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:
+        background .25s ease,
+        color .25s ease;
+    min-height:100vh;
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.96);
+}
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--header);
+    color:#fff;
+    padding:13px 15px;
+    box-shadow:0 2px 14px rgba(0,0,0,.13);
+}
+
+.header-inner{
+    max-width:900px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.back-btn,
+.theme-btn{
+    width:42px;
+    height:42px;
+    flex:none;
+    border:0;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    transition:.2s;
+}
+
+.header-title{
+    flex:1;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.container{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:20px 14px 70px;
+}
+
+.profile-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:28px 20px;
+    box-shadow:var(--shadow);
+    text-align:center;
+}
+
+.avatar-wrap{
+    width:112px;
+    height:112px;
+    margin:0 auto 13px;
+    position:relative;
+}
+
+.avatar{
+    width:112px;
+    height:112px;
+    border-radius:50%;
+    object-fit:cover;
+    display:block;
+    border:4px solid var(--soft);
+    background:var(--soft);
+}
+
+.name{
+    font-size:23px;
+    font-weight:bold;
+    line-height:1.5;
+}
+
+.username{
+    direction:ltr;
+    color:var(--muted);
+    margin-top:4px;
+    font-size:14px;
+}
+
+.bio{
+    max-width:650px;
+    margin:14px auto 0;
+    color:var(--muted);
+    line-height:1.9;
+    white-space:pre-wrap;
+}
+
+.info{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.info-item{
+    background:var(--soft);
+    border:1px solid var(--border);
+    color:var(--muted);
+    border-radius:11px;
+    padding:8px 12px;
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:19px;
+}
+
+.action-btn{
+    min-height:43px;
+    border:0;
+    border-radius:12px;
+    padding:10px 17px;
+    font-size:14px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.follow-btn{
+    min-width:125px;
+    background:var(--green);
+    color:#fff;
+}
+
+.follow-btn.following{
+    background:var(--soft);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.whatsapp-btn{
+    background:#20b968;
+    color:#fff;
+}
+
+.share-btn{
+    background:var(--soft);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.action-btn:disabled{
+    opacity:.55;
+    cursor:wait;
+}
+
+.login-message{
+    margin-top:13px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:21px;
+}
+
+.stat{
+    background:var(--soft);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:14px 8px;
+}
+
+.stat-number{
+    color:var(--green);
+    font-size:20px;
+    font-weight:bold;
+}
+
+.stat-title{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.rating-box{
+    margin-top:12px;
+    padding:14px;
+    background:var(--soft);
+    border:1px solid var(--border);
+    border-radius:16px;
+}
+
+.rating-stars{
+    color:var(--warning);
+    font-size:20px;
+    letter-spacing:2px;
+    line-height:1.3;
+}
+
+.rating-text{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:28px 3px 13px;
+}
+
+.section-title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.product-tools{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    width:min(440px,55%);
+}
+
+.product-search,
+.product-sort{
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+}
+
+.product-search{
+    min-width:0;
+    flex:1;
+    padding:0 12px;
+}
+
+.product-sort{
+    width:145px;
+    padding:0 9px;
+}
+
+.product-search:focus,
+.product-sort:focus{
+    border-color:var(--green);
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+}
+
+.product-card{
+    min-width:0;
+    overflow:hidden;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:
+        transform .16s ease,
+        box-shadow .2s ease;
+}
+
+.product-card:hover{
+    transform:translateY(-2px);
+}
+
+.product-image-wrap{
+    width:100%;
+    min-height:170px;
+    background:var(--soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.product-image{
+    width:100%;
+    height:auto;
+    max-height:330px;
+    object-fit:contain;
+    display:block;
+}
+
+.no-image{
+    width:100%;
+    min-height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+}
+
+.product-info{
+    padding:13px;
+}
+
+.product-title{
+    font-size:15px;
+    font-weight:bold;
+    line-height:1.65;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.price{
+    color:var(--green);
+    font-weight:bold;
+    margin-top:7px;
+}
+
+.city{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.empty{
+    grid-column:1/-1;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:40px 20px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.loading{
+    padding:70px 20px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.loading-spinner{
+    width:34px;
+    height:34px;
+    margin:0 auto 13px;
+    border:3px solid var(--border);
+    border-top-color:var(--green);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+.error{
+    background:#fff0f0;
+    color:#b42318;
+    border:1px solid #ffd1d1;
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+}
+
+html.dark .error{
+    background:#351c1c;
+    color:#ff9b9b;
+    border-color:#573030;
+}
+
+.refresh-btn{
+    margin-top:12px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:10px;
+    padding:9px 14px;
+}
+
+/* MODAL */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(0,0,0,.58);
+    backdrop-filter:blur(6px);
+}
+
+.modal-overlay.show{
+    display:flex;
+    animation:fadeIn .2s ease;
+}
+
+.modal{
+    width:min(430px,100%);
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:23px;
+    box-shadow:0 20px 65px rgba(0,0,0,.3);
+    animation:modalIn .22s ease;
+}
+
+.modal-icon{
+    font-size:38px;
+    text-align:center;
+    margin-bottom:8px;
+}
+
+.modal-title{
+    text-align:center;
+    font-size:19px;
+    font-weight:bold;
+}
+
+.modal-text{
+    color:var(--muted);
+    text-align:center;
+    line-height:1.9;
+    margin-top:9px;
+    font-size:14px;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.modal-actions{
+    display:flex;
+    gap:9px;
+    margin-top:20px;
+}
+
+.modal-btn{
+    flex:1;
+    min-height:43px;
+    border:0;
+    border-radius:11px;
+    padding:10px;
+    font-weight:bold;
+}
+
+.modal-primary{
+    background:var(--green);
+    color:#fff;
+}
+
+.modal-secondary{
+    background:var(--soft);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(14px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+@media(max-width:700px){
+
+    .container{
+        padding-top:14px;
     }
 
-    body {
-        font-family: Tahoma, Arial, sans-serif;
-        background: #f4f7f5;
-        color: #17231c;
+    .product-tools{
+        width:100%;
     }
 
-    a {
-        text-decoration: none;
-        color: inherit;
+    .section-head{
+        align-items:stretch;
+        flex-direction:column;
     }
 
-    button,
-    a {
-        -webkit-tap-highlight-color: transparent;
+}
+
+@media(max-width:520px){
+
+    .profile-card{
+        padding:23px 14px;
     }
 
-    .header {
-        background: #123d28;
-        color: white;
-        padding: 18px 16px;
-        position: sticky;
-        top: 0;
-        z-index: 20;
+    .name{
+        font-size:21px;
     }
 
-    .header-inner {
-        max-width: 900px;
-        margin: auto;
-        display: flex;
-        align-items: center;
-        gap: 14px;
+    .products{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:10px;
     }
 
-    .back-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        background: rgba(255,255,255,.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        transition: .15s;
+    .product-image-wrap,
+    .no-image{
+        min-height:140px;
     }
 
-    .back-btn:active {
-        transform: scale(.9);
+    .product-info{
+        padding:10px;
     }
 
-    .header-title {
-        font-size: 19px;
-        font-weight: bold;
+    .product-title{
+        font-size:14px;
     }
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 20px 14px 50px;
+    .product-tools{
+        flex-direction:row;
     }
 
-    .profile-card {
-        background: white;
-        border-radius: 22px;
-        padding: 25px 20px;
-        box-shadow: 0 4px 18px rgba(0,0,0,.06);
-        text-align: center;
+    .product-sort{
+        width:125px;
     }
 
-    .avatar {
-        width: 105px;
-        height: 105px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #e3eee7;
-        margin-bottom: 12px;
+}
+
+@media(max-width:380px){
+
+    .products{
+        grid-template-columns:1fr;
     }
 
-    .name {
-        font-size: 23px;
-        font-weight: bold;
+    .stats{
+        gap:6px;
     }
 
-    .username {
-        color: #6b786f;
-        margin-top: 5px;
-        direction: ltr;
+    .stat{
+        padding:12px 5px;
     }
 
-    .bio {
-        max-width: 600px;
-        margin: 15px auto 0;
-        color: #4c5a51;
-        line-height: 1.8;
+    .stat-number{
+        font-size:18px;
     }
 
-    .info {
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        flex-wrap: wrap;
-        color: #58655d;
-        font-size: 14px;
+    .action-btn{
+        padding:10px 13px;
     }
 
-    /* FOLLOW */
-
-    .follow-btn {
-        border: none;
-        background: #167342;
-        color: white;
-        padding: 11px 30px;
-        border-radius: 12px;
-        font-size: 15px;
-        font-family: inherit;
-        cursor: pointer;
-        margin-top: 18px;
-
-        transition:
-            transform .15s ease,
-            background .2s ease,
-            opacity .2s ease;
+    .product-tools{
+        flex-direction:column;
     }
 
-    .follow-btn:active {
-        transform: scale(.94);
+    .product-search,
+    .product-sort{
+        width:100%;
     }
 
-    .follow-btn.following {
-        background: #e8eee9;
-        color: #174a2e;
-    }
-
-    .follow-btn:disabled {
-        opacity: .6;
-        cursor: wait;
-    }
-
-    .login-message {
-        margin-top: 15px;
-        color: #777;
-        font-size: 14px;
-    }
-
-    /* STATS */
-
-    .stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 18px;
-    }
-
-    .stat {
-        background: #f3f7f4;
-        border-radius: 15px;
-        padding: 14px 8px;
-    }
-
-    .stat-number {
-        font-size: 20px;
-        font-weight: bold;
-        color: #123d28;
-    }
-
-    .stat-title {
-        font-size: 13px;
-        color: #718078;
-        margin-top: 4px;
-    }
-
-    /* PRODUCTS */
-
-    .section-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin: 25px 4px 15px;
-    }
-
-    .products {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-    }
-
-    .product-card {
-        background: white;
-        border-radius: 17px;
-        overflow: hidden;
-        box-shadow: 0 3px 14px rgba(0,0,0,.06);
-        transition: transform .15s ease;
-    }
-
-    .product-card:active {
-        transform: scale(.985);
-    }
-
-    /*
-       قاب عکس دیگر ارتفاع ثابت ندارد.
-       خود تصویر نسبت واقعی خودش را حفظ می‌کند.
-    */
-
-    .product-image {
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: contain;
-        object-position: center;
-        background: #eef2ef;
-        cursor: pointer;
-    }
-
-    .product-info {
-        padding: 13px;
-    }
-
-    .product-title {
-        font-weight: bold;
-        font-size: 15px;
-        line-height: 1.5;
-    }
-
-    .price {
-        color: #168047;
-        font-weight: bold;
-        margin-top: 8px;
-    }
-
-    .city {
-        color: #7b857f;
-        font-size: 12px;
-        margin-top: 5px;
-    }
-
-    .empty {
-        background: white;
-        border-radius: 18px;
-        padding: 35px 20px;
-        text-align: center;
-        color: #778078;
-    }
-
-    .loading {
-        text-align: center;
-        padding: 50px 20px;
-        color: #68736c;
-    }
-
-    .error {
-        background: #fff0f0;
-        color: #b42318;
-        padding: 18px;
-        border-radius: 15px;
-        text-align: center;
-    }
-
-    @media (max-width: 600px) {
-
-        .products {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .name {
-            font-size: 21px;
-        }
-
-    }
-
-    @media (max-width: 380px) {
-
-        .products {
-            grid-template-columns: 1fr;
-        }
-
-    }
-
+}
 </style>
+</head>
 
-</head><body><header class="header"><div class="header-inner">
+<body>
 
-    <a href="javascript:history.back()" class="back-btn">
-        →
-    </a>
+<header class="header">
+    <div class="header-inner">
 
-    <div class="header-title">
-        پروفایل فروشنده
+        <a
+            href="javascript:history.back()"
+            class="back-btn"
+            aria-label="برگشت"
+        >→</a>
+
+        <div class="header-title">
+            پروفایل فروشنده
+        </div>
+
+        <button
+            id="themeBtn"
+            class="theme-btn"
+            type="button"
+            aria-label="تغییر تم"
+        >🌙</button>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        در حال بارگذاری پروفایل...
+    </div>
+
+    <div id="content" style="display:none;">
+
+        <section class="profile-card">
+
+            <div class="avatar-wrap">
+                <img
+                    id="avatar"
+                    class="avatar"
+                    src=""
+                    alt="پروفایل فروشنده"
+                >
+            </div>
+
+            <h1 id="fullName" class="name">
+                فروشنده
+            </h1>
+
+            <div id="username" class="username"></div>
+
+            <p id="bio" class="bio"></p>
+
+            <div class="info">
+
+                <span
+                    id="city"
+                    class="info-item"
+                    style="display:none;"
+                ></span>
+
+                <span
+                    id="whatsappInfo"
+                    class="info-item"
+                    style="display:none;"
+                ></span>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    id="followBtn"
+                    class="action-btn follow-btn"
+                    type="button"
+                >
+                    دنبال کردن
+                </button>
+
+                <button
+                    id="whatsappBtn"
+                    class="action-btn whatsapp-btn"
+                    type="button"
+                    style="display:none;"
+                >
+                    📱 واتساپ
+                </button>
+
+                <button
+                    id="shareBtn"
+                    class="action-btn share-btn"
+                    type="button"
+                >
+                    🔗 اشتراک‌گذاری
+                </button>
+
+            </div>
+
+            <div
+                id="loginMessage"
+                class="login-message"
+                style="display:none;"
+            >
+                برای دنبال کردن این فروشنده ابتدا وارد حساب شوید.
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <div
+                        id="followersCount"
+                        class="stat-number"
+                    >0</div>
+                    <div class="stat-title">
+                        دنبال‌کننده
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div
+                        id="followingCount"
+                        class="stat-number"
+                    >0</div>
+                    <div class="stat-title">
+                        دنبال‌شونده
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div
+                        id="productsCount"
+                        class="stat-number"
+                    >0</div>
+                    <div class="stat-title">
+                        محصولات
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="rating-box">
+
+                <div
+                    id="ratingStars"
+                    class="rating-stars"
+                >☆☆☆☆☆</div>
+
+                <div
+                    id="ratingText"
+                    class="rating-text"
+                >
+                    هنوز امتیازی ثبت نشده
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="section-head">
+
+            <h2 class="section-title">
+                محصولات این فروشنده
+            </h2>
+
+            <div class="product-tools">
+
+                <input
+                    id="productSearch"
+                    class="product-search"
+                    type="search"
+                    placeholder="جستجوی محصول..."
+                    autocomplete="off"
+                >
+
+                <select
+                    id="productSort"
+                    class="product-sort"
+                >
+                    <option value="newest">
+                        جدیدترین
+                    </option>
+
+                    <option value="price-low">
+                        ارزان‌ترین
+                    </option>
+
+                    <option value="price-high">
+                        گران‌ترین
+                    </option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <div
+            id="products"
+            class="products"
+        ></div>
+
+    </div>
+
+    <div
+        id="errorBox"
+        class="error"
+        style="display:none;"
+    ></div>
+
+</main>
+
+
+<!-- CUSTOM MODAL -->
+
+<div
+    id="modalOverlay"
+    class="modal-overlay"
+>
+
+    <div class="modal">
+
+        <div
+            id="modalIcon"
+            class="modal-icon"
+        >ℹ️</div>
+
+        <div
+            id="modalTitle"
+            class="modal-title"
+        >
+            بازارک
+        </div>
+
+        <div
+            id="modalText"
+            class="modal-text"
+        ></div>
+
+        <div class="modal-actions">
+
+            <button
+                id="modalCancel"
+                class="modal-btn modal-secondary"
+                type="button"
+            >
+                بستن
+            </button>
+
+            <button
+                id="modalConfirm"
+                class="modal-btn modal-primary"
+                type="button"
+                style="display:none;"
+            >
+                تأیید
+            </button>
+
+        </div>
+
     </div>
 
 </div>
 
-</header><main class="container"><div id="loading" class="loading">
-    در حال بارگذاری پروفایل...
-</div>
+
+<script>
+
+const SUPABASE_URL =
+    "https://vhiewoopyqugdxwvsbno.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const sellerId =
+    params.get("id");
+
+let currentUser = null;
+let sellerProfile = null;
+let sellerProducts = [];
+let isFollowing = false;
+let modalCallback = null;
 
 
-<div id="content" style="display:none;">
+/* =========================
+   THEME
+========================= */
 
-    <section class="profile-card">
+function getTheme(){
 
-        <img
-            id="avatar"
-            class="avatar"
-            src=""
-            alt="پروفایل"
-        >
+    return (
+        localStorage.getItem(
+            "bazaarak-theme"
+        ) || "light"
+    );
 
-        <h1 id="fullName" class="name">
-            فروشنده
-        </h1>
+}
 
-        <div id="username" class="username"></div>
+function applyTheme(theme){
 
-        <p id="bio" class="bio"></p>
+    document.documentElement.classList.toggle(
+        "dark",
+        theme === "dark"
+    );
 
-        <div class="info">
-
-            <span id="city"></span>
-
-            <span id="whatsapp"></span>
-
-        </div>
-
-
-        <button
-            id="followBtn"
-            class="follow-btn"
-            type="button"
-        >
-            دنبال کردن
-        </button>
-
-
-        <div
-            id="loginMessage"
-            class="login-message"
-            style="display:none;"
-        >
-            برای دنبال کردن این فروشنده ابتدا وارد حساب شوید.
-        </div>
-
-
-        <div class="stats">
-
-            <div class="stat">
-
-                <div
-                    id="followersCount"
-                    class="stat-number"
-                >
-                    0
-                </div>
-
-                <div class="stat-title">
-                    دنبال‌کننده
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div
-                    id="followingCount"
-                    class="stat-number"
-                >
-                    0
-                </div>
-
-                <div class="stat-title">
-                    دنبال‌شونده
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div
-                    id="productsCount"
-                    class="stat-number"
-                >
-                    0
-                </div>
-
-                <div class="stat-title">
-                    محصولات
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <h2 class="section-title">
-        محصولات این فروشنده
-    </h2>
-
-
-    <div
-        id="products"
-        class="products"
-    ></div>
-
-</div>
-
-
-<div
-    id="errorBox"
-    class="error"
-    style="display:none;"
-></div>
-
-</main><script>
-
-    const SUPABASE_URL =
-        "https://vhiewoopyqugdxwvsbno.supabase.co";
-
-
-    const SUPABASE_KEY =
-        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
-
-
-    const supabaseClient =
-        supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
+    const button =
+        document.getElementById(
+            "themeBtn"
         );
 
+    if(button){
 
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const sellerId =
-        params.get("id");
-
-
-    let currentUser = null;
-
-    let isFollowing = false;
-
-
-    function escapeHTML(value) {
-
-        if (
-            value === null ||
-            value === undefined
-        ) {
-            return "";
-        }
-
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        button.textContent =
+            theme === "dark"
+                ? "☀️"
+                : "🌙";
 
     }
 
+}
 
-    function formatPrice(price) {
+function setTheme(theme){
 
-        if (
-            price === null ||
-            price === undefined ||
-            price === ""
-        ) {
+    localStorage.setItem(
+        "bazaarak-theme",
+        theme
+    );
 
-            return "قیمت نامشخص";
+    applyTheme(theme);
+
+    try{
+
+        const channel =
+            new BroadcastChannel(
+                "bazaarak-theme"
+            );
+
+        channel.postMessage({
+            theme:theme
+        });
+
+        channel.close();
+
+    }catch(error){}
+
+}
+
+applyTheme(getTheme());
+
+document.getElementById(
+    "themeBtn"
+).addEventListener(
+    "click",
+    function(){
+
+        setTheme(
+            getTheme() === "dark"
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
+
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(
+            event.key === "bazaarak-theme" &&
+            event.newValue
+        ){
+
+            applyTheme(
+                event.newValue
+            );
 
         }
 
-        return Number(price)
-            .toLocaleString("fa-AF") +
-            " افغانی";
+    }
+);
+
+try{
+
+    const themeChannel =
+        new BroadcastChannel(
+            "bazaarak-theme"
+        );
+
+    themeChannel.onmessage =
+        function(event){
+
+            const theme =
+                event.data?.theme ||
+                event.data;
+
+            if(
+                theme === "dark" ||
+                theme === "light"
+            ){
+
+                applyTheme(theme);
+
+            }
+
+        };
+
+}catch(error){}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function showModal(
+    title,
+    text,
+    icon = "ℹ️",
+    confirmText = null,
+    callback = null
+){
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        title;
+
+    document.getElementById(
+        "modalText"
+    ).textContent =
+        text;
+
+    document.getElementById(
+        "modalIcon"
+    ).textContent =
+        icon;
+
+    const confirm =
+        document.getElementById(
+            "modalConfirm"
+        );
+
+    if(confirmText){
+
+        confirm.style.display =
+            "block";
+
+        confirm.textContent =
+            confirmText;
+
+        modalCallback =
+            callback;
+
+    }else{
+
+        confirm.style.display =
+            "none";
+
+        modalCallback =
+            null;
 
     }
 
+    document.getElementById(
+        "modalOverlay"
+    ).classList.add("show");
 
-    function getProductImage(product) {
+}
 
-        if (
-            Array.isArray(product.image_urls) &&
-            product.image_urls.length > 0
-        ) {
+function closeModal(){
 
-            return product.image_urls[0];
+    document.getElementById(
+        "modalOverlay"
+    ).classList.remove("show");
+
+    modalCallback = null;
+
+}
+
+document.getElementById(
+    "modalCancel"
+).addEventListener(
+    "click",
+    closeModal
+);
+
+document.getElementById(
+    "modalConfirm"
+).addEventListener(
+    "click",
+    async function(){
+
+        const callback =
+            modalCallback;
+
+        closeModal();
+
+        if(callback){
+
+            await callback();
 
         }
 
+    }
+);
 
-        if (product.image_url) {
+document.getElementById(
+    "modalOverlay"
+).addEventListener(
+    "click",
+    function(event){
 
-            return product.image_url;
+        if(
+            event.target === this
+        ){
+
+            closeModal();
 
         }
 
+    }
+);
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
 
         return "";
 
     }
 
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
-    async function getCurrentUser() {
+}
+
+function formatPrice(price){
+
+    if(
+        price === null ||
+        price === undefined ||
+        price === ""
+    ){
+
+        return "قیمت نامشخص";
+
+    }
+
+    const number =
+        Number(price);
+
+    if(!Number.isFinite(number)){
+
+        return "قیمت نامشخص";
+
+    }
+
+    return (
+        number.toLocaleString("fa-AF") +
+        " افغانی"
+    );
+
+}
+
+function getProductImage(product){
+
+    if(
+        Array.isArray(
+            product.image_urls
+        ) &&
+        product.image_urls.length
+    ){
+
+        return product.image_urls[0];
+
+    }
+
+    return product.image_url || "";
+
+}
+
+function normalizeWhatsApp(number){
+
+    if(!number){
+
+        return "";
+
+    }
+
+    let value =
+        String(number)
+            .trim()
+            .replace(/[^\d+]/g,"");
+
+    if(
+        value.startsWith("+")
+    ){
+
+        value =
+            value.substring(1);
+
+    }
+
+    if(
+        value.startsWith("00")
+    ){
+
+        value =
+            value.substring(2);
+
+    }
+
+    if(
+        value.startsWith("0")
+    ){
+
+        value =
+            "93" +
+            value.substring(1);
+
+    }
+
+    if(
+        value.startsWith("7")
+    ){
+
+        value =
+            "93" +
+            value;
+
+    }
+
+    if(
+        /^937\d{8}$/.test(value)
+    ){
+
+        return value;
+
+    }
+
+    return "";
+
+}
+
+function getWhatsAppUrl(number){
+
+    const normalized =
+        normalizeWhatsApp(number);
+
+    if(!normalized){
+
+        return "";
+
+    }
+
+    return (
+        "https://wa.me/" +
+        normalized
+    );
+
+}
+
+
+/* =========================
+   CURRENT USER
+========================= */
+
+async function getCurrentUser(){
+
+    try{
 
         const {
             data,
@@ -527,293 +1362,464 @@
         } =
         await supabaseClient.auth.getUser();
 
-
-        if (
+        if(
             !error &&
-            data &&
-            data.user
-        ) {
+            data?.user
+        ){
 
             currentUser =
                 data.user;
 
-        } else {
+        }else{
 
             currentUser = null;
 
         }
 
+    }catch(error){
+
+        currentUser = null;
+
     }
 
-
-    async function loadProfile() {
-
-        if (!sellerId) {
-
-            showError(
-                "شناسه فروشنده پیدا نشد."
-            );
-
-            return false;
-
-        }
+}
 
 
-        const {
-            data: profile,
+/* =========================
+   PROFILE
+========================= */
+
+async function loadProfile(){
+
+    if(!sellerId){
+
+        showError(
+            "شناسه فروشنده پیدا نشد."
+        );
+
+        return false;
+
+    }
+
+    const {
+        data:profile,
+        error
+    } =
+    await supabaseClient
+        .from("profiles")
+        .select(`
+            id,
+            full_name,
+            username,
+            bio,
+            avatar_url,
+            whatsapp,
+            city
+        `)
+        .eq(
+            "id",
+            sellerId
+        )
+        .maybeSingle();
+
+    if(error){
+
+        console.error(
+            "PROFILE ERROR:",
             error
-        } =
-        await supabaseClient
-            .from("profiles")
-            .select(`
-                id,
-                full_name,
-                username,
-                bio,
-                avatar_url,
-                whatsapp,
-                city
-            `)
-            .eq("id", sellerId)
-            .maybeSingle();
+        );
+
+        showError(
+            "خطا در دریافت پروفایل فروشنده."
+        );
+
+        return false;
+
+    }
+
+    if(!profile){
+
+        showError(
+            "این پروفایل پیدا نشد."
+        );
+
+        return false;
+
+    }
+
+    sellerProfile =
+        profile;
 
 
-        if (error) {
-
-            console.error(
-                "PROFILE ERROR:",
-                error
-            );
-
-            showError(
-                "خطا در دریافت پروفایل فروشنده."
-            );
-
-            return false;
-
-        }
-
-
-        if (!profile) {
-
-            showError(
-                "این پروفایل پیدا نشد."
-            );
-
-            return false;
-
-        }
-
-
-        const avatar =
-            document.getElementById("avatar");
-
-
-        avatar.src =
-            profile.avatar_url ||
-            "https://ui-avatars.com/api/?name=" +
-            encodeURIComponent(
-                profile.full_name ||
-                profile.username ||
-                "Seller"
-            );
-
-
+    const avatar =
         document.getElementById(
-            "fullName"
-        ).textContent =
-            profile.full_name ||
-            profile.username ||
-            "فروشنده";
+            "avatar"
+        );
+
+    const avatarName =
+        profile.full_name ||
+        profile.username ||
+        "Seller";
+
+    avatar.src =
+        profile.avatar_url ||
+        "https://ui-avatars.com/api/?background=087a55&color=fff&size=256&name=" +
+        encodeURIComponent(
+            avatarName
+        );
+
+    avatar.onerror =
+        function(){
+
+            this.onerror = null;
+
+            this.src =
+                "https://ui-avatars.com/api/?background=087a55&color=fff&size=256&name=Seller";
+
+        };
 
 
-        document.getElementById(
-            "username"
-        ).textContent =
-            profile.username
-                ? "@" + profile.username
-                : "";
+    document.getElementById(
+        "fullName"
+    ).textContent =
+        profile.full_name ||
+        profile.username ||
+        "فروشنده";
 
 
+    document.getElementById(
+        "username"
+    ).textContent =
+        profile.username
+            ? "@" + profile.username
+            : "";
+
+
+    const bio =
         document.getElementById(
             "bio"
-        ).textContent =
-            profile.bio || "";
+        );
+
+    bio.textContent =
+        profile.bio || "";
+
+    bio.style.display =
+        profile.bio
+            ? "block"
+            : "none";
 
 
+    const city =
         document.getElementById(
             "city"
-        ).textContent =
-            profile.city
-                ? "📍 " + profile.city
-                : "";
+        );
 
+    if(profile.city){
 
-        document.getElementById(
-            "whatsapp"
-        ).textContent =
-            profile.whatsapp
-                ? "📱 " + profile.whatsapp
-                : "";
+        city.textContent =
+            "📍 " +
+            profile.city;
 
+        city.style.display =
+            "inline-block";
 
-        document.title =
-            (
-                profile.full_name ||
-                profile.username ||
-                "پروفایل فروشنده"
-            ) +
-            " | بازارک";
+    }else{
 
-
-        document.getElementById(
-            "content"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "loading"
-        ).style.display =
+        city.style.display =
             "none";
 
-
-        return true;
-
     }
 
 
-    async function loadFollowStats() {
+    const whatsappInfo =
+        document.getElementById(
+            "whatsappInfo"
+        );
 
-        if (!sellerId) {
-            return;
-        }
+    const whatsappBtn =
+        document.getElementById(
+            "whatsappBtn"
+        );
 
+    if(profile.whatsapp){
 
-        const followersResult =
-            await supabaseClient
-                .from("followers")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .eq(
-                    "following_id",
-                    sellerId
-                );
+        whatsappInfo.textContent =
+            "📱 " +
+            profile.whatsapp;
 
+        whatsappInfo.style.display =
+            "inline-block";
 
-        if (!followersResult.error) {
+        if(
+            getWhatsAppUrl(
+                profile.whatsapp
+            )
+        ){
 
-            document.getElementById(
-                "followersCount"
-            ).textContent =
-                followersResult.count || 0;
-
-        }
-
-
-        const followingResult =
-            await supabaseClient
-                .from("followers")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .eq(
-                    "follower_id",
-                    sellerId
-                );
-
-
-        if (!followingResult.error) {
-
-            document.getElementById(
-                "followingCount"
-            ).textContent =
-                followingResult.count || 0;
-
-        }
-
-    }
-
-
-    async function checkFollowStatus() {
-
-        const button =
-            document.getElementById(
-                "followBtn"
-            );
-
-
-        const message =
-            document.getElementById(
-                "loginMessage"
-            );
-
-
-        /*
-           اگر مهمان است:
-           دکمه همچنان نمایش داده می‌شود.
-           با کلیک، پیام ورود نشان داده می‌شود.
-        */
-
-        if (!currentUser) {
-
-            button.style.display =
+            whatsappBtn.style.display =
                 "inline-block";
 
-            button.disabled = false;
+        }
 
-            button.textContent =
-                "دنبال کردن";
+    }else{
 
-            button.classList.remove(
-                "following"
+        whatsappInfo.style.display =
+            "none";
+
+        whatsappBtn.style.display =
+            "none";
+
+    }
+
+
+    document.title =
+        (
+            profile.full_name ||
+            profile.username ||
+            "پروفایل فروشنده"
+        ) +
+        " | بازارک";
+
+
+    document.getElementById(
+        "content"
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+    return true;
+
+}
+
+
+/* =========================
+   FOLLOW STATS
+========================= */
+
+async function loadFollowStats(){
+
+    if(!sellerId){
+
+        return;
+
+    }
+
+    const followersResult =
+        await supabaseClient
+            .from("followers")
+            .select("*",{
+                count:"exact",
+                head:true
+            })
+            .eq(
+                "following_id",
+                sellerId
             );
 
-            message.style.display =
-                "none";
+    if(
+        !followersResult.error
+    ){
 
-            return;
+        document.getElementById(
+            "followersCount"
+        ).textContent =
+            followersResult.count || 0;
 
-        }
+    }
 
 
-        /*
-           اگر صاحب پروفایل خودش است:
-           Follow نمایش داده نمی‌شود.
-        */
+    const followingResult =
+        await supabaseClient
+            .from("followers")
+            .select("*",{
+                count:"exact",
+                head:true
+            })
+            .eq(
+                "follower_id",
+                sellerId
+            );
 
-        if (
-            currentUser.id === sellerId
-        ) {
+    if(
+        !followingResult.error
+    ){
 
-            button.style.display =
-                "none";
+        document.getElementById(
+            "followingCount"
+        ).textContent =
+            followingResult.count || 0;
 
-            message.style.display =
-                "none";
+    }
 
-            return;
+}
 
-        }
 
+/* =========================
+   FOLLOW STATUS
+========================= */
+
+async function checkFollowStatus(){
+
+    const button =
+        document.getElementById(
+            "followBtn"
+        );
+
+    if(!currentUser){
 
         button.style.display =
             "inline-block";
 
-        message.style.display =
+        isFollowing = false;
+
+        updateFollowButton();
+
+        return;
+
+    }
+
+
+    if(
+        currentUser.id === sellerId
+    ){
+
+        button.style.display =
             "none";
 
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("followers")
+        .select("id")
+        .eq(
+            "follower_id",
+            currentUser.id
+        )
+        .eq(
+            "following_id",
+            sellerId
+        )
+        .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            "FOLLOW CHECK:",
+            error
+        );
+
+        isFollowing = false;
+
+    }else{
+
+        isFollowing =
+            !!data;
+
+    }
+
+    updateFollowButton();
+
+}
+
+function updateFollowButton(){
+
+    const button =
+        document.getElementById(
+            "followBtn"
+        );
+
+    if(isFollowing){
+
+        button.textContent =
+            "دنبال شده ✓";
+
+        button.classList.add(
+            "following"
+        );
+
+    }else{
+
+        button.textContent =
+            "دنبال کردن";
+
+        button.classList.remove(
+            "following"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   FOLLOW / UNFOLLOW
+========================= */
+
+async function toggleFollow(){
+
+    if(!currentUser){
+
+        showModal(
+            "ورود به حساب",
+            "برای دنبال کردن فروشنده ابتدا وارد حساب بازارک شوید.",
+            "🔐",
+            "ورود",
+            function(){
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+        return;
+
+    }
+
+
+    if(
+        currentUser.id === sellerId
+    ){
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "followBtn"
+        );
+
+    if(button.disabled){
+
+        return;
+
+    }
+
+    button.disabled = true;
+
+
+    if(isFollowing){
 
         const {
-            data,
             error
         } =
         await supabaseClient
             .from("followers")
-            .select("id")
+            .delete()
             .eq(
                 "follower_id",
                 currentUser.id
@@ -821,362 +1827,348 @@
             .eq(
                 "following_id",
                 sellerId
-            )
-            .maybeSingle();
+            );
 
-
-        if (error) {
+        if(error){
 
             console.error(
-                "FOLLOW CHECK ERROR:",
+                "UNFOLLOW:",
                 error
             );
+
+            showModal(
+                "خطا",
+                "لغو دنبال کردن انجام نشد.",
+                "⚠️"
+            );
+
+        }else{
 
             isFollowing = false;
 
-        } else {
+            updateFollowButton();
 
-            isFollowing =
-                !!data;
-
-        }
-
-
-        updateFollowButton();
-
-    }
-
-
-    function updateFollowButton() {
-
-        const button =
-            document.getElementById(
-                "followBtn"
-            );
-
-
-        if (isFollowing) {
-
-            /*
-               فقط همین متن نمایش داده شود.
-            */
-
-            button.textContent =
-                "دنبال شده ✓";
-
-            button.classList.add(
-                "following"
-            );
-
-        } else {
-
-            button.textContent =
-                "دنبال کردن";
-
-            button.classList.remove(
-                "following"
-            );
+            await loadFollowStats();
 
         }
 
-    }
+    }else{
 
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("followers")
+            .insert({
 
-    async function toggleFollow() {
+                follower_id:
+                    currentUser.id,
 
-        /*
-           مهمان
-        */
-
-        if (!currentUser) {
-
-            alert(
-                "برای دنبال کردن ابتدا وارد حساب خود شوید."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            currentUser.id === sellerId
-        ) {
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                "followBtn"
-            );
-
-
-        if (button.disabled) {
-            return;
-        }
-
-
-        button.disabled = true;
-
-
-        if (isFollowing) {
-
-            /*
-               UNFOLLOW
-            */
-
-            const {
-                error
-            } =
-            await supabaseClient
-                .from("followers")
-                .delete()
-                .eq(
-                    "follower_id",
-                    currentUser.id
-                )
-                .eq(
-                    "following_id",
+                following_id:
                     sellerId
-                );
 
+            });
 
-            if (error) {
+        if(error){
 
-                console.error(
-                    "UNFOLLOW ERROR:",
-                    error
-                );
-
-                alert(
-                    "لغو دنبال کردن انجام نشد."
-                );
-
-            } else {
-
-                isFollowing = false;
-
-                updateFollowButton();
-
-                await loadFollowStats();
-
-            }
-
-        } else {
-
-            /*
-               FOLLOW
-            */
-
-            const {
+            console.error(
+                "FOLLOW:",
                 error
-            } =
-            await supabaseClient
-                .from("followers")
-                .insert({
+            );
 
-                    follower_id:
-                        currentUser.id,
-
-                    following_id:
-                        sellerId
-
-                });
-
-
-            if (error) {
-
-                console.error(
-                    "FOLLOW ERROR:",
-                    error
-                );
-
-
-                /*
-                   قبلاً دنبال شده
-                */
-
-                if (
-                    error.code === "23505"
-                ) {
-
-                    isFollowing = true;
-
-                    updateFollowButton();
-
-                    await loadFollowStats();
-
-                } else {
-
-                    alert(
-                        "دنبال کردن انجام نشد."
-                    );
-
-                }
-
-            } else {
+            if(
+                error.code === "23505"
+            ){
 
                 isFollowing = true;
 
                 updateFollowButton();
 
-                await loadFollowStats();
+            }else{
+
+                showModal(
+                    "خطا",
+                    "دنبال کردن فروشنده انجام نشد.",
+                    "⚠️"
+                );
 
             }
 
+        }else{
+
+            isFollowing = true;
+
+            updateFollowButton();
+
+            await loadFollowStats();
+
         }
 
+    }
 
-        button.disabled = false;
+    button.disabled = false;
+
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+async function loadProducts(){
+
+    const {
+        data:products,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select(`
+            id,
+            title,
+            price,
+            city,
+            image_url,
+            image_urls,
+            status,
+            created_at
+        `)
+        .eq(
+            "seller_id",
+            sellerId
+        )
+        .eq(
+            "status",
+            "active"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "PRODUCTS ERROR:",
+            error
+        );
+
+        document.getElementById(
+            "products"
+        ).innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⚠️</div>
+                خطا در دریافت محصولات.
+            </div>
+        `;
+
+        return;
 
     }
 
 
-    async function loadProducts() {
-
-        const {
-            data: products,
-            error
-        } =
-        await supabaseClient
-            .from("products")
-            .select(`
-                id,
-                title,
-                price,
-                city,
-                image_url,
-                image_urls,
-                status,
-                created_at
-            `)
-            .eq(
-                "seller_id",
-                sellerId
-            )
-            .eq(
-                "status",
-                "active"
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+    sellerProducts =
+        products || [];
 
 
-        if (error) {
-
-            console.error(
-                "PRODUCTS ERROR:",
-                error
-            );
-
-            document.getElementById(
-                "products"
-            ).innerHTML =
-                `
-                <div class="empty">
-                    خطا در دریافت محصولات.
-                </div>
-                `;
-
-            return;
-
-        }
+    document.getElementById(
+        "productsCount"
+    ).textContent =
+        sellerProducts.length;
 
 
+    renderFilteredProducts();
+
+
+    await loadSellerRating(
+        sellerProducts
+    );
+
+}
+
+
+function renderFilteredProducts(){
+
+    const query =
         document.getElementById(
-            "productsCount"
-        ).textContent =
-            products.length;
+            "productSearch"
+        ).value
+            .trim()
+            .toLowerCase();
+
+    const sort =
+        document.getElementById(
+            "productSort"
+        ).value;
 
 
-        const container =
-            document.getElementById(
-                "products"
-            );
+    let filtered =
+        sellerProducts.filter(
+            product => {
+
+                const title =
+                    String(
+                        product.title || ""
+                    ).toLowerCase();
+
+                const city =
+                    String(
+                        product.city || ""
+                    ).toLowerCase();
+
+                return (
+                    !query ||
+                    title.includes(query) ||
+                    city.includes(query)
+                );
+
+            }
+        );
 
 
-        if (!products.length) {
+    if(sort === "price-low"){
 
-            container.innerHTML =
-                `
-                <div
-                    class="empty"
-                    style="grid-column:1/-1;"
-                >
-                    این فروشنده هنوز محصولی
-                    برای فروش ندارد.
-                </div>
-                `;
+        filtered.sort(
+            (a,b) =>
+                Number(a.price || 0) -
+                Number(b.price || 0)
+        );
 
-            return;
+    }
 
-        }
+    if(sort === "price-high"){
+
+        filtered.sort(
+            (a,b) =>
+                Number(b.price || 0) -
+                Number(a.price || 0)
+        );
+
+    }
+
+    if(sort === "newest"){
+
+        filtered.sort(
+            (a,b) =>
+                new Date(
+                    b.created_at || 0
+                ) -
+                new Date(
+                    a.created_at || 0
+                )
+        );
+
+    }
 
 
-        container.innerHTML =
-            products.map(product => {
+    renderProducts(
+        filtered
+    );
+
+}
+
+
+function renderProducts(products){
+
+    const container =
+        document.getElementById(
+            "products"
+        );
+
+
+    if(!products.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🛍️</div>
+                ${
+                    sellerProducts.length
+                    ? "محصولی مطابق جستجو پیدا نشد."
+                    : "این فروشنده هنوز محصولی برای فروش ندارد."
+                }
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        products.map(
+            product => {
 
                 const image =
-                    getProductImage(product);
+                    getProductImage(
+                        product
+                    );
+
+                const safeId =
+                    encodeURIComponent(
+                        product.id
+                    );
 
 
                 return `
-                    <article class="product-card">
+                    <article
+                        class="product-card"
+                        onclick="openProduct('${safeId}')"
+                    >
 
-                        ${
-                            image
-                            ? `
+                        <div class="product-image-wrap">
+
+                            ${
+                                image
+                                ?
+                                `
                                 <img
                                     src="${escapeHTML(image)}"
                                     class="product-image"
-                                    alt="${escapeHTML(product.title)}"
-                                    onclick="openProduct('${escapeHTML(product.id)}')"
-                                    onerror="this.style.display='none';"
+                                    alt="${escapeHTML(product.title || "محصول")}"
+                                    loading="lazy"
+                                    onerror="this.onerror=null;this.parentElement.innerHTML='<div class=&quot;no-image&quot;>🛍️</div>'"
                                 >
-                              `
-                            : `
-                                <div
-                                    class="product-image"
-                                    style="
-                                        min-height:180px;
-                                        display:flex;
-                                        align-items:center;
-                                        justify-content:center;
-                                        font-size:45px;
-                                    "
-                                    onclick="openProduct('${escapeHTML(product.id)}')"
-                                >
+                                `
+                                :
+                                `
+                                <div class="no-image">
                                     🛍️
                                 </div>
-                              `
-                        }
+                                `
+                            }
+
+                        </div>
 
                         <div class="product-info">
 
                             <div class="product-title">
-                                ${escapeHTML(product.title)}
+                                ${escapeHTML(
+                                    product.title ||
+                                    "محصول بدون نام"
+                                )}
                             </div>
 
                             <div class="price">
-                                ${formatPrice(product.price)}
+                                ${formatPrice(
+                                    product.price
+                                )}
                             </div>
 
                             ${
                                 product.city
-                                ? `
-                                    <div class="city">
-                                        📍
-                                        ${escapeHTML(product.city)}
-                                    </div>
+                                ?
                                 `
-                                : ""
+                                <div class="city">
+                                    📍 ${escapeHTML(
+                                        product.city
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
                             }
 
                         </div>
@@ -1184,66 +2176,226 @@
                     </article>
                 `;
 
-            }).join("");
+            }
+        ).join("");
+
+}
+
+
+/* =========================
+   PRODUCT SEARCH / SORT
+========================= */
+
+document.getElementById(
+    "productSearch"
+).addEventListener(
+    "input",
+    renderFilteredProducts
+);
+
+document.getElementById(
+    "productSort"
+).addEventListener(
+    "change",
+    renderFilteredProducts
+);
+
+
+/* =========================
+   SELLER RATING
+========================= */
+
+async function loadSellerRating(products){
+
+    const productIds =
+        products.map(
+            product => product.id
+        );
+
+
+    if(!productIds.length){
+
+        setRating(
+            0,
+            0
+        );
+
+        return;
 
     }
 
 
-    function openProduct(productId) {
+    const {
+        data:comments,
+        error
+    } =
+    await supabaseClient
+        .from("product_comments")
+        .select("rating")
+        .in(
+            "product_id",
+            productIds
+        );
 
-        window.location.href =
-            "product.html?id=" +
-            encodeURIComponent(
-                productId
+
+    if(error){
+
+        console.error(
+            "RATING ERROR:",
+            error
+        );
+
+        setRating(
+            0,
+            0
+        );
+
+        return;
+
+    }
+
+
+    const ratings =
+        (comments || [])
+            .map(
+                item =>
+                    Number(
+                        item.rating
+                    )
+            )
+            .filter(
+                rating =>
+                    rating >= 1 &&
+                    rating <= 5
             );
 
-    }
 
+    if(!ratings.length){
 
-    function showError(message) {
+        setRating(
+            0,
+            0
+        );
 
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "content"
-        ).style.display =
-            "none";
-
-
-        const errorBox =
-            document.getElementById(
-                "errorBox"
-            );
-
-
-        errorBox.textContent =
-            message;
-
-
-        errorBox.style.display =
-            "block";
+        return;
 
     }
 
 
-    document.getElementById(
-        "followBtn"
-    ).addEventListener(
-        "click",
-        toggleFollow
+    const average =
+        ratings.reduce(
+            (sum,rating) =>
+                sum + rating,
+            0
+        ) /
+        ratings.length;
+
+
+    setRating(
+        average,
+        ratings.length
     );
 
+}
 
-    async function init() {
 
-        if (!sellerId) {
+function setRating(
+    average,
+    count
+){
 
-            showError(
-                "شناسه فروشنده پیدا نشد."
+    const stars =
+        document.getElementById(
+            "ratingStars"
+        );
+
+    const text =
+        document.getElementById(
+            "ratingText"
+        );
+
+
+    if(!count){
+
+        stars.textContent =
+            "☆☆☆☆☆";
+
+        text.textContent =
+            "هنوز امتیازی ثبت نشده";
+
+        return;
+
+    }
+
+
+    const rounded =
+        Math.max(
+            0,
+            Math.min(
+                5,
+                Math.round(average)
+            )
+        );
+
+
+    stars.textContent =
+        "★".repeat(rounded) +
+        "☆".repeat(
+            5 - rounded
+        );
+
+
+    text.textContent =
+        average.toFixed(1) +
+        " از 5 • " +
+        count +
+        " امتیاز";
+
+}
+
+
+/* =========================
+   OPEN PRODUCT
+========================= */
+
+function openProduct(productId){
+
+    window.location.href =
+        "product.html?id=" +
+        productId;
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+document.getElementById(
+    "whatsappBtn"
+).addEventListener(
+    "click",
+    function(){
+
+        if(!sellerProfile){
+
+            return;
+
+        }
+
+
+        const url =
+            getWhatsAppUrl(
+                sellerProfile.whatsapp
+            );
+
+
+        if(!url){
+
+            showModal(
+                "واتساپ در دسترس نیست",
+                "شماره واتساپ معتبر برای این فروشنده ثبت نشده است.",
+                "📱"
             );
 
             return;
@@ -1251,32 +2403,218 @@
         }
 
 
-        await getCurrentUser();
+        window.open(
+            url,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    }
+);
 
 
-        const profileLoaded =
-            await loadProfile();
+/* =========================
+   SHARE
+========================= */
+
+document.getElementById(
+    "shareBtn"
+).addEventListener(
+    "click",
+    async function(){
+
+        const shareUrl =
+            window.location.href;
+
+        const shareTitle =
+            (
+                sellerProfile?.full_name ||
+                sellerProfile?.username ||
+                "پروفایل فروشنده"
+            ) +
+            " | بازارک";
 
 
-        if (!profileLoaded) {
-            return;
+        if(
+            navigator.share
+        ){
+
+            try{
+
+                await navigator.share({
+
+                    title:
+                        shareTitle,
+
+                    text:
+                        "پروفایل این فروشنده را در بازارک ببینید.",
+
+                    url:
+                        shareUrl
+
+                });
+
+                return;
+
+            }catch(error){
+
+                if(
+                    error?.name ===
+                    "AbortError"
+                ){
+
+                    return;
+
+                }
+
+            }
+
         }
 
 
-        await Promise.all([
+        try{
 
-            loadFollowStats(),
+            await navigator.clipboard.writeText(
+                shareUrl
+            );
 
-            checkFollowStatus(),
+            showModal(
+                "لینک کپی شد",
+                "لینک پروفایل فروشنده با موفقیت کپی شد.",
+                "🔗"
+            );
 
-            loadProducts()
+        }catch(error){
 
-        ]);
+            showModal(
+                "اشتراک‌گذاری",
+                shareUrl,
+                "🔗"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "content"
+    ).style.display =
+        "none";
+
+
+    const errorBox =
+        document.getElementById(
+            "errorBox"
+        );
+
+    errorBox.textContent =
+        message;
+
+    errorBox.style.display =
+        "block";
+
+}
+
+
+/* =========================
+   FOLLOW BUTTON
+========================= */
+
+document.getElementById(
+    "followBtn"
+).addEventListener(
+    "click",
+    toggleFollow
+);
+
+
+/* =========================
+   INIT
+========================= */
+
+async function init(){
+
+    if(!sellerId){
+
+        showError(
+            "شناسه فروشنده پیدا نشد."
+        );
+
+        return;
 
     }
 
 
-    init();
+    await getCurrentUser();
 
-</script></body>
+
+    const profileLoaded =
+        await loadProfile();
+
+
+    if(!profileLoaded){
+
+        return;
+
+    }
+
+
+    await Promise.all([
+
+        loadFollowStats(),
+
+        checkFollowStatus(),
+
+        loadProducts()
+
+    ]);
+
+}
+
+
+init();
+
+
+/* =========================
+   REFRESH WHEN RETURNING
+========================= */
+
+document.addEventListener(
+    "visibilitychange",
+    async function(){
+
+        if(
+            document.visibilityState ===
+            "visible" &&
+            sellerId
+        ){
+
+            await getCurrentUser();
+
+            await Promise.all([
+                loadFollowStats(),
+                checkFollowStatus()
+            ]);
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
 </html>
