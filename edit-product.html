@@ -2,435 +2,688 @@
 <html lang="fa" dir="rtl">
 
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>ویرایش محصول | بازارک</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-            margin: 0;
-            font-family: Tahoma, Arial, sans-serif;
-            background: #f4f7f5;
-            color: #17251d;
-        }
-
-
-        header {
-            background: #087443;
-            color: white;
-            padding: 15px 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,.1);
-        }
-
-
-        .header {
-            max-width: 900px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-
-        .logo {
-            color: white;
-            text-decoration: none;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-
-        .back {
-            color: white;
-            text-decoration: none;
-            background: rgba(255,255,255,.12);
-            padding: 10px 14px;
-            border-radius: 10px;
-        }
-
-
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-
-        h1 {
-            margin: 0 0 20px;
-            color: #087443;
-            font-size: 25px;
-        }
-
-
-        .message {
-            display: none;
-            padding: 13px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            white-space: pre-line;
-        }
-
-
-        .error {
-            background: #fdeaea;
-            color: #c62828;
-        }
-
-
-        .success {
-            background: #e8f5ee;
-            color: #087443;
-        }
-
-
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: #777;
-        }
-
-
-        .form-card {
-            background: white;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.07);
-        }
-
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            border: 1px solid #d9e2dc;
-            border-radius: 11px;
-            padding: 12px 13px;
-            font-family: inherit;
-            font-size: 14px;
-            outline: none;
-            background: white;
-        }
-
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #087443;
-        }
-
-
-        textarea {
-            min-height: 130px;
-            resize: vertical;
-            line-height: 1.8;
-        }
-
-
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-
-        .images-title {
-            margin: 25px 0 12px;
-            font-size: 18px;
-            color: #087443;
-        }
-
-
-        .images {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-
-        .image-box {
-            position: relative;
-            height: 150px;
-            border-radius: 13px;
-            overflow: hidden;
-            background: #eef2ef;
-            border: 1px solid #e1e8e3;
-        }
-
-
-        .image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-
-        .remove-image {
-            position: absolute;
-            top: 7px;
-            left: 7px;
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(198,40,40,.92);
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-
-        .remove-image:hover {
-            background: #b71c1c;
-        }
-
-
-        .add-images {
-            margin-top: 15px;
-            border: 2px dashed #b8c9be;
-            border-radius: 13px;
-            padding: 22px;
-            text-align: center;
-            cursor: pointer;
-            color: #087443;
-            background: #f8fbf9;
-        }
-
-
-        .add-images:hover {
-            background: #eef7f1;
-        }
-
-
-        .add-images input {
-            display: none;
-        }
-
-
-        .new-preview-title {
-            margin-top: 20px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-
-        .new-preview {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-
-        .new-image {
-            position: relative;
-            height: 130px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-
-        .new-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-
-        .remove-new {
-            position: absolute;
-            top: 6px;
-            left: 6px;
-            width: 30px;
-            height: 30px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(198,40,40,.92);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-
-        .save-btn {
-            width: 100%;
-            border: none;
-            background: #087443;
-            color: white;
-            padding: 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 25px;
-        }
-
-
-        .save-btn:hover {
-            background: #066238;
-        }
-
-
-        .save-btn:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
-
-
-        .cancel-btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-            color: #666;
-            margin-top: 13px;
-            padding: 10px;
-        }
-
-
-        @media (max-width: 700px) {
-
-            .images,
-            .new-preview {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            header {
-                padding: 13px 15px;
-            }
-
-
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-
-            .back {
-                text-align: center;
-            }
-
-
-            .container {
-                margin-top: 20px;
-            }
-
-
-            .form-card {
-                padding: 16px;
-            }
-
-
-            .row {
-                grid-template-columns: 1fr;
-            }
-
-
-            .images,
-            .new-preview {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-
-            .image-box {
-                height: 145px;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>ویرایش محصول | بازارک</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#f4f7f5;
+    --card:#fff;
+    --header:#087443;
+    --text:#17251d;
+    --muted:#737d77;
+    --border:#e2e9e4;
+    --soft:#f1f7f3;
+    --soft2:#f7faf8;
+    --green:#087443;
+    --green2:#0a8b50;
+    --danger:#c62828;
+    --danger-bg:#fff3f3;
+    --input:#fff;
+    --overlay:rgba(0,0,0,.48);
+    --shadow:0 8px 30px rgba(0,0,0,.07);
+    --shadow2:0 6px 20px rgba(0,0,0,.07);
+}
+
+html.dark{
+    --bg:#0f1512;
+    --card:#17201b;
+    --header:#0a2417;
+    --text:#edf4ef;
+    --muted:#aab7af;
+    --border:#2b3931;
+    --soft:#202d25;
+    --soft2:#1b2720;
+    --green:#35b96f;
+    --green2:#20b87a;
+    --danger:#ff7777;
+    --danger-bg:#321d1d;
+    --input:#111a15;
+    --overlay:rgba(0,0,0,.68);
+    --shadow:0 8px 30px rgba(0,0,0,.28);
+    --shadow2:0 6px 20px rgba(0,0,0,.25);
+}
+
+html{
+    background:var(--bg);
+}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:background .2s,color .2s;
+}
+
+button,
+input,
+textarea,
+select{
+    font-family:inherit;
+}
+
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
+}
+
+.header{
+    background:var(--header);
+    color:#fff;
+    box-shadow:0 3px 18px rgba(0,0,0,.12);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.header-inner{
+    max-width:980px;
+    margin:auto;
+    min-height:68px;
+    padding:11px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.brand{
+    color:#fff;
+    text-decoration:none;
+    font-size:21px;
+    font-weight:900;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.header-btn{
+    width:42px;
+    height:42px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+}
+
+.header-btn:hover{
+    background:rgba(255,255,255,.18);
+}
+
+.container{
+    max-width:980px;
+    margin:0 auto;
+    padding:28px 16px 50px;
+}
+
+.page-heading{
+    margin-bottom:20px;
+}
+
+.page-heading h1{
+    margin:0;
+    color:var(--green);
+    font-size:25px;
+}
+
+.page-heading p{
+    margin:8px 0 0;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.8;
+}
+
+.message{
+    display:none;
+    padding:14px 16px;
+    border-radius:13px;
+    margin-bottom:18px;
+    white-space:pre-line;
+    line-height:1.8;
+    font-size:13px;
+    border:1px solid transparent;
+}
+
+.message.error{
+    background:var(--danger-bg);
+    color:var(--danger);
+    border-color:rgba(198,40,40,.15);
+}
+
+.message.success{
+    background:var(--soft);
+    color:var(--green);
+    border-color:var(--border);
+}
+
+.loading{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:18px;
+    padding:65px 20px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.spinner{
+    width:38px;
+    height:38px;
+    border:3px solid var(--border);
+    border-top-color:var(--green);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:0 auto 15px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+.form-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:24px;
+    box-shadow:var(--shadow);
+}
+
+.section{
+    padding-bottom:24px;
+    margin-bottom:24px;
+    border-bottom:1px solid var(--border);
+}
+
+.section:last-of-type{
+    border-bottom:0;
+    margin-bottom:0;
+    padding-bottom:0;
+}
+
+.section-title{
+    margin:0 0 17px;
+    font-size:17px;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.section-title span{
+    color:var(--green);
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group:last-child{
+    margin-bottom:0;
+}
+
+.label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+    font-size:13px;
+    color:var(--text);
+}
+
+.input,
+textarea,
+select{
+    width:100%;
+    border:1px solid var(--border);
+    border-radius:11px;
+    padding:12px 13px;
+    font-size:14px;
+    outline:none;
+    color:var(--text);
+    background:var(--input);
+    transition:.18s;
+}
+
+.input:focus,
+textarea:focus,
+select:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(8,116,67,.08);
+}
+
+textarea{
+    min-height:140px;
+    resize:vertical;
+    line-height:1.9;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.images-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.image-box{
+    position:relative;
+    height:155px;
+    border-radius:14px;
+    overflow:hidden;
+    background:var(--soft);
+    border:1px solid var(--border);
+}
+
+.image-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.image-number{
+    position:absolute;
+    right:8px;
+    bottom:8px;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    padding:4px 8px;
+    border-radius:7px;
+    font-size:11px;
+}
+
+.remove-image{
+    position:absolute;
+    top:8px;
+    left:8px;
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:50%;
+    background:rgba(198,40,40,.94);
+    color:#fff;
+    cursor:pointer;
+    font-size:20px;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.remove-image:hover{
+    background:#b71c1c;
+}
+
+.empty-images{
+    grid-column:1/-1;
+    padding:30px 15px;
+    text-align:center;
+    background:var(--soft);
+    border:1px dashed var(--border);
+    border-radius:13px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.upload-box{
+    margin-top:15px;
+    border:2px dashed var(--border);
+    border-radius:15px;
+    padding:25px 15px;
+    text-align:center;
+    cursor:pointer;
+    background:var(--soft2);
+    color:var(--green);
+    transition:.18s;
+}
+
+.upload-box:hover{
+    border-color:var(--green);
+    background:var(--soft);
+}
+
+.upload-icon{
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.upload-main{
+    font-size:14px;
+    font-weight:bold;
+}
+
+.upload-help{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:6px;
+}
+
+.upload-box input{
+    display:none;
+}
+
+.new-title{
+    display:none;
+    margin:20px 0 10px;
+    font-size:13px;
+    font-weight:bold;
+    color:var(--text);
+}
+
+.new-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.new-image{
+    position:relative;
+    height:140px;
+    border-radius:14px;
+    overflow:hidden;
+    background:var(--soft);
+    border:1px solid var(--border);
+}
+
+.new-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.remove-new{
+    position:absolute;
+    top:8px;
+    left:8px;
+    width:31px;
+    height:31px;
+    border:0;
+    border-radius:50%;
+    background:rgba(198,40,40,.94);
+    color:#fff;
+    cursor:pointer;
+    font-size:19px;
+}
+
+.image-note{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.8;
+}
+
+.actions{
+    margin-top:25px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.save-btn,
+.cancel-btn{
+    min-height:48px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.save-btn{
+    border:0;
+    color:#fff;
+    background:var(--green);
+}
+
+.save-btn:hover{
+    background:var(--green2);
+}
+
+.save-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.cancel-btn{
+    border:1px solid var(--border);
+    background:var(--soft);
+    color:var(--text);
+}
+
+.cancel-btn:hover{
+    border-color:var(--green);
+    color:var(--green);
+}
+
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:var(--overlay);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal{
+    width:min(430px,100%);
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    padding:22px;
+    animation:modalIn .18s ease;
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(8px) scale(.98);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.modal-icon{
+    font-size:30px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.modal h3{
+    margin:0 0 9px;
+    text-align:center;
+    color:var(--text);
+}
+
+.modal p{
+    margin:0;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.9;
+    white-space:pre-line;
+}
+
+.modal-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:20px;
+}
+
+.modal-btn{
+    border:0;
+    border-radius:11px;
+    min-height:44px;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:bold;
+}
+
+.modal-cancel{
+    background:var(--soft);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.modal-confirm{
+    background:var(--green);
+    color:#fff;
+}
+
+@media(max-width:700px){
+
+    .images-grid,
+    .new-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:520px){
+
+    .header-inner{
+        min-height:62px;
+    }
+
+    .brand{
+        font-size:18px;
+    }
+
+    .header-btn{
+        width:39px;
+        height:39px;
+    }
+
+    .container{
+        padding:20px 12px 40px;
+    }
+
+    .page-heading h1{
+        font-size:22px;
+    }
+
+    .form-card{
+        padding:17px;
+        border-radius:17px;
+    }
+
+    .row{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .images-grid,
+    .new-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .image-box{
+        height:145px;
+    }
+
+    .new-image{
+        height:135px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
 </head>
-
 
 <body>
 
+<header class="header">
 
-<header>
+    <div class="header-inner">
 
-    <div class="header">
-
-        <a
-            href="index.html"
-            class="logo"
-        >
+        <a href="index.html" class="brand">
             🛒 بازارک
         </a>
 
+        <div class="header-actions">
 
-        <a
-            href="my-products.html"
-            class="back"
-        >
-            ← برگشت به محصولات من
-        </a>
+            <button
+                type="button"
+                class="header-btn"
+                id="themeBtn"
+                title="تغییر حالت"
+            >
+                🌙
+            </button>
+
+            <a
+                href="my-products.html"
+                class="header-btn"
+                title="محصولات من"
+            >
+                📦
+            </a>
+
+        </div>
 
     </div>
 
 </header>
 
-
-
 <main class="container">
 
+    <div class="page-heading">
 
-    <h1>
-        ✏️ ویرایش محصول
-    </h1>
+        <h1>✏️ ویرایش محصول</h1>
 
+        <p>
+            اطلاعات محصول، موجودی و تصاویر آن را مدیریت کنید.
+        </p>
 
-    <div
-        id="message"
-        class="message"
-    ></div>
-
-
-    <div
-        id="loading"
-        class="loading"
-    >
-        ⏳ در حال دریافت اطلاعات محصول...
     </div>
 
+    <div id="message" class="message"></div>
 
+    <div id="loading" class="loading">
+
+        <div class="spinner"></div>
+
+        در حال دریافت اطلاعات محصول...
+
+    </div>
 
     <div
         id="formContainer"
@@ -438,292 +691,298 @@
         style="display:none;"
     >
 
-
         <form id="editForm">
 
+            <section class="section">
 
-            <div class="form-group">
+                <h2 class="section-title">
+                    <span>📝</span>
+                    اطلاعات محصول
+                </h2>
 
-                <label for="title">
-                    نام محصول
+                <div class="form-group">
+
+                    <label class="label" for="title">
+                        نام محصول
+                    </label>
+
+                    <input
+                        class="input"
+                        type="text"
+                        id="title"
+                        required
+                        maxlength="150"
+                        placeholder="مثلاً آیفون 13"
+                    >
+
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group">
+
+                        <label class="label" for="price">
+                            قیمت
+                        </label>
+
+                        <input
+                            class="input"
+                            type="number"
+                            id="price"
+                            min="0"
+                            step="0.01"
+                            required
+                            placeholder="مثلاً 25000"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="label" for="category">
+                            دسته‌بندی
+                        </label>
+
+                        <select
+                            id="category"
+                            required
+                        >
+
+                            <option value="">
+                                انتخاب دسته‌بندی
+                            </option>
+
+                            <option value="mobile">📱 موبایل</option>
+                            <option value="computer">💻 کامپیوتر</option>
+                            <option value="fashion">👕 فیشن</option>
+                            <option value="shoes">👟 کفش</option>
+                            <option value="gaming">🎮 گیمینگ</option>
+                            <option value="home">🏠 خانه</option>
+                            <option value="tools">🔧 ابزار</option>
+                            <option value="vehicle">🚗 موتر</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group">
+
+                        <label class="label" for="city">
+                            شهر
+                        </label>
+
+                        <input
+                            class="input"
+                            type="text"
+                            id="city"
+                            maxlength="100"
+                            placeholder="مثلاً مزار شریف"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="label" for="condition">
+                            وضعیت محصول
+                        </label>
+
+                        <select id="condition">
+
+                            <option value="">
+                                انتخاب وضعیت
+                            </option>
+
+                            <option value="new">نو</option>
+                            <option value="used">استفاده شده</option>
+                            <option value="like_new">در حد نو</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group">
+
+                        <label class="label" for="stock">
+                            موجودی
+                        </label>
+
+                        <input
+                            class="input"
+                            type="number"
+                            id="stock"
+                            min="0"
+                            step="1"
+                            placeholder="مثلاً 1"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="label" for="whatsapp">
+                            شماره واتساپ
+                        </label>
+
+                        <input
+                            class="input"
+                            type="text"
+                            id="whatsapp"
+                            maxlength="30"
+                            placeholder="مثلاً 937XXXXXXXX"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="label" for="description">
+                        توضیحات محصول
+                    </label>
+
+                    <textarea
+                        id="description"
+                        maxlength="5000"
+                        placeholder="توضیحات کامل محصول..."
+                    ></textarea>
+
+                </div>
+
+            </section>
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    <span>🖼️</span>
+                    تصاویر محصول
+                </h2>
+
+                <div
+                    id="existingImages"
+                    class="images-grid"
+                ></div>
+
+                <label class="upload-box">
+
+                    <div class="upload-icon">📷</div>
+
+                    <div class="upload-main">
+                        اضافه کردن عکس جدید
+                    </div>
+
+                    <div class="upload-help">
+                        از فایل‌های گوشی خود چند عکس انتخاب کنید
+                    </div>
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        multiple
+                    >
+
                 </label>
 
-                <input
-                    type="text"
-                    id="title"
-                    required
-                    placeholder="مثلاً آیفون 13"
+                <div
+                    id="newPreviewTitle"
+                    class="new-title"
                 >
-
-            </div>
-
-
-
-            <div class="row">
-
-
-                <div class="form-group">
-
-                    <label for="price">
-                        قیمت
-                    </label>
-
-                    <input
-                        type="number"
-                        id="price"
-                        min="0"
-                        step="0.01"
-                        required
-                        placeholder="مثلاً 25000"
-                    >
-
+                    عکس‌های جدید
                 </div>
 
+                <div
+                    id="newPreview"
+                    class="new-grid"
+                ></div>
 
-
-                <div class="form-group">
-
-                    <label for="category">
-                        دسته‌بندی
-                    </label>
-
-                    <select
-                        id="category"
-                        required
-                    >
-
-                        <option value="">
-                            انتخاب دسته‌بندی
-                        </option>
-
-                        <option value="mobile">
-                            📱 موبایل
-                        </option>
-
-                        <option value="computer">
-                            💻 کامپیوتر
-                        </option>
-
-                        <option value="fashion">
-                            👕 فیشن
-                        </option>
-
-                        <option value="shoes">
-                            👟 کفش
-                        </option>
-
-                        <option value="gaming">
-                            🎮 گیمینگ
-                        </option>
-
-                        <option value="home">
-                            🏠 خانه
-                        </option>
-
-                        <option value="tools">
-                            🔧 ابزار
-                        </option>
-
-                        <option value="vehicle">
-                            🚗 موتر
-                        </option>
-
-                    </select>
-
+                <div class="image-note">
+                    عکس‌هایی که با × حذف می‌کنید بعد از ذخیره تغییرات از Storage حذف خواهند شد.
                 </div>
 
+            </section>
 
-            </div>
+            <div class="actions">
 
-
-
-            <div class="row">
-
-
-                <div class="form-group">
-
-                    <label for="city">
-                        شهر
-                    </label>
-
-                    <input
-                        type="text"
-                        id="city"
-                        placeholder="مثلاً مزار شریف"
-                    >
-
-                </div>
-
-
-
-                <div class="form-group">
-
-                    <label for="condition">
-                        وضعیت محصول
-                    </label>
-
-                    <select id="condition">
-
-                        <option value="">
-                            انتخاب وضعیت
-                        </option>
-
-                        <option value="new">
-                            نو
-                        </option>
-
-                        <option value="used">
-                            استفاده شده
-                        </option>
-
-                        <option value="like_new">
-                            در حد نو
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-            </div>
-
-
-
-            <div class="row">
-
-
-                <div class="form-group">
-
-                    <label for="stock">
-                        موجودی
-                    </label>
-
-                    <input
-                        type="number"
-                        id="stock"
-                        min="0"
-                        step="1"
-                        placeholder="مثلاً 1"
-                    >
-
-                </div>
-
-
-
-                <div class="form-group">
-
-                    <label for="whatsapp">
-                        شماره واتساپ
-                    </label>
-
-                    <input
-                        type="text"
-                        id="whatsapp"
-                        placeholder="مثلاً 937XXXXXXXX"
-                    >
-
-                </div>
-
-
-            </div>
-
-
-
-            <div class="form-group">
-
-                <label for="description">
-                    توضیحات محصول
-                </label>
-
-                <textarea
-                    id="description"
-                    placeholder="توضیحات کامل محصول..."
-                ></textarea>
-
-            </div>
-
-
-
-            <div class="images-title">
-                🖼️ عکس‌های فعلی محصول
-            </div>
-
-
-            <div
-                id="existingImages"
-                class="images"
-            ></div>
-
-
-
-            <label class="add-images">
-
-                ➕ اضافه کردن عکس جدید
-
-                <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                    multiple
+                <button
+                    type="submit"
+                    id="saveBtn"
+                    class="save-btn"
                 >
+                    💾 ذخیره تغییرات
+                </button>
 
-            </label>
+                <a
+                    href="my-products.html"
+                    class="cancel-btn"
+                >
+                    انصراف
+                </a>
 
-
-
-            <div
-                id="newPreviewTitle"
-                class="new-preview-title"
-                style="display:none;"
-            >
-                عکس‌های جدید
             </div>
-
-
-            <div
-                id="newPreview"
-                class="new-preview"
-            ></div>
-
-
-
-            <button
-                type="submit"
-                id="saveBtn"
-                class="save-btn"
-            >
-                💾 ذخیره تغییرات
-            </button>
-
-
-            <a
-                href="my-products.html"
-                class="cancel-btn"
-            >
-                انصراف
-            </a>
-
 
         </form>
 
-
     </div>
-
 
 </main>
 
+<div id="confirmModal" class="modal-overlay">
 
+    <div class="modal">
+
+        <div id="modalIcon" class="modal-icon">
+            ⚠️
+        </div>
+
+        <h3 id="modalTitle">
+            تأیید
+        </h3>
+
+        <p id="modalText">
+            آیا مطمئن هستید؟
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="modal-btn modal-cancel"
+                id="modalCancel"
+            >
+                انصراف
+            </button>
+
+            <button
+                type="button"
+                class="modal-btn modal-confirm"
+                id="modalConfirm"
+            >
+                تأیید
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script>
-
 
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
 
-
 const SUPABASE_ANON_KEY =
     "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -731,50 +990,179 @@ const supabaseClient =
         SUPABASE_ANON_KEY
     );
 
-
-
 const message =
     document.getElementById("message");
-
 
 const loading =
     document.getElementById("loading");
 
-
 const formContainer =
     document.getElementById("formContainer");
-
 
 const existingImages =
     document.getElementById("existingImages");
 
-
 const imageInput =
     document.getElementById("imageInput");
-
 
 const newPreview =
     document.getElementById("newPreview");
 
-
 const newPreviewTitle =
     document.getElementById("newPreviewTitle");
-
 
 const saveBtn =
     document.getElementById("saveBtn");
 
+const themeBtn =
+    document.getElementById("themeBtn");
 
+const confirmModal =
+    document.getElementById("confirmModal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalText =
+    document.getElementById("modalText");
+
+const modalIcon =
+    document.getElementById("modalIcon");
+
+const modalCancel =
+    document.getElementById("modalCancel");
+
+const modalConfirm =
+    document.getElementById("modalConfirm");
 
 let currentUser = null;
 let currentProduct = null;
+
 let existingImageUrls = [];
 let removedImageUrls = [];
 let newFiles = [];
 
+let modalAction = null;
 
 
-function showMessage(text, type) {
+/* =========================
+   THEME
+========================= */
+
+function getTheme(){
+
+    return localStorage.getItem("bazaarak-theme") || "light";
+
+}
+
+function applyTheme(theme){
+
+    const dark =
+        theme === "dark";
+
+    document.documentElement.classList.toggle(
+        "dark",
+        dark
+    );
+
+    themeBtn.textContent =
+        dark ? "☀️" : "🌙";
+
+}
+
+function setTheme(theme){
+
+    localStorage.setItem(
+        "bazaarak-theme",
+        theme
+    );
+
+    applyTheme(theme);
+
+    try{
+
+        const channel =
+            new BroadcastChannel(
+                "bazaarak-theme"
+            );
+
+        channel.postMessage(theme);
+        channel.close();
+
+    }catch(e){}
+
+}
+
+applyTheme(getTheme());
+
+themeBtn.addEventListener(
+    "click",
+    function(){
+
+        setTheme(
+            getTheme() === "dark"
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
+
+try{
+
+    const themeChannel =
+        new BroadcastChannel(
+            "bazaarak-theme"
+        );
+
+    themeChannel.onmessage =
+        function(event){
+
+            if(
+                event.data === "dark" ||
+                event.data === "light"
+            ){
+
+                applyTheme(
+                    event.data
+                );
+
+            }
+
+        };
+
+}catch(e){}
+
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(
+            event.key === "bazaarak-theme" &&
+            (
+                event.newValue === "dark" ||
+                event.newValue === "light"
+            )
+        ){
+
+            applyTheme(
+                event.newValue
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(
+    text,
+    type
+){
 
     message.textContent =
         text;
@@ -787,9 +1175,7 @@ function showMessage(text, type) {
 
 }
 
-
-
-function hideMessage() {
+function hideMessage(){
 
     message.style.display =
         "none";
@@ -797,8 +1183,89 @@ function hideMessage() {
 }
 
 
+/* =========================
+   MODAL
+========================= */
 
-function getProductId() {
+function showConfirm(
+    title,
+    text,
+    icon,
+    action
+){
+
+    modalTitle.textContent =
+        title;
+
+    modalText.textContent =
+        text;
+
+    modalIcon.textContent =
+        icon || "⚠️";
+
+    modalAction =
+        action;
+
+    confirmModal.style.display =
+        "flex";
+
+}
+
+function closeConfirm(){
+
+    confirmModal.style.display =
+        "none";
+
+    modalAction =
+        null;
+
+}
+
+modalCancel.addEventListener(
+    "click",
+    closeConfirm
+);
+
+modalConfirm.addEventListener(
+    "click",
+    async function(){
+
+        const action =
+            modalAction;
+
+        closeConfirm();
+
+        if(typeof action === "function"){
+
+            await action();
+
+        }
+
+    }
+);
+
+confirmModal.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            confirmModal
+        ){
+
+            closeConfirm();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   PRODUCT ID
+========================= */
+
+function getProductId(){
 
     const params =
         new URLSearchParams(
@@ -810,17 +1277,18 @@ function getProductId() {
 }
 
 
+/* =========================
+   LOAD PRODUCT
+========================= */
 
-async function loadProduct() {
+async function loadProduct(){
 
-    try {
-
+    try{
 
         const productId =
             getProductId();
 
-
-        if (!productId) {
+        if(!productId){
 
             throw new Error(
                 "شناسه محصول پیدا نشد."
@@ -828,27 +1296,23 @@ async function loadProduct() {
 
         }
 
-
-
         const {
-            data: {
+            data:{
                 session
             },
-            error: sessionError
+            error:sessionError
         } =
             await supabaseClient
                 .auth
                 .getSession();
 
-
-        if (sessionError) {
+        if(sessionError){
 
             throw sessionError;
 
         }
 
-
-        if (!session) {
+        if(!session){
 
             window.location.href =
                 "login.html";
@@ -857,14 +1321,11 @@ async function loadProduct() {
 
         }
 
-
         currentUser =
             session.user;
 
-
-
         const {
-            data: product,
+            data:product,
             error
         } =
             await supabaseClient
@@ -880,15 +1341,13 @@ async function loadProduct() {
                 )
                 .maybeSingle();
 
-
-        if (error) {
+        if(error){
 
             throw error;
 
         }
 
-
-        if (!product) {
+        if(!product){
 
             throw new Error(
                 "محصول پیدا نشد یا شما صاحب این محصول نیستید."
@@ -896,32 +1355,23 @@ async function loadProduct() {
 
         }
 
-
         currentProduct =
             product;
 
-
-
         fillForm(product);
-
 
         loading.style.display =
             "none";
-
 
         formContainer.style.display =
             "block";
 
-
-    } catch (error) {
-
+    }catch(error){
 
         console.error(error);
 
-
         loading.style.display =
             "none";
-
 
         showMessage(
             "❌ دریافت محصول انجام نشد:\n" +
@@ -934,217 +1384,245 @@ async function loadProduct() {
 }
 
 
+/* =========================
+   FILL FORM
+========================= */
 
-function fillForm(product) {
+function fillForm(product){
 
-
-    document.getElementById("title").value =
+    document.getElementById(
+        "title"
+    ).value =
         product.title || "";
 
-
-    document.getElementById("price").value =
+    document.getElementById(
+        "price"
+    ).value =
         product.price ?? "";
 
-
-    document.getElementById("category").value =
+    document.getElementById(
+        "category"
+    ).value =
         product.category || "";
 
-
-    document.getElementById("city").value =
+    document.getElementById(
+        "city"
+    ).value =
         product.city || "";
 
-
-    document.getElementById("condition").value =
+    document.getElementById(
+        "condition"
+    ).value =
         product.condition || "";
 
-
-    document.getElementById("stock").value =
+    document.getElementById(
+        "stock"
+    ).value =
         product.stock ?? 1;
 
-
-    document.getElementById("whatsapp").value =
+    document.getElementById(
+        "whatsapp"
+    ).value =
         product.whatsapp || "";
 
-
-    document.getElementById("description").value =
+    document.getElementById(
+        "description"
+    ).value =
         product.description || "";
 
-
-
-    if (
+    if(
         Array.isArray(product.image_urls) &&
-        product.image_urls.length > 0
-    ) {
+        product.image_urls.length
+    ){
 
         existingImageUrls =
             [...product.image_urls];
 
-    } else if (product.image_url) {
+    }else if(product.image_url){
 
         existingImageUrls =
             [product.image_url];
 
-    } else {
+    }else{
 
-        existingImageUrls =
-            [];
+        existingImageUrls = [];
 
     }
 
-
+    removedImageUrls = [];
+    newFiles = [];
 
     renderExistingImages();
+    renderNewPreview();
 
 }
 
 
+/* =========================
+   EXISTING IMAGES
+========================= */
 
-function renderExistingImages() {
+function renderExistingImages(){
 
-
-    if (
+    if(
         existingImageUrls.length === 0
-    ) {
+    ){
 
         existingImages.innerHTML = `
-
-            <div style="
-                grid-column:1/-1;
-                text-align:center;
-                padding:25px;
-                color:#888;
-                background:#f5f7f6;
-                border-radius:12px;
-            ">
-
-                📦 عکس فعلی ندارد
-
+            <div class="empty-images">
+                📦 این محصول فعلاً هیچ عکسی ندارد.
             </div>
-
         `;
 
         return;
 
     }
 
-
-
     existingImages.innerHTML =
         existingImageUrls
             .map(
-                (url, index) => `
+                function(url,index){
 
-                    <div class="image-box">
+                    return `
+                        <div class="image-box">
 
-                        <img
-                            src="${escapeHtml(url)}"
-                            alt="عکس محصول ${index + 1}"
-                        >
+                            <img
+                                src="${escapeHtml(url)}"
+                                alt="عکس محصول ${index + 1}"
+                                loading="lazy"
+                            >
 
-                        <button
-                            type="button"
-                            class="remove-image"
-                            onclick="removeExistingImage(${index})"
-                            title="حذف عکس"
-                        >
-                            ×
-                        </button>
+                            <span class="image-number">
+                                عکس ${index + 1}
+                            </span>
 
-                    </div>
+                            <button
+                                type="button"
+                                class="remove-image"
+                                onclick="removeExistingImage(${index})"
+                                title="حذف عکس"
+                            >
+                                ×
+                            </button>
 
-                `
+                        </div>
+                    `;
+
+                }
             )
             .join("");
 
 }
 
-
-
-function removeExistingImage(index) {
-
+function removeExistingImage(index){
 
     const removed =
         existingImageUrls[index];
 
+    if(!removed){
 
-    if (removed) {
-
-        removedImageUrls.push(
-            removed
-        );
+        return;
 
     }
 
+    showConfirm(
+        "حذف عکس",
+        "این عکس پس از ذخیره تغییرات از تصاویر محصول حذف خواهد شد.",
+        "🗑️",
+        function(){
 
-    existingImageUrls.splice(
-        index,
-        1
+            removedImageUrls.push(
+                removed
+            );
+
+            existingImageUrls.splice(
+                index,
+                1
+            );
+
+            renderExistingImages();
+
+        }
     );
-
-
-    renderExistingImages();
 
 }
 
 
+/* =========================
+   NEW FILES
+========================= */
 
 imageInput.addEventListener(
     "change",
-    function () {
-
+    function(){
 
         const selectedFiles =
             Array.from(
                 imageInput.files || []
             );
 
+        imageInput.value = "";
 
-        if (
+        if(
             selectedFiles.length === 0
-        ) {
+        ){
 
             return;
 
         }
 
+        const validFiles = [];
 
+        for(
+            const file of selectedFiles
+        ){
 
-        const imageFiles =
-            selectedFiles.filter(
-                file =>
-                    file.type.startsWith(
-                        "image/"
-                    )
+            if(
+                !file.type.startsWith(
+                    "image/"
+                )
+            ){
+
+                continue;
+
+            }
+
+            if(
+                file.size > 8 * 1024 * 1024
+            ){
+
+                showMessage(
+                    "❌ حجم عکس «" +
+                    file.name +
+                    "» بیشتر از 8MB است.",
+                    "error"
+                );
+
+                continue;
+
+            }
+
+            validFiles.push(
+                file
             );
 
+        }
 
-
-        newFiles =
-            [
-                ...newFiles,
-                ...imageFiles
-            ];
-
-
-
-        imageInput.value =
-            "";
-
+        newFiles = [
+            ...newFiles,
+            ...validFiles
+        ];
 
         renderNewPreview();
-
 
     }
 );
 
+function renderNewPreview(){
 
-
-function renderNewPreview() {
-
-
-    if (
+    if(
         newFiles.length === 0
-    ) {
+    ){
 
         newPreview.innerHTML =
             "";
@@ -1156,26 +1634,20 @@ function renderNewPreview() {
 
     }
 
-
-
     newPreviewTitle.style.display =
         "block";
-
-
 
     newPreview.innerHTML =
         newFiles
             .map(
-                (file, index) => {
+                function(file,index){
 
                     const url =
                         URL.createObjectURL(
                             file
                         );
 
-
                     return `
-
                         <div class="new-image">
 
                             <img
@@ -1187,12 +1659,12 @@ function renderNewPreview() {
                                 type="button"
                                 class="remove-new"
                                 onclick="removeNewFile(${index})"
+                                title="حذف عکس"
                             >
                                 ×
                             </button>
 
                         </div>
-
                     `;
 
                 }
@@ -1201,9 +1673,7 @@ function renderNewPreview() {
 
 }
 
-
-
-function removeNewFile(index) {
+function removeNewFile(index){
 
     newFiles.splice(
         index,
@@ -1215,21 +1685,18 @@ function removeNewFile(index) {
 }
 
 
+/* =========================
+   STORAGE
+========================= */
 
-async function uploadNewImages() {
-
+async function uploadNewImages(){
 
     const uploadedUrls = [];
-
-
     const uploadedPaths = [];
 
-
-
-    for (
+    for(
         const file of newFiles
-    ) {
-
+    ){
 
         const extension =
             (
@@ -1244,8 +1711,6 @@ async function uploadNewImages() {
                 ""
             ) || "jpg";
 
-
-
         const randomPart =
             Math.random()
                 .toString(36)
@@ -1254,7 +1719,6 @@ async function uploadNewImages() {
                     10
                 );
 
-
         const fileName =
             Date.now() +
             "-" +
@@ -1262,14 +1726,10 @@ async function uploadNewImages() {
             "." +
             extension;
 
-
-
         const filePath =
             currentUser.id +
             "/" +
             fileName;
-
-
 
         const {
             error
@@ -1281,27 +1741,21 @@ async function uploadNewImages() {
                     filePath,
                     file,
                     {
-                        cacheControl:
-                            "3600",
-                        upsert:
-                            false
+                        cacheControl:"3600",
+                        upsert:false,
+                        contentType:file.type
                     }
                 );
 
-
-        if (error) {
+        if(error){
 
             throw error;
 
         }
 
-
-
         uploadedPaths.push(
             filePath
         );
-
-
 
         const {
             data
@@ -1313,15 +1767,11 @@ async function uploadNewImages() {
                     filePath
                 );
 
-
-
         uploadedUrls.push(
             data.publicUrl
         );
 
     }
-
-
 
     return {
         uploadedUrls,
@@ -1330,38 +1780,46 @@ async function uploadNewImages() {
 
 }
 
+function getStoragePathFromUrl(url){
 
-
-function getStoragePathFromUrl(url) {
-
-
-    const marker =
-        "/storage/v1/object/public/product-images/";
-
-
-    const index =
-        url.indexOf(marker);
-
-
-    if (index === -1) {
+    if(
+        !url ||
+        typeof url !== "string"
+    ){
 
         return null;
 
     }
 
+    const marker =
+        "/storage/v1/object/public/product-images/";
 
-    return decodeURIComponent(
-        url.substring(
-            index + marker.length
-        )
-    );
+    const index =
+        url.indexOf(marker);
+
+    if(index === -1){
+
+        return null;
+
+    }
+
+    try{
+
+        return decodeURIComponent(
+            url.substring(
+                index + marker.length
+            )
+        );
+
+    }catch(e){
+
+        return null;
+
+    }
 
 }
 
-
-
-async function deleteStorageFiles(urls) {
-
+async function deleteStorageFiles(urls){
 
     const paths =
         urls
@@ -1369,23 +1827,28 @@ async function deleteStorageFiles(urls) {
                 getStoragePathFromUrl
             )
             .filter(
-                path =>
-                    path &&
-                    path.startsWith(
-                        currentUser.id + "/"
-                    )
+                function(path){
+
+                    return (
+                        path &&
+                        path.startsWith(
+                            currentUser.id + "/"
+                        )
+                    );
+
+                }
             );
 
+    const uniquePaths =
+        [...new Set(paths)];
 
-    if (
-        paths.length === 0
-    ) {
+    if(
+        uniquePaths.length === 0
+    ){
 
         return;
 
     }
-
-
 
     const {
         error
@@ -1394,119 +1857,86 @@ async function deleteStorageFiles(urls) {
             .storage
             .from("product-images")
             .remove(
-                paths
+                uniquePaths
             );
 
+    if(error){
 
-    if (error) {
-
-        console.warn(
-            "Storage delete warning:",
-            error
-        );
+        throw error;
 
     }
 
 }
 
 
+/* =========================
+   SAVE
+========================= */
 
 document
     .getElementById("editForm")
     .addEventListener(
         "submit",
-        async function(event) {
-
+        async function(event){
 
             event.preventDefault();
 
-
             hideMessage();
 
+            if(!currentProduct){
+
+                showMessage(
+                    "❌ اطلاعات محصول آماده نیست.",
+                    "error"
+                );
+
+                return;
+
+            }
 
             saveBtn.disabled =
                 true;
 
-
             saveBtn.textContent =
                 "⏳ در حال ذخیره...";
 
-
-
             let uploadedPaths = [];
 
-
-
-            try {
-
-
-                if (!currentProduct) {
-
-                    throw new Error(
-                        "اطلاعات محصول آماده نیست."
-                    );
-
-                }
-
-
+            try{
 
                 const title =
                     document
-                        .getElementById(
-                            "title"
-                        )
+                        .getElementById("title")
                         .value
                         .trim();
-
-
 
                 const price =
                     Number(
                         document
-                            .getElementById(
-                                "price"
-                            )
+                            .getElementById("price")
                             .value
                     );
 
-
-
                 const category =
                     document
-                        .getElementById(
-                            "category"
-                        )
+                        .getElementById("category")
                         .value;
-
-
 
                 const city =
                     document
-                        .getElementById(
-                            "city"
-                        )
+                        .getElementById("city")
                         .value
                         .trim();
 
-
-
                 const condition =
                     document
-                        .getElementById(
-                            "condition"
-                        )
+                        .getElementById("condition")
                         .value;
-
-
 
                 const stockValue =
                     document
-                        .getElementById(
-                            "stock"
-                        )
+                        .getElementById("stock")
                         .value;
-
-
 
                 const stock =
                     stockValue === ""
@@ -1515,29 +1945,19 @@ document
                             stockValue
                         );
 
-
-
                 const whatsapp =
                     document
-                        .getElementById(
-                            "whatsapp"
-                        )
+                        .getElementById("whatsapp")
                         .value
                         .trim();
-
-
 
                 const description =
                     document
-                        .getElementById(
-                            "description"
-                        )
+                        .getElementById("description")
                         .value
                         .trim();
 
-
-
-                if (!title) {
+                if(!title){
 
                     throw new Error(
                         "نام محصول را وارد کنید."
@@ -1545,12 +1965,10 @@ document
 
                 }
 
-
-
-                if (
+                if(
                     Number.isNaN(price) ||
                     price < 0
-                ) {
+                ){
 
                     throw new Error(
                         "قیمت محصول معتبر نیست."
@@ -1558,9 +1976,7 @@ document
 
                 }
 
-
-
-                if (!category) {
+                if(!category){
 
                     throw new Error(
                         "دسته‌بندی را انتخاب کنید."
@@ -1568,12 +1984,10 @@ document
 
                 }
 
-
-
-                if (
+                if(
                     Number.isNaN(stock) ||
                     stock < 0
-                ) {
+                ){
 
                     throw new Error(
                         "موجودی محصول معتبر نیست."
@@ -1581,37 +1995,35 @@ document
 
                 }
 
+                if(
+                    !Number.isInteger(stock)
+                ){
 
+                    throw new Error(
+                        "موجودی باید یک عدد کامل باشد."
+                    );
 
-                if (
+                }
+
+                if(
                     newFiles.length > 0
-                ) {
-
+                ){
 
                     const result =
                         await uploadNewImages();
 
-
                     uploadedPaths =
                         result.uploadedPaths;
 
-
-                    existingImageUrls =
-                        [
-                            ...existingImageUrls,
-                            ...result.uploadedUrls
-                        ];
+                    existingImageUrls = [
+                        ...existingImageUrls,
+                        ...result.uploadedUrls
+                    ];
 
                 }
 
-
-
                 const finalImageUrls =
-                    [
-                        ...existingImageUrls
-                    ];
-
-
+                    [...existingImageUrls];
 
                 const {
                     error
@@ -1620,26 +2032,22 @@ document
                         .from("products")
                         .update({
 
-                            title:
-                                title,
+                            title:title,
 
                             description:
                                 description,
 
-                            price:
-                                price,
+                            price:price,
 
                             category:
                                 category,
 
-                            city:
-                                city,
+                            city:city,
 
                             condition:
                                 condition,
 
-                            stock:
-                                stock,
+                            stock:stock,
 
                             whatsapp:
                                 whatsapp,
@@ -1661,65 +2069,86 @@ document
                             currentUser.id
                         );
 
-
-
-                if (error) {
+                if(error){
 
                     throw error;
 
                 }
 
+                if(
+                    removedImageUrls.length > 0
+                ){
 
+                    await deleteStorageFiles(
+                        removedImageUrls
+                    );
 
-                await deleteStorageFiles(
-                    removedImageUrls
-                );
+                }
 
+                currentProduct = {
+                    ...currentProduct,
+                    title,
+                    description,
+                    price,
+                    category,
+                    city,
+                    condition,
+                    stock,
+                    whatsapp,
+                    image_url:
+                        finalImageUrls[0] || null,
+                    image_urls:
+                        finalImageUrls
+                };
 
+                removedImageUrls = [];
+                newFiles = [];
 
                 showMessage(
                     "✅ محصول با موفقیت ویرایش شد.",
                     "success"
                 );
 
-
                 saveBtn.textContent =
                     "✅ ذخیره شد";
 
-
-
                 setTimeout(
-                    function() {
+                    function(){
 
                         window.location.href =
                             "my-products.html";
 
                     },
-                    1000
+                    900
                 );
 
-
-            } catch (error) {
-
+            }catch(error){
 
                 console.error(error);
 
-
-
-                if (
+                if(
                     uploadedPaths.length > 0
-                ) {
+                ){
 
-                    await supabaseClient
-                        .storage
-                        .from("product-images")
-                        .remove(
-                            uploadedPaths
+                    try{
+
+                        await supabaseClient
+                            .storage
+                            .from("product-images")
+                            .remove(
+                                uploadedPaths
+                            );
+
+                    }catch(cleanupError){
+
+                        console.warn(
+                            "Uploaded file cleanup failed:",
+                            cleanupError
                         );
 
+                    }
+
                 }
-
-
 
                 showMessage(
                     "❌ ذخیره تغییرات انجام نشد:\n" +
@@ -1727,10 +2156,8 @@ document
                     "error"
                 );
 
-
                 saveBtn.disabled =
                     false;
-
 
                 saveBtn.textContent =
                     "💾 ذخیره تغییرات";
@@ -1741,9 +2168,11 @@ document
     );
 
 
+/* =========================
+   HELPERS
+========================= */
 
-function escapeHtml(value) {
-
+function escapeHtml(value){
 
     return String(value)
 
@@ -1775,13 +2204,13 @@ function escapeHtml(value) {
 }
 
 
+/* =========================
+   START
+========================= */
 
 loadProduct();
 
-
 </script>
 
-
 </body>
-
 </html>
