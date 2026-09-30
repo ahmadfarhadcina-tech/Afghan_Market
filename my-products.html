@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="light">
 
 <head>
 
@@ -10,12 +10,90 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta name="theme-color" content="#087a55">
+
     <title>محصولات من | بازارک</title>
+
+    <script>
+    (function () {
+        try {
+            document.documentElement.dataset.theme =
+                localStorage.getItem("bazaarak-theme") === "dark"
+                    ? "dark"
+                    : "light";
+        } catch (_) {
+            document.documentElement.dataset.theme = "light";
+        }
+    })();
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
     <style>
+
+        :root {
+            --primary: #087a55;
+            --primary-dark: #055c40;
+            --primary-soft: #eaf7f1;
+            --gold: #f2b84b;
+
+            --bg: #f4f7f5;
+            --surface: #ffffff;
+            --surface-2: #f8faf9;
+
+            --text: #17211d;
+            --text-soft: #42514a;
+            --muted: #718078;
+
+            --border: #e1e8e4;
+
+            --danger: #d94b4b;
+            --danger-soft: #fdeaea;
+            --success: #16865d;
+
+            --shadow: 0 5px 20px rgba(0,0,0,.07);
+            --header-bg: #087443;
+            --header-text: #ffffff;
+        }
+
+
+        html[data-theme="dark"] {
+
+            --primary: #21c982;
+            --primary-dark: #0e9b61;
+            --primary-soft: #12382a;
+            --gold: #f5c761;
+
+            --bg: #0b1210;
+            --surface: #111b17;
+            --surface-2: #16221d;
+
+            --text: #f1f6f3;
+            --text-soft: #c3d0ca;
+            --muted: #91a39b;
+
+            --border: #26362f;
+
+            --danger: #ff7272;
+            --danger-soft: #3a1d1d;
+            --success: #45d49a;
+
+            --shadow: 0 5px 20px rgba(0,0,0,.25);
+            --header-bg: #0e5f46;
+            --header-text: #ffffff;
+        }
+
+
+        html[data-theme="light"] {
+            color-scheme: light;
+        }
+
+
+        html[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
 
         * {
             box-sizing: border-box;
@@ -24,122 +102,296 @@
 
         body {
             margin: 0;
-            font-family: Tahoma, Arial, sans-serif;
-            background: #f4f7f5;
-            color: #17251d;
+
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+
+            background: var(--bg);
+
+            color: var(--text);
+
+            transition:
+                background .2s ease,
+                color .2s ease;
         }
 
 
+        button,
+        input,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
         header {
-            background: #087443;
-            color: white;
+            background: var(--header-bg);
+
+            color: var(--header-text);
+
             padding: 15px 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,.1);
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.1);
+
+            transition:
+                background .2s ease,
+                box-shadow .2s ease;
         }
 
 
         .header {
             max-width: 1000px;
+
             margin: auto;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 15px;
         }
 
 
         .logo {
             color: white;
+
             text-decoration: none;
+
             font-size: 22px;
+
             font-weight: bold;
+
+            transition:
+                opacity .18s ease;
+        }
+
+
+        .logo:hover {
+            opacity: .85;
+        }
+
+
+        .header-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
         }
 
 
         .back {
             color: white;
+
             text-decoration: none;
+
             background: rgba(255,255,255,.12);
+
             padding: 10px 14px;
+
             border-radius: 10px;
+
+            transition:
+                background .18s ease,
+                transform .16s ease;
         }
 
 
+        .back:hover {
+            background: rgba(255,255,255,.2);
+        }
+
+
+        .back:active {
+            transform: scale(.96);
+        }
+
+
+        .theme-btn {
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid rgba(255,255,255,.18);
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.12);
+
+            color: white;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition:
+                background .18s ease,
+                transform .18s ease;
+        }
+
+
+        .theme-btn:hover {
+            background: rgba(255,255,255,.2);
+
+            transform: scale(1.05);
+        }
+
+
+        .theme-btn:active {
+            transform: scale(.88);
+        }
+
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
         .container {
             max-width: 1000px;
+
             margin: 30px auto;
+
             padding: 0 15px;
         }
 
 
         h1 {
             margin: 0 0 20px;
-            color: #087443;
+
+            color: var(--primary);
+
             font-size: 25px;
+
+            transition: color .2s ease;
         }
 
 
+        /* =========================================
+           MESSAGES
+        ========================================= */
+
         .message {
             display: none;
+
             padding: 13px;
+
             border-radius: 10px;
+
             margin-bottom: 20px;
+
             text-align: center;
+
             white-space: pre-line;
         }
 
 
         .error {
-            background: #fdeaea;
-            color: #c62828;
+            background: var(--danger-soft);
+
+            color: var(--danger);
         }
 
 
         .success {
-            background: #e8f5ee;
-            color: #087443;
+            background: var(--primary-soft);
+
+            color: var(--primary);
         }
 
 
         .loading {
             text-align: center;
+
             padding: 50px;
-            color: #777;
+
+            color: var(--muted);
         }
 
 
+        /* =========================================
+           PRODUCTS
+        ========================================= */
+
         .products {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 18px;
         }
 
 
         .product-card {
-            background: white;
+            background: var(--surface);
+
             border-radius: 18px;
+
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,.07);
+
+            box-shadow: var(--shadow);
+
+            border: 1px solid var(--border);
+
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                box-shadow .2s ease,
+                transform .18s ease;
+        }
+
+
+        .product-card:hover {
+            transform: translateY(-2px);
         }
 
 
         .product-image {
             width: 100%;
+
             height: 210px;
+
             object-fit: cover;
+
             display: block;
-            background: #eef2ef;
+
+            background: var(--surface-2);
         }
 
 
         .no-image {
             width: 100%;
+
             height: 210px;
-            background: #eef2ef;
+
+            background: var(--surface-2);
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            color: #999;
+
+            color: var(--muted);
+
             font-size: 40px;
         }
 
@@ -151,36 +403,53 @@
 
         .product-title {
             font-size: 17px;
+
             font-weight: bold;
+
             margin-bottom: 10px;
+
             line-height: 1.6;
+
+            color: var(--text);
         }
 
 
         .price {
-            color: #087443;
+            color: var(--primary);
+
             font-size: 18px;
+
             font-weight: bold;
+
             margin-bottom: 8px;
         }
 
 
         .category {
-            color: #777;
+            color: var(--muted);
+
             font-size: 13px;
+
             margin-bottom: 15px;
         }
 
 
         .city {
-            color: #777;
+            color: var(--muted);
+
             font-size: 13px;
+
             margin-bottom: 15px;
         }
 
 
+        /* =========================================
+           ACTIONS
+        ========================================= */
+
         .actions {
             display: flex;
+
             gap: 8px;
         }
 
@@ -188,52 +457,99 @@
         .edit-btn,
         .delete-btn {
             flex: 1;
+
             border: none;
+
             padding: 11px;
+
             border-radius: 10px;
+
             cursor: pointer;
+
             font-family: inherit;
+
             font-weight: bold;
+
             font-size: 14px;
+
+            transition:
+                background .18s ease,
+                transform .16s ease;
         }
 
 
         .edit-btn {
-            background: #e8f5ee;
-            color: #087443;
+            background: var(--primary-soft);
+
+            color: var(--primary);
         }
 
 
         .edit-btn:hover {
-            background: #d9eee2;
+            background:
+                color-mix(
+                    in srgb,
+                    var(--primary-soft) 85%,
+                    var(--primary)
+                );
         }
 
 
         .delete-btn {
-            background: #fdeaea;
-            color: #c62828;
+            background: var(--danger-soft);
+
+            color: var(--danger);
         }
 
 
         .delete-btn:hover {
-            background: #f9dada;
+            background:
+                color-mix(
+                    in srgb,
+                    var(--danger-soft) 85%,
+                    var(--danger)
+                );
         }
 
+
+        .edit-btn:active,
+        .delete-btn:active {
+            transform: scale(.96);
+        }
+
+
+        /* =========================================
+           EMPTY
+        ========================================= */
 
         .empty {
-            background: white;
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+
             border-radius: 18px;
+
             padding: 50px 20px;
+
             text-align: center;
-            color: #777;
+
+            color: var(--muted);
+
             grid-column: 1 / -1;
+
+            box-shadow: var(--shadow);
         }
 
+
+        /* =========================================
+           MOBILE
+        ========================================= */
 
         @media (max-width: 750px) {
 
             .products {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
         }
@@ -248,12 +564,34 @@
 
             .header {
                 flex-direction: column;
+
                 align-items: stretch;
             }
 
 
-            .back {
+            .logo {
                 text-align: center;
+            }
+
+
+            .header-actions {
+                width: 100%;
+
+                display: flex;
+
+                align-items: center;
+            }
+
+
+            .back {
+                flex: 1;
+
+                text-align: center;
+            }
+
+
+            .theme-btn {
+                flex-shrink: 0;
             }
 
 
@@ -288,12 +626,27 @@
         </a>
 
 
-        <a
-            href="profile.html"
-            class="back"
-        >
-            ← برگشت به پروفایل
-        </a>
+        <div class="header-actions">
+
+            <a
+                href="profile.html"
+                class="back"
+            >
+                ← برگشت به پروفایل
+            </a>
+
+
+            <button
+                id="themeButton"
+                class="theme-btn"
+                type="button"
+                aria-label="حالت تاریک"
+                title="حالت تاریک"
+            >
+                🌙
+            </button>
+
+        </div>
 
     </div>
 
@@ -337,6 +690,10 @@
 <script>
 
 
+/* =========================================
+   SUPABASE
+========================================= */
+
 const SUPABASE_URL =
     "https://vhiewoopyqugdxwvsbno.supabase.co";
 
@@ -352,38 +709,202 @@ const supabaseClient =
     );
 
 
+/* =========================================
+   THEME
+========================================= */
+
+const THEME_KEY =
+    "bazaarak-theme";
+
+
+const themeButton =
+    document.getElementById(
+        "themeButton"
+    );
+
+
+const themeColor =
+    document.querySelector(
+        'meta[name="theme-color"]'
+    );
+
+
+function getTheme() {
+
+    try {
+
+        return localStorage.getItem(
+            THEME_KEY
+        ) === "dark"
+            ? "dark"
+            : "light";
+
+    } catch (_) {
+
+        return document.documentElement.dataset.theme === "dark"
+            ? "dark"
+            : "light";
+    }
+}
+
+
+function applyTheme(
+    theme,
+    persist = true
+) {
+
+    const nextTheme =
+        theme === "dark"
+            ? "dark"
+            : "light";
+
+
+    document.documentElement.dataset.theme =
+        nextTheme;
+
+
+    if (persist) {
+
+        try {
+
+            localStorage.setItem(
+                THEME_KEY,
+                nextTheme
+            );
+
+        } catch (_) {}
+    }
+
+
+    if (themeButton) {
+
+        themeButton.textContent =
+            nextTheme === "dark"
+                ? "☀️"
+                : "🌙";
+
+
+        themeButton.title =
+            nextTheme === "dark"
+                ? "حالت روشن"
+                : "حالت تاریک";
+
+
+        themeButton.setAttribute(
+            "aria-label",
+            themeButton.title
+        );
+    }
+
+
+    if (themeColor) {
+
+        themeColor.setAttribute(
+            "content",
+            nextTheme === "dark"
+                ? "#0b1210"
+                : "#087a55"
+        );
+    }
+}
+
+
+applyTheme(
+    getTheme(),
+    false
+);
+
+
+themeButton.addEventListener(
+    "click",
+    function () {
+
+        applyTheme(
+            getTheme() === "dark"
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
+
+
+/* =========================================
+   STORAGE THEME SYNC
+========================================= */
+
+window.addEventListener(
+    "storage",
+    function (event) {
+
+        if (
+            event.key ===
+            THEME_KEY
+        ) {
+
+            applyTheme(
+                event.newValue === "dark"
+                    ? "dark"
+                    : "light",
+                false
+            );
+        }
+
+    }
+);
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
 
 const loading =
-    document.getElementById("loading");
+    document.getElementById(
+        "loading"
+    );
 
 
 const products =
-    document.getElementById("products");
+    document.getElementById(
+        "products"
+    );
 
 
 const message =
-    document.getElementById("message");
-
+    document.getElementById(
+        "message"
+    );
 
 
 let currentUser = null;
 
 
+/* =========================================
+   MESSAGE
+========================================= */
 
-function showMessage(text, type) {
+function showMessage(
+    text,
+    type
+) {
 
     message.textContent =
         text;
 
+
     message.className =
-        "message " + type;
+        "message " +
+        type;
+
 
     message.style.display =
         "block";
-
 }
 
 
+/* =========================================
+   LOAD MY PRODUCTS
+========================================= */
 
 async function loadMyProducts() {
 
@@ -422,7 +943,6 @@ async function loadMyProducts() {
             session.user;
 
 
-
         const {
             data: myProducts,
             error
@@ -449,14 +969,12 @@ async function loadMyProducts() {
         }
 
 
-
         loading.style.display =
             "none";
 
 
         products.style.display =
             "grid";
-
 
 
         if (
@@ -477,7 +995,6 @@ async function loadMyProducts() {
             return;
 
         }
-
 
 
         products.innerHTML =
@@ -514,16 +1031,22 @@ async function loadMyProducts() {
 }
 
 
+/* =========================================
+   PRODUCT CARD
+========================================= */
 
-function createProductCard(product) {
+function createProductCard(
+    product
+) {
 
 
     let imageUrl = "";
 
 
-
     if (
-        Array.isArray(product.image_urls) &&
+        Array.isArray(
+            product.image_urls
+        ) &&
         product.image_urls.length > 0
     ) {
 
@@ -536,7 +1059,6 @@ function createProductCard(product) {
             product.image_url || "";
 
     }
-
 
 
     const imageHTML =
@@ -568,7 +1090,6 @@ function createProductCard(product) {
         `;
 
 
-
     return `
 
         <article class="product-card">
@@ -590,7 +1111,6 @@ function createProductCard(product) {
                 </div>
 
 
-
                 <div class="price">
 
                     ${formatPrice(
@@ -602,16 +1122,15 @@ function createProductCard(product) {
                 </div>
 
 
-
                 <div class="category">
 
                     📂
+
                     ${getCategoryName(
                         product.category
                     )}
 
                 </div>
-
 
 
                 ${
@@ -624,6 +1143,7 @@ function createProductCard(product) {
                     <div class="city">
 
                         📍
+
                         ${escapeHtml(
                             product.city
                         )}
@@ -639,7 +1159,6 @@ function createProductCard(product) {
                 }
 
 
-
                 <div class="actions">
 
 
@@ -652,7 +1171,6 @@ function createProductCard(product) {
                         ✏️ ویرایش
 
                     </button>
-
 
 
                     <button
@@ -679,8 +1197,13 @@ function createProductCard(product) {
 }
 
 
+/* =========================================
+   PRICE
+========================================= */
 
-function formatPrice(price) {
+function formatPrice(
+    price
+) {
 
 
     const number =
@@ -703,8 +1226,13 @@ function formatPrice(price) {
 }
 
 
+/* =========================================
+   CATEGORY
+========================================= */
 
-function getCategoryName(category) {
+function getCategoryName(
+    category
+) {
 
 
     const categories = {
@@ -737,9 +1265,13 @@ function getCategoryName(category) {
 }
 
 
+/* =========================================
+   ESCAPE HTML
+========================================= */
 
-function escapeHtml(value) {
-
+function escapeHtml(
+    value
+) {
 
     return String(value)
 
@@ -771,19 +1303,31 @@ function escapeHtml(value) {
 }
 
 
+/* =========================================
+   EDIT PRODUCT
+========================================= */
 
-function editProduct(productId) {
+function editProduct(
+    productId
+) {
 
 
     window.location.href =
         "edit-product.html?id=" +
-        encodeURIComponent(productId);
+        encodeURIComponent(
+            productId
+        );
 
 }
 
 
+/* =========================================
+   DELETE PRODUCT
+========================================= */
 
-async function deleteProduct(productId) {
+async function deleteProduct(
+    productId
+) {
 
 
     alert(
@@ -793,6 +1337,9 @@ async function deleteProduct(productId) {
 }
 
 
+/* =========================================
+   START
+========================================= */
 
 loadMyProducts();
 
