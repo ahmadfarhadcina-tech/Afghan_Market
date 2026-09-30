@@ -1,15 +1,80 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="light">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
+<meta name="theme-color" content="#087a55">
+
 <title>نظرات | بازارک</title>
+
+<script>
+(function () {
+    try {
+        const theme =
+            localStorage.getItem("bazaarak-theme") === "dark"
+                ? "dark"
+                : "light";
+
+        document.documentElement.dataset.theme = theme;
+    } catch (_) {
+        document.documentElement.dataset.theme = "light";
+    }
+})();
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+:root {
+    --primary: #087a55;
+    --primary-dark: #055c40;
+    --primary-soft: #eaf7f1;
+    --gold: #f2b84b;
+
+    --bg: #f4f7f5;
+    --surface: #ffffff;
+    --surface-2: #f8faf9;
+
+    --text: #17211d;
+    --text-soft: #42514a;
+    --muted: #718078;
+
+    --border: #e1e8e4;
+
+    --danger: #d94b4b;
+    --success: #16865d;
+    --warning: #b7791f;
+
+    --shadow: 0 6px 24px rgba(0,0,0,.055);
+    --shadow-strong: 0 18px 50px rgba(0,0,0,.16);
+}
+
+html[data-theme="dark"] {
+    --primary: #21c982;
+    --primary-dark: #0e9b61;
+    --primary-soft: #12382a;
+    --gold: #f5c761;
+
+    --bg: #0b1210;
+    --surface: #111b17;
+    --surface-2: #16221d;
+
+    --text: #f1f6f3;
+    --text-soft: #c3d0ca;
+    --muted: #91a39b;
+
+    --border: #26362f;
+
+    --danger: #ff7272;
+    --success: #45d49a;
+    --warning: #f2c36d;
+
+    --shadow: 0 6px 24px rgba(0,0,0,.22);
+    --shadow-strong: 0 18px 50px rgba(0,0,0,.42);
+}
 
 * {
     box-sizing: border-box;
@@ -17,18 +82,27 @@
 
 html {
     scroll-behavior: smooth;
+    background: var(--bg);
 }
 
 body {
     margin: 0;
-    font-family: Tahoma, Arial, sans-serif;
-    background: #f4f7f5;
-    color: #17251d;
+    min-height: 100vh;
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
 
     opacity: 1;
     transform: translateY(0);
 
     transition:
+        background .2s ease,
+        color .2s ease,
         opacity .24s ease,
         transform .24s ease;
 }
@@ -43,6 +117,10 @@ input {
     -webkit-tap-highlight-color: transparent;
 }
 
+button {
+    font-family: inherit;
+}
+
 
 /* =========================================
    HEADER
@@ -53,10 +131,18 @@ input {
     top: 0;
     z-index: 20;
 
-    background: rgba(255,255,255,.96);
-    backdrop-filter: blur(10px);
+    background:
+        color-mix(
+            in srgb,
+            var(--surface) 94%,
+            transparent
+        );
 
-    border-bottom: 1px solid #e7eee9;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid var(--border);
+
     padding: 12px 16px;
 }
 
@@ -73,23 +159,28 @@ input {
     width: 38px;
     height: 38px;
 
+    flex-shrink: 0;
+
     border: none;
     border-radius: 50%;
 
-    background: #f1f6f3;
-    color: #087443;
+    background: var(--primary-soft);
+    color: var(--primary);
 
     font-size: 20px;
+    line-height: 1;
 
     cursor: pointer;
 
     transition:
         transform .18s ease,
-        background .18s ease;
+        background .18s ease,
+        color .18s ease;
 }
 
 .back-btn:hover {
-    background: #e7f3ec;
+    background: var(--primary);
+    color: #fff;
     transform: scale(1.05);
 }
 
@@ -99,19 +190,71 @@ input {
 
 .header-title {
     flex: 1;
+    min-width: 0;
 }
 
 .header-title strong {
     display: block;
-    color: #087443;
+
+    color: var(--primary);
+
     font-size: 16px;
+    line-height: 1.4;
 }
 
 .header-title span {
     display: block;
-    color: #888;
+
+    color: var(--muted);
+
     font-size: 11px;
+
     margin-top: 3px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================
+   THEME BUTTON
+========================================= */
+
+.theme-btn {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.theme-btn:hover {
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.theme-btn:active {
+    transform: scale(.87);
 }
 
 
@@ -121,20 +264,26 @@ input {
 
 .product-preview {
     max-width: 700px;
+
     margin: 12px auto;
+
     padding: 0 14px;
 }
 
 .product-box {
-    background: white;
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
     border-radius: 13px;
+
     padding: 10px;
 
-    box-shadow:
-        0 3px 12px rgba(0,0,0,.045);
+    box-shadow: var(--shadow);
 
     display: flex;
     align-items: center;
+
     gap: 10px;
 
     animation: productIn .3s ease both;
@@ -161,7 +310,9 @@ input {
 
     object-fit: cover;
 
-    background: #eef2ef;
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
 
     flex-shrink: 0;
 }
@@ -172,7 +323,10 @@ input {
 
 .product-box-title {
     font-weight: bold;
+
     font-size: 13px;
+
+    color: var(--text);
 
     overflow: hidden;
     white-space: nowrap;
@@ -180,7 +334,8 @@ input {
 }
 
 .product-box-price {
-    color: #087443;
+    color: var(--primary);
+
     font-size: 12px;
 
     margin-top: 5px;
@@ -195,6 +350,7 @@ input {
 
 .comments-container {
     max-width: 700px;
+
     margin: auto;
 
     padding:
@@ -206,6 +362,7 @@ input {
 .comments-list {
     display: flex;
     flex-direction: column;
+
     gap: 12px;
 }
 
@@ -215,10 +372,10 @@ input {
 ========================================= */
 
 .comment-item {
-
     align-self: flex-start;
 
     width: fit-content;
+
     max-width: min(92%, 560px);
 
     min-width: 0;
@@ -258,16 +415,17 @@ input {
 ========================================= */
 
 .comment-content {
-
     width: fit-content;
+
     max-width: 100%;
 
-    background: #edf6f0;
+    background: var(--primary-soft);
+
+    border: 1px solid transparent;
 
     border-radius: 10px;
 
-    padding:
-        7px 9px;
+    padding: 7px 9px;
 
     transition:
         background .18s ease,
@@ -275,7 +433,12 @@ input {
 }
 
 .comment-content:hover {
-    background: #e8f3ec;
+    background:
+        color-mix(
+            in srgb,
+            var(--primary-soft) 88%,
+            var(--primary)
+        );
 }
 
 .comment-content:active {
@@ -288,8 +451,8 @@ input {
 ========================================= */
 
 .comment-header {
-
     display: flex;
+
     align-items: center;
 
     gap: 7px;
@@ -298,7 +461,6 @@ input {
 }
 
 .comment-avatar {
-
     width: 29px;
     height: 29px;
 
@@ -306,7 +468,9 @@ input {
 
     object-fit: cover;
 
-    background: #dcefe4;
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
 
     cursor: pointer;
 
@@ -318,11 +482,15 @@ input {
 }
 
 .comment-avatar:hover {
-
     transform: scale(1.07);
 
     box-shadow:
-        0 0 0 3px #dceee3;
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 18%,
+            transparent
+        );
 }
 
 .comment-avatar:active {
@@ -330,7 +498,6 @@ input {
 }
 
 .comment-user {
-
     cursor: pointer;
 
     min-width: 0;
@@ -349,8 +516,7 @@ input {
 }
 
 .comment-user-name {
-
-    color: #087443;
+    color: var(--primary);
 
     font-weight: bold;
 
@@ -364,8 +530,7 @@ input {
 }
 
 .comment-user-username {
-
-    color: #8b958f;
+    color: var(--muted);
 
     font-size: 9px;
 
@@ -378,8 +543,7 @@ input {
 ========================================= */
 
 .comment-text {
-
-    color: #303934;
+    color: var(--text-soft);
 
     font-size: 12.5px;
 
@@ -398,7 +562,6 @@ input {
 ========================================= */
 
 .comment-actions {
-
     display: flex;
 
     align-items: center;
@@ -411,19 +574,17 @@ input {
 }
 
 .comment-action {
-
     border: none;
 
     background: transparent;
 
-    color: #7b847e;
+    color: var(--muted);
 
     font-family: inherit;
 
     font-size: 10px;
 
-    padding:
-        3px 6px;
+    padding: 3px 6px;
 
     border-radius: 6px;
 
@@ -437,10 +598,9 @@ input {
 }
 
 .comment-action:hover {
+    background: var(--primary-soft);
 
-    background: #e9f2ec;
-
-    color: #087443;
+    color: var(--primary);
 }
 
 .comment-action:active {
@@ -448,14 +608,17 @@ input {
 }
 
 .comment-action.liked {
+    color: var(--danger);
 
-    color: #c62828;
-
-    background: #fff0f0;
+    background:
+        color-mix(
+            in srgb,
+            var(--danger) 10%,
+            transparent
+        );
 }
 
 .comment-action.loading {
-
     opacity: .5;
 
     pointer-events: none;
@@ -471,7 +634,6 @@ input {
 }
 
 .more-button {
-
     width: 27px;
     height: 27px;
 
@@ -479,7 +641,7 @@ input {
 
     background: transparent;
 
-    color: #8b948e;
+    color: var(--muted);
 
     border-radius: 50%;
 
@@ -496,10 +658,9 @@ input {
 }
 
 .more-button:hover {
+    background: var(--primary-soft);
 
-    background: #e9f1ec;
-
-    color: #087443;
+    color: var(--primary);
 }
 
 .more-button:active {
@@ -507,7 +668,6 @@ input {
 }
 
 .more-menu {
-
     position: absolute;
 
     top: 30px;
@@ -515,16 +675,15 @@ input {
 
     min-width: 105px;
 
-    background: white;
+    background: var(--surface);
 
     border-radius: 9px;
 
     padding: 4px;
 
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.10);
+    box-shadow: var(--shadow-strong);
 
-    border: 1px solid #e5ebe7;
+    border: 1px solid var(--border);
 
     opacity: 0;
 
@@ -545,7 +704,6 @@ input {
 }
 
 .more-menu.show {
-
     opacity: 1;
 
     visibility: visible;
@@ -556,15 +714,13 @@ input {
 }
 
 .more-menu button {
-
     width: 100%;
 
     border: none;
 
     background: transparent;
 
-    padding:
-        8px 9px;
+    padding: 8px 9px;
 
     border-radius: 6px;
 
@@ -574,7 +730,7 @@ input {
 
     font-size: 10px;
 
-    color: #c62828;
+    color: var(--danger);
 
     cursor: pointer;
 
@@ -584,7 +740,12 @@ input {
 }
 
 .more-menu button:hover {
-    background: #fff1f1;
+    background:
+        color-mix(
+            in srgb,
+            var(--danger) 10%,
+            transparent
+        );
 }
 
 .more-menu button:active {
@@ -597,14 +758,13 @@ input {
 ========================================= */
 
 .replies {
-
     margin-top: 7px;
 
     margin-right: 13px;
 
     padding-right: 7px;
 
-    border-right: 2px solid #dce9e1;
+    border-right: 2px solid var(--border);
 
     display: flex;
 
@@ -614,7 +774,6 @@ input {
 }
 
 .reply-item {
-
     width: fit-content;
 
     max-width: 94%;
@@ -632,16 +791,17 @@ input {
 }
 
 .reply-content {
-
     width: fit-content;
+
     max-width: 100%;
 
-    background: #f1f7f3;
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
 
     border-radius: 9px;
 
-    padding:
-        6px 8px;
+    padding: 6px 8px;
 }
 
 @keyframes replyIn {
@@ -679,7 +839,6 @@ input {
 }
 
 .reply-item .comment-text {
-
     font-size: 12px;
 
     line-height: 1.6;
@@ -695,7 +854,6 @@ input {
 ========================================= */
 
 .reply-box {
-
     margin-top: 6px;
 
     display: none;
@@ -722,7 +880,6 @@ input {
 }
 
 .reply-form {
-
     display: flex;
 
     align-items: center;
@@ -731,20 +888,19 @@ input {
 }
 
 .reply-input {
-
     flex: 1;
 
     min-width: 0;
 
-    border:
-        1px solid #dce6df;
+    border: 1px solid var(--border);
 
-    background: white;
+    background: var(--surface);
+
+    color: var(--text);
 
     border-radius: 8px;
 
-    padding:
-        7px 9px;
+    padding: 7px 9px;
 
     outline: none;
 
@@ -754,29 +910,37 @@ input {
 
     transition:
         border-color .18s ease,
-        box-shadow .18s ease;
+        box-shadow .18s ease,
+        background .18s ease;
+}
+
+.reply-input::placeholder,
+.main-input::placeholder {
+    color: var(--muted);
 }
 
 .reply-input:focus {
-
-    border-color: #087443;
+    border-color: var(--primary);
 
     box-shadow:
-        0 0 0 2px rgba(8,116,67,.07);
+        0 0 0 2px
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
 }
 
 .reply-send {
-
     border: none;
 
-    background: #087443;
+    background: var(--primary);
 
     color: white;
 
     border-radius: 8px;
 
-    padding:
-        7px 10px;
+    padding: 7px 10px;
 
     cursor: pointer;
 
@@ -786,25 +950,29 @@ input {
 
     transition:
         transform .16s ease,
-        background .18s ease;
+        background .18s ease,
+        opacity .18s ease;
 }
 
 .reply-send:hover {
-    background: #07643a;
+    background: var(--primary-dark);
 }
 
 .reply-send:active {
     transform: scale(.88);
 }
 
+.reply-send:disabled {
+    opacity: .6;
+    pointer-events: none;
+}
+
 
 /* =========================================
    FIXED BOTTOM INPUT
-   + MOBILE KEYBOARD SUPPORT
 ========================================= */
 
 .comment-composer {
-
     position: fixed !important;
 
     top: auto !important;
@@ -818,19 +986,18 @@ input {
     z-index: 99999 !important;
 
     background:
-        rgba(255,255,255,.98);
+        color-mix(
+            in srgb,
+            var(--surface) 97%,
+            transparent
+        );
 
-    backdrop-filter:
-        blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
-    -webkit-backdrop-filter:
-        blur(10px);
+    border-top: 1px solid var(--border);
 
-    border-top:
-        1px solid #e4ebe6;
-
-    padding:
-        10px 14px;
+    padding: 10px 14px;
 
     padding-bottom:
         calc(
@@ -851,7 +1018,11 @@ input {
 
     transition:
         transform .16s ease,
-        box-shadow .16s ease;
+        box-shadow .16s ease,
+        background .2s ease;
+
+    box-shadow:
+        0 -5px 20px rgba(0,0,0,.035);
 
     animation:
         composerIn .3s ease both;
@@ -873,7 +1044,6 @@ input {
 }
 
 .composer-inner {
-
     width: 100%;
 
     max-width: 700px;
@@ -888,20 +1058,17 @@ input {
 }
 
 .main-input {
-
     flex: 1;
 
     min-width: 0;
 
     height: 44px;
 
-    border:
-        1px solid #dce6df;
+    border: 1px solid var(--border);
 
     border-radius: 11px;
 
-    padding:
-        0 12px;
+    padding: 0 12px;
 
     outline: none;
 
@@ -909,7 +1076,9 @@ input {
 
     font-size: 13px;
 
-    background: white;
+    background: var(--surface);
+
+    color: var(--text);
 
     direction: rtl;
 
@@ -917,22 +1086,26 @@ input {
 
     transition:
         border-color .18s ease,
-        box-shadow .18s ease;
+        box-shadow .18s ease,
+        background .18s ease;
 }
 
 .main-input:focus {
-
-    border-color: #087443;
+    border-color: var(--primary);
 
     box-shadow:
-        0 0 0 2px rgba(8,116,67,.07);
+        0 0 0 2px
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
 }
 
 .send-btn {
-
     border: none;
 
-    background: #087443;
+    background: var(--primary);
 
     color: white;
 
@@ -940,8 +1113,7 @@ input {
 
     height: 44px;
 
-    padding:
-        0 17px;
+    padding: 0 17px;
 
     flex-shrink: 0;
 
@@ -960,7 +1132,7 @@ input {
 }
 
 .send-btn:hover {
-    background: #07643a;
+    background: var(--primary-dark);
 }
 
 .send-btn:active {
@@ -968,7 +1140,6 @@ input {
 }
 
 .send-btn:disabled {
-
     opacity: .65;
 
     pointer-events: none;
@@ -980,13 +1151,11 @@ input {
 ========================================= */
 
 .state {
-
     text-align: center;
 
-    color: #888;
+    color: var(--muted);
 
-    padding:
-        45px 20px;
+    padding: 45px 20px;
 
     font-size: 13px;
 
@@ -995,8 +1164,9 @@ input {
 }
 
 .login-state {
+    background: var(--surface);
 
-    background: white;
+    border: 1px solid var(--border);
 
     border-radius: 13px;
 
@@ -1006,7 +1176,7 @@ input {
 
     text-align: center;
 
-    color: #777;
+    color: var(--muted);
 
     font-size: 12px;
 
@@ -1015,17 +1185,15 @@ input {
 }
 
 .login-state a {
-
     display: inline-block;
 
     margin-top: 9px;
 
-    background: #087443;
+    background: var(--primary);
 
     color: white;
 
-    padding:
-        8px 13px;
+    padding: 8px 13px;
 
     border-radius: 8px;
 
@@ -1035,7 +1203,12 @@ input {
 
     transition:
         transform .16s ease,
-        opacity .18s ease;
+        opacity .18s ease,
+        background .18s ease;
+}
+
+.login-state a:hover {
+    background: var(--primary-dark);
 }
 
 .login-state a:active {
@@ -1048,7 +1221,6 @@ input {
 ========================================= */
 
 .delete-overlay {
-
     position: fixed;
 
     inset: 0;
@@ -1064,10 +1236,10 @@ input {
     padding: 20px;
 
     background:
-        rgba(10,25,17,.28);
+        rgba(10,25,17,.35);
 
-    backdrop-filter:
-        blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 
     opacity: 0;
 
@@ -1079,17 +1251,17 @@ input {
 }
 
 .delete-overlay.show {
-
     opacity: 1;
 
     visibility: visible;
 }
 
 .delete-dialog {
-
     width: min(330px, 100%);
 
-    background: white;
+    background: var(--surface);
+
+    border: 1px solid var(--border);
 
     border-radius: 18px;
 
@@ -1097,8 +1269,7 @@ input {
 
     text-align: center;
 
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.16);
+    box-shadow: var(--shadow-strong);
 
     transform:
         translateY(12px)
@@ -1110,14 +1281,12 @@ input {
 
 .delete-overlay.show
 .delete-dialog {
-
     transform:
         translateY(0)
         scale(1);
 }
 
 .delete-icon {
-
     width: 48px;
     height: 48px;
 
@@ -1130,25 +1299,28 @@ input {
 
     border-radius: 50%;
 
-    background: #fff0f0;
+    background:
+        color-mix(
+            in srgb,
+            var(--danger) 10%,
+            transparent
+        );
 
-    color: #c62828;
+    color: var(--danger);
 
     font-size: 22px;
 }
 
 .delete-title {
-
     font-weight: bold;
 
-    color: #26332c;
+    color: var(--text);
 
     font-size: 14px;
 }
 
 .delete-text {
-
-    color: #7c8580;
+    color: var(--muted);
 
     font-size: 11px;
 
@@ -1158,7 +1330,6 @@ input {
 }
 
 .delete-buttons {
-
     display: flex;
 
     gap: 7px;
@@ -1167,7 +1338,6 @@ input {
 }
 
 .delete-buttons button {
-
     flex: 1;
 
     border: none;
@@ -1193,29 +1363,28 @@ input {
 }
 
 .cancel-delete {
+    background: var(--surface-2);
 
-    background: #eef3ef;
+    color: var(--text-soft);
 
-    color: #536058;
+    border: 1px solid var(--border) !important;
 }
 
 .cancel-delete:hover {
-    background: #e4ebe6;
+    background: var(--primary-soft);
 }
 
 .confirm-delete {
-
-    background: #c62828;
+    background: var(--danger);
 
     color: white;
 }
 
 .confirm-delete:hover {
-    background: #b51f1f;
+    opacity: .9;
 }
 
 .confirm-delete.loading {
-
     opacity: .6;
 
     pointer-events: none;
@@ -1227,7 +1396,6 @@ input {
 ========================================= */
 
 .toast {
-
     position: fixed;
 
     left: 50%;
@@ -1238,12 +1406,11 @@ input {
         translate(-50%, 18px)
         scale(.96);
 
-    background: #17251d;
+    background: var(--text);
 
-    color: white;
+    color: var(--surface);
 
-    padding:
-        9px 14px;
+    padding: 9px 14px;
 
     border-radius: 9px;
 
@@ -1258,10 +1425,13 @@ input {
         transform .22s ease;
 
     z-index: 300;
+
+    max-width: calc(100% - 30px);
+
+    text-align: center;
 }
 
 .toast.show {
-
     opacity: 1;
 
     transform:
@@ -1276,15 +1446,26 @@ input {
 
 @media (max-width: 550px) {
 
+    .header {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .header-inner {
+        gap: 7px;
+    }
+
+    .header-title strong {
+        font-size: 15px;
+    }
+
     .comment-item {
         max-width: 96%;
     }
 
     .comments-container {
-
         padding-left: 9px;
         padding-right: 9px;
-
         padding-bottom: 150px;
     }
 
@@ -1293,7 +1474,6 @@ input {
     }
 
     .comment-composer {
-
         padding-left: 9px;
         padding-right: 9px;
 
@@ -1311,10 +1491,16 @@ input {
 
     .send-btn {
         height: 46px;
+
         padding-left: 15px;
         padding-right: 15px;
     }
 
+    .theme-btn,
+    .back-btn {
+        width: 36px;
+        height: 36px;
+    }
 }
 
 
@@ -1327,7 +1513,6 @@ input {
     *,
     *::before,
     *::after {
-
         animation-duration: .01ms !important;
 
         animation-iteration-count: 1 !important;
@@ -1369,6 +1554,16 @@ input {
             </span>
 
         </div>
+
+        <button
+            id="themeButton"
+            class="theme-btn"
+            type="button"
+            aria-label="حالت تاریک"
+            title="حالت تاریک"
+        >
+            🌙
+        </button>
 
     </div>
 
@@ -1441,10 +1636,6 @@ input {
 </main>
 
 
-<!-- =========================================
-     FIXED COMMENT COMPOSER
-========================================= -->
-
 <div class="comment-composer">
 
     <div class="composer-inner">
@@ -1470,8 +1661,6 @@ input {
 
 </div>
 
-
-<!-- DELETE MODAL -->
 
 <div
     id="deleteOverlay"
@@ -1541,6 +1730,122 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_ANON_KEY
     );
+
+
+/* =========================================
+   THEME
+========================================= */
+
+const THEME_KEY =
+    "bazaarak-theme";
+
+const themeButton =
+    document.getElementById(
+        "themeButton"
+    );
+
+const themeColor =
+    document.querySelector(
+        'meta[name="theme-color"]'
+    );
+
+
+function getTheme() {
+
+    try {
+
+        return localStorage.getItem(
+            THEME_KEY
+        ) === "dark"
+            ? "dark"
+            : "light";
+
+    } catch (_) {
+
+        return document.documentElement.dataset.theme === "dark"
+            ? "dark"
+            : "light";
+    }
+}
+
+
+function applyTheme(
+    theme,
+    persist = true
+) {
+
+    const nextTheme =
+        theme === "dark"
+            ? "dark"
+            : "light";
+
+
+    document.documentElement.dataset.theme =
+        nextTheme;
+
+
+    if (persist) {
+
+        try {
+
+            localStorage.setItem(
+                THEME_KEY,
+                nextTheme
+            );
+
+        } catch (_) {}
+    }
+
+
+    if (themeButton) {
+
+        themeButton.textContent =
+            nextTheme === "dark"
+                ? "☀️"
+                : "🌙";
+
+        themeButton.title =
+            nextTheme === "dark"
+                ? "حالت روشن"
+                : "حالت تاریک";
+
+        themeButton.setAttribute(
+            "aria-label",
+            themeButton.title
+        );
+    }
+
+
+    if (themeColor) {
+
+        themeColor.setAttribute(
+            "content",
+            nextTheme === "dark"
+                ? "#0b1210"
+                : "#087a55"
+        );
+    }
+}
+
+
+applyTheme(
+    getTheme(),
+    false
+);
+
+
+themeButton.addEventListener(
+    "click",
+    function () {
+
+        applyTheme(
+            getTheme() === "dark"
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
 
 
 /* =========================================
@@ -1620,7 +1925,7 @@ productId =
 
 
 /* =========================================
-   KEYBOARD / VISUAL VIEWPORT
+   KEYBOARD
 ========================================= */
 
 function updateKeyboardPosition() {
@@ -1629,7 +1934,9 @@ function updateKeyboardPosition() {
         return;
     }
 
+
     if (!window.visualViewport) {
+
         commentComposer.style.setProperty(
             "--keyboard-offset",
             "0px"
@@ -1651,11 +1958,6 @@ function updateKeyboardPosition() {
             viewport.offsetTop
         );
 
-
-    /*
-       وقتی کیبورد باز است،
-       composer به اندازه کیبورد بالا می‌رود.
-    */
 
     commentComposer.style.setProperty(
         "--keyboard-offset",
@@ -1686,48 +1988,34 @@ window.addEventListener(
 
 mainInput.addEventListener(
     "focus",
-    function() {
-
-        /*
-           اجازه می‌دهیم مرورگر ابتدا
-           کیبورد را باز کند.
-        */
+    function () {
 
         setTimeout(
-            function() {
+            function () {
 
                 updateKeyboardPosition();
 
-                if (
-                    window.visualViewport
-                ) {
+                if (window.visualViewport) {
 
                     mainInput.scrollIntoView({
                         behavior: "smooth",
                         block: "center"
                     });
-
                 }
 
             },
             150
         );
-
     }
 );
 
 
-/*
-   وقتی کاربر از کادر خارج شد،
-   composer دوباره پایین صفحه می‌آید.
-*/
-
 mainInput.addEventListener(
     "blur",
-    function() {
+    function () {
 
         setTimeout(
-            function() {
+            function () {
 
                 updateKeyboardPosition();
 
@@ -1739,7 +2027,6 @@ mainInput.addEventListener(
             },
             150
         );
-
     }
 );
 
@@ -1761,20 +2048,35 @@ async function start() {
             </div>
         `;
 
+        commentComposer.style.display =
+            "none";
+
         return;
     }
 
 
-    const {
-        data: {
-            session
-        }
-    } =
-    await supabaseClient.auth.getSession();
+    try {
+
+        const {
+            data: {
+                session
+            }
+        } =
+        await supabaseClient.auth.getSession();
 
 
-    currentUser =
-        session?.user || null;
+        currentUser =
+            session?.user || null;
+
+    } catch (error) {
+
+        console.error(
+            "Session error:",
+            error
+        );
+
+        currentUser = null;
+    }
 
 
     if (!currentUser) {
@@ -1784,9 +2086,10 @@ async function start() {
     }
 
 
-    await loadProduct();
-
-    await loadComments();
+    await Promise.all([
+        loadProduct(),
+        loadComments()
+    ]);
 }
 
 
@@ -1834,23 +2137,51 @@ async function loadProduct() {
     }
 
 
-    const image =
-        product.image_url ||
-        (
-            Array.isArray(
-                product.image_urls
-            ) &&
-            product.image_urls.length
-                ? product.image_urls[0]
-                : ""
+    let image = "";
+
+
+    if (
+        product.image_url &&
+        typeof product.image_url === "string"
+    ) {
+
+        image =
+            product.image_url;
+    }
+
+
+    if (
+        !image &&
+        Array.isArray(
+            product.image_urls
+        ) &&
+        product.image_urls.length
+    ) {
+
+        image =
+            product.image_urls[0] || "";
+    }
+
+
+    const productImage =
+        document.getElementById(
+            "productImage"
         );
 
 
-    document.getElementById(
-        "productImage"
-    ).src =
+    productImage.src =
         image ||
         "https://via.placeholder.com/100x100?text=B";
+
+
+    productImage.onerror =
+        function () {
+
+            this.onerror = null;
+
+            this.src =
+                "https://via.placeholder.com/100x100?text=B";
+        };
 
 
     document.getElementById(
@@ -1865,7 +2196,7 @@ async function loadProduct() {
     ).textContent =
         Number(
             product.price || 0
-        ).toLocaleString() +
+        ).toLocaleString("fa-AF") +
         " افغانی";
 
 
@@ -1935,6 +2266,10 @@ async function loadComments() {
         commentsList.innerHTML = `
             <div class="state">
                 ❌ دریافت نظرها انجام نشد.
+                <br>
+                <small style="opacity:.7">
+                    ${escapeHTML(error.message || "")}
+                </small>
             </div>
         `;
 
@@ -1943,7 +2278,14 @@ async function loadComments() {
 
 
     comments =
-        data || [];
+        Array.isArray(data)
+            ? data
+            : [];
+
+
+    profiles = {};
+
+    commentLikes = {};
 
 
     await loadProfiles();
@@ -1963,10 +2305,12 @@ async function loadProfiles() {
     const userIds =
         [
             ...new Set(
-                comments.map(
-                    item =>
-                        item.user_id
-                )
+                comments
+                    .map(
+                        item =>
+                            item.user_id
+                    )
+                    .filter(Boolean)
             )
         ];
 
@@ -2004,11 +2348,8 @@ async function loadProfiles() {
     }
 
 
-    profiles = {};
-
-
     (data || []).forEach(
-        function(profile) {
+        function (profile) {
 
             profiles[
                 profile.id
@@ -2033,10 +2374,17 @@ async function loadCommentLikes() {
 
 
     const commentIds =
-        comments.map(
-            item =>
-                item.id
-        );
+        comments
+            .map(
+                item =>
+                    item.id
+            )
+            .filter(Boolean);
+
+
+    if (!commentIds.length) {
+        return;
+    }
 
 
     const {
@@ -2068,7 +2416,7 @@ async function loadCommentLikes() {
 
 
     (data || []).forEach(
-        function(like) {
+        function (like) {
 
             if (
                 !commentLikes[
@@ -2135,7 +2483,7 @@ function renderComments() {
     commentsList.innerHTML =
         roots
             .map(
-                function(comment) {
+                function (comment) {
 
                     return renderComment(
                         comment,
@@ -2236,6 +2584,7 @@ function renderComment(
                         class="comment-avatar"
                         src="${escapeAttribute(avatar)}"
                         alt=""
+                        loading="lazy"
                         onclick="openUserProfile('${safeUserId}')"
                     >
 
@@ -2352,6 +2701,7 @@ function renderComment(
                                 type="text"
                                 maxlength="1000"
                                 placeholder="پاسخ خود را بنویسید..."
+                                autocomplete="off"
                             >
 
                             <button
@@ -2379,7 +2729,7 @@ function renderComment(
 
                         ${replies
                             .map(
-                                function(reply) {
+                                function (reply) {
 
                                     return renderComment(
                                         reply,
@@ -2406,7 +2756,9 @@ function renderComment(
    USER PROFILE
 ========================================= */
 
-function openUserProfile(userId) {
+function openUserProfile(
+    userId
+) {
 
     if (!userId) {
         return;
@@ -2414,7 +2766,7 @@ function openUserProfile(userId) {
 
 
     const url =
-        "seller-profile.html?id=" +
+        "seller.html?id=" +
         encodeURIComponent(
             userId
         );
@@ -2426,7 +2778,7 @@ function openUserProfile(userId) {
 
 
     setTimeout(
-        function() {
+        function () {
 
             if (
                 window.parent &&
@@ -2457,7 +2809,9 @@ function toggleMoreMenu(
     event
 ) {
 
-    event.stopPropagation();
+    if (event) {
+        event.stopPropagation();
+    }
 
 
     document
@@ -2465,7 +2819,7 @@ function toggleMoreMenu(
             ".more-menu.show"
         )
         .forEach(
-            function(menu) {
+            function (menu) {
 
                 if (
                     menu.id !==
@@ -2501,14 +2855,14 @@ function toggleMoreMenu(
 
 document.addEventListener(
     "click",
-    function() {
+    function () {
 
         document
             .querySelectorAll(
                 ".more-menu.show"
             )
             .forEach(
-                function(menu) {
+                function (menu) {
 
                     menu.classList.remove(
                         "show"
@@ -2516,7 +2870,6 @@ document.addEventListener(
 
                 }
             );
-
     }
 );
 
@@ -2538,8 +2891,8 @@ function openDeleteModal(
     const comment =
         comments.find(
             item =>
-                item.id ===
-                commentId
+                String(item.id) ===
+                String(commentId)
         );
 
 
@@ -2571,7 +2924,7 @@ function openDeleteModal(
             ".more-menu.show"
         )
         .forEach(
-            function(menu) {
+            function (menu) {
 
                 menu.classList.remove(
                     "show"
@@ -2603,7 +2956,7 @@ function closeDeleteModal() {
 
 
 /* =========================================
-   CONFIRM DELETE
+   DELETE COMMENT
 ========================================= */
 
 async function confirmDeleteComment() {
@@ -2619,8 +2972,8 @@ async function confirmDeleteComment() {
     const comment =
         comments.find(
             item =>
-                item.id ===
-                commentToDelete
+                String(item.id) ===
+                String(commentToDelete)
         );
 
 
@@ -2655,39 +3008,139 @@ async function confirmDeleteComment() {
         "در حال حذف...";
 
 
-    const deletingId =
-        commentToDelete;
+    try {
+
+        /*
+         * پاسخ‌های مستقیم این نظر
+         */
+        const childIds =
+            comments
+                .filter(
+                    item =>
+                        String(
+                            item.parent_id
+                        ) ===
+                        String(comment.id)
+                )
+                .map(
+                    item =>
+                        item.id
+                );
 
 
-    const {
-        error
-    } = await supabaseClient
+        /*
+         * اول لایک‌های فرزندان حذف می‌شوند.
+         * اگر جدول/Policy اجازه ندهد،
+         * حذف اصلی متوقف نمی‌شود.
+         */
 
-        .from("product_comments")
+        if (childIds.length) {
 
-        .delete()
+            await supabaseClient
+                .from("comment_likes")
+                .delete()
+                .in(
+                    "comment_id",
+                    childIds
+                );
 
-        .eq(
-            "id",
-            deletingId
-        )
 
-        .eq(
-            "user_id",
-            currentUser.id
+            const {
+                error: childDeleteError
+            } =
+            await supabaseClient
+                .from("product_comments")
+                .delete()
+                .in(
+                    "id",
+                    childIds
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
+
+            if (childDeleteError) {
+
+                console.warn(
+                    "Child comments delete:",
+                    childDeleteError
+                );
+            }
+        }
+
+
+        /*
+         * لایک‌های کامنت اصلی
+         */
+
+        await supabaseClient
+            .from("comment_likes")
+            .delete()
+            .eq(
+                "comment_id",
+                comment.id
+            );
+
+
+        /*
+         * حذف کامنت اصلی
+         */
+
+        const {
+            error
+        } =
+        await supabaseClient
+
+            .from("product_comments")
+
+            .delete()
+
+            .eq(
+                "id",
+                comment.id
+            )
+
+            .eq(
+                "user_id",
+                currentUser.id
+            );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        closeDeleteModal();
+
+
+        showToast(
+            "کامنت حذف شد ✓"
         );
 
 
-    if (error) {
+        await loadComments();
+
+
+        sendParentMessage(
+            "comment-deleted"
+        );
+
+    } catch (error) {
 
         console.error(
             "Delete comment error:",
             error
         );
 
+
         showToast(
             "❌ حذف کامنت انجام نشد."
         );
+
+    } finally {
 
         confirmDeleteButton.classList.remove(
             "loading"
@@ -2695,33 +3148,7 @@ async function confirmDeleteComment() {
 
         confirmDeleteButton.textContent =
             "حذف نظر";
-
-        return;
     }
-
-
-    closeDeleteModal();
-
-
-    showToast(
-        "کامنت حذف شد ✓"
-    );
-
-
-    await loadComments();
-
-
-    sendParentMessage(
-        "comment-deleted"
-    );
-
-
-    confirmDeleteButton.classList.remove(
-        "loading"
-    );
-
-    confirmDeleteButton.textContent =
-        "حذف نظر";
 }
 
 
@@ -2740,7 +3167,7 @@ function showReplyBox(
         );
 
         setTimeout(
-            function() {
+            function () {
 
                 navigateSmooth(
                     "login.html"
@@ -2771,7 +3198,7 @@ function showReplyBox(
             ".reply-box.show"
         )
         .forEach(
-            function(item) {
+            function (item) {
 
                 if (item !== box) {
 
@@ -2806,7 +3233,7 @@ function showReplyBox(
         if (input) {
 
             setTimeout(
-                function() {
+                function () {
 
                     input.focus();
 
@@ -2865,7 +3292,9 @@ async function sendReply(
     }
 
 
-    button.disabled = true;
+    button.disabled =
+        true;
+
 
     const originalText =
         button.textContent;
@@ -2874,63 +3303,71 @@ async function sendReply(
         "⌛";
 
 
-    const {
-        error
-    } = await supabaseClient
+    try {
 
-        .from("product_comments")
+        const {
+            error
+        } =
+        await supabaseClient
 
-        .insert({
+            .from("product_comments")
 
-            product_id:
-                productId,
+            .insert({
 
-            user_id:
-                currentUser.id,
+                product_id:
+                    productId,
 
-            comment:
-                text,
+                user_id:
+                    currentUser.id,
 
-            parent_id:
-                parentId
-        });
+                comment:
+                    text,
+
+                parent_id:
+                    parentId
+            });
 
 
-    if (error) {
+        if (error) {
+            throw error;
+        }
+
+
+        input.value = "";
+
+
+        showToast(
+            "پاسخ شما ثبت شد ✓"
+        );
+
+
+        await loadComments();
+
+
+        sendParentMessage(
+            "comment-added"
+        );
+
+    } catch (error) {
 
         console.error(
             "Reply error:",
             error
         );
 
+
         showToast(
             "❌ ثبت پاسخ انجام نشد."
         );
+
+    } finally {
 
         button.textContent =
             originalText;
 
         button.disabled =
             false;
-
-        return;
     }
-
-
-    input.value = "";
-
-
-    showToast(
-        "پاسخ شما ثبت شد ✓"
-    );
-
-
-    await loadComments();
-
-
-    sendParentMessage(
-        "comment-added"
-    );
 }
 
 
@@ -2947,7 +3384,7 @@ async function sendComment() {
         );
 
         setTimeout(
-            function() {
+            function () {
 
                 navigateSmooth(
                     "login.html"
@@ -2989,38 +3426,73 @@ async function sendComment() {
         "⌛";
 
 
-    const {
-        error
-    } = await supabaseClient
+    try {
 
-        .from("product_comments")
+        const {
+            error
+        } =
+        await supabaseClient
 
-        .insert({
+            .from("product_comments")
 
-            product_id:
-                productId,
+            .insert({
 
-            user_id:
-                currentUser.id,
+                product_id:
+                    productId,
 
-            comment:
-                text,
+                user_id:
+                    currentUser.id,
 
-            parent_id:
-                null
-        });
+                comment:
+                    text,
+
+                parent_id:
+                    null
+            });
 
 
-    if (error) {
+        if (error) {
+            throw error;
+        }
+
+
+        mainInput.value = "";
+
+
+        mainInput.blur();
+
+
+        commentComposer.style.setProperty(
+            "--keyboard-offset",
+            "0px"
+        );
+
+
+        showToast(
+            "نظر شما ثبت شد ✓"
+        );
+
+
+        await loadComments();
+
+
+        sendParentMessage(
+            "comment-added"
+        );
+
+    } catch (error) {
 
         console.error(
             "Comment error:",
             error
         );
 
+
         showToast(
             "❌ ثبت نظر انجام نشد."
         );
+
+    } finally {
 
         sendButton.textContent =
             originalText;
@@ -3028,72 +3500,21 @@ async function sendComment() {
         sendButton.disabled =
             false;
 
-        return;
+
+        setTimeout(
+            function () {
+
+                updateKeyboardPosition();
+
+                commentComposer.style.setProperty(
+                    "--keyboard-offset",
+                    "0px"
+                );
+
+            },
+            250
+        );
     }
-
-
-    /*
-       اول کادر را خالی می‌کنیم.
-    */
-
-    mainInput.value = "";
-
-
-    /*
-       کیبورد را می‌بندیم.
-    */
-
-    mainInput.blur();
-
-
-    /*
-       composer را فوراً به پایین برمی‌گردانیم.
-    */
-
-    commentComposer.style.setProperty(
-        "--keyboard-offset",
-        "0px"
-    );
-
-
-    showToast(
-        "نظر شما ثبت شد ✓"
-    );
-
-
-    await loadComments();
-
-
-    sendParentMessage(
-        "comment-added"
-    );
-
-
-    sendButton.textContent =
-        originalText;
-
-    sendButton.disabled =
-        false;
-
-
-    /*
-       یک بار دیگر بعد از بسته‌شدن کیبورد
-       موقعیت composer را تنظیم می‌کنیم.
-    */
-
-    setTimeout(
-        function() {
-
-            updateKeyboardPosition();
-
-            commentComposer.style.setProperty(
-                "--keyboard-offset",
-                "0px"
-            );
-
-        },
-        250
-    );
 }
 
 
@@ -3140,7 +3561,8 @@ async function toggleCommentLike(
 
             const {
                 error
-            } = await supabaseClient
+            } =
+            await supabaseClient
 
                 .from("comment_likes")
 
@@ -3165,7 +3587,8 @@ async function toggleCommentLike(
 
             const {
                 error
-            } = await supabaseClient
+            } =
+            await supabaseClient
 
                 .from("comment_likes")
 
@@ -3180,6 +3603,17 @@ async function toggleCommentLike(
 
 
             if (error) {
+
+                if (
+                    error.code ===
+                    "23505"
+                ) {
+
+                    await loadComments();
+
+                    return;
+                }
+
                 throw error;
             }
         }
@@ -3187,24 +3621,12 @@ async function toggleCommentLike(
 
         await loadComments();
 
-
     } catch (error) {
 
         console.error(
             "Comment like error:",
             error
         );
-
-
-        if (
-            error.code ===
-            "23505"
-        ) {
-
-            await loadComments();
-
-            return;
-        }
 
 
         showToast(
@@ -3232,7 +3654,7 @@ function closeComments() {
 
 
     setTimeout(
-        function() {
+        function () {
 
             if (
                 window.parent &&
@@ -3312,7 +3734,7 @@ function navigateSmooth(
 
 
     setTimeout(
-        function() {
+        function () {
 
             window.location.href =
                 url;
@@ -3349,7 +3771,7 @@ function showToast(
 
     toastTimer =
         setTimeout(
-            function() {
+            function () {
 
                 toast.classList.remove(
                     "show"
@@ -3422,7 +3844,7 @@ sendButton.addEventListener(
 
 mainInput.addEventListener(
     "keydown",
-    function(event) {
+    function (event) {
 
         if (
             event.key ===
@@ -3439,12 +3861,58 @@ mainInput.addEventListener(
 
 
 /* =========================================
+   REPLY ENTER
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        const target =
+            event.target;
+
+
+        if (
+            target &&
+            target.classList &&
+            target.classList.contains(
+                "reply-input"
+            ) &&
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+
+            const id =
+                target.id.replace(
+                    "reply-input-",
+                    ""
+                );
+
+
+            const button =
+                document.querySelector(
+                    `[onclick="sendReply('${escapeAttribute(id)}', this)"]`
+                );
+
+
+            if (button) {
+                sendReply(id, button);
+            }
+        }
+
+    }
+);
+
+
+/* =========================================
    DELETE MODAL BACKDROP
 ========================================= */
 
 deleteOverlay.addEventListener(
     "click",
-    function(event) {
+    function (event) {
 
         if (
             event.target ===
@@ -3464,7 +3932,7 @@ deleteOverlay.addEventListener(
 
 document.addEventListener(
     "keydown",
-    function(event) {
+    function (event) {
 
         if (
             event.key ===
@@ -3473,6 +3941,31 @@ document.addEventListener(
 
             closeDeleteModal();
 
+        }
+
+    }
+);
+
+
+/* =========================================
+   STORAGE THEME SYNC
+========================================= */
+
+window.addEventListener(
+    "storage",
+    function (event) {
+
+        if (
+            event.key ===
+            THEME_KEY
+        ) {
+
+            applyTheme(
+                event.newValue === "dark"
+                    ? "dark"
+                    : "light",
+                false
+            );
         }
 
     }
