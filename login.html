@@ -15,8 +15,10 @@
 (() => {
     try {
         const saved = localStorage.getItem("bazaarak-theme");
+
         document.documentElement.dataset.theme =
             saved === "dark" ? "dark" : "light";
+
     } catch (_) {
         document.documentElement.dataset.theme = "light";
     }
@@ -96,9 +98,12 @@ html {
 
 body {
     font-family:Tahoma,Arial,sans-serif;
+
     background:var(--bg);
     color:var(--text);
+
     min-height:100vh;
+
     transition:
         background-color .25s,
         color .25s;
@@ -124,7 +129,8 @@ button:disabled {
     cursor:not-allowed;
 }
 
-/* Header */
+
+/* HEADER */
 
 header {
     height:72px;
@@ -163,6 +169,7 @@ header {
 
 .logo {
     color:var(--primary);
+
     text-decoration:none;
 
     font-size:25px;
@@ -183,12 +190,14 @@ header {
 
 .back {
     color:var(--text-soft);
+
     text-decoration:none;
 
     font-size:13px;
     font-weight:bold;
 
     padding:9px 12px;
+
     border-radius:10px;
 
     transition:
@@ -211,6 +220,7 @@ header {
     border-radius:12px;
 
     background:var(--surface-2);
+
     border:1px solid var(--border);
 
     color:var(--text);
@@ -226,7 +236,9 @@ header {
 
 .theme-button:hover {
     transform:translateY(-2px);
+
     background:var(--primary-soft);
+
     color:var(--primary);
 }
 
@@ -234,7 +246,8 @@ header {
     transform:scale(.92);
 }
 
-/* Main */
+
+/* MAIN */
 
 main {
     min-height:calc(100vh - 72px);
@@ -258,41 +271,217 @@ main {
         );
 }
 
-/* Login card */
+
+/* LOGIN CARD */
 
 .login-box {
+    position:relative;
+
     width:100%;
     max-width:470px;
 
-    background:var(--surface);
-
-    border:1px solid var(--border);
+    padding:38px;
 
     border-radius:var(--radius-lg);
 
-    padding:38px;
+    overflow:hidden;
+
+    border:1px solid var(--border);
 
     box-shadow:var(--shadow-lg);
 
-    transition:
-        background-color .25s,
-        border-color .25s,
-        box-shadow .25s;
+    isolation:isolate;
 
     animation:cardIn .4s ease both;
 }
 
 @keyframes cardIn {
+
     from {
         opacity:0;
-        transform:translateY(14px) scale(.985);
+        transform:
+            translateY(14px)
+            scale(.985);
     }
 
     to {
         opacity:1;
         transform:none;
     }
+
 }
+
+
+/* LOGIN SLIDESHOW */
+
+.login-slideshow {
+    position:absolute;
+
+    inset:0;
+
+    z-index:-3;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-dark),
+            var(--primary)
+        );
+}
+
+.login-slide {
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:0;
+
+    transform:scale(1.08);
+
+    filter:saturate(1.08);
+
+    transition:
+        opacity 1.3s ease,
+        transform 6s cubic-bezier(.2,.65,.25,1);
+}
+
+.login-slide.active {
+    opacity:1;
+    transform:scale(1);
+}
+
+.login-slide.zoom {
+    transform:scale(1.14);
+}
+
+.login-slide.active.zoom {
+    transform:scale(1.02);
+}
+
+.login-slide.slide-left {
+    transform:
+        translateX(4%)
+        scale(1.04);
+}
+
+.login-slide.active.slide-left {
+    transform:
+        translateX(0)
+        scale(1);
+}
+
+.login-slide.slide-right {
+    transform:
+        translateX(-4%)
+        scale(1.04);
+}
+
+.login-slide.active.slide-right {
+    transform:
+        translateX(0)
+        scale(1);
+}
+
+
+/* OVERLAY */
+
+.login-overlay {
+    position:absolute;
+
+    inset:0;
+
+    z-index:-2;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(3,52,37,.90),
+            rgba(8,122,85,.72)
+        );
+}
+
+
+/* GLASS */
+
+.login-glass {
+    position:absolute;
+
+    inset:0;
+
+    z-index:-1;
+
+    background:
+        rgba(255,255,255,.84);
+
+    backdrop-filter:blur(15px);
+
+    -webkit-backdrop-filter:blur(15px);
+}
+
+html[data-theme="dark"] .login-glass {
+    background:
+        rgba(10,20,16,.86);
+}
+
+
+/* DECORATION */
+
+.login-box::before {
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    border:1px solid
+        rgba(255,255,255,.18);
+
+    top:-95px;
+    left:-85px;
+
+    z-index:0;
+
+    pointer-events:none;
+}
+
+.login-box::after {
+    content:"";
+
+    position:absolute;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    border:1px solid
+        rgba(255,255,255,.13);
+
+    bottom:-145px;
+    right:-120px;
+
+    z-index:0;
+
+    pointer-events:none;
+}
+
+.login-box > *:not(.login-slideshow):not(.login-overlay):not(.login-glass) {
+    position:relative;
+    z-index:2;
+}
+
+
+/* ICON */
 
 .login-icon {
     width:68px;
@@ -305,12 +494,29 @@ main {
 
     border-radius:20px;
 
-    background:var(--primary-soft);
+    background:
+        rgba(255,255,255,.78);
 
     font-size:31px;
 
-    border:1px solid var(--border);
+    border:1px solid
+        rgba(255,255,255,.55);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.12);
 }
+
+html[data-theme="dark"] .login-icon {
+    background:
+        rgba(20,38,31,.78);
+
+    border-color:
+        rgba(255,255,255,.10);
+}
+
+
+/* TITLE */
 
 .title {
     text-align:center;
@@ -338,7 +544,8 @@ main {
     line-height:1.9;
 }
 
-/* Form */
+
+/* FORM */
 
 .form-group {
     margin-bottom:18px;
@@ -374,7 +581,12 @@ input {
 
     outline:none;
 
-    background:var(--surface-2);
+    background:
+        color-mix(
+            in srgb,
+            var(--surface-2) 94%,
+            transparent
+        );
 
     color:var(--text);
 
@@ -462,7 +674,8 @@ input:focus {
     text-decoration:underline;
 }
 
-/* Login button */
+
+/* LOGIN BUTTON */
 
 .login-btn {
     width:100%;
@@ -510,7 +723,8 @@ input:focus {
     box-shadow:none;
 }
 
-/* Message */
+
+/* MESSAGE */
 
 .message {
     display:none;
@@ -552,7 +766,8 @@ input:focus {
         rgba(217,75,75,.16);
 }
 
-/* Bottom */
+
+/* BOTTOM */
 
 .register-link {
     text-align:center;
@@ -588,7 +803,8 @@ input:focus {
     line-height:1.9;
 }
 
-/* Responsive */
+
+/* RESPONSIVE */
 
 @media(max-width:600px) {
 
@@ -650,6 +866,7 @@ input:focus {
     .login-btn {
         height:50px;
     }
+
 }
 
 @media(max-width:380px) {
@@ -665,6 +882,7 @@ input:focus {
     .title {
         font-size:21px;
     }
+
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -673,9 +891,12 @@ input:focus {
     *::before,
     *::after {
         animation-duration:.01ms!important;
+
         animation-iteration-count:1!important;
+
         transition-duration:.01ms!important;
     }
+
 }
 
 </style>
@@ -700,7 +921,10 @@ input:focus {
             title="تغییر حالت نمایش"
         >🌙</button>
 
-        <a class="back" href="index.html">
+        <a
+            class="back"
+            href="index.html"
+        >
             ← بازگشت به بازار
         </a>
 
@@ -708,23 +932,74 @@ input:focus {
 
 </header>
 
+
 <main>
 
     <div class="login-box">
 
-        <div class="login-icon" aria-hidden="true">
+        <!-- LOGIN SLIDESHOW -->
+
+        <div
+            class="login-slideshow"
+            aria-hidden="true"
+        >
+
+            <img
+                class="login-slide active"
+                src="login-1.jpg"
+                alt=""
+            >
+
+            <img
+                class="login-slide"
+                src="login-2.jpg"
+                alt=""
+            >
+
+            <img
+                class="login-slide"
+                src="login-3.jpg"
+                alt=""
+            >
+
+        </div>
+
+
+        <div
+            class="login-overlay"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            class="login-glass"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            class="login-icon"
+            aria-hidden="true"
+        >
             👤
         </div>
+
 
         <h1 class="title">
             ورود به <span>بازارک</span>
         </h1>
 
+
         <p class="subtitle">
             وارد حساب خود شوید و خرید و فروش را شروع کنید
         </p>
 
-        <div id="message" class="message"></div>
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
 
         <form id="loginForm">
 
@@ -747,6 +1022,7 @@ input:focus {
                 </div>
 
             </div>
+
 
             <div class="form-group">
 
@@ -774,6 +1050,7 @@ input:focus {
 
                 </div>
 
+
                 <a
                     href="#"
                     class="forgot"
@@ -783,6 +1060,7 @@ input:focus {
                 </a>
 
             </div>
+
 
             <button
                 type="submit"
@@ -794,6 +1072,7 @@ input:focus {
 
         </form>
 
+
         <div class="register-link">
 
             حساب ندارید؟
@@ -803,6 +1082,7 @@ input:focus {
             </a>
 
         </div>
+
 
         <div class="terms">
 
@@ -814,49 +1094,71 @@ input:focus {
 
 </main>
 
+
 <script>
 
 "use strict";
+
 
 /* ==============================
    THEME
 ============================== */
 
-const THEME_KEY = "bazaarak-theme";
+const THEME_KEY =
+    "bazaarak-theme";
 
 const themeButton =
-    document.getElementById("themeButton");
+    document.getElementById(
+        "themeButton"
+    );
 
 const themeColor =
-    document.getElementById("themeColor");
+    document.getElementById(
+        "themeColor"
+    );
+
 
 function getTheme() {
 
     try {
 
-        return localStorage.getItem(THEME_KEY) === "dark"
+        return localStorage.getItem(
+            THEME_KEY
+        ) === "dark"
             ? "dark"
             : "light";
 
     } catch (_) {
 
-        return document.documentElement.dataset.theme === "dark"
-            ? "dark"
-            : "light";
+        return document
+            .documentElement
+            .dataset
+            .theme === "dark"
+                ? "dark"
+                : "light";
 
     }
 
 }
 
-function applyTheme(theme, persist = true) {
+
+function applyTheme(
+    theme,
+    persist = true
+) {
 
     const nextTheme =
         theme === "dark"
             ? "dark"
             : "light";
 
-    document.documentElement.dataset.theme =
+
+    document
+        .documentElement
+        .dataset
+        .theme =
         nextTheme;
+
 
     if (persist) {
 
@@ -871,20 +1173,24 @@ function applyTheme(theme, persist = true) {
 
     }
 
+
     themeButton.textContent =
         nextTheme === "dark"
             ? "☀️"
             : "🌙";
+
 
     themeButton.title =
         nextTheme === "dark"
             ? "حالت روشن"
             : "حالت تاریک";
 
+
     themeButton.setAttribute(
         "aria-label",
         themeButton.title
     );
+
 
     themeColor.setAttribute(
         "content",
@@ -895,7 +1201,12 @@ function applyTheme(theme, persist = true) {
 
 }
 
-applyTheme(getTheme(), false);
+
+applyTheme(
+    getTheme(),
+    false
+);
+
 
 themeButton.addEventListener(
     "click",
@@ -912,6 +1223,155 @@ themeButton.addEventListener(
 
 
 /* ==============================
+   LOGIN SLIDESHOW
+============================== */
+
+const loginSlides =
+    Array.from(
+        document.querySelectorAll(
+            ".login-slide"
+        )
+    );
+
+
+const loginEffects = [
+    "",
+    "zoom",
+    "slide-left",
+    "slide-right"
+];
+
+
+function randomLoginIndex(
+    length,
+    current
+) {
+
+    if (length <= 1)
+        return 0;
+
+
+    let next;
+
+
+    do {
+
+        next =
+            Math.floor(
+                Math.random() *
+                length
+            );
+
+    } while (
+        next === current
+    );
+
+
+    return next;
+
+}
+
+
+function startLoginSlideshow() {
+
+    if (!loginSlides.length)
+        return;
+
+
+    let current = 0;
+
+
+    loginSlides.forEach(
+        (slide, index) => {
+
+            slide.classList.remove(
+                "active",
+                "zoom",
+                "slide-left",
+                "slide-right"
+            );
+
+
+            if (index === 0) {
+
+                slide.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    window.setInterval(
+        () => {
+
+            const next =
+                randomLoginIndex(
+                    loginSlides.length,
+                    current
+                );
+
+
+            const effect =
+                loginEffects[
+                    Math.floor(
+                        Math.random() *
+                        loginEffects.length
+                    )
+                ];
+
+
+            const currentSlide =
+                loginSlides[current];
+
+            const nextSlide =
+                loginSlides[next];
+
+
+            currentSlide.classList.remove(
+                "active"
+            );
+
+
+            nextSlide.classList.remove(
+                "zoom",
+                "slide-left",
+                "slide-right"
+            );
+
+
+            if (effect) {
+
+                nextSlide.classList.add(
+                    effect
+                );
+
+            }
+
+
+            void nextSlide.offsetWidth;
+
+
+            nextSlide.classList.add(
+                "active"
+            );
+
+
+            current = next;
+
+        },
+        5000
+    );
+
+}
+
+
+startLoginSlideshow();
+
+
+/* ==============================
    SUPABASE
 ============================== */
 
@@ -921,7 +1381,10 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
     "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
 
-const { createClient } = supabase;
+const {
+    createClient
+} = supabase;
+
 
 const supabaseClient =
     createClient(
@@ -935,26 +1398,39 @@ const supabaseClient =
 ============================== */
 
 const loginForm =
-    document.getElementById("loginForm");
+    document.getElementById(
+        "loginForm"
+    );
 
 const emailInput =
-    document.getElementById("email");
+    document.getElementById(
+        "email"
+    );
 
 const passwordInput =
-    document.getElementById("password");
+    document.getElementById(
+        "password"
+    );
 
 const loginBtn =
-    document.getElementById("loginBtn");
+    document.getElementById(
+        "loginBtn"
+    );
 
 const message =
-    document.getElementById("message");
+    document.getElementById(
+        "message"
+    );
 
 
 /* ==============================
    MESSAGE
 ============================== */
 
-function showMessage(text, type) {
+function showMessage(
+    text,
+    type
+) {
 
     message.textContent =
         text;
@@ -970,7 +1446,9 @@ function showMessage(text, type) {
 ============================== */
 
 document
-    .getElementById("showPassword")
+    .getElementById(
+        "showPassword"
+    )
     .addEventListener(
         "click",
         function() {
@@ -1004,7 +1482,9 @@ document
    CHECK PROFILE
 ============================== */
 
-async function checkUserProfile(userId) {
+async function checkUserProfile(
+    userId
+) {
 
     const {
         data: profile,
@@ -1044,13 +1524,14 @@ async function checkUserProfile(userId) {
         await supabaseClient
             .from("profiles")
             .insert({
-                id: userId
+                id:userId
             });
 
 
         if (
             insertError &&
-            insertError.code !== "23505"
+            insertError.code !==
+            "23505"
         ) {
 
             console.error(
@@ -1133,14 +1614,13 @@ loginForm.addEventListener(
                 data,
                 error
             } =
-            await supabaseClient.auth
+            await supabaseClient
+                .auth
                 .signInWithPassword({
 
-                    email:
-                        email,
+                    email:email,
 
-                    password:
-                        password
+                    password:password
 
                 });
 
@@ -1269,7 +1749,9 @@ loginForm.addEventListener(
 ============================== */
 
 document
-    .getElementById("forgotPassword")
+    .getElementById(
+        "forgotPassword"
+    )
     .addEventListener(
         "click",
         async function(event) {
@@ -1300,7 +1782,8 @@ document
                 const {
                     error
                 } =
-                await supabaseClient.auth
+                await supabaseClient
+                    .auth
                     .resetPasswordForEmail(
                         email,
                         {
@@ -1344,6 +1827,32 @@ document
 
         }
     );
+
+
+/* ==============================
+   THEME SYNC
+============================== */
+
+window.addEventListener(
+    "storage",
+    event => {
+
+        if (
+            event.key ===
+            THEME_KEY
+        ) {
+
+            applyTheme(
+                event.newValue === "dark"
+                    ? "dark"
+                    : "light",
+                false
+            );
+
+        }
+
+    }
+);
 
 </script>
 
