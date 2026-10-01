@@ -1,465 +1,1194 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" data-theme="light">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" id="themeColor" content="#087a55">
-
-    <title>ثبت‌نام | بازارک</title>
-
-    <script>
-        (function () {
-            try {
-                const theme =
-                    localStorage.getItem("bazaarak-theme") === "dark"
-                        ? "dark"
-                        : "light";
-
-                document.documentElement.dataset.theme = theme;
-            } catch (_) {}
-        })();
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        :root {
-            --primary: #087a55;
-            --primary-dark: #055c40;
-            --primary-soft: #eaf7f1;
-            --gold: #f2b84b;
-            --bg: #f4f7f5;
-            --surface: #ffffff;
-            --surface-2: #f8faf9;
-            --text: #17211d;
-            --text-soft: #42514a;
-            --muted: #718078;
-            --border: #e1e8e4;
-            --danger: #d94b4b;
-            --success: #16865d;
-            --shadow: 0 18px 55px rgba(10, 50, 35, 0.10);
-        }
-
-        html[data-theme="dark"] {
-            --primary: #21c982;
-            --primary-dark: #0e9b61;
-            --primary-soft: #12382a;
-            --gold: #f5c761;
-            --bg: #0b1210;
-            --surface: #111b17;
-            --surface-2: #16221d;
-            --text: #f1f6f3;
-            --text-soft: #c3d0ca;
-            --muted: #91a39b;
-            --border: #26362f;
-            --danger: #ff7272;
-            --success: #45d49a;
-            --shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            min-height: 100%;
-        }
-
-        body {
-            font-family: Tahoma, Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            transition:
-                background 0.25s ease,
-                color 0.25s ease;
-        }
-
-        header {
-            height: 70px;
-            background: color-mix(
-                in srgb,
-                var(--surface) 90%,
-                transparent
-            );
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 6%;
-
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
-
-        .logo {
-            text-decoration: none;
-            color: var(--text);
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            color: var(--primary);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .back {
-            color: var(--text-soft);
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .back:hover {
-            color: var(--primary);
-        }
-
-        .theme-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            cursor: pointer;
-            font-size: 17px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-
-        .theme-btn:hover {
-            border-color: var(--primary);
-            transform: translateY(-1px);
-        }
-
-        main {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 35px 15px;
-        }
-
-        .register-box {
-            width: 100%;
-            max-width: 470px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            padding: 35px;
-            box-shadow: var(--shadow);
-        }
-
-        .title {
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: 27px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 28px;
-        }
-
-        .form-group {
-            margin-bottom: 17px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            height: 50px;
-            border: 1px solid var(--border);
-            background: var(--surface-2);
-            color: var(--text);
-            border-radius: 12px;
-            padding: 0 15px;
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
-            direction: rtl;
-        }
-
-        input::placeholder {
-            color: var(--muted);
-        }
-
-        input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(33, 201, 130, 0.10);
-        }
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .password-wrapper input {
-            padding-left: 58px;
-        }
-
-        .show-password {
-            position: absolute;
-            left: 10px;
-            top: 9px;
-            height: 32px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: var(--primary);
-            font-size: 13px;
-        }
-
-        .register-btn {
-            width: 100%;
-            height: 52px;
-            border: none;
-            border-radius: 13px;
-            background: var(--primary);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
-            transition: 0.2s;
-        }
-
-        .register-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .register-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .message {
-            display: none;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 17px;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .success {
-            display: block;
-            background: var(--primary-soft);
-            color: var(--success);
-        }
-
-        .error {
-            display: block;
-            background: rgba(217, 75, 75, 0.10);
-            color: var(--danger);
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 22px;
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        .login-link a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .terms {
-            margin-top: 18px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.8;
-        }
-
-        /* EMAIL MODAL */
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-
-            display: none;
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-            z-index: 100;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .email-modal {
-            width: 100%;
-            max-width: 390px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px 24px 23px;
-            text-align: center;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.20);
-            animation: modalIn 0.25s ease;
-        }
-
-        .email-icon {
-            width: 62px;
-            height: 62px;
-            margin: 0 auto 17px;
-
-            border-radius: 50%;
-            background: var(--primary-soft);
-            color: var(--primary);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 28px;
-        }
-
-        .email-modal h2 {
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-
-        .email-modal p {
-            color: var(--text-soft);
-            font-size: 14px;
-            line-height: 2;
-            margin-bottom: 20px;
-        }
-
-        .email-address {
-            display: inline-block;
-            max-width: 100%;
-            padding: 7px 11px;
-            border-radius: 9px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            color: var(--primary);
-            font-weight: bold;
-            direction: ltr;
-            word-break: break-all;
-            margin-bottom: 20px;
-        }
-
-        .modal-confirm {
-            width: 100%;
-            height: 46px;
-            border: none;
-            border-radius: 11px;
-            background: var(--primary);
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .modal-confirm:hover {
-            background: var(--primary-dark);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            header {
-                padding: 0 18px;
-            }
-
-            .logo {
-                font-size: 22px;
-            }
-
-            .back {
-                font-size: 12px;
-            }
-
-            .theme-btn {
-                width: 36px;
-                height: 36px;
-            }
-
-            main {
-                padding: 25px 12px;
-            }
-
-            .register-box {
-                padding: 25px 20px;
-                border-radius: 18px;
-            }
-
-            .title {
-                font-size: 23px;
-            }
-
-            .email-modal {
-                padding: 25px 20px 20px;
-            }
-        }
-    </style>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" id="themeColor" content="#087a55">
+
+<title>ثبت‌نام | بازارک</title>
+
+<script>
+(function(){
+
+    try{
+
+        const theme =
+            localStorage.getItem("bazaarak-theme") === "dark"
+                ? "dark"
+                : "light";
+
+        document.documentElement.dataset.theme =
+            theme;
+
+    }catch(_){
+
+        document.documentElement.dataset.theme =
+            "light";
+
+    }
+
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+:root{
+
+    --primary:#087a55;
+    --primary-dark:#055c40;
+    --primary-soft:#eaf7f1;
+
+    --gold:#f2b84b;
+
+    --bg:#f4f7f5;
+    --surface:#ffffff;
+    --surface-2:#f8faf9;
+
+    --text:#17211d;
+    --text-soft:#42514a;
+    --muted:#718078;
+
+    --border:#e1e8e4;
+
+    --danger:#d94b4b;
+    --success:#16865d;
+
+    --shadow:
+        0 18px 55px
+        rgba(10,50,35,.10);
+
+}
+
+html[data-theme="dark"]{
+
+    --primary:#21c982;
+    --primary-dark:#0e9b61;
+    --primary-soft:#12382a;
+
+    --gold:#f5c761;
+
+    --bg:#0b1210;
+    --surface:#111b17;
+    --surface-2:#16221d;
+
+    --text:#f1f6f3;
+    --text-soft:#c3d0ca;
+    --muted:#91a39b;
+
+    --border:#26362f;
+
+    --danger:#ff7272;
+    --success:#45d49a;
+
+    --shadow:
+        0 18px 55px
+        rgba(0,0,0,.28);
+
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+    min-height:100%;
+}
+
+body{
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
+
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+
+    height:70px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--surface) 90%,
+            transparent
+        );
+
+    border-bottom:
+        1px solid var(--border);
+
+    backdrop-filter:blur(14px);
+
+    -webkit-backdrop-filter:blur(14px);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:20;
+
+}
+
+.logo{
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-size:25px;
+
+    font-weight:bold;
+
+}
+
+.logo span{
+    color:var(--primary);
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.back{
+
+    color:var(--text-soft);
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    transition:.2s;
+
+}
+
+.back:hover{
+    color:var(--primary);
+}
+
+.theme-btn{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:11px;
+
+    border:
+        1px solid var(--border);
+
+    background:var(--surface);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.2s;
+
+}
+
+.theme-btn:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-1px);
+
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+
+    min-height:
+        calc(100vh - 70px);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:35px 15px;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(33,201,130,.07),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(242,184,75,.07),
+            transparent 28%
+        );
+
+}
+
+
+/* =========================
+   REGISTER CARD
+========================= */
+
+.register-box{
+
+    position:relative;
+
+    width:100%;
+
+    max-width:470px;
+
+    padding:35px;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.22);
+
+    box-shadow:var(--shadow);
+
+    isolation:isolate;
+
+    background:transparent;
+
+    animation:
+        registerCardIn
+        .4s
+        ease
+        both;
+
+}
+
+@keyframes registerCardIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(14px)
+            scale(.985);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+
+/* =========================
+   REGISTER SLIDESHOW
+========================= */
+
+.register-slideshow{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:0;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-dark),
+            var(--primary)
+        );
+
+}
+
+.register-slide{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:0;
+
+    transform:scale(1.08);
+
+    filter:saturate(1.08);
+
+    transition:
+
+        opacity 1.3s ease,
+
+        transform
+        6s
+        cubic-bezier(.2,.65,.25,1);
+
+}
+
+.register-slide.active{
+
+    opacity:1;
+
+    transform:scale(1);
+
+}
+
+.register-slide.zoom{
+
+    transform:scale(1.14);
+
+}
+
+.register-slide.active.zoom{
+
+    transform:scale(1.02);
+
+}
+
+.register-slide.slide-left{
+
+    transform:
+        translateX(4%)
+        scale(1.04);
+
+}
+
+.register-slide.active.slide-left{
+
+    transform:
+        translateX(0)
+        scale(1);
+
+}
+
+.register-slide.slide-right{
+
+    transform:
+        translateX(-4%)
+        scale(1.04);
+
+}
+
+.register-slide.active.slide-right{
+
+    transform:
+        translateX(0)
+        scale(1);
+
+}
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+.register-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:1;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(3,52,37,.90),
+            rgba(8,122,85,.72)
+        );
+
+}
+
+
+/* =========================
+   GLASS
+========================= */
+
+.register-glass{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:2;
+
+    background:
+        rgba(255,255,255,.84);
+
+    backdrop-filter:blur(15px);
+
+    -webkit-backdrop-filter:blur(15px);
+
+}
+
+html[data-theme="dark"]
+.register-glass{
+
+    background:
+        rgba(10,20,16,.86);
+
+}
+
+
+/* =========================
+   DECORATION
+========================= */
+
+.register-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    top:-95px;
+
+    left:-85px;
+
+    z-index:3;
+
+    pointer-events:none;
+
+}
+
+.register-box::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:240px;
+
+    height:240px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    bottom:-145px;
+
+    right:-120px;
+
+    z-index:3;
+
+    pointer-events:none;
+
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.register-box > *:not(.register-slideshow)
+              :not(.register-overlay)
+              :not(.register-glass){
+
+    position:relative;
+
+    z-index:4;
+
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.title{
+
+    text-align:center;
+
+    margin-bottom:8px;
+
+    font-size:27px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    line-height:1.8;
+
+    margin-bottom:28px;
+
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-group{
+
+    margin-bottom:17px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+}
+
+input{
+
+    width:100%;
+
+    height:50px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--surface-2) 94%,
+            transparent
+        );
+
+    color:var(--text);
+
+    border-radius:12px;
+
+    padding:0 15px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.2s;
+
+    direction:rtl;
+
+}
+
+input::placeholder{
+    color:var(--muted);
+}
+
+input:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(33,201,130,.10);
+
+    background:var(--surface);
+
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+.password-wrapper{
+
+    position:relative;
+
+}
+
+.password-wrapper input{
+
+    padding-left:58px;
+
+}
+
+.show-password{
+
+    position:absolute;
+
+    left:10px;
+
+    top:9px;
+
+    height:32px;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    color:var(--primary);
+
+    font-size:13px;
+
+    padding:0 6px;
+
+    border-radius:7px;
+
+}
+
+.show-password:hover{
+
+    background:var(--primary-soft);
+
+}
+
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.register-btn{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:13px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    margin-top:5px;
+
+    transition:
+
+        .2s;
+
+}
+
+.register-btn:hover{
+
+    background:var(--primary-dark);
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(8,122,85,.20);
+
+}
+
+.register-btn:active{
+
+    transform:scale(.98);
+
+}
+
+.register-btn:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+
+    display:none;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    margin-bottom:17px;
+
+    font-size:14px;
+
+    line-height:1.7;
+
+}
+
+.success{
+
+    display:block;
+
+    background:var(--primary-soft);
+
+    color:var(--success);
+
+}
+
+.error{
+
+    display:block;
+
+    background:
+        rgba(217,75,75,.10);
+
+    color:var(--danger);
+
+}
+
+
+/* =========================
+   LINKS
+========================= */
+
+.login-link{
+
+    text-align:center;
+
+    margin-top:22px;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+}
+
+.login-link a{
+
+    color:var(--primary);
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+.login-link a:hover{
+    text-decoration:underline;
+}
+
+.terms{
+
+    margin-top:18px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    line-height:1.8;
+
+}
+
+
+/* =========================
+   EMAIL MODAL
+========================= */
+
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.45);
+
+    backdrop-filter:blur(5px);
+
+    -webkit-backdrop-filter:blur(5px);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    z-index:100;
+
+}
+
+.modal-overlay.show{
+
+    display:flex;
+
+    animation:
+        fadeIn
+        .2s
+        ease;
+
+}
+
+.email-modal{
+
+    width:100%;
+
+    max-width:390px;
+
+    background:var(--surface);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:20px;
+
+    padding:
+        28px
+        24px
+        23px;
+
+    text-align:center;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.20);
+
+    animation:
+        modalIn
+        .25s
+        ease;
+
+}
+
+.email-icon{
+
+    width:62px;
+
+    height:62px;
+
+    margin:
+        0
+        auto
+        17px;
+
+    border-radius:50%;
+
+    background:var(--primary-soft);
+
+    color:var(--primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:28px;
+
+}
+
+.email-modal h2{
+
+    font-size:20px;
+
+    margin-bottom:12px;
+
+}
+
+.email-modal p{
+
+    color:var(--text-soft);
+
+    font-size:14px;
+
+    line-height:2;
+
+    margin-bottom:20px;
+
+}
+
+.email-address{
+
+    display:inline-block;
+
+    max-width:100%;
+
+    padding:7px 11px;
+
+    border-radius:9px;
+
+    background:var(--surface-2);
+
+    border:
+        1px solid
+        var(--border);
+
+    color:var(--primary);
+
+    font-weight:bold;
+
+    direction:ltr;
+
+    word-break:break-all;
+
+    margin-bottom:20px;
+
+}
+
+.modal-confirm{
+
+    width:100%;
+
+    height:46px;
+
+    border:none;
+
+    border-radius:11px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.modal-confirm:hover{
+
+    background:var(--primary-dark);
+
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+
+@keyframes modalIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(12px)
+            scale(.97);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:500px){
+
+    header{
+
+        padding:
+            0
+            18px;
+
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .back{
+        font-size:12px;
+    }
+
+    .theme-btn{
+
+        width:36px;
+
+        height:36px;
+
+    }
+
+    main{
+
+        padding:
+            25px
+            12px;
+
+    }
+
+    .register-box{
+
+        padding:
+            25px
+            20px;
+
+        border-radius:18px;
+
+    }
+
+    .title{
+        font-size:23px;
+    }
+
+    .email-modal{
+
+        padding:
+            25px
+            20px
+            20px;
+
+    }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms!important;
+
+        animation-iteration-count:1!important;
+
+        transition-duration:.01ms!important;
+
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
 <header>
 
-    <a class="logo" href="index.html">
+    <a
+        class="logo"
+        href="index.html"
+    >
         بازار<span>ک</span>
     </a>
+
 
     <div class="header-actions">
 
@@ -473,7 +1202,11 @@
             🌙
         </button>
 
-        <a class="back" href="index.html">
+
+        <a
+            class="back"
+            href="index.html"
+        >
             ← بازگشت به بازار
         </a>
 
@@ -484,19 +1217,68 @@
 
 <main>
 
+
     <div class="register-box">
+
+
+        <!-- REGISTER SLIDESHOW -->
+
+        <div
+            class="register-slideshow"
+            aria-hidden="true"
+        >
+
+            <img
+                class="register-slide active"
+                src="register-1.jpg"
+                alt=""
+            >
+
+            <img
+                class="register-slide"
+                src="register-2.jpg"
+                alt=""
+            >
+
+            <img
+                class="register-slide"
+                src="register-3.jpg"
+                alt=""
+            >
+
+        </div>
+
+
+        <div
+            class="register-overlay"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            class="register-glass"
+            aria-hidden="true"
+        ></div>
+
 
         <h1 class="title">
             ساخت حساب بازارک
         </h1>
 
+
         <p class="subtitle">
             برای خرید و فروش در بازارک حساب خود را بسازید
         </p>
 
-        <div id="message" class="message"></div>
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
 
         <form id="registerForm">
+
 
             <div class="form-group">
 
@@ -600,6 +1382,7 @@
                 ساخت حساب
             </button>
 
+
         </form>
 
 
@@ -620,6 +1403,7 @@
 
         </div>
 
+
     </div>
 
 </main>
@@ -637,13 +1421,16 @@
 
     <div class="email-modal">
 
+
         <div class="email-icon">
             ✉️
         </div>
 
+
         <h2 id="emailModalTitle">
             حساب شما ایجاد شد
         </h2>
+
 
         <p>
             مشتری محترم بازارک، یک ایمیل تأیید برای شما ارسال کردیم.
@@ -651,10 +1438,12 @@
             تا احراز هویت شما تکمیل شود.
         </p>
 
+
         <div
             class="email-address"
             id="verificationEmail"
         ></div>
+
 
         <button
             type="button"
@@ -664,6 +1453,7 @@
             متوجه شدم
         </button>
 
+
     </div>
 
 </div>
@@ -671,331 +1461,642 @@
 
 <script>
 
-    // ==============================
-    // SUPABASE CONFIG
-    // ==============================
+/* ==============================
+   SUPABASE CONFIG
+============================== */
 
-    const SUPABASE_URL =
-        "https://vhiewoopyqugdxwvsbno.supabase.co";
+const SUPABASE_URL =
+    "https://vhiewoopyqugdxwvsbno.supabase.co";
 
-    const SUPABASE_ANON_KEY =
-        "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
+const SUPABASE_ANON_KEY =
+    "sb_publishable_j2_7E0cyJ6tMpKnlDVODYA_z_I1Mwdv";
 
-    const { createClient } = supabase;
+const {
+    createClient
+} = supabase;
 
-    const supabaseClient =
-        createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
-
-
-    // ==============================
-    // ELEMENTS
-    // ==============================
-
-    const form =
-        document.getElementById("registerForm");
-
-    const nameInput =
-        document.getElementById("name");
-
-    const emailInput =
-        document.getElementById("email");
-
-    const passwordInput =
-        document.getElementById("password");
-
-    const confirmPasswordInput =
-        document.getElementById("confirmPassword");
-
-    const registerBtn =
-        document.getElementById("registerBtn");
-
-    const message =
-        document.getElementById("message");
-
-    const emailModal =
-        document.getElementById("emailModal");
-
-    const verificationEmail =
-        document.getElementById("verificationEmail");
-
-    const modalConfirm =
-        document.getElementById("modalConfirm");
-
-
-    // ==============================
-    // THEME
-    // ==============================
-
-    const THEME_KEY =
-        "bazaarak-theme";
-
-    const themeButton =
-        document.getElementById("themeButton");
-
-    const themeColor =
-        document.getElementById("themeColor");
-
-
-    function getTheme() {
-
-        try {
-
-            return localStorage.getItem(THEME_KEY) === "dark"
-                ? "dark"
-                : "light";
-
-        } catch (_) {
-
-            return document.documentElement.dataset.theme === "dark"
-                ? "dark"
-                : "light";
-
-        }
-
-    }
-
-
-    function applyTheme(theme, persist = true) {
-
-        const nextTheme =
-            theme === "dark"
-                ? "dark"
-                : "light";
-
-        document.documentElement.dataset.theme =
-            nextTheme;
-
-
-        if (persist) {
-
-            try {
-
-                localStorage.setItem(
-                    THEME_KEY,
-                    nextTheme
-                );
-
-            } catch (_) {}
-
-        }
-
-
-        themeButton.textContent =
-            nextTheme === "dark"
-                ? "☀️"
-                : "🌙";
-
-
-        themeButton.title =
-            nextTheme === "dark"
-                ? "حالت روشن"
-                : "حالت تاریک";
-
-
-        themeButton.setAttribute(
-            "aria-label",
-            themeButton.title
-        );
-
-
-        themeColor.setAttribute(
-            "content",
-            nextTheme === "dark"
-                ? "#0b1210"
-                : "#087a55"
-        );
-
-    }
-
-
-    applyTheme(
-        getTheme(),
-        false
+const supabaseClient =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
     );
 
 
-    themeButton.addEventListener(
-        "click",
-        function () {
+/* ==============================
+   ELEMENTS
+============================== */
+
+const form =
+    document.getElementById(
+        "registerForm"
+    );
+
+const nameInput =
+    document.getElementById(
+        "name"
+    );
+
+const emailInput =
+    document.getElementById(
+        "email"
+    );
+
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
+
+const confirmPasswordInput =
+    document.getElementById(
+        "confirmPassword"
+    );
+
+const registerBtn =
+    document.getElementById(
+        "registerBtn"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+const emailModal =
+    document.getElementById(
+        "emailModal"
+    );
+
+const verificationEmail =
+    document.getElementById(
+        "verificationEmail"
+    );
+
+const modalConfirm =
+    document.getElementById(
+        "modalConfirm"
+    );
+
+
+/* ==============================
+   THEME
+============================== */
+
+const THEME_KEY =
+    "bazaarak-theme";
+
+const themeButton =
+    document.getElementById(
+        "themeButton"
+    );
+
+const themeColor =
+    document.getElementById(
+        "themeColor"
+    );
+
+
+function getTheme(){
+
+    try{
+
+        return localStorage.getItem(
+            THEME_KEY
+        ) === "dark"
+            ? "dark"
+            : "light";
+
+    }catch(_){
+
+        return document
+            .documentElement
+            .dataset
+            .theme === "dark"
+                ? "dark"
+                : "light";
+
+    }
+
+}
+
+
+function applyTheme(
+    theme,
+    persist = true
+){
+
+    const nextTheme =
+        theme === "dark"
+            ? "dark"
+            : "light";
+
+
+    document
+        .documentElement
+        .dataset
+        .theme =
+        nextTheme;
+
+
+    if(persist){
+
+        try{
+
+            localStorage.setItem(
+                THEME_KEY,
+                nextTheme
+            );
+
+        }catch(_){}
+
+    }
+
+
+    themeButton.textContent =
+        nextTheme === "dark"
+            ? "☀️"
+            : "🌙";
+
+
+    themeButton.title =
+        nextTheme === "dark"
+            ? "حالت روشن"
+            : "حالت تاریک";
+
+
+    themeButton.setAttribute(
+        "aria-label",
+        themeButton.title
+    );
+
+
+    themeColor.setAttribute(
+        "content",
+        nextTheme === "dark"
+            ? "#0b1210"
+            : "#087a55"
+    );
+
+}
+
+
+applyTheme(
+    getTheme(),
+    false
+);
+
+
+themeButton.addEventListener(
+    "click",
+    function(){
+
+        applyTheme(
+            getTheme() === "dark"
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
+
+
+/* ==============================
+   THEME SYNC
+============================== */
+
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(
+            event.key ===
+            THEME_KEY
+        ){
 
             applyTheme(
-                getTheme() === "dark"
-                    ? "light"
-                    : "dark"
+                event.newValue === "dark"
+                    ? "dark"
+                    : "light",
+                false
             );
 
         }
+
+    }
+);
+
+
+/* ==============================
+   REGISTER SLIDESHOW
+============================== */
+
+const registerSlides =
+    Array.from(
+        document.querySelectorAll(
+            ".register-slide"
+        )
     );
 
 
-    // ==============================
-    // MESSAGE
-    // ==============================
+const registerEffects = [
+    "",
+    "zoom",
+    "slide-left",
+    "slide-right"
+];
 
-    function showMessage(text, type) {
 
-        message.textContent =
-            text;
+function randomRegisterIndex(
+    length,
+    current
+){
+
+    if(length <= 1)
+        return 0;
+
+
+    let next;
+
+
+    do{
+
+        next =
+            Math.floor(
+                Math.random() *
+                length
+            );
+
+    }while(
+        next === current
+    );
+
+
+    return next;
+
+}
+
+
+function startRegisterSlideshow(){
+
+    if(!registerSlides.length)
+        return;
+
+
+    let current = 0;
+
+
+    registerSlides.forEach(
+        function(
+            slide,
+            index
+        ){
+
+            slide.classList.remove(
+                "active",
+                "zoom",
+                "slide-left",
+                "slide-right"
+            );
+
+
+            if(index === 0){
+
+                slide.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    window.setInterval(
+        function(){
+
+            const next =
+                randomRegisterIndex(
+                    registerSlides.length,
+                    current
+                );
+
+
+            const effect =
+                registerEffects[
+                    Math.floor(
+                        Math.random() *
+                        registerEffects.length
+                    )
+                ];
+
+
+            const currentSlide =
+                registerSlides[current];
+
+            const nextSlide =
+                registerSlides[next];
+
+
+            currentSlide.classList.remove(
+                "active"
+            );
+
+
+            nextSlide.classList.remove(
+                "zoom",
+                "slide-left",
+                "slide-right"
+            );
+
+
+            if(effect){
+
+                nextSlide.classList.add(
+                    effect
+                );
+
+            }
+
+
+            void nextSlide.offsetWidth;
+
+
+            nextSlide.classList.add(
+                "active"
+            );
+
+
+            current = next;
+
+        },
+        5000
+    );
+
+}
+
+
+startRegisterSlideshow();
+
+
+/* ==============================
+   MESSAGE
+============================== */
+
+function showMessage(
+    text,
+    type
+){
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+
+}
+
+
+/* ==============================
+   EMAIL MODAL
+============================== */
+
+function showVerificationModal(
+    email
+){
+
+    verificationEmail.textContent =
+        email;
+
+    emailModal.classList.add(
+        "show"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closeVerificationModal(){
+
+    emailModal.classList.remove(
+        "show"
+    );
+
+    document.body.style.overflow =
+        "";
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+modalConfirm.addEventListener(
+    "click",
+    closeVerificationModal
+);
+
+
+emailModal.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            emailModal
+        ){
+
+            closeVerificationModal();
+
+        }
+
+    }
+);
+
+
+/* ==============================
+   SHOW PASSWORD
+============================== */
+
+document
+    .getElementById(
+        "showPassword"
+    )
+    .addEventListener(
+        "click",
+        function(){
+
+            if(
+                passwordInput.type ===
+                "password"
+            ){
+
+                passwordInput.type =
+                    "text";
+
+                this.textContent =
+                    "پنهان";
+
+            }else{
+
+                passwordInput.type =
+                    "password";
+
+                this.textContent =
+                    "نمایش";
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "showConfirmPassword"
+    )
+    .addEventListener(
+        "click",
+        function(){
+
+            if(
+                confirmPasswordInput.type ===
+                "password"
+            ){
+
+                confirmPasswordInput.type =
+                    "text";
+
+                this.textContent =
+                    "پنهان";
+
+            }else{
+
+                confirmPasswordInput.type =
+                    "password";
+
+                this.textContent =
+                    "نمایش";
+
+            }
+
+        }
+    );
+
+
+/* ==============================
+   REGISTER
+============================== */
+
+form.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
 
         message.className =
-            "message " + type;
+            "message";
 
-    }
-
-
-    // ==============================
-    // EMAIL MODAL
-    // ==============================
-
-    function showVerificationModal(email) {
-
-        verificationEmail.textContent =
-            email;
-
-        emailModal.classList.add("show");
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-
-    function closeVerificationModal() {
-
-        emailModal.classList.remove("show");
-
-        document.body.style.overflow =
+        message.textContent =
             "";
 
-        window.location.href =
-            "login.html";
 
-    }
+        const name =
+            nameInput.value.trim();
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        const confirmPassword =
+            confirmPasswordInput.value;
 
 
-    modalConfirm.addEventListener(
-        "click",
-        closeVerificationModal
-    );
+        if(name.length < 2){
 
+            showMessage(
+                "لطفاً نام خود را درست وارد کنید.",
+                "error"
+            );
 
-    emailModal.addEventListener(
-        "click",
-        function (event) {
-
-            if (event.target === emailModal) {
-
-                closeVerificationModal();
-
-            }
+            return;
 
         }
-    );
 
 
-    // ==============================
-    // SHOW PASSWORD
-    // ==============================
+        if(password.length < 6){
 
-    document
-        .getElementById("showPassword")
-        .addEventListener(
-            "click",
-            function () {
+            showMessage(
+                "رمز عبور باید حداقل ۶ کاراکتر باشد.",
+                "error"
+            );
 
-                if (
-                    passwordInput.type === "password"
-                ) {
+            return;
 
-                    passwordInput.type =
-                        "text";
-
-                    this.textContent =
-                        "پنهان";
-
-                } else {
-
-                    passwordInput.type =
-                        "password";
-
-                    this.textContent =
-                        "نمایش";
-
-                }
-
-            }
-        );
+        }
 
 
-    document
-        .getElementById("showConfirmPassword")
-        .addEventListener(
-            "click",
-            function () {
+        if(
+            password !==
+            confirmPassword
+        ){
 
-                if (
-                    confirmPasswordInput.type === "password"
-                ) {
+            showMessage(
+                "رمزهای عبور یکسان نیستند.",
+                "error"
+            );
 
-                    confirmPasswordInput.type =
-                        "text";
+            return;
 
-                    this.textContent =
-                        "پنهان";
-
-                } else {
-
-                    confirmPasswordInput.type =
-                        "password";
-
-                    this.textContent =
-                        "نمایش";
-
-                }
-
-            }
-        );
+        }
 
 
-    // ==============================
-    // REGISTER
-    // ==============================
+        registerBtn.disabled =
+            true;
 
-    form.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-            message.className =
-                "message";
-
-            message.textContent =
-                "";
+        registerBtn.textContent =
+            "در حال ساخت حساب...";
 
 
-            const name =
-                nameInput.value.trim();
+        try{
 
-            const email =
-                emailInput.value.trim();
+            const {
+                data,
+                error
+            } =
+            await supabaseClient
+                .auth
+                .signUp({
 
-            const password =
-                passwordInput.value;
+                    email:email,
 
-            const confirmPassword =
-                confirmPasswordInput.value;
+                    password:password,
+
+                    options:{
+
+                        data:{
+                            full_name:name
+                        },
+
+                        emailRedirectTo:
+                            "https://ahmadfarhadcina-tech.github.io/Afghan_Market/"
+
+                    }
+
+                });
 
 
-            // NAME
+            if(error){
 
-            if (name.length < 2) {
+                console.error(
+                    error
+                );
 
                 showMessage(
-                    "لطفاً نام خود را درست وارد کنید.",
+                    error.message,
                     "error"
                 );
 
@@ -1004,129 +2105,47 @@
             }
 
 
-            // PASSWORD
-
-            if (password.length < 6) {
-
-                showMessage(
-                    "رمز عبور باید حداقل ۶ کاراکتر باشد.",
-                    "error"
-                );
-
-                return;
-
-            }
+            console.log(
+                "Registered user:",
+                data
+            );
 
 
-            // CONFIRM PASSWORD
-
-            if (password !== confirmPassword) {
-
-                showMessage(
-                    "رمزهای عبور یکسان نیستند.",
-                    "error"
-                );
-
-                return;
-
-            }
+            form.reset();
 
 
-            // LOADING
+            showVerificationModal(
+                email
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "REGISTER ERROR:",
+                error
+            );
+
+            showMessage(
+                "خطایی رخ داد. دوباره تلاش کنید.",
+                "error"
+            );
+
+        }finally{
 
             registerBtn.disabled =
-                true;
+                false;
 
             registerBtn.textContent =
-                "در حال ساخت حساب...";
-
-
-            try {
-
-                const {
-                    data,
-                    error
-                } =
-                    await supabaseClient.auth.signUp({
-
-                        email: email,
-
-                        password: password,
-
-                        options: {
-
-                            data: {
-
-                                full_name: name
-
-                            },
-
-                            emailRedirectTo:
-                                "https://ahmadfarhadcina-tech.github.io/Afghan_Market/"
-
-                        }
-
-                    });
-
-
-                if (error) {
-
-                    console.error(error);
-
-                    showMessage(
-                        error.message,
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                console.log(
-                    "Registered user:",
-                    data
-                );
-
-
-                /*
-                 * Supabase با توجه به تنظیمات
-                 * Email Confirmation، ایمیل تأیید را ارسال می‌کند.
-                 *
-                 * اینجا به جای انتقال فوری به login،
-                 * پنجره اطلاع‌رسانی نمایش داده می‌شود.
-                 */
-
-                form.reset();
-
-                showVerificationModal(
-                    email
-                );
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "خطایی رخ داد. دوباره تلاش کنید.",
-                    "error"
-                );
-
-            } finally {
-
-                registerBtn.disabled =
-                    false;
-
-                registerBtn.textContent =
-                    "ساخت حساب";
-
-            }
+                "ساخت حساب";
 
         }
-    );
+
+    }
+);
 
 </script>
 
 </body>
+
 </html>
