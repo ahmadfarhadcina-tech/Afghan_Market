@@ -528,124 +528,81 @@ header{
     color:var(--primary);
 }
 
-/* Hero */
+<!-- HERO -->
 
-.hero{
-    position:relative;
-    margin-top:28px;
-    min-height:500px;
-    padding:65px;
-    border-radius:var(--radius-xl);
-    background:
-        radial-gradient(circle at 82% 18%,rgba(255,255,255,.18),transparent 28%),
-        radial-gradient(circle at 15% 90%,rgba(255,255,255,.08),transparent 30%),
-        linear-gradient(135deg,var(--primary-dark),var(--primary));
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:50px;
-    overflow:hidden;
-    box-shadow:0 25px 70px rgba(5,92,64,.18);
-}
+<section class="hero container">
 
-.hero::after{
-    content:"";
-    position:absolute;
-    width:260px;
-    height:260px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.12);
-    left:-90px;
-    bottom:-110px;
-}
+    <div class="hero-slideshow" aria-hidden="true">
 
-.hero-content{
-    position:relative;
-    z-index:2;
-    max-width:700px;
-}
+        <img
+            class="hero-slide active"
+            src="hero-1.jpg"
+            alt=""
+        >
 
-.badge{
-    display:inline-flex;
-    align-items:center;
-    padding:8px 15px;
-    margin-bottom:20px;
-    border-radius:50px;
-    background:rgba(255,255,255,.11);
-    border:1px solid rgba(255,255,255,.14);
-    font-size:12px;
-}
+        <img
+            class="hero-slide"
+            src="hero-2.jpg"
+            alt=""
+        >
 
-.hero h1{
-    font-size:clamp(38px,5vw,66px);
-    line-height:1.25;
-    margin-bottom:20px;
-    letter-spacing:-1px;
-}
+        <img
+            class="hero-slide"
+            src="hero-3.jpg"
+            alt=""
+        >
 
-.hero h1 span{
-    color:var(--gold);
-}
+        <img
+            class="hero-slide"
+            src="hero-4.jpg"
+            alt=""
+        >
 
-.hero p{
-    max-width:610px;
-    margin-bottom:30px;
-    color:rgba(255,255,255,.84);
-    font-size:16px;
-}
+        <img
+            class="hero-slide"
+            src="hero-5.jpg"
+            alt=""
+        >
 
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
+        <div class="hero-overlay"></div>
 
-.btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:50px;
-    padding:13px 24px;
-    border-radius:13px;
-    font-weight:bold;
-    transition:transform .22s,box-shadow .22s,background .22s;
-}
+    </div>
 
-.btn:hover{
-    transform:translateY(-3px);
-}
+    <div class="hero-content">
 
-.primary-btn{
-    background:var(--gold);
-    color:#15120b;
-}
+        <span class="badge">
+            🇦🇫 بازار آنلاین افغانستان
+        </span>
 
-.secondary-btn{
-    background:rgba(255,255,255,.09);
-    border:1px solid rgba(255,255,255,.22);
-    color:#fff;
-}
+        <h1>
+            هر چیزی که می‌خواهی،
+            <span>در یک بازار.</span>
+        </h1>
 
-.secondary-btn:hover{
-    background:#fff;
-    color:var(--primary);
-}
+        <p>
+            محصولات مورد نیازت را پیدا کن، با فروشندگان افغانستان آشنا شو
+            و خرید و فروش خود را آسان‌تر انجام بده.
+        </p>
 
-.hero-icon{
-    position:relative;
-    z-index:2;
-    width:320px;
-    height:320px;
-    flex-shrink:0;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.11);
-    font-size:105px;
-    box-shadow:0 30px 80px rgba(0,0,0,.2);
-}
+        <div class="hero-buttons">
+
+            <a href="products.html" class="btn primary-btn">
+                مشاهده محصولات
+            </a>
+
+            <a href="seller.html" class="btn secondary-btn">
+                فروشنده شو
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-icon" aria-hidden="true">
+        🛍️
+    </div>
+
+</section>
 
 /* Sections */
 
@@ -3870,6 +3827,159 @@ if("serviceWorker" in navigator){
     );
 }
 
+/* =========================================================
+   IMAGE SLIDESHOWS
+========================================================= */
+
+const heroSlides =
+    Array.from(
+        document.querySelectorAll(".hero-slide")
+    );
+
+const bannerSlides =
+    Array.from(
+        document.querySelectorAll(".market-banner-slide")
+    );
+
+
+const heroEffects = [
+    "",
+    "zoom",
+    "slide-left",
+    "slide-right"
+];
+
+const bannerEffects = [
+    "",
+    "zoom",
+    "slide-left",
+    "slide-right"
+];
+
+
+function randomIndex(length,current){
+
+    if(length <= 1)
+        return 0;
+
+    let next;
+
+    do{
+
+        next =
+            Math.floor(
+                Math.random() * length
+            );
+
+    }while(next === current);
+
+    return next;
+}
+
+
+function startSlideshow(
+    slides,
+    effects,
+    interval
+){
+
+    if(!slides.length)
+        return;
+
+    let current = 0;
+
+    slides.forEach(
+        (slide,index)=>{
+
+            slide.classList.remove(
+                "active",
+                "zoom",
+                "slide-left",
+                "slide-right"
+            );
+
+            if(index === 0){
+
+                slide.classList.add(
+                    "active"
+                );
+            }
+
+        }
+    );
+
+
+    window.setInterval(()=>{
+
+        const next =
+            randomIndex(
+                slides.length,
+                current
+            );
+
+        const effect =
+            effects[
+                Math.floor(
+                    Math.random() *
+                    effects.length
+                )
+            ];
+
+        const currentSlide =
+            slides[current];
+
+        const nextSlide =
+            slides[next];
+
+
+        currentSlide.classList.remove(
+            "active"
+        );
+
+
+        nextSlide.classList.remove(
+            "zoom",
+            "slide-left",
+            "slide-right"
+        );
+
+
+        if(effect){
+
+            nextSlide.classList.add(
+                effect
+            );
+
+        }
+
+
+        void nextSlide.offsetWidth;
+
+
+        nextSlide.classList.add(
+            "active"
+        );
+
+
+        current = next;
+
+    },interval);
+}
+
+
+startSlideshow(
+    heroSlides,
+    heroEffects,
+    5500
+);
+
+
+startSlideshow(
+    bannerSlides,
+    bannerEffects,
+    4700
+);
+        
 
 /* =========================================================
    INSTALL PROMPT
