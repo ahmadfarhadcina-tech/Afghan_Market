@@ -21,13 +21,11 @@
                 ? "dark"
                 : "light";
 
-        document.documentElement.dataset.theme =
-            theme;
+        document.documentElement.dataset.theme = theme;
 
     }catch(_){
 
-        document.documentElement.dataset.theme =
-            "light";
+        document.documentElement.dataset.theme = "light";
 
     }
 
@@ -308,7 +306,7 @@ main{
 
     border:
         1px solid
-        rgba(255,255,255,.22);
+        rgba(255,255,255,.28);
 
     box-shadow:var(--shadow);
 
@@ -382,6 +380,8 @@ main{
 
     object-fit:cover;
 
+    object-position:center;
+
     opacity:0;
 
     transform:scale(1.08);
@@ -389,12 +389,8 @@ main{
     filter:saturate(1.08);
 
     transition:
-
         opacity 1.3s ease,
-
-        transform
-        6s
-        cubic-bezier(.2,.65,.25,1);
+        transform 6s cubic-bezier(.2,.65,.25,1);
 
 }
 
@@ -452,7 +448,7 @@ main{
 
 
 /* =========================
-   OVERLAY
+   IMAGE OVERLAY
 ========================= */
 
 .register-overlay{
@@ -463,12 +459,13 @@ main{
 
     z-index:1;
 
-    background:
+    pointer-events:none;
 
+    background:
         linear-gradient(
             135deg,
-            rgba(3,52,37,.90),
-            rgba(8,122,85,.72)
+            rgba(3,52,37,.34),
+            rgba(8,122,85,.18)
         );
 
 }
@@ -486,12 +483,14 @@ main{
 
     z-index:2;
 
+    pointer-events:none;
+
     background:
-        rgba(255,255,255,.84);
+        rgba(255,255,255,.46);
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:blur(7px);
 
-    -webkit-backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(7px);
 
 }
 
@@ -499,7 +498,7 @@ html[data-theme="dark"]
 .register-glass{
 
     background:
-        rgba(10,20,16,.86);
+        rgba(8,18,14,.50);
 
 }
 
@@ -522,7 +521,7 @@ html[data-theme="dark"]
 
     border:
         1px solid
-        rgba(255,255,255,.18);
+        rgba(255,255,255,.22);
 
     top:-95px;
 
@@ -548,7 +547,7 @@ html[data-theme="dark"]
 
     border:
         1px solid
-        rgba(255,255,255,.13);
+        rgba(255,255,255,.18);
 
     bottom:-145px;
 
@@ -565,9 +564,7 @@ html[data-theme="dark"]
    CONTENT
 ========================= */
 
-.register-box > *:not(.register-slideshow)
-              :not(.register-overlay)
-              :not(.register-glass){
+.register-box > *:not(.register-slideshow):not(.register-overlay):not(.register-glass){
 
     position:relative;
 
@@ -752,9 +749,7 @@ input:focus{
 
     margin-top:5px;
 
-    transition:
-
-        .2s;
+    transition:.2s;
 
 }
 
@@ -1221,8 +1216,6 @@ input:focus{
     <div class="register-box">
 
 
-        <!-- REGISTER SLIDESHOW -->
-
         <div
             class="register-slideshow"
             aria-hidden="true"
@@ -1408,8 +1401,6 @@ input:focus{
 
 </main>
 
-
-<!-- EMAIL VERIFICATION MODAL -->
 
 <div
     class="modal-overlay"
@@ -1696,7 +1687,6 @@ const registerSlides =
         )
     );
 
-
 const registerEffects = [
     "",
     "zoom",
@@ -1713,9 +1703,7 @@ function randomRegisterIndex(
     if(length <= 1)
         return 0;
 
-
     let next;
-
 
     do{
 
@@ -1728,7 +1716,6 @@ function randomRegisterIndex(
     }while(
         next === current
     );
-
 
     return next;
 
