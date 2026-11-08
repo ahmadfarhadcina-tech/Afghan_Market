@@ -2984,27 +2984,23 @@ function contactSellerOnWhatsApp(product){
 
 /* SEARCH */
 
-document
-.getElementById("searchForm")
-.addEventListener(
-    "submit",
-    function(event){
+const searchForm = document.getElementById("searchForm");
 
+if (searchForm) {
+    searchForm.addEventListener("submit", function(event) {
         event.preventDefault();
 
-        const value =
-        document
-        .getElementById("searchInput")
-        .value
-        .trim();
+        const input = document.getElementById("searchInput");
+        if (!input) return;
 
-        if(!value) return;
+        const value = input.value.trim();
+
+        if (!value) return;
 
         window.location.href =
-        "products.html?search=" +
-        encodeURIComponent(value);
-    }
-);
+            "products.html?search=" + encodeURIComponent(value);
+    });
+}
 
 
 /* =========================================
